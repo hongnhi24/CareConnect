@@ -1,0 +1,927 @@
+﻿@model CareConnect.ViewModels.CustomerPaymentDetailsViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết thanh toán";
+
+    bool hienPopupThanhCong =
+        TempData["PaymentSuccess"] is bool thanhCong
+        && thanhCong;
+
+    string thongBaoThanhCong =
+        TempData["PaymentSuccessMessage"]?
+            .ToString()
+        ?? "Thanh toán thành công.";
+
+    string maThanhToanThanhCong =
+        TempData["PaymentCode"]?
+            .ToString()
+        ?? Model.MaThanhToanCode;
+
+    string soTienThanhCong =
+        TempData["PaymentAmount"]?
+            .ToString()
+        ?? Model.SoTien.ToString("#,##0");
+
+    string phuongThucThanhCong =
+        TempData["PaymentMethod"]?
+            .ToString()
+        ?? Model.PhuongThucThanhToan;
+
+
+    string trangThaiClass =
+        Model.TrangThaiThanhToan == "Đã thanh toán"
+            ? "paid"
+            : Model.TrangThaiThanhToan == "Chờ thanh toán"
+                || Model.TrangThaiThanhToan == "Chưa thanh toán"
+                    ? "pending"
+                    : Model.TrangThaiThanhToan == "Đã hoàn tiền"
+                        ? "refunded"
+                        : "other";
+}
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="customer-payment-detail-heading">
+
+    <a asp-area="Customer"
+       asp-controller="Payments"
+       asp-action="Index"
+       class="payment-detail-back"
+       title="Quay lại danh sách thanh toán">
+
+        <i class="bi bi-arrow-left"></i>
+
+    </a>
+
+
+    <div class="payment-detail-heading-content">
+
+        <span class="payment-detail-eyebrow">
+            THÔNG TIN THANH TOÁN
+        </span>
+
+        <h1>
+            Chi tiết thanh toán
+        </h1>
+
+        <p>
+            Xem thông tin chi phí và trạng thái thanh toán
+            của lịch chăm sóc.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MAIN LAYOUT
+========================================================= -->
+
+<div class="customer-payment-detail-layout">
+
+
+    <!-- =====================================================
+         CỘT TRÁI
+    ====================================================== -->
+
+    <main class="payment-detail-main">
+
+        <section class="payment-detail-card">
+
+
+            <!-- =================================================
+                 CARD HEADING
+            ================================================== -->
+
+            <div class="payment-detail-card-heading">
+
+                <span class="payment-detail-card-icon">
+                    <i class="bi bi-receipt"></i>
+                </span>
+
+
+                <div>
+
+                    <h2>
+                        Thông tin khoản thanh toán
+                    </h2>
+
+                    <p>
+                        @($"Lịch chăm sóc #DL{Model.MaDatLich}")
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 INFO GRID
+            ================================================== -->
+
+            <div class="payment-detail-grid">
+
+
+                <!-- MÃ THANH TOÁN -->
+
+                <div>
+
+                    <span>
+                        Mã thanh toán
+                    </span>
+
+                    <strong>
+
+                        @(string.IsNullOrWhiteSpace(
+                            Model.MaThanhToanCode)
+
+                            ? "Chưa tạo mã"
+
+                            : Model.MaThanhToanCode)
+
+                    </strong>
+
+                </div>
+
+
+                <!-- TRẠNG THÁI -->
+
+                <div>
+
+                    <span>
+                        Trạng thái
+                    </span>
+
+                    <strong>
+                        @Model.TrangThaiThanhToan
+                    </strong>
+
+                </div>
+
+
+                <!-- NGƯỜI ĐƯỢC CHĂM SÓC -->
+
+                <div>
+
+                    <span>
+                        Người được chăm sóc
+                    </span>
+
+                    <strong>
+                        @Model.TenBenhNhan
+                    </strong>
+
+                </div>
+
+
+                <!-- NGƯỜI CHĂM SÓC -->
+
+                <div>
+
+                    <span>
+                        Người chăm sóc
+                    </span>
+
+                    <strong>
+                        @Model.TenNguoiChamSoc
+                    </strong>
+
+                </div>
+
+
+                <!-- DỊCH VỤ -->
+
+                <div>
+
+                    <span>
+                        Dịch vụ
+                    </span>
+
+                    <strong>
+                        @Model.TenDichVu
+                    </strong>
+
+                </div>
+
+
+                <!-- PHƯƠNG THỨC -->
+
+                <div>
+
+                    <span>
+                        Phương thức
+                    </span>
+
+                    <strong>
+
+                        @(string.IsNullOrWhiteSpace(
+                            Model.PhuongThucThanhToan)
+
+                            ? "Chưa chọn"
+
+                            : Model.PhuongThucThanhToan)
+
+                    </strong>
+
+                </div>
+
+
+                <!-- NGÀY -->
+
+                <div>
+
+                    <span>
+                        Ngày chăm sóc
+                    </span>
+
+                    <strong>
+                        @Model.NgayChamSoc.ToString("dd/MM/yyyy")
+                    </strong>
+
+                </div>
+
+
+                <!-- GIỜ -->
+
+                <div>
+
+                    <span>
+                        Khung giờ
+                    </span>
+
+                    <strong>
+
+                        @Model.GioBatDau.ToString(@"hh\:mm")
+                        -
+                        @Model.GioKetThuc.ToString(@"hh\:mm")
+
+                    </strong>
+
+                </div>
+
+
+                <!-- ĐỊA CHỈ -->
+
+                <div class="full">
+
+                    <span>
+                        Địa chỉ chăm sóc
+                    </span>
+
+                    <strong>
+
+                        @(string.IsNullOrWhiteSpace(
+                            Model.DiaChiChamSoc)
+
+                            ? "Chưa cập nhật"
+
+                            : Model.DiaChiChamSoc)
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         CỘT PHẢI - TỔNG THANH TOÁN
+    ====================================================== -->
+
+    <aside class="payment-summary-panel">
+
+
+        <!-- =================================================
+             SUMMARY HEADER
+        ================================================== -->
+
+        <div class="payment-summary-header">
+
+            <div class="payment-summary-icon">
+
+                <i class="bi bi-wallet2"></i>
+
+            </div>
+
+
+            <div class="payment-summary-heading">
+
+                <span>
+                    THANH TOÁN
+                </span>
+
+                <h3>
+                    Tổng thanh toán
+                </h3>
+
+                <p>
+                    Thông tin giao dịch của lịch
+                    #DL@(Model.MaDatLich)
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             TOTAL MONEY
+        ================================================== -->
+
+        <div class="payment-summary-total">
+
+            <span class="label">
+                Tổng tiền dịch vụ
+            </span>
+
+            <strong class="value">
+                @Model.SoTien.ToString("#,##0")đ
+            </strong>
+
+            <small>
+                <i class="bi bi-shield-check"></i>
+
+                Khoản thanh toán được ghi nhận
+                trong hệ thống CareConnect
+            </small>
+
+        </div>
+
+
+        <!-- =================================================
+             PAYMENT INFO
+        ================================================== -->
+
+        <div class="payment-summary-info">
+
+
+            <!-- STATUS -->
+            @if (Model.DaCoc)
+            {
+                <div class="summary-row">
+
+                    <span>
+                        Ngày đặt cọc
+                    </span>
+
+                    <strong>
+                        @(Model.NgayDatCoc.HasValue
+                            ? Model.NgayDatCoc.Value
+                                .ToString("dd/MM/yyyy HH:mm")
+                            : "--")
+                    </strong>
+
+                </div>
+            }
+            <div class="summary-row">
+
+                <span>
+                    Trạng thái
+                </span>
+
+                <strong class="payment-status-badge @trangThaiClass">
+                    @Model.TrangThaiThanhToan
+                </strong>
+
+            </div>
+
+            <div class="summary-row">
+
+                <span>
+                    Đã thanh toán
+                </span>
+
+                <strong>
+                    @Model.DaThanhToan.ToString("#,##0")đ
+                </strong>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <span>
+                    Còn lại
+                </span>
+
+                <strong>
+                    @Model.ConLai.ToString("#,##0")đ
+                </strong>
+
+            </div>
+            <!-- PAYMENT TIME -->
+
+            <div class="summary-row">
+
+                <span>
+                    Thanh toán lúc
+                </span>
+
+                <strong>
+
+                    @(Model.NgayThanhToan.HasValue
+
+                        ? Model.NgayThanhToan.Value
+                            .ToString("dd/MM/yyyy HH:mm")
+
+                        : "Chưa thanh toán")
+
+                </strong>
+
+            </div>
+
+
+            <!-- PAYMENT CODE -->
+
+            <div class="summary-row">
+
+                <span>
+                    Mã thanh toán
+                </span>
+
+                <strong>
+
+                    @(string.IsNullOrWhiteSpace(
+                        Model.MaThanhToanCode)
+
+                        ? "--"
+
+                        : Model.MaThanhToanCode)
+
+                </strong>
+
+            </div>
+
+
+            <!-- PAYMENT METHOD -->
+
+            <div class="summary-row">
+
+                <span>
+                    Phương thức
+                </span>
+
+                <strong>
+
+                    @(string.IsNullOrWhiteSpace(
+                        Model.PhuongThucThanhToan)
+
+                        ? "Chưa chọn"
+
+                        : Model.PhuongThucThanhToan)
+
+                </strong>
+
+            </div>
+
+
+            <!-- BOOKING STATUS -->
+
+            <div class="summary-row">
+
+                <span>
+                    Trạng thái lịch
+                </span>
+
+                <strong>
+
+                    @(string.IsNullOrWhiteSpace(
+                        Model.TrangThaiLich)
+
+                        ? "Chưa cập nhật"
+
+                        : Model.TrangThaiLich)
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             THANH TOÁN NGAY
+        ================================================== -->
+        @if (Model.CoTheThanhToan)
+        {
+            <a asp-area="Customer"
+               asp-controller="Payments"
+               asp-action="Pay"
+               asp-route-id="@Model.MaDatLich"
+               class="payment-summary-pay-button">
+
+                <span class="payment-pay-icon">
+
+                    <i class="bi bi-credit-card"></i>
+
+                </span>
+
+
+                <span class="payment-pay-content">
+
+                    <strong>
+                        @(Model.DaCoc
+                            ? "Thanh toán phần còn lại"
+                            : "Thanh toán ngay")
+                    </strong>
+
+                    <small>
+                        @(Model.DaCoc
+                            ? $"Còn lại {Model.ConLai:#,##0}đ"
+                            : "Chọn đặt cọc hoặc thanh toán toàn bộ")
+                    </small>
+
+                </span>
+
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+        }
+
+
+        <!-- =================================================
+             RELATED BOOKING
+        ================================================== -->
+
+        <a asp-area="Customer"
+           asp-controller="Bookings"
+           asp-action="Details"
+           asp-route-id="@Model.MaDatLich"
+           class="payment-summary-link">
+
+
+            <span class="link-icon">
+
+                <i class="bi bi-calendar2-check"></i>
+
+            </span>
+
+
+            <span class="link-text">
+
+                <strong>
+                    Xem lịch chăm sóc
+                </strong>
+
+                <small>
+                    Mở chi tiết lịch
+                    #DL@(Model.MaDatLich)
+                </small>
+
+            </span>
+
+
+            <i class="bi bi-arrow-right-short"></i>
+
+        </a>
+
+
+        <!-- =================================================
+             NOTE
+        ================================================== -->
+
+        <div class="payment-summary-note">
+
+            <i class="bi bi-info-circle"></i>
+
+            <span>
+                Nếu có vấn đề liên quan đến khoản thanh toán,
+                bạn có thể sử dụng mục
+                <strong>Cần hỗ trợ?</strong>
+                ở thanh menu bên trái.
+            </span>
+
+        </div>
+
+    </aside>
+
+</div>
+
+
+
+<!-- =========================================================
+     POPUP THANH TOÁN THÀNH CÔNG
+
+     QUAN TRỌNG:
+     Popup nằm NGOÀI payment layout.
+     Không còn bị sinh thêm block ở cuối trang.
+========================================================= -->
+@if (hienPopupThanhCong)
+{
+    <div class="payment-success-overlay"
+         id="paymentSuccessOverlay">
+
+        <section class="payment-success-modal"
+                 role="dialog"
+                 aria-modal="true"
+                 aria-labelledby="paymentSuccessTitle">
+
+
+            <!-- CLOSE -->
+
+            <button type="button"
+                    class="payment-success-close"
+                    id="paymentSuccessClose"
+                    aria-label="Đóng thông báo">
+
+                <i class="bi bi-x-lg"></i>
+
+            </button>
+
+
+            <!-- ANIMATION -->
+
+            <div class="payment-success-animation">
+
+                <span class="payment-success-ring ring-one">
+                </span>
+
+                <span class="payment-success-ring ring-two">
+                </span>
+
+
+                <span class="payment-success-icon">
+
+                    <i class="bi bi-check-lg"></i>
+
+                </span>
+
+
+                <span class="payment-success-spark spark-one">
+                </span>
+
+                <span class="payment-success-spark spark-two">
+                </span>
+
+                <span class="payment-success-spark spark-three">
+                </span>
+
+                <span class="payment-success-spark spark-four">
+                </span>
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <span class="payment-success-eyebrow">
+
+                GIAO DỊCH HOÀN TẤT
+
+            </span>
+
+
+            <h2 id="paymentSuccessTitle">
+
+                Bạn đã thanh toán thành công!
+
+            </h2>
+
+
+            <p class="payment-success-description">
+
+                @thongBaoThanhCong
+
+            </p>
+
+
+            <!-- SUMMARY -->
+
+            <div class="payment-success-summary">
+
+
+                <div>
+
+                    <span>
+
+                        <i class="bi bi-receipt"></i>
+
+                        Mã thanh toán
+
+                    </span>
+
+                    <strong>
+                        @maThanhToanThanhCong
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+
+                        <i class="bi bi-wallet2"></i>
+
+                        Số tiền
+
+                    </span>
+
+                    <strong class="success-payment-money">
+
+                        @($"{soTienThanhCong}đ")
+
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+
+                        <i class="bi bi-credit-card"></i>
+
+                        Phương thức
+
+                    </span>
+
+                    <strong>
+                        @phuongThucThanhCong
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+
+                        <i class="bi bi-calendar2-check"></i>
+
+                        Lịch chăm sóc
+
+                    </span>
+
+                    <strong>
+                        @($"#DL{Model.MaDatLich}")
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- NOTE -->
+
+            <div class="payment-success-note">
+
+                <i class="bi bi-shield-check"></i>
+
+                <span>
+                    Thông tin giao dịch đã được lưu an toàn
+                    trong hệ thống CareConnect.
+                </span>
+
+            </div>
+
+
+            <!-- ACTION -->
+
+            <div class="payment-success-actions">
+
+                <button type="button"
+                        id="paymentSuccessDone">
+
+                    <i class="bi bi-check2-circle"></i>
+
+                    Hoàn tất
+
+                </button>
+
+
+                <a asp-area="Customer"
+                   asp-controller="Payments"
+                   asp-action="Index">
+
+                    <i class="bi bi-receipt-cutoff"></i>
+
+                    Xem lịch sử thanh toán
+
+                </a>
+
+            </div>
+
+        </section>
+
+    </div>
+}
+
+
+
+@section Scripts
+{
+    <script>
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const overlay =
+                    document.getElementById(
+                        "paymentSuccessOverlay"
+                    );
+
+                const closeButton =
+                    document.getElementById(
+                        "paymentSuccessClose"
+                    );
+
+                const doneButton =
+                    document.getElementById(
+                        "paymentSuccessDone"
+                    );
+
+
+                function closePaymentSuccess() {
+
+                    if (!overlay) {
+                        return;
+                    }
+
+                    overlay.classList.add(
+                        "closing"
+                    );
+
+                    window.setTimeout(
+                        function () {
+
+                            overlay.remove();
+
+                            document.body
+                                .classList.remove(
+                                    "payment-modal-open"
+                                );
+
+                        },
+                        260
+                    );
+
+                }
+
+
+                if (overlay) {
+
+                    document.body
+                        .classList.add(
+                            "payment-modal-open"
+                        );
+
+                }
+
+
+                closeButton
+                    ?.addEventListener(
+                        "click",
+                        closePaymentSuccess
+                    );
+
+
+                doneButton
+                    ?.addEventListener(
+                        "click",
+                        closePaymentSuccess
+                    );
+
+
+                overlay
+                    ?.addEventListener(
+                        "click",
+                        function (event) {
+
+                            if (event.target === overlay) {
+
+                                closePaymentSuccess();
+
+                            }
+
+                        }
+                    );
+
+
+                document.addEventListener(
+                    "keydown",
+                    function (event) {
+
+                        if (event.key === "Escape") {
+
+                            closePaymentSuccess();
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+    </script>
+}

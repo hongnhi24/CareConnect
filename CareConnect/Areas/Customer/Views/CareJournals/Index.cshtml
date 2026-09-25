@@ -1,0 +1,400 @@
+﻿@model CareConnect.ViewModels.CustomerCareJournalListViewModel
+
+@{
+    ViewData["Title"] = "Nhật ký sức khỏe";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="customer-journal-alert success">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Success"]</span>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="customer-journal-alert error">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+    </div>
+}
+
+<section class="customer-journal-heading">
+
+    <div>
+        <span>THEO DÕI SỨC KHỎE</span>
+
+        <h1>Nhật ký sức khỏe</h1>
+
+        <p>
+            Theo dõi tình trạng sức khỏe, chỉ số sinh tồn
+            và ghi chú sau mỗi buổi chăm sóc.
+        </p>
+    </div>
+
+</section>
+
+<section class="customer-journal-stats">
+
+    <article class="customer-journal-stat-card">
+
+        <span class="journal-stat-icon total">
+            <i class="bi bi-journal-medical"></i>
+        </span>
+
+        <div>
+            <strong>@Model.TongNhatKy</strong>
+            <small>Tổng nhật ký chăm sóc</small>
+        </div>
+
+    </article>
+
+    <a asp-area="Customer"
+       asp-controller="Relatives"
+       asp-action="Index"
+       class="customer-journal-stat-card customer-journal-stat-link">
+
+        <span class="journal-stat-icon patient">
+            <i class="bi bi-people-fill"></i>
+        </span>
+
+        <div>
+            <strong>@Model.TongNguoiThan</strong>
+            <small>Người thân đang quản lý</small>
+        </div>
+
+        <i class="bi bi-arrow-up-right customer-journal-stat-arrow"></i>
+
+    </a>
+
+    <article class="customer-journal-stat-card">
+
+        <span class="journal-stat-icon health">
+            <i class="bi bi-heart-pulse-fill"></i>
+        </span>
+
+        <div>
+            <strong>
+                @(Model.DanhSach.Count(x =>
+                    !string.IsNullOrWhiteSpace(
+                        x.TinhTrangSucKhoe)))
+            </strong>
+
+            <small>Nhật ký có ghi sức khỏe</small>
+        </div>
+
+    </article>
+
+</section>
+
+<section class="customer-journal-filter-card">
+
+    <form asp-area="Customer"
+          asp-controller="CareJournals"
+          asp-action="Index"
+          method="get">
+
+        <div class="customer-journal-search">
+
+            <i class="bi bi-search"></i>
+
+            <input type="text"
+                   name="tuKhoa"
+                   value="@Model.TuKhoa"
+                   placeholder="Tìm người thân, người chăm sóc hoặc dịch vụ..." />
+
+        </div>
+
+        <div class="customer-journal-select">
+
+            <i class="bi bi-person-vcard"></i>
+
+            <select name="maBenhNhan">
+
+                <option value="">
+                    Tất cả người thân
+                </option>
+
+                @foreach (
+                    var benhNhan
+                    in Model.DanhSachBenhNhan)
+                {
+                    <option value="@benhNhan.MaBenhNhan"
+                            selected="@(
+                            Model.MaBenhNhan
+                                == benhNhan.MaBenhNhan)">
+
+                        @benhNhan.HoTen
+                    </option>
+                }
+
+            </select>
+
+        </div>
+
+        <button type="submit"
+                class="customer-journal-filter-button">
+
+            <i class="bi bi-funnel-fill"></i>
+            Lọc nhật ký
+        </button>
+
+        <a asp-area="Customer"
+           asp-controller="CareJournals"
+           asp-action="Index"
+           class="customer-journal-reset"
+           title="Xóa bộ lọc">
+
+            <i class="bi bi-arrow-counterclockwise"></i>
+        </a>
+
+    </form>
+
+</section>
+
+<section class="customer-journal-panel">
+
+    <div class="customer-journal-panel-heading">
+
+        <div>
+            <span>DANH SÁCH NHẬT KÝ</span>
+            <h2>Lịch sử chăm sóc</h2>
+        </div>
+
+        <strong>
+            @Model.DanhSach.Count kết quả
+        </strong>
+
+    </div>
+
+    @if (Model.DanhSach.Count == 0)
+    {
+        <div class="customer-journal-empty">
+
+            <span>
+                <i class="bi bi-journal-x"></i>
+            </span>
+
+            <h3>Chưa có nhật ký chăm sóc</h3>
+
+            <p>
+                Nhật ký sẽ xuất hiện sau khi người chăm sóc
+                cập nhật thông tin cho buổi chăm sóc.
+            </p>
+
+            <a asp-area="Customer"
+               asp-controller="Bookings"
+               asp-action="Index">
+
+                <i class="bi bi-calendar2-check"></i>
+                Xem lịch chăm sóc
+            </a>
+
+        </div>
+    }
+    else
+    {
+        <div class="customer-journal-list">
+
+            @foreach (var item in Model.DanhSach)
+            {
+                string hoTen =
+                    string.IsNullOrWhiteSpace(
+                        item.TenBenhNhan)
+                        ? "Người được chăm sóc"
+                        : item.TenBenhNhan;
+
+                string chuCaiDau =
+                    hoTen.Substring(0, 1).ToUpper();
+
+                <article class="customer-journal-card">
+
+                    <div class="customer-journal-card-top">
+
+                        <div class="customer-journal-patient">
+
+                            <span class="customer-journal-avatar">
+                                @chuCaiDau
+                            </span>
+
+                            <div class="customer-journal-patient-info">
+
+                                <span class="customer-journal-code">
+                                    @($"#NK{item.MaNhatKy}")
+                                </span>
+
+                                <h3>@hoTen</h3>
+
+                                <p>@item.TenDichVu</p>
+
+                            </div>
+
+                        </div>
+
+                        <span class="customer-journal-date-badge">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            @(item.NgayChamSoc.ToString("dd/MM/yyyy"))
+
+                        </span>
+
+                    </div>
+
+                    <div class="customer-journal-caregiver-row">
+
+                        <span>
+                            <i class="bi bi-person-check-fill"></i>
+                            Người chăm sóc
+                        </span>
+
+                        <strong>
+                            @item.TenNguoiChamSoc
+                        </strong>
+
+                    </div>
+
+                    <div class="customer-journal-vitals">
+
+                        <div>
+
+                            <span class="vital-icon pressure">
+                                <i class="bi bi-activity"></i>
+                            </span>
+
+                            <span>Huyết áp</span>
+
+                            <strong>
+                                @item.HuyetAp
+                            </strong>
+
+                        </div>
+
+                        <div>
+
+                            <span class="vital-icon heart">
+                                <i class="bi bi-heart-pulse-fill"></i>
+                            </span>
+
+                            <span>Nhịp tim</span>
+
+                            <strong>
+                                @(item.NhipTim.HasValue
+                                    ? $"{item.NhipTim} bpm"
+                                    : "Chưa cập nhật")
+                            </strong>
+
+                        </div>
+
+                        <div>
+
+                            <span class="vital-icon temperature">
+                                <i class="bi bi-thermometer-half"></i>
+                            </span>
+
+                            <span>Nhiệt độ</span>
+
+                            <strong>
+                                @(item.NhietDo.HasValue
+                                    ? $"{item.NhietDo:0.0} °C"
+                                    : "Chưa cập nhật")
+                            </strong>
+
+                        </div>
+
+                        <div>
+
+                            <span class="vital-icon weight">
+                                <i class="bi bi-speedometer2"></i>
+                            </span>
+
+                            <span>Cân nặng</span>
+
+                            <strong>
+                                @(item.CanNang.HasValue
+                                    ? $"{item.CanNang:0.##} kg"
+                                    : "Chưa cập nhật")
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="customer-journal-health-box">
+
+                        <div>
+                            <i class="bi bi-heart-pulse-fill"></i>
+
+                            <span>
+                                Tình trạng sức khỏe
+                            </span>
+                        </div>
+
+                        <p>
+                            @item.TinhTrangSucKhoe
+                        </p>
+
+                    </div>
+
+                    <div class="customer-journal-health-box">
+
+                        <div>
+                            <i class="bi bi-cup-hot-fill"></i>
+
+                            <span>
+                                Tình trạng ăn uống
+                            </span>
+                        </div>
+
+                        <p>
+                            @item.TinhTrangAnUong
+                        </p>
+
+                    </div>
+
+                    <div class="customer-journal-health-box">
+
+                        <div>
+                            <i class="bi bi-capsule-pill"></i>
+
+                            <span>
+                                Thuốc đã uống
+                            </span>
+                        </div>
+
+                        <p>
+                            @item.ThuocDaUong
+                        </p>
+
+                    </div>
+
+                    <div class="customer-journal-card-footer">
+
+                        <small>
+                            <i class="bi bi-clock-history"></i>
+
+                            Cập nhật:
+                            @(item.NgayCapNhat.HasValue
+                                ? item.NgayCapNhat.Value.ToString("dd/MM/yyyy HH:mm")
+                                : "Chưa xác định")
+                        </small>
+
+                        <a asp-area="Customer"
+                           asp-controller="CareJournals"
+                           asp-action="Details"
+                           asp-route-id="@item.MaNhatKy">
+
+                            Xem chi tiết
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </article>
+            }
+
+        </div>
+    }
+
+</section>

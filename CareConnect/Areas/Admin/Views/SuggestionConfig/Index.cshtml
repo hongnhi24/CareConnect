@@ -1,0 +1,1331 @@
+﻿@model CareConnect.ViewModels.AdminSuggestionConfigViewModel
+
+@{
+    ViewData["Title"] = "Cấu hình gợi ý";
+}
+
+
+<div class="suggestion-admin-page">
+
+
+    <!-- =====================================================
+         ALERT
+    ====================================================== -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="suggestion-alert success">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <span>
+                @TempData["SuccessMessage"]
+            </span>
+
+        </div>
+    }
+
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="suggestion-alert error">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            <div asp-validation-summary="ModelOnly"></div>
+
+        </div>
+    }
+
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="suggestion-hero">
+
+
+        <div class="suggestion-hero-left">
+
+
+            <span class="suggestion-eyebrow">
+
+                <i class="bi bi-stars"></i>
+
+                THIẾT LẬP HỆ THỐNG
+
+            </span>
+
+
+            <h1>
+                Cấu hình gợi ý người chăm sóc
+            </h1>
+
+
+            <p>
+                Điều chỉnh điều kiện lọc và trọng số chấm điểm
+                để hệ thống xếp hạng người chăm sóc phù hợp
+                với từng lịch đặt.
+            </p>
+
+        </div>
+
+
+
+        <div class="suggestion-heading-status @(Model.DangApDung ? "active" : "paused")">
+
+
+            <span class="suggestion-status-icon">
+
+                <i class="bi @(Model.DangApDung
+                                       ? "bi-cpu-fill"
+                                       : "bi-pause-circle-fill")">
+                </i>
+
+            </span>
+
+
+            <div>
+
+                <small>
+                    TRẠNG THÁI THUẬT TOÁN
+                </small>
+
+
+                <strong>
+
+                    @(Model.DangApDung
+                        ? "Đang áp dụng"
+                        : "Đang tạm dừng")
+
+                </strong>
+
+
+                <p>
+
+                    Cập nhật:
+                    @Model.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <span class="suggestion-hero-decoration decoration-one"></span>
+
+        <span class="suggestion-hero-decoration decoration-two"></span>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FORM
+    ====================================================== -->
+
+    <form asp-area="Admin"
+          asp-controller="SuggestionConfig"
+          asp-action="Save"
+          method="post"
+          id="suggestionConfigForm">
+
+
+        @Html.AntiForgeryToken()
+
+
+        <input asp-for="MaCauHinh"
+               type="hidden" />
+
+
+
+        <section class="suggestion-layout">
+
+
+            <!-- =================================================
+                 LEFT COLUMN
+            ================================================== -->
+
+            <div class="suggestion-main-column">
+
+
+                <!-- =================================================
+                     GENERAL CONFIG
+                ================================================== -->
+
+                <article class="suggestion-panel">
+
+
+                    <div class="suggestion-panel-heading">
+
+
+                        <div class="suggestion-panel-heading-left">
+
+
+                            <span class="suggestion-panel-icon blue">
+
+                                <i class="bi bi-sliders2"></i>
+
+                            </span>
+
+
+                            <div>
+
+                                <small>
+                                    CẤU HÌNH CHUNG
+                                </small>
+
+                                <h2>
+                                    Thông tin cấu hình
+                                </h2>
+
+                                <p>
+                                    Thiết lập số lượng kết quả và
+                                    điều kiện tối thiểu khi gợi ý.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="suggestion-general-grid">
+
+
+                        <!-- NAME -->
+
+                        <div class="suggestion-field full">
+
+
+                            <label asp-for="TenCauHinh">
+
+                                Tên cấu hình
+
+                            </label>
+
+
+                            <div class="suggestion-input-wrapper">
+
+
+                                <i class="bi bi-pencil-square"></i>
+
+
+                                <input asp-for="TenCauHinh"
+                                       autocomplete="off"
+                                       placeholder="Nhập tên cấu hình..." />
+
+                            </div>
+
+
+                            <span asp-validation-for="TenCauHinh"
+                                  class="suggestion-validation">
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- RESULT COUNT -->
+
+                        <div class="suggestion-field">
+
+
+                            <label asp-for="SoLuongGoiY">
+
+                                Số người được gợi ý
+
+                            </label>
+
+
+                            <div class="suggestion-input-wrapper">
+
+
+                                <i class="bi bi-people"></i>
+
+
+                                <input asp-for="SoLuongGoiY"
+                                       type="number"
+                                       min="1"
+                                       max="20" />
+
+                            </div>
+
+
+                            <small>
+                                Tối đa 20 kết quả cho mỗi lịch đặt.
+                            </small>
+
+                        </div>
+
+
+
+                        <!-- RATING -->
+
+                        <div class="suggestion-field">
+
+
+                            <label asp-for="DiemDanhGiaToiThieu">
+
+                                Điểm đánh giá tối thiểu
+
+                            </label>
+
+
+                            <div class="suggestion-input-wrapper">
+
+
+                                <i class="bi bi-star"></i>
+
+
+                                <input asp-for="DiemDanhGiaToiThieu"
+                                       type="number"
+                                       min="0"
+                                       max="5"
+                                       step="0.1" />
+
+                            </div>
+
+
+                            <small>
+                                Hồ sơ thấp hơn mức này sẽ bị loại.
+                            </small>
+
+                        </div>
+
+
+
+                        <!-- EXPERIENCE -->
+
+                        <div class="suggestion-field">
+
+
+                            <label asp-for="KinhNghiemToiThieu">
+
+                                Kinh nghiệm tối thiểu
+
+                            </label>
+
+
+                            <div class="suggestion-input-wrapper">
+
+
+                                <i class="bi bi-briefcase"></i>
+
+
+                                <input asp-for="KinhNghiemToiThieu"
+                                       type="number"
+                                       min="0"
+                                       max="50" />
+
+                            </div>
+
+
+                            <small>
+                                Số năm kinh nghiệm tối thiểu yêu cầu.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- =================================================
+                     WEIGHTS
+                ================================================== -->
+
+                <article class="suggestion-panel">
+
+
+                    <div class="suggestion-panel-heading">
+
+
+                        <div class="suggestion-panel-heading-left">
+
+
+                            <span class="suggestion-panel-icon orange">
+
+                                <i class="bi bi-diagram-3"></i>
+
+                            </span>
+
+
+                            <div>
+
+                                <small>
+                                    TRỌNG SỐ XẾP HẠNG
+                                </small>
+
+                                <h2>
+                                    Tiêu chí gợi ý
+                                </h2>
+
+                                <p>
+                                    Tổng trọng số của 6 tiêu chí
+                                    phải bằng 100%.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="suggestion-total-weight"
+                             id="weightStatus">
+
+
+                            <strong id="totalWeight">
+
+                                @Model.TongTrongSo%
+
+                            </strong>
+
+
+                            <small>
+                                Tổng trọng số
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="suggestion-weight-list">
+
+
+                        <!-- AREA -->
+
+                        <div class="suggestion-weight-item">
+
+
+                            <div class="suggestion-weight-info">
+
+
+                                <span class="suggestion-weight-icon area">
+
+                                    <i class="bi bi-geo-alt"></i>
+
+                                </span>
+
+
+                                <div>
+
+                                    <strong>
+                                        Khu vực hoạt động
+                                    </strong>
+
+                                    <small>
+                                        Ưu tiên người chăm sóc gần
+                                        địa điểm khách hàng.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="suggestion-range-control">
+
+
+                                <input asp-for="TrongSoKhuVuc"
+                                       type="range"
+                                       min="0"
+                                       max="100"
+                                       class="suggestion-range weight-input"
+                                       data-output="khuVucValue" />
+
+
+                                <output id="khuVucValue">
+
+                                    @Model.TrongSoKhuVuc%
+
+                                </output>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- SPECIALTY -->
+
+                        <div class="suggestion-weight-item">
+
+
+                            <div class="suggestion-weight-info">
+
+
+                                <span class="suggestion-weight-icon specialty">
+
+                                    <i class="bi bi-heart-pulse"></i>
+
+                                </span>
+
+
+                                <div>
+
+                                    <strong>
+                                        Chuyên môn phù hợp
+                                    </strong>
+
+                                    <small>
+                                        Mức độ phù hợp giữa dịch vụ
+                                        và chuyên môn người chăm sóc.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="suggestion-range-control">
+
+
+                                <input asp-for="TrongSoChuyenMon"
+                                       type="range"
+                                       min="0"
+                                       max="100"
+                                       class="suggestion-range weight-input"
+                                       data-output="chuyenMonValue" />
+
+
+                                <output id="chuyenMonValue">
+
+                                    @Model.TrongSoChuyenMon%
+
+                                </output>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- EXPERIENCE -->
+
+                        <div class="suggestion-weight-item">
+
+
+                            <div class="suggestion-weight-info">
+
+
+                                <span class="suggestion-weight-icon experience">
+
+                                    <i class="bi bi-briefcase"></i>
+
+                                </span>
+
+
+                                <div>
+
+                                    <strong>
+                                        Kinh nghiệm
+                                    </strong>
+
+                                    <small>
+                                        Ưu tiên số năm làm việc
+                                        và kinh nghiệm thực tế.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="suggestion-range-control">
+
+
+                                <input asp-for="TrongSoKinhNghiem"
+                                       type="range"
+                                       min="0"
+                                       max="100"
+                                       class="suggestion-range weight-input"
+                                       data-output="kinhNghiemValue" />
+
+
+                                <output id="kinhNghiemValue">
+
+                                    @Model.TrongSoKinhNghiem%
+
+                                </output>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- RATING -->
+
+                        <div class="suggestion-weight-item">
+
+
+                            <div class="suggestion-weight-info">
+
+
+                                <span class="suggestion-weight-icon rating">
+
+                                    <i class="bi bi-star"></i>
+
+                                </span>
+
+
+                                <div>
+
+                                    <strong>
+                                        Điểm đánh giá
+                                    </strong>
+
+                                    <small>
+                                        Dựa trên phản hồi từ
+                                        những khách hàng trước.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="suggestion-range-control">
+
+
+                                <input asp-for="TrongSoDanhGia"
+                                       type="range"
+                                       min="0"
+                                       max="100"
+                                       class="suggestion-range weight-input"
+                                       data-output="danhGiaValue" />
+
+
+                                <output id="danhGiaValue">
+
+                                    @Model.TrongSoDanhGia%
+
+                                </output>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- PRICE -->
+
+                        <div class="suggestion-weight-item">
+
+
+                            <div class="suggestion-weight-info">
+
+
+                                <span class="suggestion-weight-icon price">
+
+                                    <i class="bi bi-cash-stack"></i>
+
+                                </span>
+
+
+                                <div>
+
+                                    <strong>
+                                        Mức giá
+                                    </strong>
+
+                                    <small>
+                                        Ưu tiên mức phí phù hợp
+                                        với dịch vụ được đặt.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="suggestion-range-control">
+
+
+                                <input asp-for="TrongSoMucGia"
+                                       type="range"
+                                       min="0"
+                                       max="100"
+                                       class="suggestion-range weight-input"
+                                       data-output="mucGiaValue" />
+
+
+                                <output id="mucGiaValue">
+
+                                    @Model.TrongSoMucGia%
+
+                                </output>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- SCHEDULE -->
+
+                        <div class="suggestion-weight-item">
+
+
+                            <div class="suggestion-weight-info">
+
+
+                                <span class="suggestion-weight-icon schedule">
+
+                                    <i class="bi bi-calendar2-check"></i>
+
+                                </span>
+
+
+                                <div>
+
+                                    <strong>
+                                        Lịch làm việc còn trống
+                                    </strong>
+
+                                    <small>
+                                        Kiểm tra khả năng nhận lịch
+                                        trong khung giờ yêu cầu.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="suggestion-range-control">
+
+
+                                <input asp-for="TrongSoLichTrong"
+                                       type="range"
+                                       min="0"
+                                       max="100"
+                                       class="suggestion-range weight-input"
+                                       data-output="lichTrongValue" />
+
+
+                                <output id="lichTrongValue">
+
+                                    @Model.TrongSoLichTrong%
+
+                                </output>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 RIGHT COLUMN
+            ================================================== -->
+
+            <aside class="suggestion-side-column">
+
+
+                <!-- =================================================
+                     RULES
+                ================================================== -->
+
+                <article class="suggestion-panel">
+
+
+                    <div class="suggestion-panel-heading">
+
+
+                        <div class="suggestion-panel-heading-left">
+
+
+                            <span class="suggestion-panel-icon green">
+
+                                <i class="bi bi-filter-circle"></i>
+
+                            </span>
+
+
+                            <div>
+
+                                <small>
+                                    ĐIỀU KIỆN ÁP DỤNG
+                                </small>
+
+                                <h2>
+                                    Quy tắc lọc
+                                </h2>
+
+                                <p>
+                                    Các điều kiện được kiểm tra
+                                    trước bước chấm điểm.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="suggestion-toggle-list">
+
+
+                        <!-- APPROVED -->
+
+                        <label class="suggestion-toggle-item">
+
+
+                            <div>
+
+                                <strong>
+                                    Chỉ gợi ý hồ sơ đã duyệt
+                                </strong>
+
+                                <small>
+                                    Loại người chăm sóc chưa được
+                                    Admin phê duyệt.
+                                </small>
+
+                            </div>
+
+
+                            <span class="suggestion-switch">
+
+
+                                <input asp-for="ChiGoiYNguoiDaDuyet"
+                                       type="checkbox" />
+
+
+                                <i></i>
+
+                            </span>
+
+                        </label>
+
+
+
+                        <!-- SAME AREA -->
+
+                        <label class="suggestion-toggle-item">
+
+
+                            <div>
+
+                                <strong>
+                                    Ưu tiên cùng khu vực
+                                </strong>
+
+                                <small>
+                                    Tăng mức ưu tiên khi người chăm sóc
+                                    ở cùng khu vực.
+                                </small>
+
+                            </div>
+
+
+                            <span class="suggestion-switch">
+
+
+                                <input asp-for="UuTienCungKhuVuc"
+                                       type="checkbox" />
+
+
+                                <i></i>
+
+                            </span>
+
+                        </label>
+
+
+
+                        <!-- ENABLE -->
+
+                        <label class="suggestion-toggle-item">
+
+
+                            <div>
+
+                                <strong>
+                                    Kích hoạt cấu hình
+                                </strong>
+
+                                <small>
+                                    Cho phép thuật toán sử dụng
+                                    cấu hình hiện tại.
+                                </small>
+
+                            </div>
+
+
+                            <span class="suggestion-switch">
+
+
+                                <input asp-for="DangApDung"
+                                       type="checkbox" />
+
+
+                                <i></i>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- =================================================
+                     PREVIEW
+                ================================================== -->
+
+                <article class="suggestion-panel suggestion-preview-panel">
+
+
+                    <div class="suggestion-panel-heading">
+
+
+                        <div class="suggestion-panel-heading-left">
+
+
+                            <span class="suggestion-panel-icon purple">
+
+                                <i class="bi bi-magic"></i>
+
+                            </span>
+
+
+                            <div>
+
+                                <small>
+                                    MÔ PHỎNG XẾP HẠNG
+                                </small>
+
+                                <h2>
+                                    Cách tính điểm
+                                </h2>
+
+                                <p>
+                                    Tỷ trọng hiện tại của từng tiêu chí.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="suggestion-formula">
+
+
+                        <div>
+
+                            <span>Khu vực</span>
+
+                            <strong id="previewArea">
+                                @Model.TrongSoKhuVuc%
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>Chuyên môn</span>
+
+                            <strong id="previewSpecialty">
+                                @Model.TrongSoChuyenMon%
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>Kinh nghiệm</span>
+
+                            <strong id="previewExperience">
+                                @Model.TrongSoKinhNghiem%
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>Đánh giá</span>
+
+                            <strong id="previewRating">
+                                @Model.TrongSoDanhGia%
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>Mức giá</span>
+
+                            <strong id="previewPrice">
+                                @Model.TrongSoMucGia%
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>Lịch trống</span>
+
+                            <strong id="previewSchedule">
+                                @Model.TrongSoLichTrong%
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="suggestion-preview-result">
+
+
+                        <span>
+
+                            <i class="bi bi-lightbulb"></i>
+
+                        </span>
+
+
+                        <p>
+                            Người chăm sóc có tổng điểm cao hơn
+                            sẽ được ưu tiên xuất hiện trước
+                            trong danh sách gợi ý.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- =================================================
+                     META
+                ================================================== -->
+
+                <article class="suggestion-meta-card">
+
+
+                    <span class="suggestion-meta-icon">
+
+                        <i class="bi bi-clock-history"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            CẬP NHẬT GẦN NHẤT
+                        </small>
+
+
+                        <strong>
+
+                            @Model.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")
+
+                        </strong>
+
+
+                        <p>
+
+                            Bởi
+                            @(string.IsNullOrWhiteSpace(Model.NguoiCapNhat)
+                                ? "Hệ thống"
+                                : Model.NguoiCapNhat)
+
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </aside>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             ACTION BAR
+        ====================================================== -->
+
+        <section class="suggestion-actions">
+
+
+            <div class="suggestion-action-info">
+
+
+                <span class="suggestion-action-info-icon">
+
+                    <i class="bi bi-info-circle"></i>
+
+                </span>
+
+
+                <div>
+
+                    <strong>
+                        Kiểm tra trước khi lưu
+                    </strong>
+
+
+                    <span id="weightMessage"
+                          class="suggestion-weight-message">
+
+                        Tổng trọng số phải bằng 100%.
+
+                    </span>
+
+
+                    <small class="suggestion-weight-valid-message">
+
+                        Cấu hình chỉ được lưu khi
+                        tổng 6 trọng số bằng 100%.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="suggestion-action-buttons">
+
+
+                <button type="submit"
+                        formaction="@Url.Action(
+                                                "Reset",
+                                                "SuggestionConfig",
+                                                new { area = "Admin" })"
+                        formmethod="post"
+                        class="suggestion-reset-button"
+                        onclick="return confirm('Bạn muốn khôi phục cấu hình mặc định?')">
+
+
+                    <i class="bi bi-arrow-counterclockwise"></i>
+
+
+                    <span>
+                        Khôi phục mặc định
+                    </span>
+
+                </button>
+
+
+
+                <button type="submit"
+                        class="suggestion-save-button"
+                        id="saveSuggestionButton">
+
+
+                    <i class="bi bi-floppy"></i>
+
+
+                    <span>
+                        Lưu cấu hình
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </form>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+
+        const weightInputs =
+            Array.from(
+                document.querySelectorAll(
+                    ".weight-input"));
+
+
+        const totalWeightElement =
+            document.getElementById(
+                "totalWeight");
+
+
+        const weightStatusElement =
+            document.getElementById(
+                "weightStatus");
+
+
+        const weightMessageElement =
+            document.getElementById(
+                "weightMessage");
+
+
+        const saveButton =
+            document.getElementById(
+                "saveSuggestionButton");
+
+
+        const previewMap = {
+
+            TrongSoKhuVuc:
+                "previewArea",
+
+            TrongSoChuyenMon:
+                "previewSpecialty",
+
+            TrongSoKinhNghiem:
+                "previewExperience",
+
+            TrongSoDanhGia:
+                "previewRating",
+
+            TrongSoMucGia:
+                "previewPrice",
+
+            TrongSoLichTrong:
+                "previewSchedule"
+        };
+
+
+        function updateSuggestionWeights() {
+
+            let total = 0;
+
+
+            weightInputs.forEach(
+                function(input) {
+
+                    const value =
+                        Number(input.value) || 0;
+
+
+                    total += value;
+
+
+                    const outputId =
+                        input.dataset.output;
+
+
+                    const output =
+                        document.getElementById(
+                            outputId);
+
+
+                    if (output) {
+
+                        output.textContent =
+                            `${value}%`;
+                    }
+
+
+                    const previewId =
+                        previewMap[input.name];
+
+
+                    const preview =
+                        document.getElementById(
+                            previewId);
+
+
+                    if (preview) {
+
+                        preview.textContent =
+                            `${value}%`;
+                    }
+
+
+                    const minimum =
+                        Number(input.min) || 0;
+
+
+                    const maximum =
+                        Number(input.max) || 100;
+
+
+                    const progress =
+                        (value - minimum)
+                        * 100
+                        / (maximum - minimum);
+
+
+                    input.style.setProperty(
+                        "--range-progress",
+                        `${progress}%`);
+                });
+
+
+            totalWeightElement.textContent =
+                `${total}%`;
+
+
+            const isValid =
+                total === 100;
+
+
+            weightStatusElement.classList.toggle(
+                "valid",
+                isValid);
+
+
+            weightStatusElement.classList.toggle(
+                "invalid",
+                !isValid);
+
+
+            weightMessageElement.classList.toggle(
+                "visible",
+                !isValid);
+
+
+            saveButton.disabled =
+                !isValid;
+        }
+
+
+        weightInputs.forEach(
+            function(input) {
+
+                input.addEventListener(
+                    "input",
+                    updateSuggestionWeights);
+            });
+
+
+        updateSuggestionWeights();
+
+    </script>
+
+}

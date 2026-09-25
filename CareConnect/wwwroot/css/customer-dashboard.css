@@ -1,0 +1,1662 @@
+﻿/* =========================================================
+   CARECONNECT - CUSTOMER DASHBOARD
+   LAYOUT + DASHBOARD TRONG CÙNG 1 FILE
+
+   FONT
+   - Tiêu đề trang: 30px
+   - Tiêu đề card: 18px
+   - Tiêu đề phần: 17px
+   - Label: 13px
+   - Nội dung: 14px
+   - Nút: 14px
+   ========================================================= */
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+:root {
+    --cc-primary: #0b9890;
+    --cc-primary-dark: #087d76;
+    --cc-primary-soft: #e1f4ef;
+    --cc-primary-soft-2: #eef9f6;
+    --cc-text: #263f39;
+    --cc-text-2: #485d57;
+    --cc-muted: #7e8d88;
+    --cc-muted-2: #96a19d;
+    --cc-bg: #f5f8f6;
+    --cc-white: #ffffff;
+    --cc-border: #dfe8e5;
+    --cc-border-soft: #e9efed;
+    --cc-sidebar-width: 230px;
+    --cc-shadow: 0 10px 28px rgba(35, 63, 56, 0.055);
+    --cc-shadow-hover: 0 15px 34px rgba(35, 63, 56, 0.085);
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+    body.customer-body {
+        min-height: 100vh;
+        color: var(--cc-text);
+        background: var(--cc-bg);
+        font-family: "Segoe UI", Arial, sans-serif;
+        font-size: 14px;
+    }
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   SIDEBAR - COMPACT
+   ========================================================= */
+
+.customer-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    width: 245px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #ffffff;
+    border-right: 1px solid #e2e9e6;
+    transition: transform 0.25s ease;
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.customer-logo {
+    min-height: 76px;
+    padding: 0 18px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    border-bottom: 1px solid #edf1ef;
+}
+
+.customer-logo-icon {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: linear-gradient( 135deg, #2db5ae, #139a94 );
+    border-radius: 13px;
+    box-shadow: 0 8px 18px rgba(19, 154, 148, 0.14);
+    font-size: 21px;
+}
+
+.customer-logo strong {
+    color: #263934;
+    font-size: 20px;
+    font-weight: 850;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   MENU LABEL
+   ========================================================= */
+
+.sidebar-label {
+    padding: 20px 20px 8px;
+    color: #9aa49f;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.customer-navigation {
+    padding: 0 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+    .customer-navigation a {
+        width: 100%;
+        min-height: 48px;
+        padding: 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        color: #53655f;
+        background: transparent;
+        border-radius: 11px;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color 0.18s ease, background 0.18s ease;
+    }
+
+        .customer-navigation a i {
+            width: 20px;
+            flex: 0 0 20px;
+            color: #84938d;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .customer-navigation a:hover {
+            color: #087f79;
+            background: #f1f8f6;
+        }
+
+        .customer-navigation a.active {
+            color: #087f79;
+            background: linear-gradient( 100deg, #dff3ee 0%, #edf8f5 100% );
+        }
+
+            .customer-navigation a.active i {
+                color: #159a96;
+            }
+
+
+/* =========================================================
+   SUPPORT
+   ========================================================= */
+
+.customer-support-card {
+    width: calc(100% - 24px);
+    min-height: 66px;
+    margin: auto 12px 14px;
+    padding: 10px 11px;
+    flex-shrink: 0;
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 9px;
+    color: #50645e;
+    background: linear-gradient( 110deg, #f7fbfa, #edf8f5 );
+    border: 1px solid #cee5df;
+    border-radius: 12px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.customer-support-icon {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    color: #159a96;
+    background: #ffffff;
+    border-radius: 9px;
+    font-size: 15px;
+}
+
+.customer-support-content strong {
+    display: block;
+    color: #3f534d;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.customer-support-content small {
+    display: block;
+    margin-top: 2px;
+    color: #899792;
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   PAGE
+   PHẢI KHỚP VỚI WIDTH SIDEBAR
+   ========================================================= */
+
+.customer-page {
+    min-height: 100vh;
+    margin-left: 245px;
+}
+
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.customer-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    min-height: 72px;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid #e3ebe8;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.customer-content {
+    width: 100%;
+    padding: 26px 30px 42px;
+}
+
+/* =========================================================
+   DASHBOARD ROOT
+   ========================================================= */
+
+.customer-dashboard {
+    width: 100%;
+    max-width: 1320px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   DASHBOARD HERO
+   trắng trái -> xanh đậm dần phải
+   ========================================================= */
+
+.dashboard-hero {
+    position: relative;
+    min-height: 168px;
+    padding: 29px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    overflow: hidden;
+    background: linear-gradient( 105deg, #ffffff 0%, #fbfdfc 16%, #f3fbf8 33%, #e2f5f0 54%, #c3ebe4 73%, #8ed6cd 90%, #62c2b8 100% );
+    border: 1px solid #b9ddd6;
+    border-radius: 20px;
+    box-shadow: 0 14px 34px rgba(31, 83, 74, 0.075);
+}
+
+    .dashboard-hero::before {
+        content: "";
+        position: absolute;
+        top: -110px;
+        right: 90px;
+        width: 285px;
+        height: 285px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.13);
+    }
+
+    .dashboard-hero::after {
+        content: "";
+        position: absolute;
+        right: -90px;
+        bottom: -170px;
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.09);
+    }
+
+.dashboard-hero-content {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    flex: 1;
+}
+
+.dashboard-eyebrow {
+    display: inline-flex;
+    padding: 7px 12px;
+    color: #087d74;
+    background: rgba(222, 244, 239, 0.95);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: 0.07em;
+}
+
+.dashboard-hero h1 {
+    margin: 11px 0 0;
+    color: #223d38;
+    font-size: 30px;
+    font-weight: 850;
+    line-height: 1.2;
+}
+
+    .dashboard-hero h1 > span:first-of-type {
+        color: #078f85;
+    }
+
+.dashboard-wave {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 26px;
+}
+
+.dashboard-hero p {
+    max-width: 680px;
+    margin: 10px 0 0;
+    color: #667b75;
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   HERO BUTTON
+   ========================================================= */
+
+.dashboard-hero-button {
+    position: relative;
+    z-index: 1;
+    min-width: 210px;
+    min-height: 70px;
+    padding: 11px 14px;
+    display: grid;
+    grid-template-columns: 43px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 11px;
+    color: #ffffff;
+    background: linear-gradient( 135deg, #16a69d, #078f85 );
+    border-radius: 14px;
+    box-shadow: 0 11px 24px rgba(7, 143, 133, 0.20);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+    .dashboard-hero-button:hover {
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(7, 143, 133, 0.25);
+    }
+
+    .dashboard-hero-button > span {
+        width: 43px;
+        height: 43px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.17);
+        border: 1px solid rgba(255, 255, 255, 0.17);
+        border-radius: 10px;
+        font-size: 17px;
+    }
+
+    .dashboard-hero-button strong {
+        display: block;
+        font-size: 14px;
+        font-weight: 800;
+    }
+
+    .dashboard-hero-button small {
+        display: block;
+        margin-top: 3px;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 11px;
+    }
+
+    .dashboard-hero-button > i {
+        font-size: 13px;
+    }
+
+
+/* =========================================================
+   STAT GRID
+   ========================================================= */
+
+.dashboard-stat-grid {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+
+/* =========================================================
+   STAT CARD
+   ========================================================= */
+
+.dashboard-stat-card {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    min-height: 150px;
+    padding: 18px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    color: inherit;
+    background: linear-gradient( 135deg, #ffffff 0%, #ffffff 65%, #f5fbf9 100% );
+    border: 1px solid #dfe8e5;
+    border-radius: 16px;
+    box-shadow: 0 9px 24px rgba(35, 63, 56, 0.05);
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+button.dashboard-stat-card {
+    font-family: inherit;
+}
+
+.dashboard-stat-card:hover {
+    color: inherit;
+    transform: translateY(-3px);
+    border-color: #b8dad3;
+    box-shadow: 0 14px 30px rgba(35, 63, 56, 0.08);
+}
+
+
+/* =========================================================
+   STAT ICON
+   ========================================================= */
+
+.dashboard-stat-icon {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-size: 18px;
+}
+
+    .dashboard-stat-icon.is-teal {
+        color: #078f85;
+        background: #ddf3ee;
+    }
+
+    .dashboard-stat-icon.is-orange {
+        color: #db8c16;
+        background: #fff0d7;
+    }
+
+    .dashboard-stat-icon.is-green {
+        color: #4d946d;
+        background: #e2f4e9;
+    }
+
+    .dashboard-stat-icon.is-yellow {
+        color: #d89b20;
+        background: #fff3d9;
+    }
+
+
+/* =========================================================
+   STAT COUNT
+   ========================================================= */
+
+.dashboard-stat-count {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 850;
+    box-shadow: 0 5px 12px rgba(37, 68, 60, 0.10);
+}
+
+    .dashboard-stat-count.is-teal {
+        background: #18a69c;
+    }
+
+    .dashboard-stat-count.is-orange {
+        background: #ed9a18;
+    }
+
+    .dashboard-stat-count.is-green {
+        background: #77aa78;
+    }
+
+    .dashboard-stat-count.is-yellow {
+        background: #f0a91c;
+    }
+
+
+/* =========================================================
+   STAT TEXT
+   ========================================================= */
+
+.dashboard-stat-content {
+    margin-top: 17px;
+}
+
+    .dashboard-stat-content small {
+        display: block;
+        color: #87948f;
+        font-size: 13px;
+    }
+
+    .dashboard-stat-content strong {
+        display: flex;
+        align-items: baseline;
+        gap: 4px;
+        margin-top: 4px;
+        color: #2d443e;
+        font-size: 18px;
+        font-weight: 850;
+    }
+
+        .dashboard-stat-content strong span {
+            color: #647670;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+
+/* =========================================================
+   STAT ARROW
+   ========================================================= */
+
+.dashboard-stat-go {
+    position: absolute;
+    right: 17px;
+    bottom: 16px;
+    width: 29px;
+    height: 29px;
+    display: grid;
+    place-items: center;
+    color: #879c96;
+    background: #f4f8f6;
+    border-radius: 50%;
+    font-size: 12px;
+    transition: color 0.18s ease, transform 0.18s ease, background 0.18s ease;
+}
+
+.dashboard-stat-card:hover
+.dashboard-stat-go {
+    color: #ffffff;
+    background: #078f85;
+    transform: translateX(2px);
+}
+
+
+/* =========================================================
+   MAIN GRID
+   ========================================================= */
+
+.dashboard-main-grid {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.62fr) minmax(330px, 0.78fr);
+    gap: 20px;
+    align-items: start;
+}
+
+
+/* =========================================================
+   COMMON SECTION CARDS
+   ========================================================= */
+
+.dashboard-booking-section,
+.dashboard-notification-section,
+.dashboard-quick-section {
+    background: #ffffff;
+    border: 1px solid #dfe8e5;
+    border-radius: 18px;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, 0.05);
+}
+
+
+/* =========================================================
+   BOOKING SECTION
+   ========================================================= */
+
+.dashboard-booking-section {
+    min-width: 0;
+    padding: 20px;
+}
+
+
+/* =========================================================
+   SECTION HEADING
+   ========================================================= */
+
+.dashboard-section-heading {
+    padding-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid #e9efec;
+}
+
+.dashboard-section-title {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dashboard-section-icon {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    display: grid;
+    place-items: center;
+    color: #078f85;
+    background: #dff3ee;
+    border-radius: 12px;
+    font-size: 18px;
+}
+
+.dashboard-section-label {
+    display: block;
+    color: #087f76;
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: 0.06em;
+}
+
+.dashboard-section-heading h2,
+.dashboard-side-heading h2 {
+    margin: 4px 0 0;
+    color: #304640;
+    font-size: 17px;
+    font-weight: 850;
+}
+
+.dashboard-section-heading p {
+    margin: 4px 0 0;
+    color: #87938f;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   VIEW ALL
+   ========================================================= */
+
+.dashboard-view-all {
+    min-height: 40px;
+    padding: 0 13px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: #087f76;
+    background: #eaf7f3;
+    border: 1px solid #cfe8e1;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 750;
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+
+    .dashboard-view-all:hover {
+        color: #06776f;
+        background: #dff2ed;
+        transform: translateY(-1px);
+    }
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.dashboard-empty {
+    min-height: 400px;
+    margin-top: 17px;
+    padding: 38px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    background: linear-gradient( 115deg, #ffffff 0%, #fbfdfc 45%, #eff9f6 100% );
+    border: 1px dashed #cbded8;
+    border-radius: 15px;
+}
+
+.dashboard-empty-icon {
+    width: 66px;
+    height: 66px;
+    display: grid;
+    place-items: center;
+    color: #078f85;
+    background: #dff3ee;
+    border-radius: 17px;
+    font-size: 25px;
+}
+
+.dashboard-empty h3 {
+    margin: 17px 0 0;
+    color: #3b514b;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.dashboard-empty p {
+    max-width: 480px;
+    margin: 8px 0 0;
+    color: #84928d;
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.dashboard-primary-button,
+.dashboard-secondary-button,
+.dashboard-detail-button {
+    min-height: 42px;
+    padding: 0 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.dashboard-primary-button {
+    margin-top: 17px;
+    color: #ffffff;
+    background: #078f85;
+    border: 1px solid #078f85;
+    box-shadow: 0 8px 18px rgba(7, 143, 133, 0.14);
+}
+
+    .dashboard-primary-button:hover {
+        color: #ffffff;
+        background: #067a72;
+        transform: translateY(-1px);
+    }
+
+.dashboard-secondary-button {
+    color: #087f76;
+    background: #edf8f5;
+    border: 1px solid #d0e8e2;
+}
+
+
+/* =========================================================
+   BOOKING LIST
+   ========================================================= */
+
+.dashboard-booking-list {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dashboard-booking-card {
+    padding: 16px;
+    background: linear-gradient( 115deg, #ffffff 0%, #ffffff 60%, #f3faf8 100% );
+    border: 1px solid #e0e8e5;
+    border-radius: 14px;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+    .dashboard-booking-card:hover {
+        transform: translateY(-2px);
+        border-color: #beddd6;
+        box-shadow: 0 10px 24px rgba(35, 63, 56, 0.055);
+    }
+
+.dashboard-booking-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.dashboard-booking-person {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.dashboard-booking-avatar {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    display: grid;
+    place-items: center;
+    color: #078f85;
+    background: #dff3ee;
+    border-radius: 11px;
+    font-size: 17px;
+}
+
+.dashboard-booking-person small {
+    color: #8b9894;
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.dashboard-booking-person h3 {
+    margin: 3px 0 0;
+    color: #304640;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.dashboard-booking-status {
+    padding: 6px 9px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+    .dashboard-booking-status.is-confirmed {
+        color: #087d74;
+        background: #ddf2ed;
+    }
+
+    .dashboard-booking-status.is-completed {
+        color: #367d5d;
+        background: #e2f4e9;
+    }
+
+    .dashboard-booking-status.is-pending {
+        color: #a76e1c;
+        background: #fff0d7;
+    }
+
+
+/* =========================================================
+   CAREGIVER
+   ========================================================= */
+
+.dashboard-booking-service {
+    margin-top: 12px;
+    padding: 10px 11px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: #f8faf9;
+    border: 1px solid #e5ece9;
+    border-radius: 10px;
+}
+
+    .dashboard-booking-service > span {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        color: #078f85;
+        background: #e3f5f0;
+        border-radius: 9px;
+        font-size: 14px;
+    }
+
+    .dashboard-booking-service small {
+        display: block;
+        color: #8d9995;
+        font-size: 11px;
+    }
+
+    .dashboard-booking-service strong {
+        display: block;
+        margin-top: 2px;
+        color: #4b5f59;
+        font-size: 13px;
+        font-weight: 750;
+    }
+
+
+/* =========================================================
+   BOOKING INFO
+   ========================================================= */
+
+.dashboard-booking-info {
+    margin-top: 9px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+    .dashboard-booking-info > div {
+        min-width: 0;
+        padding: 10px;
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr);
+        align-items: center;
+        gap: 8px;
+        background: #f8faf9;
+        border: 1px solid #e7ecea;
+        border-radius: 9px;
+    }
+
+.dashboard-info-icon {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    color: #078f85;
+    background: #e1f4ef;
+    border-radius: 9px;
+    font-size: 13px;
+}
+
+    .dashboard-info-icon.money {
+        color: #d18418;
+        background: #fff0d7;
+    }
+
+.dashboard-booking-info small {
+    display: block;
+    color: #909b97;
+    font-size: 10px;
+}
+
+.dashboard-booking-info strong {
+    display: block;
+    margin-top: 2px;
+    overflow: hidden;
+    color: #4b5e59;
+    font-size: 12px;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dashboard-money {
+    color: #d17b12 !important;
+}
+
+
+/* =========================================================
+   BOOKING ACTIONS
+   ========================================================= */
+
+.dashboard-booking-actions {
+    margin-top: 12px;
+    padding-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #e9efec;
+}
+
+.dashboard-detail-button {
+    min-height: 38px;
+    color: #087f76;
+    background: #eaf7f3;
+    border: 1px solid #d0e8e2;
+    font-size: 13px;
+}
+
+    .dashboard-detail-button:hover {
+        color: #ffffff;
+        background: #078f85;
+    }
+
+
+/* =========================================================
+   BOOKING FOOTER
+   ========================================================= */
+
+.dashboard-booking-footer {
+    margin-top: 15px;
+    padding-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 9px;
+    border-top: 1px solid #e9efec;
+}
+
+    .dashboard-booking-footer
+    .dashboard-primary-button {
+        margin-top: 0;
+    }
+
+
+/* =========================================================
+   RIGHT COLUMN
+   ========================================================= */
+
+.dashboard-side-column {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.dashboard-notification-section,
+.dashboard-quick-section {
+    padding: 17px;
+}
+
+
+/* =========================================================
+   SIDE HEADING
+   ========================================================= */
+
+.dashboard-side-heading {
+    min-height: 47px;
+    padding-bottom: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid #e9efec;
+}
+
+
+/* =========================================================
+   READ ALL
+   ========================================================= */
+
+.dashboard-read-all-form {
+    margin: 0;
+}
+
+.dashboard-read-all-button {
+    min-height: 35px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #087f76;
+    background: #edf8f5;
+    border: 1px solid #d0e8e2;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+    .dashboard-read-all-button:hover {
+        background: #dff2ed;
+    }
+
+
+/* =========================================================
+   NOTIFICATIONS
+   ========================================================= */
+
+.dashboard-notification-list {
+    margin-top: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.dashboard-notification-form {
+    margin: 0;
+}
+
+.dashboard-notification-card {
+    position: relative;
+    width: 100%;
+    min-height: 98px;
+    padding: 12px 34px 12px 11px;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+    color: inherit;
+    background: linear-gradient( 115deg, #ffffff 0%, #ffffff 65%, #f7fbf9 100% );
+    border: 1px solid #e1e9e6;
+    border-radius: 12px;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+    .dashboard-notification-card:hover {
+        transform: translateY(-2px);
+        border-color: #bfded6;
+        box-shadow: 0 9px 21px rgba(35, 63, 56, 0.055);
+    }
+
+    .dashboard-notification-card.is-unread {
+        background: linear-gradient( 115deg, #ffffff 0%, #f8fcfb 60%, #ecf8f4 100% );
+        border-color: #cae4de;
+    }
+
+.dashboard-notification-icon {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    color: #d88a17;
+    background: #fff0d8;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.dashboard-notification-content {
+    min-width: 0;
+}
+
+    .dashboard-notification-content strong {
+        display: block;
+        color: #3b504a;
+        font-size: 13px;
+        font-weight: 800;
+        line-height: 1.4;
+    }
+
+    .dashboard-notification-content > span {
+        margin-top: 4px;
+        display: -webkit-box;
+        overflow: hidden;
+        color: #73837e;
+        font-size: 12px;
+        line-height: 1.45;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .dashboard-notification-content small {
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: #9aa49f;
+        font-size: 10px;
+    }
+
+.dashboard-unread-dot {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 8px;
+    height: 8px;
+    background: #0ba097;
+    border: 2px solid #ddf3ee;
+    border-radius: 50%;
+}
+
+.dashboard-notification-arrow {
+    position: absolute;
+    right: 11px;
+    bottom: 12px;
+    color: #99a7a2;
+    font-size: 11px;
+}
+
+.dashboard-notification-card:hover
+.dashboard-notification-arrow {
+    color: #078f85;
+}
+
+
+/* =========================================================
+   NOTIFICATION CENTER
+   ========================================================= */
+
+.dashboard-notification-center {
+    width: 100%;
+    min-height: 43px;
+    margin-top: 11px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: #087f76;
+    background: #edf8f5;
+    border: 1px solid #cfe8e1;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+    .dashboard-notification-center:hover {
+        background: #dff2ed;
+    }
+
+
+/* =========================================================
+   SMALL EMPTY
+   ========================================================= */
+
+.dashboard-small-empty {
+    min-height: 170px;
+    padding: 24px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    background: #f8fbfa;
+    border: 1px dashed #d2e1dc;
+    border-radius: 12px;
+}
+
+    .dashboard-small-empty > span {
+        width: 46px;
+        height: 46px;
+        display: grid;
+        place-items: center;
+        color: #078f85;
+        background: #dff3ee;
+        border-radius: 11px;
+    }
+
+    .dashboard-small-empty strong {
+        margin-top: 10px;
+        color: #435750;
+        font-size: 13px;
+    }
+
+    .dashboard-small-empty p {
+        margin: 5px 0 0;
+        color: #87948f;
+        font-size: 12px;
+    }
+
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.dashboard-quick-list {
+    margin-top: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.dashboard-quick-item {
+    min-height: 66px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    color: inherit;
+    background: linear-gradient( 105deg, #ffffff, #f8fcfb );
+    border: 1px solid #e1e9e6;
+    border-radius: 11px;
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+    .dashboard-quick-item:hover {
+        color: inherit;
+        transform: translateX(3px);
+        background: #f0f8f5;
+        border-color: #bfded6;
+        box-shadow: 0 7px 17px rgba(35, 63, 56, 0.045);
+    }
+
+    .dashboard-quick-item.is-primary {
+        background: linear-gradient( 110deg, #edf9f6, #e2f5f0 );
+        border-color: #c8e5de;
+    }
+
+.dashboard-quick-icon {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+    .dashboard-quick-icon.is-teal {
+        color: #ffffff;
+        background: #078f85;
+    }
+
+    .dashboard-quick-icon.is-orange {
+        color: #d88b17;
+        background: #fff0d7;
+    }
+
+    .dashboard-quick-icon.is-purple {
+        color: #6b5fba;
+        background: #eeeaff;
+    }
+
+    .dashboard-quick-icon.is-blue {
+        color: #397ac5;
+        background: #e8efff;
+    }
+
+    .dashboard-quick-icon.is-yellow {
+        color: #d3961e;
+        background: #fff3d9;
+    }
+
+.dashboard-quick-content {
+    min-width: 0;
+}
+
+    .dashboard-quick-content strong {
+        display: block;
+        color: #40554f;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .dashboard-quick-content small {
+        display: block;
+        margin-top: 3px;
+        overflow: hidden;
+        color: #899591;
+        font-size: 11px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+.dashboard-quick-item > i {
+    color: #94a49f;
+    font-size: 11px;
+}
+
+.dashboard-quick-item:hover > i {
+    color: #078f85;
+}
+
+
+/* =========================================================
+   SUPPORT MODAL
+   ========================================================= */
+
+.customer-support-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+    .customer-support-modal.is-open {
+        display: flex;
+    }
+
+.customer-support-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(27, 42, 38, 0.56);
+    backdrop-filter: blur(5px);
+}
+
+.customer-support-modal-card {
+    position: relative;
+    z-index: 1;
+    width: min(700px, 100%);
+    overflow: hidden;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 28px 80px rgba(24, 46, 40, 0.24);
+}
+
+.customer-support-modal-header {
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr) 44px;
+    align-items: start;
+    gap: 16px;
+    color: #ffffff;
+    background: linear-gradient( 120deg, #35b7b3 0%, #169b96 55%, #128f8b 100% );
+}
+
+.customer-support-modal-symbol {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 15px;
+    font-size: 22px;
+}
+
+.customer-support-modal-header small {
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 11px;
+    font-weight: 850;
+}
+
+.customer-support-modal-header h2 {
+    margin: 5px 0 0;
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 850;
+}
+
+.customer-support-modal-header p {
+    margin: 7px 0 0;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 14px;
+}
+
+.customer-support-close {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    border-radius: 11px;
+    cursor: pointer;
+}
+
+.customer-support-modal-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.customer-support-contact {
+    min-height: 92px;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 13px;
+    color: inherit;
+    background: #ffffff;
+    border: 1px solid #dfe8e5;
+    border-radius: 14px;
+}
+
+    .customer-support-contact > span {
+        width: 52px;
+        height: 52px;
+        display: grid;
+        place-items: center;
+        color: #159a96;
+        background: #dff3ee;
+        border-radius: 13px;
+    }
+
+        .customer-support-contact > span.is-email {
+            color: #5275bd;
+            background: #e8efff;
+        }
+
+    .customer-support-contact small {
+        color: #909c98;
+        font-size: 12px;
+    }
+
+    .customer-support-contact strong {
+        display: block;
+        margin-top: 3px;
+        color: #425750;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+    .customer-support-contact p {
+        margin: 4px 0 0;
+        color: #899691;
+        font-size: 12px;
+    }
+
+.customer-support-note {
+    padding: 13px 15px;
+    display: flex;
+    gap: 9px;
+    color: #48746a;
+    background: #edf8f6;
+    border: 1px solid #cee7e2;
+    border-radius: 12px;
+}
+
+    .customer-support-note p {
+        margin: 0;
+        font-size: 13px;
+    }
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1150px) {
+
+    .dashboard-main-grid {
+        grid-template-columns: minmax(0, 1.4fr) minmax(290px, 0.72fr);
+    }
+}
+
+
+@media (max-width: 920px) {
+
+    .customer-sidebar {
+        width: 230px;
+        transform: translateX(-100%);
+        box-shadow: 15px 0 40px rgba(28, 48, 42, 0.16);
+    }
+
+        .customer-sidebar.open {
+            transform: translateX(0);
+        }
+
+    .customer-page {
+        margin-left: 0;
+    }
+
+    .customer-topbar {
+        min-height: 76px;
+        padding: 0 20px;
+    }
+
+    .sidebar-toggle {
+        display: grid;
+    }
+
+    .customer-content {
+        padding: 26px 20px 42px;
+    }
+
+    .dashboard-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-side-column {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 680px) {
+
+    .customer-content {
+        padding: 20px 14px 35px;
+    }
+
+    .dashboard-hero {
+        padding: 22px 19px;
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+        .dashboard-hero h1 {
+            font-size: 26px;
+        }
+
+    .dashboard-hero-button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .dashboard-stat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-main-grid {
+        display: block;
+    }
+
+    .dashboard-side-column {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dashboard-section-heading {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .dashboard-view-all {
+        width: 100%;
+    }
+
+    .dashboard-booking-info {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-booking-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+        .dashboard-booking-footer a {
+            width: 100%;
+        }
+}

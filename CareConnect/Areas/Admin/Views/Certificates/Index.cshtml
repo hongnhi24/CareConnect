@@ -1,0 +1,1919 @@
+﻿@model List<CareConnect.Models.ChungChi>
+
+@{
+    ViewData["Title"] = "Xác minh chứng chỉ";
+
+    int tongHoSo = Model.Count;
+
+    int choXacMinh =
+        Model.Count(x =>
+            x.TrangThaiXacMinh == "Chờ xác minh");
+
+    int daXacMinh =
+        Model.Count(x =>
+            x.TrangThaiXacMinh == "Đã xác minh");
+
+    int canBoSung =
+        Model.Count(x =>
+            x.TrangThaiXacMinh == "Yêu cầu bổ sung");
+
+    int khongHopLe =
+        Model.Count(x =>
+            x.TrangThaiXacMinh == "Không hợp lệ");
+}
+
+
+<style>
+
+    /* =====================================================
+           PAGE
+        ====================================================== */
+
+    .cc-cert-page {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 4px 0 42px;
+    }
+
+
+    /* =====================================================
+           HERO
+        ====================================================== */
+
+    .cc-cert-hero {
+        width: 100%;
+        min-height: 168px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 34px;
+        box-sizing: border-box;
+        margin-bottom: 26px;
+        padding: 28px 36px;
+        background: linear-gradient( 110deg, #fffaf2 0%, #fff7eb 100% );
+        border: 1px solid #efd5a7;
+        border-radius: 22px;
+        box-shadow: 0 10px 28px rgba(46, 61, 56, .04);
+    }
+
+
+    .cc-cert-hero-left {
+        flex: 1;
+        min-width: 0;
+    }
+
+
+    .cc-cert-eyebrow {
+        width: fit-content;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 14px;
+        padding: 7px 13px;
+        color: #ad6806;
+        background: #fdebc8;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+
+    .cc-cert-hero h1 {
+        margin: 0 0 10px;
+        color: #203e38;
+        font-size: 30px;
+        line-height: 1.25;
+        font-weight: 700;
+        letter-spacing: -.25px;
+    }
+
+
+    .cc-cert-hero-description {
+        max-width: 650px;
+        margin: 0;
+        color: #70817b;
+        font-size: 14px;
+        line-height: 1.7;
+        font-weight: 400;
+    }
+
+
+    /* =====================================================
+           HERO STATUS
+        ====================================================== */
+
+    .cc-cert-status-card {
+        width: 420px;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        padding: 15px 17px;
+        background: #ffffff;
+        border: 1px solid #ead7b6;
+        border-radius: 17px;
+    }
+
+
+    .cc-cert-status-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 11px;
+        padding-bottom: 11px;
+        border-bottom: 1px solid #f0ece5;
+    }
+
+
+    .cc-cert-status-head-icon {
+        width: 43px;
+        height: 43px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        color: #d67c00;
+        background: #fff0d8;
+        border-radius: 11px;
+        font-size: 18px;
+    }
+
+
+    .cc-cert-status-head small {
+        display: block;
+        margin-bottom: 2px;
+        color: #82908b;
+        font-size: 11px;
+        font-weight: 400;
+    }
+
+
+    .cc-cert-status-head strong {
+        display: block;
+        color: #203e38;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+
+    .cc-cert-status-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px 10px;
+    }
+
+
+    .cc-cert-status-item {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        gap: 8px;
+        padding: 5px 3px;
+    }
+
+
+        .cc-cert-status-item > span {
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+
+        .cc-cert-status-item small {
+            display: block;
+            margin-bottom: 1px;
+            color: #84918c;
+            font-size: 10px;
+            font-weight: 400;
+        }
+
+
+        .cc-cert-status-item strong {
+            display: block;
+            color: #29423c;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+
+        .cc-cert-status-item.pending > span {
+            color: #b9760d;
+            background: #fff0d1;
+        }
+
+
+        .cc-cert-status-item.verified > span {
+            color: #218263;
+            background: #e2f5ee;
+        }
+
+
+        .cc-cert-status-item.additional > span {
+            color: #b47813;
+            background: #fff2d8;
+        }
+
+
+        .cc-cert-status-item.invalid > span {
+            color: #c55450;
+            background: #fde9e7;
+        }
+
+
+    /* =====================================================
+           ALERT
+        ====================================================== */
+
+    .cc-cert-alert {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+        padding: 13px 16px;
+        border-radius: 12px;
+        font-size: 13px;
+        line-height: 1.5;
+        font-weight: 500;
+    }
+
+
+        .cc-cert-alert.success {
+            color: #28705e;
+            background: #ebf8f3;
+            border: 1px solid #cee9df;
+        }
+
+
+        .cc-cert-alert.error {
+            color: #a54d49;
+            background: #fff0ef;
+            border: 1px solid #efd0ce;
+        }
+
+
+    /* =====================================================
+           MAIN CARD
+        ====================================================== */
+
+    .cc-cert-main {
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+        background: #ffffff;
+        border: 1px solid #e4e9e7;
+        border-radius: 22px;
+        box-shadow: 0 9px 26px rgba(43, 60, 54, .04);
+    }
+
+
+    /* =====================================================
+           MAIN HEADER
+        ====================================================== */
+
+    .cc-cert-main-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 23px 26px;
+        border-bottom: 1px solid #edf0ef;
+    }
+
+
+    .cc-cert-main-title {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+    }
+
+
+    .cc-cert-main-icon {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        color: #d17a00;
+        background: #fff0d8;
+        border-radius: 13px;
+        font-size: 19px;
+    }
+
+
+    .cc-cert-main-title small {
+        display: block;
+        margin-bottom: 4px;
+        color: #c17105;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+
+    .cc-cert-main-title h2 {
+        margin: 0;
+        color: #243f39;
+        font-size: 19px;
+        line-height: 1.4;
+        font-weight: 700;
+    }
+
+
+    .cc-cert-main-title p {
+        margin: 4px 0 0;
+        color: #83908c;
+        font-size: 12px;
+        line-height: 1.55;
+        font-weight: 400;
+    }
+
+
+    .cc-cert-count {
+        flex-shrink: 0;
+        padding: 8px 13px;
+        color: #71817b;
+        background: #f2f5f3;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+           MAIN BODY
+        ====================================================== */
+
+    .cc-cert-main-body {
+        padding: 20px 24px 24px;
+    }
+
+
+    .cc-cert-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+
+    /* =====================================================
+           ITEM
+        ====================================================== */
+
+    .cc-cert-item {
+        box-sizing: border-box;
+        padding: 19px 20px;
+        background: #ffffff;
+        border: 1px solid #e4e9e7;
+        border-radius: 16px;
+        transition: border-color .18s ease, box-shadow .18s ease;
+    }
+
+
+        .cc-cert-item:hover {
+            border-color: #dfcaab;
+            box-shadow: 0 7px 20px rgba(47, 62, 57, .045);
+        }
+
+
+    /* =====================================================
+           ITEM TOP
+        ====================================================== */
+
+    .cc-cert-item-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 15px;
+    }
+
+
+    .cc-cert-title-wrap {
+        display: flex;
+        align-items: flex-start;
+        min-width: 0;
+        gap: 12px;
+    }
+
+
+    .cc-cert-item-icon {
+        width: 45px;
+        height: 45px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        color: #d47b00;
+        background: #fff0d8;
+        border-radius: 12px;
+        font-size: 18px;
+    }
+
+
+    .cc-cert-name {
+        margin: 1px 0 5px;
+        color: #243f39;
+        font-size: 16px;
+        line-height: 1.45;
+        font-weight: 700;
+    }
+
+
+    .cc-cert-caregiver {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0;
+        color: #81908a;
+        font-size: 12px;
+        line-height: 1.5;
+        font-weight: 400;
+    }
+
+
+    .cc-cert-caregiver-name {
+        color: #52645e;
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+           STATUS BADGE
+        ====================================================== */
+
+    .cc-cert-badge {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 11px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+
+        .cc-cert-badge.pending {
+            color: #95620d;
+            background: #fff2d2;
+        }
+
+
+        .cc-cert-badge.verified {
+            color: #19735c;
+            background: #e2f5ee;
+        }
+
+
+        .cc-cert-badge.additional {
+            color: #a86d13;
+            background: #fff0d8;
+        }
+
+
+        .cc-cert-badge.invalid {
+            color: #b34c49;
+            background: #fde9e7;
+        }
+
+
+    /* =====================================================
+           INFO
+        ====================================================== */
+
+    .cc-cert-info {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr .7fr;
+        gap: 12px;
+        margin-bottom: 14px;
+        padding: 14px 16px;
+        background: #f7f9f8;
+        border-radius: 11px;
+    }
+
+
+    .cc-cert-info-item {
+        min-width: 0;
+    }
+
+
+        .cc-cert-info-item small {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 5px;
+            color: #929f9a;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+
+    .cc-cert-info-value {
+        display: block;
+        color: #4d615a;
+        font-size: 13px;
+        line-height: 1.55;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =====================================================
+           FILE AREA
+        ====================================================== */
+
+    .cc-cert-file-area {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+
+        .cc-cert-file-area form {
+            margin: 0;
+        }
+
+
+    .cc-cert-file-button {
+        min-height: 39px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 0 14px;
+        color: #b36a05;
+        background: #fff9ef;
+        border: 1px solid #ecd1a2;
+        border-radius: 9px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+
+    .cc-cert-no-file {
+        min-height: 39px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 0 14px;
+        color: #a35350;
+        background: #fff0ef;
+        border: 1px solid #efd1cf;
+        border-radius: 9px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+
+    /* =====================================================
+           REQUEST FILE BUTTON
+        ====================================================== */
+
+    .cc-cert-request-file {
+        min-height: 39px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 0 14px;
+        color: #ffffff;
+        background: #df8a12;
+        border: 0;
+        border-radius: 9px;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .18s ease, transform .18s ease;
+    }
+
+
+        .cc-cert-request-file:hover {
+            background: #cb7907;
+            transform: translateY(-1px);
+        }
+
+
+    .cc-cert-request-sent {
+        min-height: 39px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 0 14px;
+        color: #28745f;
+        background: #eaf7f2;
+        border: 1px solid #cfe9df;
+        border-radius: 9px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+
+    /* =====================================================
+           NOTE
+        ====================================================== */
+
+    .cc-cert-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 14px;
+        padding: 11px 13px;
+        color: #79643e;
+        background: #fff9ec;
+        border: 1px solid #efdfbd;
+        border-radius: 9px;
+        font-size: 12px;
+        line-height: 1.6;
+        font-weight: 400;
+    }
+
+
+        .cc-cert-note i {
+            margin-top: 2px;
+            color: #ca8113;
+        }
+
+
+    .cc-cert-note-label {
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+           VERIFIED
+        ====================================================== */
+
+    .cc-cert-verified {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-top: 14px;
+        padding: 12px 14px;
+        color: #42665d;
+        background: #f0faf6;
+        border: 1px solid #d9eee6;
+        border-radius: 10px;
+    }
+
+
+    .cc-cert-verified-icon {
+        width: 37px;
+        height: 37px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        color: #218263;
+        background: #dcf2e9;
+        border-radius: 10px;
+    }
+
+
+    .cc-cert-verified small {
+        display: block;
+        margin-bottom: 2px;
+        color: #81908b;
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+
+    .cc-cert-verified-value {
+        color: #42645b;
+        font-size: 12px;
+        line-height: 1.55;
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+           REVIEW
+        ====================================================== */
+
+    .cc-cert-review {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #edf0ef;
+    }
+
+
+    .cc-cert-review-heading {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 11px;
+        color: #586a64;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+
+    .cc-cert-review-panel {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        overflow: hidden;
+        background: #f8faf9;
+        border: 1px solid #e4e9e7;
+        border-radius: 12px;
+    }
+
+
+    .cc-cert-review-column {
+        min-width: 0;
+        padding: 14px;
+    }
+
+
+        .cc-cert-review-column +
+        .cc-cert-review-column {
+            border-left: 1px solid #e4e9e7;
+        }
+
+
+    .cc-cert-review-label {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 9px;
+        color: #50625c;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+
+    .cc-cert-review-label-icon {
+        width: 26px;
+        height: 26px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        border-radius: 7px;
+        font-size: 11px;
+    }
+
+
+    .cc-cert-review-column.verify
+    .cc-cert-review-label-icon {
+        color: #218263;
+        background: #e2f5ee;
+    }
+
+
+    .cc-cert-review-column.additional
+    .cc-cert-review-label-icon {
+        color: #b47812;
+        background: #fff0d5;
+    }
+
+
+    .cc-cert-review-column.invalid
+    .cc-cert-review-label-icon {
+        color: #c3534e;
+        background: #fde9e7;
+    }
+
+
+    /* =====================================================
+           CONTROLS
+        ====================================================== */
+
+    .cc-cert-control {
+        width: 100%;
+        min-height: 40px;
+        box-sizing: border-box;
+        margin-bottom: 9px;
+        padding: 8px 11px;
+        color: #4b5f58;
+        background: #ffffff;
+        border: 1px solid #dbe3df;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 400;
+        outline: none;
+    }
+
+
+        .cc-cert-control:focus {
+            border-color: #e0ad58;
+            box-shadow: 0 0 0 3px rgba(224, 173, 88, .10);
+        }
+
+
+    /* =====================================================
+           REVIEW BUTTONS
+        ====================================================== */
+
+    .cc-cert-action-button {
+        width: 100%;
+        min-height: 39px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        border: 0;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+
+        .cc-cert-action-button.verify {
+            color: #ffffff;
+            background: #279473;
+        }
+
+
+        .cc-cert-action-button.additional {
+            color: #805a19;
+            background: #ffe4a9;
+        }
+
+
+        .cc-cert-action-button.invalid {
+            color: #ffffff;
+            background: #d15752;
+        }
+
+
+    /* =====================================================
+           EMPTY
+        ====================================================== */
+
+    .cc-cert-empty {
+        padding: 55px 20px;
+        text-align: center;
+    }
+
+
+    .cc-cert-empty-icon {
+        width: 60px;
+        height: 60px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 13px;
+        color: #d17a00;
+        background: #fff0d8;
+        border-radius: 16px;
+        font-size: 24px;
+    }
+
+
+    .cc-cert-empty h3 {
+        margin: 0 0 6px;
+        color: #344a44;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+
+    .cc-cert-empty p {
+        margin: 0;
+        color: #87948f;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+
+    /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+    @@media (min-width: 1250px) {
+
+        .cc-cert-hero h1 {
+            white-space: nowrap;
+        }
+    }
+
+
+    @@media (max-width: 1100px) {
+
+        .cc-cert-hero {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+
+        .cc-cert-status-card {
+            width: 100%;
+        }
+
+
+        .cc-cert-info {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+
+    @@media (max-width: 900px) {
+
+        .cc-cert-review-panel {
+            grid-template-columns: 1fr;
+        }
+
+
+        .cc-cert-review-column +
+        .cc-cert-review-column {
+            border-left: 0;
+            border-top: 1px solid #e4e9e7;
+        }
+    }
+
+
+    @@media (max-width: 600px) {
+
+        .cc-cert-hero {
+            padding: 24px 20px;
+        }
+
+
+            .cc-cert-hero h1 {
+                font-size: 25px;
+            }
+
+
+        .cc-cert-status-grid {
+            grid-template-columns: 1fr;
+        }
+
+
+        .cc-cert-main-header {
+            align-items: flex-start;
+        }
+
+
+        .cc-cert-main-body {
+            padding: 15px;
+        }
+
+
+        .cc-cert-item {
+            padding: 16px;
+        }
+
+
+        .cc-cert-item-top {
+            flex-direction: column;
+        }
+
+
+        .cc-cert-info {
+            grid-template-columns: 1fr;
+        }
+    }
+
+</style>
+
+
+<div class="cc-cert-page">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="cc-cert-hero">
+
+
+        <div class="cc-cert-hero-left">
+
+
+            <span class="cc-cert-eyebrow">
+
+                <i class="bi bi-shield-check"></i>
+
+                HỒ SƠ CHUYÊN MÔN
+
+            </span>
+
+
+            <h1>
+                Xác minh bằng cấp &amp; chứng chỉ
+            </h1>
+
+
+            <p class="cc-cert-hero-description">
+                Kiểm tra bằng cấp, chứng chỉ chuyên môn và hồ sơ
+                do người chăm sóc gửi lên trước khi xác nhận năng lực
+                làm việc trên CareConnect.
+            </p>
+
+        </div>
+
+
+
+        <div class="cc-cert-status-card">
+
+
+            <div class="cc-cert-status-head">
+
+
+                <span class="cc-cert-status-head-icon">
+
+                    <i class="bi bi-patch-check"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        Tình trạng hồ sơ
+                    </small>
+
+                    <strong>
+                        @tongHoSo chứng chỉ
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="cc-cert-status-grid">
+
+
+                <div class="
+                    cc-cert-status-item
+                    pending">
+
+                    <span>
+                        <i class="bi bi-hourglass-split"></i>
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Chờ xác minh
+                        </small>
+
+                        <strong>
+                            @choXacMinh
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="
+                    cc-cert-status-item
+                    verified">
+
+                    <span>
+                        <i class="bi bi-patch-check-fill"></i>
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Đã xác minh
+                        </small>
+
+                        <strong>
+                            @daXacMinh
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="
+                    cc-cert-status-item
+                    additional">
+
+                    <span>
+                        <i class="bi bi-arrow-repeat"></i>
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Cần bổ sung
+                        </small>
+
+                        <strong>
+                            @canBoSung
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="
+                    cc-cert-status-item
+                    invalid">
+
+                    <span>
+                        <i class="bi bi-x-circle-fill"></i>
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Không hợp lệ
+                        </small>
+
+                        <strong>
+                            @khongHopLe
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         ALERT
+    ====================================================== -->
+    @if (TempData["Success"] is string success)
+    {
+        <div class="
+            cc-cert-alert
+            success">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <span>
+                @success
+            </span>
+
+        </div>
+    }
+
+
+    @if (TempData["Error"] is string error)
+    {
+        <div class="
+            cc-cert-alert
+            error">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            <span>
+                @error
+            </span>
+
+        </div>
+    }
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <section class="cc-cert-main">
+
+
+        <div class="cc-cert-main-header">
+
+
+            <div class="cc-cert-main-title">
+
+
+                <span class="cc-cert-main-icon">
+
+                    <i class="bi bi-file-earmark-medical"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        THÔNG TIN CHUYÊN MÔN
+                    </small>
+
+                    <h2>
+                        Danh sách hồ sơ chứng chỉ
+                    </h2>
+
+                    <p>
+                        Hồ sơ đang chờ xác minh được ưu tiên hiển thị trước.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <span class="cc-cert-count">
+
+                @tongHoSo hồ sơ
+
+            </span>
+
+        </div>
+
+
+
+        <div class="cc-cert-main-body">
+
+
+            @if (Model.Count == 0)
+            {
+                <div class="cc-cert-empty">
+
+
+                    <span class="cc-cert-empty-icon">
+
+                        <i class="bi bi-patch-check"></i>
+
+                    </span>
+
+
+                    <h3>
+                        Chưa có hồ sơ chứng chỉ
+                    </h3>
+
+
+                    <p>
+                        Khi người chăm sóc gửi chứng chỉ,
+                        hồ sơ sẽ xuất hiện tại đây.
+                    </p>
+
+                </div>
+            }
+            else
+            {
+                <div class="cc-cert-list">
+
+
+                    @foreach (var item in Model)
+                    {
+                        string statusClass =
+                            item.TrangThaiXacMinh
+                                == "Đã xác minh"
+                                    ? "verified"
+                                : item.TrangThaiXacMinh
+                                    == "Yêu cầu bổ sung"
+                                    ? "additional"
+                                : item.TrangThaiXacMinh
+                                    == "Không hợp lệ"
+                                    ? "invalid"
+                                : "pending";
+
+
+                        string statusIcon =
+                            item.TrangThaiXacMinh
+                                == "Đã xác minh"
+                                    ? "bi-patch-check-fill"
+                                : item.TrangThaiXacMinh
+                                    == "Yêu cầu bổ sung"
+                                    ? "bi-arrow-repeat"
+                                : item.TrangThaiXacMinh
+                                    == "Không hợp lệ"
+                                    ? "bi-x-circle-fill"
+                                : "bi-hourglass-split";
+
+
+                        string statusText =
+                            string.IsNullOrWhiteSpace(
+                                item.TrangThaiXacMinh)
+                                ? "Chờ xác minh"
+                                : item.TrangThaiXacMinh;
+
+
+
+                        <article class="cc-cert-item">
+
+
+                            <!-- =============================
+                                 TOP
+                            ============================== -->
+
+                            <div class="cc-cert-item-top">
+
+
+                                <div class="cc-cert-title-wrap">
+
+
+                                    <span class="cc-cert-item-icon">
+
+                                        <i class="bi bi-award"></i>
+
+                                    </span>
+
+
+                                    <div>
+
+                                        <h3 class="cc-cert-name">
+
+                                            @item.TenChungChi
+
+                                        </h3>
+
+
+                                        <p class="cc-cert-caregiver">
+
+                                            <i class="bi bi-person"></i>
+
+                                            <span>
+                                                Người chăm sóc:
+                                            </span>
+
+                                            <span class="
+                                                cc-cert-caregiver-name">
+
+                                                @(item.NguoiChamSoc?.HoTen
+                                                    ?? "Không xác định")
+
+                                            </span>
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <span class="
+                                    cc-cert-badge
+                                    @statusClass">
+
+                                    <i class="bi @statusIcon"></i>
+
+                                    @statusText
+
+                                </span>
+
+                            </div>
+
+
+
+                            <!-- =============================
+                                 INFO
+                            ============================== -->
+
+                            <div class="cc-cert-info">
+
+
+                                <div class="cc-cert-info-item">
+
+                                    <small>
+
+                                        <i class="bi bi-building"></i>
+
+                                        Đơn vị cấp
+
+                                    </small>
+
+
+                                    <span class="
+                                        cc-cert-info-value">
+
+                                        @(string.IsNullOrWhiteSpace(
+                                            item.DonViCap)
+                                            ? "Chưa cập nhật"
+                                            : item.DonViCap)
+
+                                    </span>
+
+                                </div>
+
+
+
+                                <div class="cc-cert-info-item">
+
+                                    <small>
+
+                                        <i class="bi bi-calendar-check"></i>
+
+                                        Ngày cấp
+
+                                    </small>
+
+
+                                    <span class="
+                                        cc-cert-info-value">
+
+                                        @(item.NgayCap.HasValue
+                                            ? item.NgayCap.Value
+                                                .ToString("dd/MM/yyyy")
+                                            : "Chưa cập nhật")
+
+                                    </span>
+
+                                </div>
+
+
+
+                                <div class="cc-cert-info-item">
+
+                                    <small>
+
+                                        <i class="bi bi-calendar-x"></i>
+
+                                        Ngày hết hạn
+
+                                    </small>
+
+
+                                    <span class="
+                                        cc-cert-info-value">
+
+                                        @(item.NgayHetHan.HasValue
+                                            ? item.NgayHetHan.Value
+                                                .ToString("dd/MM/yyyy")
+                                            : "Không thời hạn")
+
+                                    </span>
+
+                                </div>
+
+
+
+                                <div class="cc-cert-info-item">
+
+                                    <small>
+
+                                        <i class="bi bi-hash"></i>
+
+                                        Mã chứng chỉ
+
+                                    </small>
+
+
+                                    <span class="
+                                        cc-cert-info-value">
+
+                                        #@item.MaChungChi
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =============================
+                                 FILE
+                            ============================== -->
+
+                            <div class="cc-cert-file-area">
+
+
+                                @if (!string.IsNullOrWhiteSpace(
+                                    item.FileChungChi))
+                                {
+                                    <!-- CÓ FILE -->
+
+                                    <a asp-area="Admin"
+                                       asp-controller="Certificates"
+                                       asp-action="ViewFile"
+                                       asp-route-id="@item.MaChungChi"
+                                       target="_blank"
+                                       class="cc-cert-file-button">
+
+                                        <i class="bi bi-file-earmark-text"></i>
+
+                                        Xem file chứng chỉ
+
+                                    </a>
+                                }
+                                else
+                                {
+                                    <!-- CHƯA CÓ FILE -->
+
+                                    <span class="cc-cert-no-file">
+
+                                        <i class="bi bi-file-earmark-x"></i>
+
+                                        Chưa có file đính kèm
+
+                                    </span>
+
+
+                                    @if (
+                                        item.TrangThaiXacMinh
+                                            != "Yêu cầu bổ sung")
+                                    {
+                                        <!-- CHƯA GỬI YÊU CẦU -->
+
+                                        <form asp-area="Admin"
+                                              asp-controller="Certificates"
+                                              asp-action="RequestFile"
+                                              method="post">
+
+
+                                            @Html.AntiForgeryToken()
+
+
+                                            <input type="hidden"
+                                                   name="id"
+                                                   value="@item.MaChungChi" />
+
+
+                                            <button type="submit"
+                                                    class="cc-cert-request-file">
+
+                                                <i class="bi bi-send"></i>
+
+                                                Yêu cầu bổ sung file
+
+                                            </button>
+
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <!-- ĐÃ GỬI YÊU CẦU -->
+
+                                        <span class="cc-cert-request-sent">
+
+                                            <i class="bi bi-check-circle"></i>
+
+                                            Đã gửi yêu cầu
+
+                                        </span>
+                                    }
+                                }
+
+                            </div>
+
+
+
+                            <!-- =============================
+                                 TRẠNG THÁI CHƯA CÓ FILE
+                            ============================== -->
+                            @if (string.IsNullOrWhiteSpace(
+                                                            item.FileChungChi))
+                            {
+                                @if (
+                                    item.TrangThaiXacMinh
+                                        == "Yêu cầu bổ sung")
+                                {
+                                    <div class="cc-cert-note">
+
+                                        <i class="bi bi-send-check"></i>
+
+                                        <div>
+                                            Đã gửi yêu cầu cho người chăm sóc.
+                                            Hệ thống đang chờ người chăm sóc
+                                            bổ sung ảnh hoặc PDF chứng chỉ.
+                                        </div>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="cc-cert-note">
+
+                                        <i class="bi bi-info-circle"></i>
+
+                                        <div>
+                                            Hồ sơ này chưa có file đính kèm.
+                                            Hãy gửi yêu cầu để người chăm sóc
+                                            bổ sung file trước khi xác minh.
+                                        </div>
+
+                                    </div>
+                                }
+                            }
+
+
+
+                            <!-- =============================
+                                 GHI CHÚ ADMIN
+                            ============================== -->
+                            @if (
+                                                            !string.IsNullOrWhiteSpace(
+                                                                item.GhiChuXacMinh)
+                                                            &&
+                                                            !string.IsNullOrWhiteSpace(
+                                                                item.FileChungChi))
+                            {
+                                <div class="cc-cert-note">
+
+                                    <i class="bi bi-chat-left-text"></i>
+
+                                    <div>
+
+                                        <span class="
+                                            cc-cert-note-label">
+
+                                            Ghi chú:
+
+                                        </span>
+
+                                        @item.GhiChuXacMinh
+
+                                    </div>
+
+                                </div>
+                            }
+
+
+
+                            <!-- =============================
+                                 VERIFIED
+                            ============================== -->
+                            @if (
+                                                            item.TrangThaiXacMinh
+                                                                == "Đã xác minh")
+                            {
+                                <div class="cc-cert-verified">
+
+
+                                    <span class="
+                                        cc-cert-verified-icon">
+
+                                        <i class="bi bi-patch-check-fill"></i>
+
+                                    </span>
+
+
+                                    <div>
+
+                                        <small>
+                                            Hồ sơ đã được xác minh
+                                        </small>
+
+
+                                        <div class="
+                                            cc-cert-verified-value">
+
+                                            @(string.IsNullOrWhiteSpace(
+                                                item.PhuongThucXacMinh)
+                                                ? "Kiểm tra hồ sơ"
+                                                : item.PhuongThucXacMinh)
+
+
+                                            @if (item.NgayXacMinh.HasValue)
+                                            {
+                                                <text>
+
+                                                    ·
+
+                                                    @item.NgayXacMinh.Value
+                                                    .ToString(
+                                                    "dd/MM/yyyy HH:mm")
+
+                                                </text>
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            }
+
+
+
+                            <!-- =============================
+                                 REVIEW
+                                 CHỈ KHI CÓ FILE + CHỜ XÁC MINH
+                            ============================== -->
+                            @if (
+                                                            item.TrangThaiXacMinh
+                                                                == "Chờ xác minh"
+                                                            &&
+                                                            !string.IsNullOrWhiteSpace(
+                                                                item.FileChungChi))
+                            {
+                                <div class="cc-cert-review">
+
+
+                                    <div class="
+                                        cc-cert-review-heading">
+
+                                        <i class="bi bi-shield-check"></i>
+
+                                        Kiểm duyệt hồ sơ
+
+                                    </div>
+
+
+
+                                    <div class="
+                                        cc-cert-review-panel">
+
+
+                                        <!-- VERIFY -->
+
+                                        <div class="
+                                            cc-cert-review-column
+                                            verify">
+
+
+                                            <div class="
+                                                cc-cert-review-label">
+
+                                                <span class="
+                                                    cc-cert-review-label-icon">
+
+                                                    <i class="bi bi-check-lg"></i>
+
+                                                </span>
+
+                                                Xác minh
+
+                                            </div>
+
+
+                                            <form asp-area="Admin"
+                                                  asp-controller="Certificates"
+                                                  asp-action="Verify"
+                                                  method="post">
+
+
+                                                @Html.AntiForgeryToken()
+
+
+                                                <input type="hidden"
+                                                       name="id"
+                                                       value="@item.MaChungChi" />
+
+
+                                                <select name="phuongThucXacMinh"
+                                                        class="cc-cert-control">
+
+                                                    <option value="Kiểm tra hồ sơ online">
+                                                        Kiểm tra hồ sơ online
+                                                    </option>
+
+                                                    <option value="Đối chiếu đơn vị cấp">
+                                                        Đối chiếu đơn vị cấp
+                                                    </option>
+
+                                                    <option value="Xác minh trực tiếp">
+                                                        Xác minh trực tiếp
+                                                    </option>
+
+                                                </select>
+
+
+                                                <button type="submit"
+                                                        class="
+                                                    cc-cert-action-button
+                                                    verify">
+
+                                                    <i class="bi bi-check-circle"></i>
+
+                                                    Xác minh hồ sơ
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+
+
+                                        <!-- REQUEST SUPPLEMENT -->
+
+                                        <div class="
+                                            cc-cert-review-column
+                                            additional">
+
+
+                                            <div class="
+                                                cc-cert-review-label">
+
+                                                <span class="
+                                                    cc-cert-review-label-icon">
+
+                                                    <i class="bi bi-arrow-repeat"></i>
+
+                                                </span>
+
+                                                Yêu cầu bổ sung
+
+                                            </div>
+
+
+                                            <form asp-area="Admin"
+                                                  asp-controller="Certificates"
+                                                  asp-action="RequestSupplement"
+                                                  method="post">
+
+
+                                                @Html.AntiForgeryToken()
+
+
+                                                <input type="hidden"
+                                                       name="id"
+                                                       value="@item.MaChungChi" />
+
+
+                                                <input type="text"
+                                                       name="ghiChu"
+                                                       class="cc-cert-control"
+                                                       placeholder="Ví dụ: File bị mờ, thiếu trang..."
+                                                       required />
+
+
+                                                <button type="submit"
+                                                        class="
+                                                    cc-cert-action-button
+                                                    additional">
+
+                                                    <i class="bi bi-arrow-repeat"></i>
+
+                                                    Yêu cầu bổ sung
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+
+
+                                        <!-- REJECT -->
+
+                                        <div class="
+                                            cc-cert-review-column
+                                            invalid">
+
+
+                                            <div class="
+                                                cc-cert-review-label">
+
+                                                <span class="
+                                                    cc-cert-review-label-icon">
+
+                                                    <i class="bi bi-x-lg"></i>
+
+                                                </span>
+
+                                                Không hợp lệ
+
+                                            </div>
+
+
+                                            <form asp-area="Admin"
+                                                  asp-controller="Certificates"
+                                                  asp-action="Reject"
+                                                  method="post">
+
+
+                                                @Html.AntiForgeryToken()
+
+
+                                                <input type="hidden"
+                                                       name="id"
+                                                       value="@item.MaChungChi" />
+
+
+                                                <input type="text"
+                                                       name="ghiChu"
+                                                       class="cc-cert-control"
+                                                       placeholder="Nhập lý do từ chối..."
+                                                       required />
+
+
+                                                <button type="submit"
+                                                        class="
+                                                    cc-cert-action-button
+                                                    invalid">
+
+                                                    <i class="bi bi-x-circle"></i>
+
+                                                    Không hợp lệ
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            }
+
+                        </article>
+                    }
+
+                </div>
+            }
+
+        </div>
+
+    </section>
+
+</div>

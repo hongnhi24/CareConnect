@@ -1,0 +1,190 @@
+﻿@model CareConnect.ViewModels.RegisterCustomerViewModel
+
+@{
+    ViewData["Title"] = "Đăng ký khách hàng";
+}
+
+<section class="customer-register-page">
+    <div class="customer-register-heading">
+        <div class="customer-register-icon">
+            <i class="bi bi-person-plus"></i>
+        </div>
+
+        <h1>Tạo tài khoản CareConnect</h1>
+
+        <p>
+            Bắt đầu hành trình chăm sóc người thân yêu cùng chúng tôi
+        </p>
+    </div>
+
+    <div class="customer-register-card">
+        <div class="customer-register-title">
+            <a asp-controller="Account"
+               asp-action="Register"
+               class="customer-back-button"
+               aria-label="Quay lại chọn vai trò">
+
+                <i class="bi bi-arrow-left"></i>
+            </a>
+
+            <div>
+                <h2>Đăng ký Gia đình</h2>
+                <p>Tạo tài khoản để tìm người chăm sóc</p>
+            </div>
+        </div>
+
+        <form asp-controller="Account"
+              asp-action="RegisterCustomer"
+              method="post"
+              class="customer-register-form">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="register-validation-summary">
+            </div>
+
+            <div class="customer-form-group">
+                <label asp-for="HoTen"></label>
+
+                <input asp-for="HoTen"
+                       placeholder="Nguyễn Văn A"
+                       autocomplete="name" />
+
+                <span asp-validation-for="HoTen"
+                      class="field-validation">
+                </span>
+            </div>
+
+            <div class="customer-form-group">
+                <label asp-for="SoDienThoai"></label>
+
+                <input asp-for="SoDienThoai"
+                       placeholder="0912 345 678"
+                       autocomplete="tel"
+                       inputmode="tel" />
+
+                <span asp-validation-for="SoDienThoai"
+                      class="field-validation">
+                </span>
+            </div>
+
+            <div class="customer-form-group">
+                <label asp-for="Email"></label>
+
+                <input asp-for="Email"
+                       placeholder="email@example.com"
+                       autocomplete="email" />
+
+                <span asp-validation-for="Email"
+                      class="field-validation">
+                </span>
+            </div>
+
+            <div class="customer-form-group">
+                <label asp-for="MatKhau"></label>
+
+                <div class="customer-password-wrapper">
+                    <input asp-for="MatKhau"
+                           id="customerPassword"
+                           placeholder="Tối thiểu 8 ký tự"
+                           autocomplete="new-password" />
+
+                    <button type="button"
+                            class="customer-password-toggle"
+                            data-target="customerPassword"
+                            aria-label="Hiện mật khẩu">
+
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+
+                <span asp-validation-for="MatKhau"
+                      class="field-validation">
+                </span>
+            </div>
+
+            <div class="customer-form-group">
+                <label asp-for="XacNhanMatKhau"></label>
+
+                <div class="customer-password-wrapper">
+                    <input asp-for="XacNhanMatKhau"
+                           id="customerConfirmPassword"
+                           placeholder="Nhập lại mật khẩu"
+                           autocomplete="new-password" />
+
+                    <button type="button"
+                            class="customer-password-toggle"
+                            data-target="customerConfirmPassword"
+                            aria-label="Hiện mật khẩu">
+
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+
+                <span asp-validation-for="XacNhanMatKhau"
+                      class="field-validation">
+                </span>
+            </div>
+
+            <div class="customer-terms">
+                <label>
+                    <input asp-for="DongYDieuKhoan" />
+
+                    <span>
+                        Tôi đồng ý với
+                        <a href="#">Điều khoản dịch vụ</a>
+                        và
+                        <a href="#">Chính sách bảo mật</a>
+                    </span>
+                </label>
+
+                <span asp-validation-for="DongYDieuKhoan"
+                      class="field-validation">
+                </span>
+            </div>
+
+            <button type="submit"
+                    class="customer-register-button">
+                Tạo tài khoản
+            </button>
+
+            <div class="customer-login-link">
+                Đã có tài khoản?
+
+                <a asp-controller="Account"
+                   asp-action="Login">
+                    Đăng nhập
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.querySelectorAll(".customer-password-toggle")
+            .forEach(function(button) {
+                button.addEventListener("click", function() {
+                    const targetId = this.dataset.target;
+                    const input = document.getElementById(targetId);
+
+                    if (!input) {
+                        return;
+                    }
+
+                    const isPassword = input.type === "password";
+
+                    input.type = isPassword
+                        ? "text"
+                        : "password";
+
+                    this.innerHTML = isPassword
+                        ? '<i class="bi bi-eye-slash"></i>'
+                        : '<i class="bi bi-eye"></i>';
+                });
+            });
+    </script>
+}

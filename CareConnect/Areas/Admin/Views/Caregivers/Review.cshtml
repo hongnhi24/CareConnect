@@ -1,0 +1,1053 @@
+﻿@model AdminCaregiverReviewViewModel
+
+@{
+    ViewData["Title"] = "Xem hồ sơ người chăm sóc";
+
+    string hoTen =
+        string.IsNullOrWhiteSpace(Model.HoTen)
+            ? "Người chăm sóc"
+            : Model.HoTen;
+
+    string chuCaiDau =
+        hoTen.Substring(0, 1).ToUpper();
+}
+
+
+<div class="caregiver-review-page">
+
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="caregiver-alert success">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <span>
+                @TempData["Success"]
+            </span>
+
+        </div>
+    }
+
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="caregiver-alert error">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            <span>
+                @TempData["Error"]
+            </span>
+
+        </div>
+    }
+
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="caregiver-review-hero">
+
+
+        <div class="caregiver-review-hero-left">
+
+
+            <span class="caregiver-review-eyebrow">
+
+                <i class="bi bi-shield-check"></i>
+
+                XÉT DUYỆT HỒ SƠ
+
+            </span>
+
+
+            <h1>
+                Chi tiết người chăm sóc
+            </h1>
+
+
+            <p>
+                Kiểm tra thông tin cá nhân, chuyên môn,
+                kinh nghiệm và điều kiện hoạt động trước
+                khi đưa ra quyết định xét duyệt.
+            </p>
+
+        </div>
+
+
+        <div class="caregiver-review-hero-actions">
+
+
+            <a asp-area="Admin"
+               asp-controller="Caregivers"
+               asp-action="Index"
+               class="review-back-list">
+
+                <i class="bi bi-arrow-left"></i>
+
+                <span>
+                    Danh sách hồ sơ
+                </span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MAIN LAYOUT
+    ====================================================== -->
+
+    <div class="caregiver-review-layout">
+
+
+        <!-- =================================================
+             LEFT
+        ================================================== -->
+
+        <main class="caregiver-review-main">
+
+
+            <!-- =============================================
+                 PROFILE
+            ============================================== -->
+
+            <section class="review-profile-header">
+
+
+                <div class="review-cover"></div>
+
+
+                <div class="review-profile-content">
+
+
+                    <span class="review-profile-avatar">
+
+                        @chuCaiDau
+
+                    </span>
+
+
+                    <div class="review-profile-name">
+
+
+                        <div class="review-name-line">
+
+
+                            <h2>
+                                @hoTen
+                            </h2>
+
+
+                            <span class="@GetCaregiverStatusClass(
+                                                                Model.TrangThai)">
+
+                                @Model.TrangThai
+
+                            </span>
+
+                        </div>
+
+
+                        <p class="review-specialty">
+
+                            <i class="bi bi-award"></i>
+
+                            @(
+                                string.IsNullOrWhiteSpace(
+                                    Model.ChuyenMon)
+                                    ? "Chưa cập nhật chuyên môn"
+                                    : Model.ChuyenMon
+                            )
+
+                        </p>
+
+
+                        <div class="review-basic-meta">
+
+
+                            <span>
+
+                                <i class="bi bi-envelope"></i>
+
+                                @Model.Email
+
+                            </span>
+
+
+                            <span>
+
+                                <i class="bi bi-telephone"></i>
+
+                                @Model.SoDienThoai
+
+                            </span>
+
+
+                            <span>
+
+                                <i class="bi bi-calendar3"></i>
+
+                                Gửi hồ sơ:
+                                @Model.NgayTao.ToString("dd/MM/yyyy")
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 PERSONAL INFORMATION
+            ============================================== -->
+
+            <section class="review-section-card">
+
+
+                <div class="review-section-title">
+
+
+                    <span>
+
+                        <i class="bi bi-person-vcard"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            THÔNG TIN CƠ BẢN
+                        </small>
+
+                        <h2>
+                            Thông tin cá nhân
+                        </h2>
+
+                        <p>
+                            Thông tin nhận diện và liên hệ
+                            do người chăm sóc cung cấp.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="review-information-grid">
+
+
+                    <div class="review-info-item">
+
+
+                        <span>
+
+                            <i class="bi bi-person"></i>
+
+                        </span>
+
+
+                        <div>
+
+                            <small>
+                                Họ và tên
+                            </small>
+
+                            <strong>
+                                @Model.HoTen
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="review-info-item">
+
+
+                        <span>
+
+                            <i class="bi bi-envelope"></i>
+
+                        </span>
+
+
+                        <div>
+
+                            <small>
+                                Email
+                            </small>
+
+                            <strong>
+                                @Model.Email
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="review-info-item">
+
+
+                        <span>
+
+                            <i class="bi bi-telephone"></i>
+
+                        </span>
+
+
+                        <div>
+
+                            <small>
+                                Số điện thoại
+                            </small>
+
+                            <strong>
+                                @Model.SoDienThoai
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="review-info-item">
+
+
+                        <span>
+
+                            <i class="bi bi-person-badge"></i>
+
+                        </span>
+
+
+                        <div>
+
+                            <small>
+                                Tên đăng nhập
+                            </small>
+
+                            <strong>
+                                @Model.TenDangNhap
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 PROFESSIONAL
+            ============================================== -->
+
+            <section class="review-section-card">
+
+
+                <div class="review-section-title">
+
+
+                    <span class="professional">
+
+                        <i class="bi bi-award"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            HỒ SƠ CHUYÊN MÔN
+                        </small>
+
+                        <h2>
+                            Năng lực chuyên môn
+                        </h2>
+
+                        <p>
+                            Bằng cấp, chuyên môn và kinh nghiệm
+                            làm việc đã khai báo.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="review-professional-grid">
+
+
+                    <div class="review-professional-item">
+
+
+                        <span class="review-professional-icon">
+
+                            <i class="bi bi-mortarboard"></i>
+
+                        </span>
+
+
+                        <small>
+                            Bằng cấp
+                        </small>
+
+                        <strong>
+                            @Model.BangCap
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="review-professional-item">
+
+
+                        <span class="review-professional-icon">
+
+                            <i class="bi bi-patch-check"></i>
+
+                        </span>
+
+
+                        <small>
+                            Chuyên môn
+                        </small>
+
+                        <strong>
+                            @Model.ChuyenMon
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="review-professional-item">
+
+
+                        <span class="review-professional-icon">
+
+                            <i class="bi bi-briefcase"></i>
+
+                        </span>
+
+
+                        <small>
+                            Kinh nghiệm
+                        </small>
+
+                        <strong>
+                            @Model.KinhNghiem năm
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="review-professional-item">
+
+
+                        <span class="review-professional-icon">
+
+                            <i class="bi bi-star"></i>
+
+                        </span>
+
+
+                        <small>
+                            Đánh giá hiện tại
+                        </small>
+
+                        <strong>
+                            @Model.DanhGia.ToString("0.0") / 5
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 SERVICE
+            ============================================== -->
+
+            <section class="review-section-card">
+
+
+                <div class="review-section-title">
+
+
+                    <span class="service">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            THÔNG TIN HOẠT ĐỘNG
+                        </small>
+
+                        <h2>
+                            Khu vực &amp; mức giá
+                        </h2>
+
+                        <p>
+                            Khu vực nhận chăm sóc và mức giá
+                            dịch vụ người chăm sóc đề xuất.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="review-service-grid">
+
+
+                    <div class="review-location-card">
+
+
+                        <span>
+
+                            <i class="bi bi-pin-map"></i>
+
+                        </span>
+
+
+                        <div>
+
+                            <small>
+                                Khu vực hoạt động
+                            </small>
+
+                            <strong>
+                                @Model.KhuVucHoatDong
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="review-price-card">
+
+
+                        <span>
+
+                            <i class="bi bi-cash-stack"></i>
+
+                        </span>
+
+
+                        <div>
+
+                            <small>
+                                Giá dịch vụ đề xuất
+                            </small>
+
+                            <strong>
+
+                                @Model.GiaTheoGio.ToString("#,##0")đ
+
+                                <em>
+                                    / giờ
+                                </em>
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 INTRODUCTION
+            ============================================== -->
+
+            <section class="review-section-card">
+
+
+                <div class="review-section-title">
+
+
+                    <span class="introduction">
+
+                        <i class="bi bi-chat-quote"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            GIỚI THIỆU
+                        </small>
+
+                        <h2>
+                            Giới thiệu bản thân
+                        </h2>
+
+                        <p>
+                            Nội dung do người chăm sóc tự cung cấp.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <blockquote class="review-introduction">
+
+
+                    <i class="bi bi-quote"></i>
+
+
+                    <p>
+
+                        @(
+                            string.IsNullOrWhiteSpace(
+                                Model.GioiThieu)
+                                ? "Người chăm sóc chưa cung cấp nội dung giới thiệu."
+                                : Model.GioiThieu
+                        )
+
+                    </p>
+
+                </blockquote>
+
+            </section>
+
+        </main>
+
+
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside class="caregiver-review-sidebar">
+
+
+            <!-- =============================================
+                 STATUS
+            ============================================== -->
+
+            <section class="review-status-card">
+
+
+                <span class="review-status-icon">
+
+                    <i class="bi bi-shield-check"></i>
+
+                </span>
+
+
+                <small class="review-status-label">
+                    TRẠNG THÁI HỒ SƠ
+                </small>
+
+
+                <h2>
+                    Hồ sơ xét duyệt
+                </h2>
+
+
+                <span class="@GetCaregiverStatusClass(
+                                        Model.TrangThai)">
+
+                    @Model.TrangThai
+
+                </span>
+
+
+                <div class="review-account-status">
+
+
+                    <span>
+                        Tài khoản đăng nhập
+                    </span>
+
+
+                    <strong class="@(
+                            Model.TrangThaiTaiKhoan
+                                ? "account-active"
+                                : "account-locked")">
+
+
+                        <i class="bi bi-circle-fill"></i>
+
+
+                        @(Model.TrangThaiTaiKhoan
+                            ? "Đang hoạt động"
+                            : "Đang bị khóa")
+
+                    </strong>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =============================================
+                 DECISION
+            ============================================== -->
+            @if (Model.TrangThai == "Chờ duyệt")
+            {
+                <section class="review-decision-card">
+
+
+                    <div class="decision-heading">
+
+
+                        <span>
+
+                            <i class="bi bi-clipboard-check"></i>
+
+                        </span>
+
+
+                        <div>
+
+                            <small>
+                                XỬ LÝ HỒ SƠ
+                            </small>
+
+                            <h2>
+                                Quyết định xét duyệt
+                            </h2>
+
+                            <p>
+                                Kiểm tra kỹ thông tin trước khi xác nhận.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <form asp-area="Admin"
+                          asp-controller="Caregivers"
+                          asp-action="Approve"
+                          method="post">
+
+
+                        @Html.AntiForgeryToken()
+
+
+                        <input type="hidden"
+                               name="maNguoiChamSoc"
+                               value="@Model.MaNguoiChamSoc" />
+
+
+                        <button type="submit"
+                                class="review-approve-button"
+                                onclick="return confirm('Bạn chắc chắn muốn phê duyệt hồ sơ này?')">
+
+
+                            <i class="bi bi-check2-circle"></i>
+
+                            Phê duyệt hồ sơ
+
+                        </button>
+
+                    </form>
+
+
+
+                    <button type="button"
+                            class="review-reject-open"
+                            id="openRejectForm">
+
+
+                        <i class="bi bi-x-circle"></i>
+
+                        Từ chối hồ sơ
+
+                    </button>
+
+
+
+                    <form asp-area="Admin"
+                          asp-controller="Caregivers"
+                          asp-action="Reject"
+                          method="post"
+                          class="reject-reason-form"
+                          id="rejectReasonForm">
+
+
+                        @Html.AntiForgeryToken()
+
+
+                        <input type="hidden"
+                               name="MaNguoiChamSoc"
+                               value="@Model.MaNguoiChamSoc" />
+
+
+                        <label for="LyDo">
+                            Lý do từ chối
+                        </label>
+
+
+                        <textarea id="LyDo"
+                                  name="LyDo"
+                                  rows="4"
+                                  minlength="10"
+                                  required
+                                  placeholder="Nhập lý do cụ thể để người chăm sóc có thể cập nhật hồ sơ..."></textarea>
+
+
+                        <div class="reject-form-actions">
+
+
+                            <button type="button"
+                                    id="cancelRejectForm">
+
+                                Hủy
+
+                            </button>
+
+
+                            <button type="submit">
+
+                                <i class="bi bi-send"></i>
+
+                                Gửi từ chối
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </section>
+            }
+            else
+            {
+                <section class="review-processed-card">
+
+
+                    <span>
+
+                        <i class="bi bi-info-circle"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            TRẠNG THÁI XỬ LÝ
+                        </small>
+
+                        <strong>
+                            Hồ sơ đã được xử lý
+                        </strong>
+
+                        <p>
+                            Trạng thái hiện tại:
+                            <b>@Model.TrangThai</b>
+                        </p>
+
+                    </div>
+
+                </section>
+            }
+
+
+
+            <!-- =============================================
+                 CHECKLIST
+            ============================================== -->
+
+            <section class="review-checklist-card">
+
+
+                <div class="review-checklist-heading">
+
+
+                    <span>
+
+                        <i class="bi bi-list-check"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            KIỂM TRA HỒ SƠ
+                        </small>
+
+                        <h2>
+                            Danh sách kiểm tra
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <label>
+
+                    <input type="checkbox" />
+
+                    <span>
+                        Thông tin cá nhân đầy đủ
+                    </span>
+
+                </label>
+
+
+                <label>
+
+                    <input type="checkbox" />
+
+                    <span>
+                        Bằng cấp và chuyên môn phù hợp
+                    </span>
+
+                </label>
+
+
+                <label>
+
+                    <input type="checkbox" />
+
+                    <span>
+                        Kinh nghiệm được mô tả rõ
+                    </span>
+
+                </label>
+
+
+                <label>
+
+                    <input type="checkbox" />
+
+                    <span>
+                        Khu vực và mức giá hợp lý
+                    </span>
+
+                </label>
+
+            </section>
+
+        </aside>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        const openRejectForm =
+            document.getElementById(
+                "openRejectForm");
+
+        const rejectReasonForm =
+            document.getElementById(
+                "rejectReasonForm");
+
+        const cancelRejectForm =
+            document.getElementById(
+                "cancelRejectForm");
+
+
+        openRejectForm?.addEventListener(
+            "click",
+            function() {
+
+                rejectReasonForm?.classList.add(
+                    "show");
+
+                if (openRejectForm) {
+                    openRejectForm.style.display =
+                        "none";
+                }
+
+            });
+
+
+        cancelRejectForm?.addEventListener(
+            "click",
+            function() {
+
+                rejectReasonForm?.classList.remove(
+                    "show");
+
+                if (openRejectForm) {
+                    openRejectForm.style.display =
+                        "flex";
+                }
+
+            });
+
+    </script>
+
+}
+
+
+@functions {
+
+    private string GetCaregiverStatusClass(
+        string status)
+    {
+        return status switch
+        {
+            "Chờ duyệt"
+                => "caregiver-status pending",
+
+            "Đã duyệt"
+                => "caregiver-status approved",
+
+            "Đang hoạt động"
+                => "caregiver-status active",
+
+            "Từ chối"
+                => "caregiver-status rejected",
+
+            "Chưa hoàn thiện"
+                => "caregiver-status incomplete",
+
+            _
+                => "caregiver-status default"
+        };
+    }
+
+}

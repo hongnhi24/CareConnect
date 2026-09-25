@@ -1,0 +1,658 @@
+﻿@model CareConnect.ViewModels.CaregiverAvailabilityViewModel
+
+@{
+    ViewData["Title"] = "Lịch khả dụng";
+
+    DateTime tuanTruoc =
+        Model.DauTuan.AddDays(-7);
+
+    DateTime tuanSau =
+        Model.DauTuan.AddDays(7);
+}
+
+<div class="availability-page">
+
+    @* ======================================================
+       HEADER - đồng bộ phong cách trang Lịch chăm sóc
+    ====================================================== *@
+    <section class="availability-header">
+
+        <div class="availability-header-main">
+
+            <span class="availability-page-label">
+                <i class="bi bi-calendar2-check"></i>
+                THỜI GIAN NHẬN LỊCH
+            </span>
+
+            <h1>
+                Lịch khả dụng
+            </h1>
+
+            <p>
+                Khai báo các khung giờ bạn có thể nhận lịch chăm sóc.
+                Hệ thống sử dụng dữ liệu này khi tự động gợi ý người chăm sóc
+                và tính tỷ lệ lấp đầy lịch trên Dashboard quản trị.
+            </p>
+
+        </div>
+
+        <div class="availability-header-date">
+
+            <span>
+                <i class="bi bi-calendar3"></i>
+            </span>
+
+            <div>
+                <small>Hôm nay</small>
+
+                <strong>
+                    @Model.HomNay.ToString("dd/MM/yyyy")
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    @* ======================================================
+       THỐNG KÊ
+    ====================================================== *@
+    <section class="availability-statistics">
+
+        <article class="availability-stat-card is-open">
+
+            <span class="availability-stat-icon">
+                <i class="bi bi-calendar2-check-fill"></i>
+            </span>
+
+            <div>
+                <small>Khung đang mở</small>
+
+                <strong>
+                    @Model.TongKhungKhaDung
+                </strong>
+
+                <p>
+                    Khung giờ đang sẵn sàng nhận lịch
+                </p>
+            </div>
+
+        </article>
+
+
+        <article class="availability-stat-card is-hours">
+
+            <span class="availability-stat-icon">
+                <i class="bi bi-clock-history"></i>
+            </span>
+
+            <div>
+                <small>Tổng giờ khả dụng</small>
+
+                <strong>
+                    @Model.TongGioKhaDung.ToString("0.#")
+                    <em>giờ</em>
+                </strong>
+
+                <p>
+                    Tổng thời gian khả dụng trong tuần
+                </p>
+            </div>
+
+        </article>
+
+
+        <article class="availability-stat-card is-week">
+
+            <span class="availability-stat-icon">
+                <i class="bi bi-calendar-week"></i>
+            </span>
+
+            <div>
+                <small>Tuần đang xem</small>
+
+                <strong class="availability-stat-date">
+                    @Model.DauTuan.ToString("dd/MM")
+                    –
+                    @Model.CuoiTuan.ToString("dd/MM")
+                </strong>
+
+                <p>
+                    Theo dõi và điều chỉnh từng ngày
+                </p>
+            </div>
+
+        </article>
+
+    </section>
+
+
+    @* ======================================================
+       THÔNG BÁO
+    ====================================================== *@
+    @if (TempData["Success"] != null)
+    {
+        <div class="availability-alert is-success">
+            <span>
+                <i class="bi bi-check-lg"></i>
+            </span>
+
+            <div>
+                <strong>Cập nhật thành công</strong>
+                <p>@TempData["Success"]</p>
+            </div>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="availability-alert is-error">
+            <span>
+                <i class="bi bi-exclamation-lg"></i>
+            </span>
+
+            <div>
+                <strong>Chưa thể cập nhật</strong>
+                <p>@TempData["Error"]</p>
+            </div>
+        </div>
+    }
+
+
+    @* ======================================================
+       THÊM KHUNG GIỜ
+    ====================================================== *@
+    <section class="availability-create-card">
+
+        <div class="availability-card-heading">
+
+            <div class="availability-card-heading-left">
+
+                <span class="availability-card-icon">
+                    <i class="bi bi-plus-lg"></i>
+                </span>
+
+                <div>
+                    <span class="availability-card-eyebrow">
+                        THÊM LỊCH
+                    </span>
+
+                    <h2>
+                        Thêm khung giờ khả dụng
+                    </h2>
+
+                    <p>
+                        Các khung giờ trong cùng ngày không được chồng lấn nhau.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <form asp-area="Caregiver"
+              asp-controller="LichKhaDung"
+              asp-action="Them"
+              method="post"
+              class="availability-create-form">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   name="tuNgay"
+                   value="@(Model.DauTuan.ToString("yyyy-MM-dd"))" />
+
+
+            <label class="availability-field">
+
+                <span>
+                    Ngày làm việc
+                </span>
+
+                <div class="availability-input-wrap">
+
+                    <i class="bi bi-calendar3"></i>
+
+                    <input type="date"
+                           name="NgayLam"
+                           min="@(Model.HomNay.ToString("yyyy-MM-dd"))"
+                           value="@((Model.HomNay > Model.DauTuan ? Model.HomNay : Model.DauTuan).ToString("yyyy-MM-dd"))"
+                           required />
+
+                </div>
+
+            </label>
+
+
+            <label class="availability-field">
+
+                <span>
+                    Giờ bắt đầu
+                </span>
+
+                <div class="availability-input-wrap">
+
+                    <i class="bi bi-clock"></i>
+
+                    <input type="time"
+                           name="GioBatDau"
+                           value="08:00"
+                           required />
+
+                </div>
+
+            </label>
+
+
+            <label class="availability-field">
+
+                <span>
+                    Giờ kết thúc
+                </span>
+
+                <div class="availability-input-wrap">
+
+                    <i class="bi bi-clock-fill"></i>
+
+                    <input type="time"
+                           name="GioKetThuc"
+                           value="12:00"
+                           required />
+
+                </div>
+
+            </label>
+
+
+            <button type="submit"
+                    class="availability-primary-button">
+
+                <i class="bi bi-plus-circle"></i>
+                <span>Thêm khung giờ</span>
+
+            </button>
+
+        </form>
+
+    </section>
+
+
+    @* ======================================================
+       LỊCH THEO TUẦN
+    ====================================================== *@
+    <section class="availability-week-card">
+
+        <div class="availability-week-toolbar">
+
+            <div>
+
+                <span class="availability-toolbar-label">
+                    LỊCH TRONG TUẦN
+                </span>
+
+                <h2>
+                    @Model.DauTuan.ToString("dd/MM/yyyy")
+                    –
+                    @Model.CuoiTuan.ToString("dd/MM/yyyy")
+                </h2>
+
+                <p>
+                    Nhấn chỉnh sửa để thay đổi khung giờ.
+                    Khung đã có lịch chăm sóc sẽ được khóa.
+                </p>
+
+            </div>
+
+
+            <div class="availability-week-actions">
+
+                <a asp-area="Caregiver"
+                   asp-controller="LichKhaDung"
+                   asp-action="Index"
+                   asp-route-tuNgay="@(tuanTruoc.ToString("yyyy-MM-dd"))"
+                   class="availability-nav-button"
+                   title="Tuần trước"
+                   aria-label="Tuần trước">
+
+                    <i class="bi bi-chevron-left"></i>
+
+                </a>
+
+
+                <a asp-area="Caregiver"
+                   asp-controller="LichKhaDung"
+                   asp-action="Index"
+                   asp-route-tuNgay="@(Model.HomNay.ToString("yyyy-MM-dd"))"
+                   class="availability-today-button">
+
+                    <i class="bi bi-calendar-event"></i>
+                    Tuần hiện tại
+
+                </a>
+
+
+                <a asp-area="Caregiver"
+                   asp-controller="LichKhaDung"
+                   asp-action="Index"
+                   asp-route-tuNgay="@(tuanSau.ToString("yyyy-MM-dd"))"
+                   class="availability-nav-button"
+                   title="Tuần sau"
+                   aria-label="Tuần sau">
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="availability-week-scroll">
+
+            <div class="availability-week-grid">
+
+                @foreach (var ngay in Model.DanhSachNgay)
+                {
+                    bool daQua =
+                        ngay.Ngay.Date < Model.HomNay.Date;
+
+                    <article class="availability-day @(ngay.LaHomNay ? "is-today" : "") @(daQua ? "is-past" : "")">
+
+                        <header>
+
+                            <div>
+                                <span>
+                                    @ngay.Thu
+                                </span>
+
+                                <strong>
+                                    @ngay.Ngay.ToString("dd/MM")
+                                </strong>
+                            </div>
+
+                            @if (ngay.LaHomNay)
+                            {
+                                <em>
+                                    Hôm nay
+                                </em>
+                            }
+
+                        </header>
+
+
+                        <div class="availability-day-body">
+
+                            @if (ngay.DanhSachKhungGio.Count == 0)
+                            {
+                                <div class="availability-empty-slot">
+
+                                    <span>
+                                        <i class="bi bi-calendar2-plus"></i>
+                                    </span>
+
+                                    <strong>
+                                        Chưa mở lịch
+                                    </strong>
+
+                                    <small>
+                                        Chưa có khung giờ khả dụng
+                                    </small>
+
+                                </div>
+                            }
+                            else
+                            {
+                                @foreach (var lich in ngay.DanhSachKhungGio)
+                                {
+                                    bool khaDung =
+                                        !lich.TrangThai.Equals(
+                                            "Tạm nghỉ",
+                                            StringComparison.OrdinalIgnoreCase)
+                                        && !lich.TrangThai.Equals(
+                                            "Không khả dụng",
+                                            StringComparison.OrdinalIgnoreCase)
+                                        && !lich.TrangThai.Equals(
+                                            "Nghỉ",
+                                            StringComparison.OrdinalIgnoreCase)
+                                        && !lich.TrangThai.Equals(
+                                            "Đã hủy",
+                                            StringComparison.OrdinalIgnoreCase);
+
+                                    <div class="availability-slot @(khaDung ? "is-open" : "is-paused")">
+
+                                        <div class="availability-slot-main">
+
+                                            <div class="availability-time">
+
+                                                <i class="bi bi-clock"></i>
+
+                                                <strong>
+                                                    @lich.GioBatDau.ToString(@"hh\:mm")
+                                                    –
+                                                    @lich.GioKetThuc.ToString(@"hh\:mm")
+                                                </strong>
+
+                                            </div>
+
+
+                                            <div class="availability-slot-meta">
+
+                                                <span class="availability-status">
+                                                    <i class="bi @(khaDung ? "bi-check-circle-fill" : "bi-pause-circle-fill")"></i>
+                                                    @(khaDung ? "Khả dụng" : "Tạm nghỉ")
+                                                </span>
+
+                                                <span>
+                                                    @lich.SoGio.ToString("0.#") giờ
+                                                </span>
+
+                                            </div>
+
+
+                                            @if (lich.CoLichDat)
+                                            {
+                                                <div class="availability-booked-note">
+
+                                                    <i class="bi bi-lock-fill"></i>
+
+                                                    <span>
+                                                        Có @lich.SoLichDat lịch chăm sóc
+                                                        giao với khung này
+                                                    </span>
+
+                                                </div>
+                                            }
+
+                                        </div>
+
+
+                                        @if (!daQua)
+                                        {
+                                            <div class="availability-slot-actions">
+
+                                                @if (!lich.CoLichDat)
+                                                {
+                                                    <form asp-area="Caregiver"
+                                                          asp-controller="LichKhaDung"
+                                                          asp-action="DoiTrangThai"
+                                                          method="post">
+
+                                                        @Html.AntiForgeryToken()
+
+                                                        <input type="hidden"
+                                                               name="maLich"
+                                                               value="@lich.MaLich" />
+
+                                                        <input type="hidden"
+                                                               name="tuNgay"
+                                                               value="@(Model.DauTuan.ToString("yyyy-MM-dd"))" />
+
+                                                        <button type="submit"
+                                                                class="availability-icon-button"
+                                                                title="@(khaDung ? "Tạm nghỉ" : "Mở lại")"
+                                                                aria-label="@(khaDung ? "Tạm nghỉ" : "Mở lại")">
+
+                                                            <i class="bi @(khaDung ? "bi-pause-circle" : "bi-play-circle")"></i>
+
+                                                        </button>
+
+                                                    </form>
+
+
+                                                    <details class="availability-edit">
+
+                                                        <summary title="Chỉnh sửa"
+                                                                 aria-label="Chỉnh sửa">
+
+                                                            <i class="bi bi-pencil-square"></i>
+
+                                                        </summary>
+
+
+                                                        <form asp-area="Caregiver"
+                                                              asp-controller="LichKhaDung"
+                                                              asp-action="CapNhat"
+                                                              method="post">
+
+                                                            @Html.AntiForgeryToken()
+
+                                                            <input type="hidden"
+                                                                   name="MaLich"
+                                                                   value="@lich.MaLich" />
+
+                                                            <input type="hidden"
+                                                                   name="tuNgay"
+                                                                   value="@(Model.DauTuan.ToString("yyyy-MM-dd"))" />
+
+
+                                                            <label>
+                                                                Ngày
+
+                                                                <input type="date"
+                                                                       name="NgayLam"
+                                                                       min="@(Model.HomNay.ToString("yyyy-MM-dd"))"
+                                                                       value="@(lich.NgayLam.ToString("yyyy-MM-dd"))"
+                                                                       required />
+                                                            </label>
+
+
+                                                            <div>
+
+                                                                <label>
+                                                                    Bắt đầu
+
+                                                                    <input type="time"
+                                                                           name="GioBatDau"
+                                                                           value="@(lich.GioBatDau.ToString(@"hh\:mm"))"
+                                                                           required />
+                                                                </label>
+
+
+                                                                <label>
+                                                                    Kết thúc
+
+                                                                    <input type="time"
+                                                                           name="GioKetThuc"
+                                                                           value="@(lich.GioKetThuc.ToString(@"hh\:mm"))"
+                                                                           required />
+                                                                </label>
+
+                                                            </div>
+
+
+                                                            <button type="submit">
+                                                                <i class="bi bi-check-lg"></i>
+                                                                Lưu thay đổi
+                                                            </button>
+
+                                                        </form>
+
+                                                    </details>
+
+
+                                                    <form asp-area="Caregiver"
+                                                          asp-controller="LichKhaDung"
+                                                          asp-action="Xoa"
+                                                          method="post"
+                                                          onsubmit="return confirm('Xóa khung giờ khả dụng này?');">
+
+                                                        @Html.AntiForgeryToken()
+
+                                                        <input type="hidden"
+                                                               name="maLich"
+                                                               value="@lich.MaLich" />
+
+                                                        <input type="hidden"
+                                                               name="tuNgay"
+                                                               value="@(Model.DauTuan.ToString("yyyy-MM-dd"))" />
+
+                                                        <button type="submit"
+                                                                class="availability-icon-button is-danger"
+                                                                title="Xóa"
+                                                                aria-label="Xóa">
+
+                                                            <i class="bi bi-trash3"></i>
+
+                                                        </button>
+
+                                                    </form>
+                                                }
+                                                else
+                                                {
+                                                    <span class="availability-locked-action">
+
+                                                        <i class="bi bi-shield-lock"></i>
+                                                        Đã khóa
+
+                                                    </span>
+                                                }
+
+                                            </div>
+                                        }
+
+                                    </div>
+                                }
+                            }
+
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    @* ======================================================
+       LƯU Ý
+    ====================================================== *@
+    <section class="availability-note-card">
+
+        <span>
+            <i class="bi bi-info-circle-fill"></i>
+        </span>
+
+        <div>
+
+            <strong>
+                Cách hệ thống sử dụng lịch khả dụng
+            </strong>
+
+            <p>
+                Lịch khả dụng được dùng khi hệ thống tự động gợi ý người chăm sóc
+                và khi tính tỷ lệ lấp đầy. Nếu khách hàng chọn người chăm sóc thủ công,
+                hệ thống không bắt buộc phải có khung khả dụng nhưng vẫn kiểm tra
+                trạng thái tài khoản và lịch chăm sóc bị trùng.
+            </p>
+
+        </div>
+
+    </section>
+
+</div>

@@ -1,0 +1,1023 @@
+﻿@model CareConnect.ViewModels.AdminAssignBookingViewModel
+
+@{
+    ViewData["Title"] = "Phân công người chăm sóc";
+}
+
+
+@if (TempData["Error"] != null)
+{
+    <div class="admin-alert error">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+    </div>
+}
+
+
+<!-- =========================================================
+     TIÊU ĐỀ TRANG
+========================================================= -->
+
+<section class="assign-booking-heading">
+
+    <a asp-area="Admin"
+       asp-controller="Bookings"
+       asp-action="Index"
+       class="assign-back-button">
+
+        <i class="bi bi-arrow-left"></i>
+    </a>
+
+    <div>
+        <span class="booking-eyebrow">
+            QUẢN LÝ LỊCH ĐẶT
+        </span>
+
+        <h1>Phân công người chăm sóc</h1>
+
+        <p>
+            Hệ thống phân tích nhiều tiêu chí và xếp hạng
+            những người chăm sóc phù hợp nhất với lịch này.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     THÔNG TIN THUẬT TOÁN
+========================================================= -->
+@if (Model.DangApDungGoiY)
+{
+    <section class="assign-algorithm-banner">
+
+        <div class="assign-algorithm-main">
+
+            <span class="assign-algorithm-icon">
+                <i class="bi bi-stars"></i>
+            </span>
+
+            <div>
+                <span class="assign-algorithm-label">
+                    THUẬT TOÁN GỢI Ý ĐANG ÁP DỤNG
+                </span>
+
+                <h2>
+                    @Model.TenCauHinhGoiY
+                </h2>
+
+                <p>
+                    Người chăm sóc được chấm điểm trên thang
+                    100 dựa trên 6 tiêu chí và được sắp xếp
+                    từ phù hợp nhất đến thấp hơn.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="assign-algorithm-top">
+
+            <small>
+                SỐ LƯỢNG ĐỀ XUẤT
+            </small>
+
+            <strong>
+                Top @Model.SoLuongGoiY
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- TRỌNG SỐ -->
+
+    <section class="assign-weight-grid">
+
+        <div class="assign-weight-item">
+            <span class="is-location">
+                <i class="bi bi-geo-alt-fill"></i>
+            </span>
+
+            <div>
+                <small>Khu vực</small>
+                <strong>@Model.TrongSoKhuVuc%</strong>
+            </div>
+        </div>
+
+
+        <div class="assign-weight-item">
+            <span class="is-specialty">
+                <i class="bi bi-heart-pulse-fill"></i>
+            </span>
+
+            <div>
+                <small>Chuyên môn</small>
+                <strong>@Model.TrongSoChuyenMon%</strong>
+            </div>
+        </div>
+
+
+        <div class="assign-weight-item">
+            <span class="is-experience">
+                <i class="bi bi-briefcase-fill"></i>
+            </span>
+
+            <div>
+                <small>Kinh nghiệm</small>
+                <strong>@Model.TrongSoKinhNghiem%</strong>
+            </div>
+        </div>
+
+
+        <div class="assign-weight-item">
+            <span class="is-rating">
+                <i class="bi bi-star-fill"></i>
+            </span>
+
+            <div>
+                <small>Đánh giá</small>
+                <strong>@Model.TrongSoDanhGia%</strong>
+            </div>
+        </div>
+
+
+        <div class="assign-weight-item">
+            <span class="is-price">
+                <i class="bi bi-cash-coin"></i>
+            </span>
+
+            <div>
+                <small>Mức giá</small>
+                <strong>@Model.TrongSoMucGia%</strong>
+            </div>
+        </div>
+
+
+        <div class="assign-weight-item">
+            <span class="is-schedule">
+                <i class="bi bi-calendar2-check-fill"></i>
+            </span>
+
+            <div>
+                <small>Lịch trống</small>
+                <strong>@Model.TrongSoLichTrong%</strong>
+            </div>
+        </div>
+
+    </section>
+}
+
+
+<!-- =========================================================
+     MAIN LAYOUT
+========================================================= -->
+
+<div class="assign-booking-layout">
+
+    <!-- =====================================================
+         DANH SÁCH CAREGIVER
+    ====================================================== -->
+
+    <main class="assign-caregiver-panel">
+
+        <div class="assign-panel-heading">
+
+            <div>
+                <span>
+                    KẾT QUẢ PHÂN TÍCH
+                </span>
+
+                <h2>
+                    Người chăm sóc phù hợp
+                </h2>
+
+                <p>
+                    Danh sách đã loại các trường hợp trùng lịch
+                    và được xếp theo điểm phù hợp.
+                </p>
+            </div>
+
+
+            <strong>
+                @Model.DanhSachNguoiChamSoc.Count kết quả
+            </strong>
+
+        </div>
+
+
+        @if (Model.DanhSachNguoiChamSoc.Count == 0)
+        {
+            <div class="assign-empty-state">
+
+                <span>
+                    <i class="bi bi-person-x"></i>
+                </span>
+
+                <h3>
+                    Không có người chăm sóc phù hợp
+                </h3>
+
+                <p>
+                    Hiện không có người chăm sóc đáp ứng
+                    điều kiện của lịch và cấu hình gợi ý.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <form asp-area="Admin"
+                  asp-controller="Bookings"
+                  asp-action="Assign"
+                  method="post"
+                  id="assignBookingForm">
+
+                @Html.AntiForgeryToken()
+
+                <input asp-for="MaDatLich"
+                       type="hidden" />
+
+
+                <div class="assign-caregiver-list">
+
+                    @foreach (
+                        var caregiver
+                        in Model.DanhSachNguoiChamSoc)
+                    {
+                        string hoTen =
+                            string.IsNullOrWhiteSpace(
+                                caregiver.HoTen)
+                                ? "Người chăm sóc"
+                                : caregiver.HoTen;
+
+
+                        string chuCaiDau =
+                            hoTen
+                                .Substring(0, 1)
+                                .ToUpper();
+
+
+                        string scoreClass =
+                            caregiver.DiemPhuHop >= 85
+                                ? "is-excellent"
+
+                                : caregiver.DiemPhuHop >= 70
+                                    ? "is-good"
+                                    : "is-normal";
+
+
+                        <label class="
+                            assign-caregiver-card
+                            @(caregiver.LaGoiY
+                                ? "is-recommended"
+                                : "")">
+
+                            <!-- RADIO -->
+
+                            <input type="radio"
+                                   asp-for="MaNguoiChamSoc"
+                                   id="caregiver-@caregiver.MaNguoiChamSoc"
+                                   value="@caregiver.MaNguoiChamSoc" />
+
+
+                            <span class="assign-radio-indicator">
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+
+
+                            <!-- =================================
+                                 BADGE XẾP HẠNG
+                            ================================== -->
+
+                            <div class="assign-ranking-row">
+
+                                @if (caregiver.LaGoiY)
+                                {
+                                    <span class="assign-recommend-badge">
+
+                                        <i class="bi bi-stars"></i>
+
+                                        Gợi ý #@caregiver.ThuHang
+
+                                    </span>
+                                }
+                                else if (!caregiver.DatNguongGoiY)
+                                {
+                                    <span class="assign-threshold-badge">
+
+                                        <i class="bi bi-person-check"></i>
+
+                                        Có thể phân công
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="assign-rank-badge">
+
+                                        Ngoài Top @Model.SoLuongGoiY
+
+                                    </span>
+                                }
+
+                                @if (Model.DangApDungGoiY)
+                                {
+                                    <span class="assign-score @scoreClass">
+
+                                        <strong>
+                                            @caregiver.DiemPhuHop.ToString("0.0")
+                                        </strong>
+
+                                        <small>/100</small>
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="assign-score-disabled">
+
+                                        <i class="bi bi-pause-circle"></i>
+
+                                        Gợi ý tạm dừng
+
+                                    </span>
+                                }
+
+                            </div>
+
+
+                            <!-- =================================
+                                 THÔNG TIN CHÍNH
+                            ================================== -->
+
+                            <div class="assign-caregiver-top">
+
+                                <span class="assign-caregiver-avatar">
+                                    @chuCaiDau
+                                </span>
+
+
+                                <div class="assign-caregiver-name">
+
+                                    <h3>@hoTen</h3>
+
+                                    <p>
+                                        @caregiver.ChuyenMon
+                                    </p>
+
+                                </div>
+
+
+                                <span class="assign-caregiver-rating">
+
+                                    <i class="bi bi-star-fill"></i>
+
+                                    @caregiver.DanhGia.ToString("0.0")
+
+                                </span>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 LÝ DO GỢI Ý
+                            ================================== -->
+                            @if (!string.IsNullOrWhiteSpace(
+                                                                caregiver.LyDoGoiY))
+                            {
+                                <div class="assign-reason">
+
+                                    <i class="bi bi-lightbulb-fill"></i>
+
+                                    <span>
+                                        @caregiver.LyDoGoiY
+                                    </span>
+
+                                </div>
+                            }
+                            @if (!caregiver.DatNguongGoiY)
+                            {
+                                <div class="assign-threshold-warning">
+
+                                    <i class="bi bi-exclamation-circle"></i>
+
+                                    <div>
+
+                                        <strong>
+                                            Không đạt ngưỡng đề xuất
+                                        </strong>
+
+                                        <span>
+                                            @caregiver.GhiChuNguongGoiY.
+                                            Quản trị viên vẫn có thể lựa chọn
+                                            người chăm sóc này.
+                                        </span>
+
+                                    </div>
+
+                                </div>
+                            }
+
+                            <!-- =================================
+                                 CONTACT
+                            ================================== -->
+
+                            <div class="assign-caregiver-contact">
+
+                                <span title="@caregiver.Email">
+
+                                    <i class="bi bi-envelope"></i>
+
+                                    @(string.IsNullOrWhiteSpace(
+                                        caregiver.Email)
+                                        ? "Chưa cập nhật"
+                                        : caregiver.Email)
+
+                                </span>
+
+
+                                <span title="@caregiver.SoDienThoai">
+
+                                    <i class="bi bi-telephone"></i>
+
+                                    @(string.IsNullOrWhiteSpace(
+                                        caregiver.SoDienThoai)
+                                        ? "Chưa cập nhật"
+                                        : caregiver.SoDienThoai)
+
+                                </span>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 THÔNG TIN NGHIỆP VỤ
+                            ================================== -->
+
+                            <div class="assign-caregiver-info">
+
+                                <div>
+
+                                    <i class="bi bi-briefcase-fill"></i>
+
+                                    <span>
+                                        Kinh nghiệm
+                                    </span>
+
+                                    <strong>
+                                        @caregiver.KinhNghiem năm
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <i class="bi bi-geo-alt-fill"></i>
+
+                                    <span>
+                                        Khu vực
+                                    </span>
+
+                                    <strong title="@caregiver.KhuVucHoatDong">
+                                        @caregiver.KhuVucHoatDong
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <i class="bi bi-cash-coin"></i>
+
+                                    <span>
+                                        Giá theo giờ
+                                    </span>
+
+                                    <strong>
+                                        @caregiver.GiaTheoGio.ToString("#,##0")đ
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 CHI TIẾT 6 ĐIỂM
+                            ================================== -->
+                            @if (Model.DangApDungGoiY)
+                           { 
+                            <details class="assign-score-details">
+
+                                <summary>
+
+                                    <span>
+                                        <i class="bi bi-bar-chart-fill"></i>
+                                        Xem cách tính điểm
+                                    </span>
+
+                                    <i class="bi bi-chevron-down"></i>
+
+                                </summary>
+
+
+                                <div class="assign-score-table">
+
+                                    <!-- KHU VỰC -->
+
+                                    <div class="assign-score-row">
+
+                                        <div class="assign-score-name">
+
+                                            <span>
+                                                Khu vực
+                                            </span>
+
+                                            <small>
+                                                @Model.TrongSoKhuVuc%
+                                            </small>
+
+                                        </div>
+
+                                        <div class="assign-score-progress">
+
+                                            <span style="
+                                                width:
+                                                @caregiver.DiemKhuVuc%">
+                                            </span>
+
+                                        </div>
+
+                                        <strong>
+                                            @caregiver.DiemKhuVuc.ToString("0.0")
+                                        </strong>
+
+                                    </div>
+
+
+                                    <!-- CHUYÊN MÔN -->
+
+                                    <div class="assign-score-row">
+
+                                        <div class="assign-score-name">
+
+                                            <span>
+                                                Chuyên môn
+                                            </span>
+
+                                            <small>
+                                                @Model.TrongSoChuyenMon%
+                                            </small>
+
+                                        </div>
+
+                                        <div class="assign-score-progress">
+
+                                            <span style="
+                                                width:
+                                                @caregiver.DiemChuyenMon%">
+                                            </span>
+
+                                        </div>
+
+                                        <strong>
+                                            @caregiver.DiemChuyenMon.ToString("0.0")
+                                        </strong>
+
+                                    </div>
+
+
+                                    <!-- KINH NGHIỆM -->
+
+                                    <div class="assign-score-row">
+
+                                        <div class="assign-score-name">
+
+                                            <span>
+                                                Kinh nghiệm
+                                            </span>
+
+                                            <small>
+                                                @Model.TrongSoKinhNghiem%
+                                            </small>
+
+                                        </div>
+
+                                        <div class="assign-score-progress">
+
+                                            <span style="
+                                                width:
+                                                @caregiver.DiemKinhNghiem%">
+                                            </span>
+
+                                        </div>
+
+                                        <strong>
+                                            @caregiver.DiemKinhNghiem.ToString("0.0")
+                                        </strong>
+
+                                    </div>
+
+
+                                    <!-- ĐÁNH GIÁ -->
+
+                                    <div class="assign-score-row">
+
+                                        <div class="assign-score-name">
+
+                                            <span>
+                                                Đánh giá
+                                            </span>
+
+                                            <small>
+                                                @Model.TrongSoDanhGia%
+                                            </small>
+
+                                        </div>
+
+                                        <div class="assign-score-progress">
+
+                                            <span style="
+                                                width:
+                                                @caregiver.DiemDanhGia%">
+                                            </span>
+
+                                        </div>
+
+                                        <strong>
+                                            @caregiver.DiemDanhGia.ToString("0.0")
+                                        </strong>
+
+                                    </div>
+
+
+                                    <!-- GIÁ -->
+
+                                    <div class="assign-score-row">
+
+                                        <div class="assign-score-name">
+
+                                            <span>
+                                                Mức giá
+                                            </span>
+
+                                            <small>
+                                                @Model.TrongSoMucGia%
+                                            </small>
+
+                                        </div>
+
+                                        <div class="assign-score-progress">
+
+                                            <span style="
+                                                width:
+                                                @caregiver.DiemMucGia%">
+                                            </span>
+
+                                        </div>
+
+                                        <strong>
+                                            @caregiver.DiemMucGia.ToString("0.0")
+                                        </strong>
+
+                                    </div>
+
+
+                                    <!-- LỊCH TRỐNG -->
+
+                                    <div class="assign-score-row">
+
+                                        <div class="assign-score-name">
+
+                                            <span>
+                                                Lịch trống
+                                            </span>
+
+                                            <small>
+                                                @Model.TrongSoLichTrong%
+                                            </small>
+
+                                        </div>
+
+                                        <div class="assign-score-progress">
+
+                                            <span style="
+                                                width:
+                                                @caregiver.DiemLichTrong%">
+                                            </span>
+
+                                        </div>
+
+                                        <strong>
+                                            @caregiver.DiemLichTrong.ToString("0.0")
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="assign-score-total">
+
+                                    <span>
+                                        <i class="bi bi-calculator-fill"></i>
+
+                                        Điểm phù hợp tổng hợp
+                                    </span>
+
+                                    <strong>
+                                        @caregiver.DiemPhuHop.ToString("0.0")
+                                        /100
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="assign-score-note">
+
+                                    <i class="bi bi-info-circle"></i>
+
+                                    <span>
+                                        Caregiver hiện có
+                                        @caregiver.SoLichTrongNgay
+                                        lịch khác trong ngày chăm sóc này.
+                                    </span>
+
+                                </div>
+
+                            </details>
+                            }
+                            else
+                            {
+                                <section class="assign-algorithm-disabled">
+
+                                    <span>
+                                        <i class="bi bi-pause-circle-fill"></i>
+                                    </span>
+
+                                    <div>
+                                        <strong>
+                                            Thuật toán gợi ý đang tạm dừng
+                                        </strong>
+
+                                        <p>
+                                            Danh sách hiện chỉ được sắp xếp cơ bản theo
+                                            điểm đánh giá và kinh nghiệm.
+                                            Bạn có thể kích hoạt lại trong
+                                            Cấu hình gợi ý.
+                                        </p>
+                                    </div>
+
+                                    <a asp-area="Admin"
+                                       asp-controller="SuggestionConfig"
+                                       asp-action="Index">
+
+                                        <i class="bi bi-sliders2-vertical"></i>
+                                        Mở cấu hình
+
+                                    </a>
+
+                                </section>
+                            }
+                        </label>
+                    }
+
+                </div>
+
+
+                <span asp-validation-for="MaNguoiChamSoc"
+                      class="assign-validation">
+                </span>
+
+
+                <!-- =========================================
+                     ACTION
+                ========================================== -->
+
+                <div class="assign-form-actions">
+
+                    <a asp-area="Admin"
+                       asp-controller="Bookings"
+                       asp-action="Index">
+
+                        Hủy
+
+                    </a>
+
+
+                    <button type="submit">
+
+                        <i class="bi bi-person-check-fill"></i>
+
+                        Lưu phân công
+
+                    </button>
+
+                </div>
+
+            </form>
+        }
+
+    </main>
+
+
+    <!-- =====================================================
+         CỘT PHẢI
+    ====================================================== -->
+
+    <aside class="assign-booking-side">
+
+        <!-- THÔNG TIN LỊCH -->
+
+        <section class="assign-booking-summary">
+
+            <div class="assign-summary-heading">
+
+                <span>
+                    <i class="bi bi-calendar2-check-fill"></i>
+                </span>
+
+                <div>
+
+                    <h2>
+                        Thông tin lịch đặt
+                    </h2>
+
+                    <small>
+                        @($"#DL{Model.MaDatLich}")
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <dl class="assign-summary-list">
+
+                <div>
+                    <dt>Khách hàng</dt>
+                    <dd>@Model.TenKhachHang</dd>
+                </div>
+
+
+                <div>
+                    <dt>Người được chăm sóc</dt>
+                    <dd>@Model.TenBenhNhan</dd>
+                </div>
+
+
+                <div>
+                    <dt>Dịch vụ</dt>
+                    <dd>@Model.TenDichVu</dd>
+                </div>
+
+
+                <div>
+                    <dt>Khu vực</dt>
+                    <dd>@Model.KhuVuc</dd>
+                </div>
+
+
+                <div>
+                    <dt>Ngày chăm sóc</dt>
+
+                    <dd>
+                        @Model.NgayChamSoc.ToString(
+                            "dd/MM/yyyy")
+                    </dd>
+                </div>
+
+
+                <div>
+                    <dt>Khung giờ</dt>
+
+                    <dd>
+                        @Model.GioBatDau.ToString(@"hh\:mm")
+                        -
+                        @Model.GioKetThuc.ToString(@"hh\:mm")
+                    </dd>
+                </div>
+
+
+                <div>
+                    <dt>Chi phí</dt>
+
+                    <dd class="assign-summary-price">
+                        @Model.TongTien.ToString("#,##0")đ
+                    </dd>
+                </div>
+
+            </dl>
+
+        </section>
+
+
+        <!-- GIẢI THÍCH -->
+
+        <section class="assign-decision-card">
+
+            <div class="assign-decision-heading">
+
+                <span>
+                    <i class="bi bi-lightbulb-fill"></i>
+                </span>
+
+                <div>
+                    <small>
+                        HỖ TRỢ RA QUYẾT ĐỊNH
+                    </small>
+
+                    <h3>
+                        Cách hệ thống gợi ý
+                    </h3>
+                </div>
+
+            </div>
+
+
+            <p>
+                Hệ thống không tự động phân công.
+                Thuật toán chỉ hỗ trợ Quản trị viên
+                lựa chọn dựa trên nhiều tiêu chí.
+            </p>
+
+
+            <ul>
+
+                <li>
+                    <i class="bi bi-check2-circle"></i>
+
+                    Loại người chăm sóc bị trùng giờ.
+                </li>
+
+                <li>
+                    <i class="bi bi-check2-circle"></i>
+
+                    Kiểm tra điều kiện hoạt động và kinh nghiệm.
+                </li>
+
+                <li>
+                    <i class="bi bi-check2-circle"></i>
+
+                    Chấm điểm 6 tiêu chí theo trọng số.
+                </li>
+
+                <li>
+                    <i class="bi bi-check2-circle"></i>
+
+                    Xếp hạng từ điểm cao xuống thấp.
+                </li>
+
+                <li>
+                    <i class="bi bi-check2-circle"></i>
+
+                    Quản trị viên vẫn là người quyết định cuối cùng.
+                </li>
+
+            </ul>
+
+        </section>
+
+    </aside>
+
+</div>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                /*
+                 * Không để click vào phần "Xem cách tính điểm"
+                 * làm thay đổi radio ngoài ý muốn.
+                 */
+                const details =
+                    document.querySelectorAll(
+                        ".assign-score-details"
+                    );
+
+                details.forEach(function (item) {
+
+                    item.addEventListener(
+                        "click",
+                        function (event) {
+
+                            event.stopPropagation();
+
+                        }
+                    );
+
+                });
+
+            }
+        );
+    </script>
+}

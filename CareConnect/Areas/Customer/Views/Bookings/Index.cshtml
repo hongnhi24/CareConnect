@@ -1,0 +1,1472 @@
+﻿@model CareConnect.ViewModels.CustomerBookingViewModel
+
+@{
+    ViewData["Title"] = "Lịch chăm sóc";
+
+    string currentStatus =
+        Model.TrangThai ?? string.Empty;
+
+
+    string GetStatusClass(string? status)
+    {
+        return status switch
+        {
+            "Chờ xác nhận" => "is-pending",
+            "Đã xác nhận" => "is-confirmed",
+            "Đang thực hiện" => "is-progress",
+            "Đã hoàn thành" => "is-completed",
+            "Đã hủy" => "is-cancelled",
+            _ => "is-default"
+        };
+    }
+
+
+    string GetStatusIcon(string? status)
+    {
+        return status switch
+        {
+            "Chờ xác nhận" => "bi-hourglass-split",
+            "Đã xác nhận" => "bi-check-circle-fill",
+            "Đang thực hiện" => "bi-play-circle-fill",
+            "Đã hoàn thành" => "bi-check2-all",
+            "Đã hủy" => "bi-x-circle-fill",
+            _ => "bi-info-circle"
+        };
+    }
+
+
+    bool CoTheHuyLich(string? status)
+    {
+        return status == "Chờ xác nhận"
+            || status == "Đã xác nhận"
+            || status == "Đang thực hiện";
+    }
+
+
+    string GetCancelButtonText(string? status)
+    {
+        return status == "Đang thực hiện"
+            ? "Yêu cầu dừng"
+            : "Hủy lịch";
+    }
+
+
+    string GetCancelButtonIcon(string? status)
+    {
+        return status == "Đang thực hiện"
+            ? "bi-stop-circle"
+            : "bi-x-circle";
+    }
+}
+
+
+
+<div class="cb-page">
+
+
+    @* =====================================================
+       HERO
+    ====================================================== *@
+
+    <section class="cb-hero">
+
+
+        <div class="cb-hero-main">
+
+
+            <span class="cb-hero-badge">
+
+                LỊCH CHĂM SÓC
+
+            </span>
+
+
+            <h1>
+                Lịch đặt của tôi
+            </h1>
+
+
+            <p>
+                Theo dõi lịch chăm sóc, người chăm sóc được
+                phân công và trạng thái xử lý của từng lịch.
+            </p>
+
+        </div>
+
+
+
+        <div class="cb-today-card">
+
+
+            <span class="cb-today-icon">
+
+                <i class="bi bi-calendar2-check"></i>
+
+            </span>
+
+
+            <div>
+
+                <small>
+                    Hôm nay
+                </small>
+
+
+                <strong>
+
+                    @DateTime.Today.ToString("dd/MM/yyyy")
+
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    @* =====================================================
+       TEMP DATA
+    ====================================================== *@
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="cb-alert is-success">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+
+            <span>
+
+                @TempData["Success"]
+
+            </span>
+
+        </div>
+    }
+
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="cb-alert is-error">
+
+            <i class="bi bi-exclamation-circle-fill"></i>
+
+
+            <span>
+
+                @TempData["Error"]
+
+            </span>
+
+        </div>
+    }
+
+
+
+    @* =====================================================
+       THỐNG KÊ TRẠNG THÁI
+    ====================================================== *@
+
+    <section class="cb-stat-grid">
+
+
+        @* TẤT CẢ *@
+
+        <a asp-area="Customer"
+           asp-controller="Bookings"
+           asp-action="Index"
+           class="cb-stat-card is-all
+            @(string.IsNullOrWhiteSpace(currentStatus)
+               ? "active"
+               : "")">
+
+            <span class="cb-stat-icon">
+
+                <i class="bi bi-calendar3"></i>
+
+            </span>
+
+
+            <strong>
+
+                @Model.TongLich
+
+            </strong>
+
+
+            <span>
+
+                Tất cả lịch
+
+            </span>
+
+        </a>
+
+
+
+        @* CHỜ XÁC NHẬN *@
+
+        <a asp-area="Customer"
+           asp-controller="Bookings"
+           asp-action="Index"
+           asp-route-trangThai="Chờ xác nhận"
+           class="cb-stat-card is-pending
+            @(currentStatus == "Chờ xác nhận"
+               ? "active"
+               : "")">
+
+            <span class="cb-stat-icon">
+
+                <i class="bi bi-hourglass-split"></i>
+
+            </span>
+
+
+            <strong>
+
+                @Model.ChoXacNhan
+
+            </strong>
+
+
+            <span>
+
+                Chờ xác nhận
+
+            </span>
+
+        </a>
+
+
+
+        @* ĐÃ XÁC NHẬN *@
+
+        <a asp-area="Customer"
+           asp-controller="Bookings"
+           asp-action="Index"
+           asp-route-trangThai="Đã xác nhận"
+           class="cb-stat-card is-confirmed
+            @(currentStatus == "Đã xác nhận"
+               ? "active"
+               : "")">
+
+            <span class="cb-stat-icon">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+            </span>
+
+
+            <strong>
+
+                @Model.DaXacNhan
+
+            </strong>
+
+
+            <span>
+
+                Đã xác nhận
+
+            </span>
+
+        </a>
+
+
+
+        @* ĐANG THỰC HIỆN *@
+
+        <a asp-area="Customer"
+           asp-controller="Bookings"
+           asp-action="Index"
+           asp-route-trangThai="Đang thực hiện"
+           class="cb-stat-card is-progress
+            @(currentStatus == "Đang thực hiện"
+               ? "active"
+               : "")">
+
+            <span class="cb-stat-icon">
+
+                <i class="bi bi-play-circle-fill"></i>
+
+            </span>
+
+
+            <strong>
+
+                @Model.DangThucHien
+
+            </strong>
+
+
+            <span>
+
+                Đang thực hiện
+
+            </span>
+
+        </a>
+
+
+
+        @* ĐÃ HOÀN THÀNH *@
+
+        <a asp-area="Customer"
+           asp-controller="Bookings"
+           asp-action="Index"
+           asp-route-trangThai="Đã hoàn thành"
+           class="cb-stat-card is-completed
+            @(currentStatus == "Đã hoàn thành"
+               ? "active"
+               : "")">
+
+            <span class="cb-stat-icon">
+
+                <i class="bi bi-check2-all"></i>
+
+            </span>
+
+
+            <strong>
+
+                @Model.DaHoanThanh
+
+            </strong>
+
+
+            <span>
+
+                Đã hoàn thành
+
+            </span>
+
+        </a>
+
+
+
+        @* ĐÃ HỦY *@
+
+        <a asp-area="Customer"
+           asp-controller="Bookings"
+           asp-action="Index"
+           asp-route-trangThai="Đã hủy"
+           class="cb-stat-card is-cancelled
+            @(currentStatus == "Đã hủy"
+               ? "active"
+               : "")">
+
+            <span class="cb-stat-icon">
+
+                <i class="bi bi-x-circle-fill"></i>
+
+            </span>
+
+
+            <strong>
+
+                @Model.DaHuy
+
+            </strong>
+
+
+            <span>
+
+                Đã hủy
+
+            </span>
+
+        </a>
+
+    </section>
+
+
+
+    @* =====================================================
+       FILTER
+    ====================================================== *@
+
+    <section class="cb-filter-panel">
+
+
+        <div class="cb-filter-grid">
+
+
+            @* TỪ KHÓA *@
+
+            <div class="cb-filter-field cb-filter-keyword">
+
+
+                <label for="cbKeyword">
+
+                    Từ khóa
+
+                </label>
+
+
+                <div class="cb-filter-control">
+
+
+                    <i class="bi bi-search"></i>
+
+
+                    <input id="cbKeyword"
+                           type="text"
+                           placeholder="Tên người thân, dịch vụ, người chăm sóc..." />
+
+                </div>
+
+            </div>
+
+
+
+            @* NGƯỜI THÂN *@
+
+            <div class="cb-filter-field">
+
+
+                <label for="cbRelative">
+
+                    Người thân
+
+                </label>
+
+
+                <select id="cbRelative">
+
+
+                    <option value="">
+
+                        Tất cả người thân
+
+                    </option>
+
+
+                    @foreach (
+                        var ten in Model.DanhSachLich
+                            .Select(x => x.TenBenhNhan)
+                            .Where(x =>
+                                !string.IsNullOrWhiteSpace(x))
+                            .Distinct()
+                            .OrderBy(x => x))
+                    {
+                        <option value="@ten">
+
+                            @ten
+
+                        </option>
+                    }
+
+                </select>
+
+            </div>
+
+
+
+            @* TRẠNG THÁI *@
+
+            <div class="cb-filter-field">
+
+
+                <label for="cbStatus">
+
+                    Trạng thái
+
+                </label>
+
+
+                <select id="cbStatus">
+
+
+                    <option value="">
+
+                        Tất cả trạng thái
+
+                    </option>
+
+
+                    <option value="Chờ xác nhận">
+
+                        Chờ xác nhận
+
+                    </option>
+
+
+                    <option value="Đã xác nhận">
+
+                        Đã xác nhận
+
+                    </option>
+
+
+                    <option value="Đang thực hiện">
+
+                        Đang thực hiện
+
+                    </option>
+
+
+                    <option value="Đã hoàn thành">
+
+                        Đã hoàn thành
+
+                    </option>
+
+
+                    <option value="Đã hủy">
+
+                        Đã hủy
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            @* NGÀY *@
+
+            <div class="cb-filter-field">
+
+
+                <label for="cbDate">
+
+                    Ngày chăm sóc
+
+                </label>
+
+
+                <input id="cbDate"
+                       type="date" />
+
+            </div>
+
+
+
+            <button type="button"
+                    class="cb-filter-button"
+                    id="cbFilterButton">
+
+                <i class="bi bi-search"></i>
+
+                Tìm kiếm
+
+            </button>
+
+
+
+            <button type="button"
+                    class="cb-reset-button"
+                    id="cbResetButton">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+
+                Đặt lại
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    @* =====================================================
+       DANH SÁCH LỊCH
+    ====================================================== *@
+
+    <section class="cb-list-panel">
+
+
+        <div class="cb-list-heading">
+
+
+            <div>
+
+                <span>
+
+                    DANH SÁCH LỊCH
+
+                </span>
+
+
+                <h2>
+
+                    Lịch chăm sóc
+
+                </h2>
+
+            </div>
+
+
+
+            <strong id="cbResultCount">
+
+                @Model.DanhSachLich.Count kết quả
+
+            </strong>
+
+        </div>
+
+
+
+        @if (Model.DanhSachLich == null
+             || Model.DanhSachLich.Count == 0)
+        {
+            <div class="cb-empty">
+
+
+                <span>
+
+                    <i class="bi bi-calendar-x"></i>
+
+                </span>
+
+
+                <h3>
+
+                    Chưa có lịch chăm sóc
+
+                </h3>
+
+
+                <p>
+                    Bạn chưa có lịch phù hợp với trạng thái
+                    đang lựa chọn.
+                </p>
+
+
+                <a asp-area="Customer"
+                   asp-controller="Bookings"
+                   asp-action="Create">
+
+                    <i class="bi bi-calendar-plus"></i>
+
+                    Đặt lịch mới
+
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="cb-booking-list"
+                 id="cbBookingList">
+
+
+                @foreach (var item in Model.DanhSachLich)
+                {
+                    string statusClass =
+                        GetStatusClass(
+                            item.TrangThai);
+
+
+                    string statusIcon =
+                        GetStatusIcon(
+                            item.TrangThai);
+
+
+                    string dateFilter =
+                        item.NgayChamSoc
+                            .ToString(
+                                "yyyy-MM-dd");
+
+
+                    string searchText =
+                        string.Join(
+                            " ",
+                            new[]
+                            {
+                                item.TenBenhNhan,
+                                item.TenDichVu,
+                                item.TenNguoiChamSoc,
+                                item.KhuVuc,
+                                item.TrangThai,
+                                $"DL{item.MaDatLich}"
+                            })
+                            .ToLowerInvariant();
+
+
+                    bool coTheHuy =
+                        CoTheHuyLich(
+                            item.TrangThai);
+
+
+                    string cancelText =
+                        GetCancelButtonText(
+                            item.TrangThai);
+
+
+                    string cancelIcon =
+                        GetCancelButtonIcon(
+                            item.TrangThai);
+
+
+
+                    <article class="cb-booking-item"
+                             data-search="@searchText"
+                             data-relative="@item.TenBenhNhan"
+                             data-status="@item.TrangThai"
+                             data-date="@dateFilter">
+
+
+                        @* =================================
+                           NGÀY
+                        ================================== *@
+
+                        <div class="cb-booking-date">
+
+
+                            <strong>
+
+                                @item.NgayChamSoc.ToString("dd")
+
+                            </strong>
+
+
+                            <span>
+
+                                THÁNG
+                                @item.NgayChamSoc.ToString("MM")
+
+                            </span>
+
+
+                            <small>
+
+                                @item.NgayChamSoc.ToString("yyyy")
+
+                            </small>
+
+                        </div>
+
+
+
+                        @* =================================
+                           NỘI DUNG
+                        ================================== *@
+
+                        <div class="cb-booking-content">
+
+
+                            <div class="cb-booking-top">
+
+
+                                <div>
+
+
+                                    <span class="cb-booking-code">
+
+                                        #DL@(item.MaDatLich.ToString("D3"))
+
+                                    </span>
+
+
+                                    <h3>
+
+                                        @item.TenDichVu
+
+                                    </h3>
+
+                                </div>
+
+
+
+                                <span class="cb-status @statusClass">
+
+
+                                    <i class="bi @statusIcon"></i>
+
+
+                                    @item.TrangThai
+
+                                </span>
+
+                            </div>
+
+
+
+                            @* NGƯỜI THÂN *@
+
+                            <p class="cb-booking-relative">
+
+
+                                <i class="bi bi-person-heart"></i>
+
+
+                                Người được chăm sóc:
+
+
+                                <strong>
+
+                                    @item.TenBenhNhan
+
+                                </strong>
+
+                            </p>
+
+
+
+                            @* =================================
+                               META
+                            ================================== *@
+
+                            <div class="cb-booking-meta">
+
+
+                                <div>
+
+
+                                    <span>
+
+                                        <i class="bi bi-person-badge"></i>
+
+                                    </span>
+
+
+                                    <p>
+
+                                        <small>
+
+                                            Người chăm sóc
+
+                                        </small>
+
+
+                                        <strong>
+
+                                            @(string.IsNullOrWhiteSpace(
+                                                item.TenNguoiChamSoc)
+                                                    ? "Chưa phân công"
+                                                    : item.TenNguoiChamSoc)
+
+                                        </strong>
+
+                                    </p>
+
+                                </div>
+
+
+
+                                <div>
+
+
+                                    <span>
+
+                                        <i class="bi bi-clock"></i>
+
+                                    </span>
+
+
+                                    <p>
+
+                                        <small>
+
+                                            Khung giờ
+
+                                        </small>
+
+
+                                        <strong>
+
+                                            @item.GioBatDau.ToString(@"hh\:mm")
+                                            –
+                                            @item.GioKetThuc.ToString(@"hh\:mm")
+
+                                        </strong>
+
+                                    </p>
+
+                                </div>
+
+
+
+                                <div class="cb-meta-address">
+
+
+                                    <span>
+
+                                        <i class="bi bi-geo-alt"></i>
+
+                                    </span>
+
+
+                                    <p>
+
+                                        <small>
+
+                                            Địa điểm
+
+                                        </small>
+
+
+                                        <strong title="@item.KhuVuc">
+
+                                            @item.KhuVuc
+
+                                        </strong>
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+
+                            @* =================================
+                               THÔNG TIN TRẠNG THÁI
+                            ================================== *@
+
+                            @if (item.TrangThai == "Đã xác nhận")
+                            {
+                                <div class="cb-info-box is-confirmed">
+
+
+                                    <i class="bi bi-check-circle"></i>
+
+
+                                    <span>
+                                        Lịch đã được xác nhận và
+                                        có người chăm sóc phụ trách.
+                                    </span>
+
+                                </div>
+                            }
+                            else if (item.TrangThai == "Chờ xác nhận")
+                            {
+                                <div class="cb-info-box is-pending">
+
+
+                                    <i class="bi bi-hourglass-split"></i>
+
+
+                                    <span>
+                                        Yêu cầu đã được tiếp nhận và
+                                        đang chờ người chăm sóc xác nhận
+                                        hoặc hệ thống phân công.
+                                    </span>
+
+                                </div>
+                            }
+                            else if (item.TrangThai == "Đang thực hiện")
+                            {
+                                <div class="cb-info-box is-progress">
+
+
+                                    <i class="bi bi-activity"></i>
+
+
+                                    <span>
+                                        Buổi chăm sóc hiện đang được thực hiện.
+                                        Nếu cần dừng giữa chừng, bạn có thể gửi
+                                        yêu cầu dừng lịch.
+                                    </span>
+
+                                </div>
+                            }
+                            else if (item.TrangThai == "Đã hoàn thành")
+                            {
+                                <div class="cb-info-box is-completed">
+
+
+                                    <i class="bi bi-check2-all"></i>
+
+
+                                    <span>
+                                        Buổi chăm sóc đã hoàn thành.
+                                        Bạn có thể xem nhật ký và đánh giá.
+                                    </span>
+
+                                </div>
+                            }
+
+
+
+                            @* =================================
+                               LỊCH ĐÃ HỦY
+                            ================================== *@
+
+                            @if (item.TrangThai == "Đã hủy")
+                            {
+                                <div class="cb-cancel-box">
+
+
+                                    <div>
+
+
+                                        <i class="bi bi-exclamation-circle-fill"></i>
+
+
+                                        <strong>
+
+                                            Lịch đã được hủy
+
+                                        </strong>
+
+                                    </div>
+
+
+                                    @if (!string.IsNullOrWhiteSpace(
+                                            item.LyDoHuy))
+                                    {
+                                        <p>
+
+                                            @item.LyDoHuy
+
+                                        </p>
+                                    }
+
+
+                                    @if (item.NgayHuy.HasValue)
+                                    {
+                                        <small>
+
+                                            Thời gian hủy:
+
+                                            @item.NgayHuy.Value.ToString("dd/MM/yyyy HH:mm")
+
+                                        </small>
+                                    }
+
+                                </div>
+                            }
+
+                        </div>
+
+
+
+                        @* =================================
+                           GIÁ & ACTION
+                        ================================== *@
+
+                        <div class="cb-booking-side">
+
+
+                            <div class="cb-booking-price">
+
+
+                                <small>
+
+                                    Chi phí dự kiến
+
+                                </small>
+
+
+                                <strong>
+
+                                    @item.TongTien.ToString("#,##0")đ
+
+                                </strong>
+
+                            </div>
+
+
+
+                            <div class="cb-booking-actions">
+
+
+                                @* =============================
+                                   XEM CHI TIẾT
+                                ============================== *@
+
+                                <a asp-area="Customer"
+                                   asp-controller="Bookings"
+                                   asp-action="Details"
+                                   asp-route-id="@item.MaDatLich"
+                                   class="cb-detail-button">
+
+                                    <span>
+
+                                        Xem chi tiết
+
+                                    </span>
+
+
+                                    <i class="bi bi-arrow-right"></i>
+
+                                </a>
+
+
+
+                                @* =============================
+                                   HỦY LỊCH
+                                ============================== *@
+
+                                @if (coTheHuy)
+                                {
+                                    <a asp-area="Customer"
+                                       asp-controller="Bookings"
+                                       asp-action="HuyLich"
+                                       asp-route-id="@item.MaDatLich"
+                                       class="cb-cancel-button
+                                        @(item.TrangThai == "Đang thực hiện"
+                                           ? "is-stop"
+                                           : "")">
+
+
+                                        <i class="bi @cancelIcon"></i>
+
+
+                                        <span>
+
+                                            @cancelText
+
+                                        </span>
+
+                                    </a>
+                                }
+
+
+
+                                @* =============================
+                                   ĐÃ HOÀN THÀNH
+                                ============================== *@
+
+                                @if (item.TrangThai == "Đã hoàn thành")
+                                {
+                                    <div class="cb-action-message is-completed">
+
+
+                                        <i class="bi bi-check-circle-fill"></i>
+
+
+                                        <span>
+
+                                            Lịch đã hoàn thành
+
+                                        </span>
+
+                                    </div>
+                                }
+
+
+
+                                @* =============================
+                                   ĐÃ HỦY
+                                ============================== *@
+
+                                @if (item.TrangThai == "Đã hủy")
+                                {
+                                    <div class="cb-action-message is-cancelled">
+
+
+                                        <i class="bi bi-x-circle-fill"></i>
+
+
+                                        <span>
+
+                                            Không thể hủy lại
+
+                                        </span>
+
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+
+
+
+            @* =================================================
+               KHÔNG CÓ KẾT QUẢ KHI FILTER JS
+            ================================================== *@
+
+            <div class="cb-empty cb-filter-empty"
+                 id="cbFilterEmpty">
+
+
+                <span>
+
+                    <i class="bi bi-search"></i>
+
+                </span>
+
+
+                <h3>
+
+                    Không tìm thấy lịch phù hợp
+
+                </h3>
+
+
+                <p>
+
+                    Hãy thử thay đổi từ khóa hoặc bộ lọc.
+
+                </p>
+
+            </div>
+        }
+
+    </section>
+
+</div>
+
+
+
+@section Scripts
+{
+    <script>
+
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
+
+        const keywordInput =
+            document.getElementById(
+                "cbKeyword");
+
+
+        const relativeSelect =
+            document.getElementById(
+                "cbRelative");
+
+
+        const statusSelect =
+            document.getElementById(
+                "cbStatus");
+
+
+        const dateInput =
+            document.getElementById(
+                "cbDate");
+
+
+        const filterButton =
+            document.getElementById(
+                "cbFilterButton");
+
+
+        const resetButton =
+            document.getElementById(
+                "cbResetButton");
+
+
+        const bookingItems =
+            Array.from(
+                document.querySelectorAll(
+                    ".cb-booking-item"));
+
+
+        const resultCount =
+            document.getElementById(
+                "cbResultCount");
+
+
+        const emptyState =
+            document.getElementById(
+                "cbFilterEmpty");
+
+
+
+        /* =====================================================
+           FILTER
+        ===================================================== */
+
+        function applyBookingFilter() {
+
+            const keyword =
+                keywordInput?.value
+                    .trim()
+                    .toLowerCase()
+                ?? "";
+
+
+            const relative =
+                relativeSelect?.value
+                ?? "";
+
+
+            const status =
+                statusSelect?.value
+                ?? "";
+
+
+            const date =
+                dateInput?.value
+                ?? "";
+
+
+            let visibleCount = 0;
+
+
+
+            bookingItems.forEach(
+                function(item) {
+
+
+                    const itemSearch =
+                        (
+                            item.dataset.search
+                            ?? ""
+                        )
+                            .toLowerCase();
+
+
+                    const itemRelative =
+                        item.dataset.relative
+                        ?? "";
+
+
+                    const itemStatus =
+                        item.dataset.status
+                        ?? "";
+
+
+                    const itemDate =
+                        item.dataset.date
+                        ?? "";
+
+
+
+                    const matchKeyword =
+                        !keyword
+                        ||
+                        itemSearch.includes(
+                            keyword);
+
+
+                    const matchRelative =
+                        !relative
+                        ||
+                        itemRelative ===
+                        relative;
+
+
+                    const matchStatus =
+                        !status
+                        ||
+                        itemStatus ===
+                        status;
+
+
+                    const matchDate =
+                        !date
+                        ||
+                        itemDate ===
+                        date;
+
+
+
+                    const isVisible =
+                        matchKeyword
+                        &&
+                        matchRelative
+                        &&
+                        matchStatus
+                        &&
+                        matchDate;
+
+
+
+                    item.hidden =
+                        !isVisible;
+
+
+
+                    if (isVisible) {
+
+                        visibleCount++;
+                    }
+
+                });
+
+
+
+            if (resultCount) {
+
+                resultCount.textContent =
+                    visibleCount
+                    + " kết quả";
+            }
+
+
+
+            if (emptyState) {
+
+                emptyState.classList.toggle(
+                    "show",
+                    visibleCount === 0);
+            }
+        }
+
+
+
+        /* =====================================================
+           SEARCH BUTTON
+        ===================================================== */
+
+        filterButton?.addEventListener(
+            "click",
+            applyBookingFilter);
+
+
+
+        /* =====================================================
+           ENTER SEARCH
+        ===================================================== */
+
+        keywordInput?.addEventListener(
+            "keydown",
+            function(event) {
+
+
+                if (event.key === "Enter") {
+
+                    event.preventDefault();
+
+                    applyBookingFilter();
+                }
+
+            });
+
+
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        resetButton?.addEventListener(
+            "click",
+            function() {
+
+
+                if (keywordInput) {
+
+                    keywordInput.value = "";
+                }
+
+
+                if (relativeSelect) {
+
+                    relativeSelect.value = "";
+                }
+
+
+                if (statusSelect) {
+
+                    statusSelect.value = "";
+                }
+
+
+                if (dateInput) {
+
+                    dateInput.value = "";
+                }
+
+
+                applyBookingFilter();
+
+            });
+
+    </script>
+}

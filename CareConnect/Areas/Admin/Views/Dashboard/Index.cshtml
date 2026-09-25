@@ -1,0 +1,1654 @@
+﻿@using System.Text.Json
+@model AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Tổng quan hệ thống";
+
+    string labelsJson =
+        JsonSerializer.Serialize(
+            Model.ThongKeTheoThang
+                .Select(x => $"Tháng {x.Thang:00}"));
+
+    string revenueJson =
+        JsonSerializer.Serialize(
+            Model.ThongKeTheoThang
+                .Select(x => x.DoanhThu));
+
+    string bookingJson =
+        JsonSerializer.Serialize(
+            Model.ThongKeTheoThang
+                .Select(x => x.SoDatLich));
+
+    string statusLabelsJson =
+        JsonSerializer.Serialize(
+            Model.ThongKeTrangThai
+                .Select(x => x.TrangThai));
+
+    string statusValuesJson =
+        JsonSerializer.Serialize(
+            Model.ThongKeTrangThai
+                .Select(x => x.SoLuong));
+
+    string weeklyLabelsJson =
+        JsonSerializer.Serialize(
+            Model.ThongKeTheoNgayTrongTuan
+                .Select(x => x.NhanNgay));
+
+    string weeklyBookingsJson =
+        JsonSerializer.Serialize(
+            Model.ThongKeTheoNgayTrongTuan
+                .Select(x => x.SoDatLich));
+
+    string weeklyFillJson =
+        JsonSerializer.Serialize(
+            Model.ThongKeTheoNgayTrongTuan
+                .Select(x => x.TyLeLapDay));
+}
+
+
+<div class="dashboard-page">
+
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="dashboard-alert success">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <span>
+                @TempData["Success"]
+            </span>
+
+        </div>
+    }
+
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="dashboard-alert error">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            <span>
+                @TempData["Error"]
+            </span>
+
+        </div>
+    }
+
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="dashboard-hero">
+
+
+        <div class="dashboard-hero-left">
+
+
+            <span class="dashboard-eyebrow">
+
+                <i class="bi bi-grid"></i>
+
+                CARECONNECT ADMIN
+
+            </span>
+
+
+            <h1>
+                Tổng quan hệ thống
+            </h1>
+
+
+            <p>
+                Theo dõi hoạt động, doanh thu và hiệu suất vận hành
+                của nền tảng CareConnect.
+            </p>
+
+        </div>
+
+
+        <div class="dashboard-hero-actions">
+
+
+            <button type="button"
+                    class="dashboard-period-button">
+
+                <i class="bi bi-calendar3"></i>
+
+                <span>
+                    Tháng @DateTime.Today.ToString("MM/yyyy")
+                </span>
+
+                <i class="bi bi-chevron-down"></i>
+
+            </button>
+
+
+            <a asp-area="Admin"
+               asp-controller="Dashboard"
+               asp-action="XuatBaoCaoThang"
+               asp-route-nam="@DateTime.Today.Year"
+               asp-route-thang="@DateTime.Today.Month"
+               class="dashboard-export-button"
+               title="Xuất báo cáo tháng hiện tại">
+
+                <i class="bi bi-download"></i>
+
+                <span>
+                    Xuất báo cáo
+                </span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         4 KPI CARD
+    ====================================================== -->
+
+    <section class="dashboard-stat-grid">
+
+
+        <!-- TÀI KHOẢN -->
+
+        <article class="dashboard-stat-card accounts">
+
+
+            <span class="dashboard-stat-icon">
+
+                <i class="bi bi-people-fill"></i>
+
+            </span>
+
+
+            <div class="dashboard-stat-content">
+
+                <small>
+                    Tổng tài khoản
+                </small>
+
+
+                <strong>
+                    @Model.TongTaiKhoan
+                </strong>
+
+
+                <p>
+                    @Model.TongKhachHang khách hàng ·
+                    @Model.TongNguoiChamSoc người chăm sóc
+                </p>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- DOANH THU -->
+
+        <article class="dashboard-stat-card revenue">
+
+
+            <span class="dashboard-stat-icon">
+
+                <i class="bi bi-cash-stack"></i>
+
+            </span>
+
+
+            <div class="dashboard-stat-content">
+
+                <small>
+                    Doanh thu tháng
+                </small>
+
+
+                <strong class="dashboard-money">
+                    @Model.DoanhThuThang.ToString("#,##0")đ
+                </strong>
+
+
+                <p>
+                    Từ các lịch đã hoàn thành
+                </p>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- ĐẶT LỊCH -->
+
+        <article class="dashboard-stat-card bookings">
+
+
+            <span class="dashboard-stat-icon">
+
+                <i class="bi bi-calendar2-check-fill"></i>
+
+            </span>
+
+
+            <div class="dashboard-stat-content">
+
+                <small>
+                    Lượt đặt lịch tháng này
+                </small>
+
+
+                <strong>
+                    @Model.TongDatLichThang
+                </strong>
+
+
+                <p>
+                    @Model.TongDatLichHomNay lịch hôm nay ·
+                    @Model.TongDatLichTuan lịch trong tuần
+                </p>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- CẦN XỬ LÝ -->
+
+        <article class="dashboard-stat-card pending">
+
+
+            <span class="dashboard-stat-icon">
+
+                <i class="bi bi-exclamation-diamond-fill"></i>
+
+            </span>
+
+
+            <div class="dashboard-stat-content">
+
+                <small>
+                    Công việc cần xử lý
+                </small>
+
+
+                <strong>
+                    @(Model.HoSoChoDuyet + Model.LichChoXacNhan)
+                </strong>
+
+
+                <p>
+                    @Model.HoSoChoDuyet hồ sơ ·
+                    @Model.LichChoXacNhan lịch xác nhận
+                </p>
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+
+
+    <!-- =====================================================
+         THỐNG KÊ TUẦN & TỶ LỆ LẤP ĐẦY
+    ====================================================== -->
+
+    <section class="dashboard-weekly-panel">
+
+        <div class="dashboard-weekly-header">
+
+            <div class="dashboard-panel-heading">
+
+                <span class="dashboard-panel-icon weekly">
+                    <i class="bi bi-calendar-week"></i>
+                </span>
+
+                <div>
+                    <small>VẬN HÀNH THEO TUẦN</small>
+                    <h2>Đặt lịch &amp; tỷ lệ lấp đầy</h2>
+                    <p>
+                        Từ @Model.DauTuan.ToString("dd/MM/yyyy")
+                        đến @Model.CuoiTuan.ToString("dd/MM/yyyy").
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="dashboard-weekly-fill">
+                <span>Tỷ lệ lấp đầy tuần</span>
+
+                @if (Model.CoDuLieuLichLamViec)
+                {
+                    <strong>@Model.TyLeLapDay%</strong>
+                    <small>
+                        @Model.TongGioDaDatTuan.ToString("0.#") giờ đã đặt /
+                        @Model.TongGioMoLichTuan.ToString("0.#") giờ mở lịch
+                    </small>
+                }
+                else
+                {
+                    <strong>--</strong>
+                    <small>Chưa có khung làm việc trong bảng LichLamViec</small>
+                }
+            </div>
+
+        </div>
+
+        <div class="dashboard-weekly-kpis">
+
+            <article>
+                <span class="weekly-kpi-icon booking">
+                    <i class="bi bi-calendar2-check"></i>
+                </span>
+                <div>
+                    <small>Tổng lịch trong tuần</small>
+                    <strong>@Model.TongDatLichTuan</strong>
+                </div>
+            </article>
+
+            <article>
+                <span class="weekly-kpi-icon completed">
+                    <i class="bi bi-check2-circle"></i>
+                </span>
+                <div>
+                    <small>Đã hoàn thành</small>
+                    <strong>@Model.LichHoanThanhTuan</strong>
+                </div>
+            </article>
+
+            <article>
+                <span class="weekly-kpi-icon cancelled">
+                    <i class="bi bi-x-circle"></i>
+                </span>
+                <div>
+                    <small>Đã hủy</small>
+                    <strong>@Model.LichDaHuyTuan</strong>
+                </div>
+            </article>
+
+            <article>
+                <span class="weekly-kpi-icon hours">
+                    <i class="bi bi-clock-history"></i>
+                </span>
+                <div>
+                    <small>Giờ caregiver đã được đặt</small>
+                    <strong>@Model.TongGioDaDatTuan.ToString("0.#")h</strong>
+                </div>
+            </article>
+
+        </div>
+
+        <div class="dashboard-weekly-content">
+
+            <div class="dashboard-weekly-chart">
+                <canvas id="weeklyChart"></canvas>
+            </div>
+
+            <div class="dashboard-weekly-days">
+
+                @foreach (var day in Model.ThongKeTheoNgayTrongTuan)
+                {
+                    <div class="dashboard-weekly-day-row">
+
+                        <div class="weekly-day-label">
+                            <strong>@day.NhanNgay</strong>
+                            <span>
+                                @day.SoDatLich lịch ·
+                                @day.SoHoanThanh hoàn thành ·
+                                @day.SoDaHuy hủy
+                            </span>
+                        </div>
+
+                        <div class="weekly-day-hours">
+                            <span>
+                                @day.GioDaDat.ToString("0.#")h /
+                                @day.GioMoLich.ToString("0.#")h
+                            </span>
+
+                            @if (day.TyLeLapDay.HasValue)
+                            {
+                                <strong>@day.TyLeLapDay.Value%</strong>
+                            }
+                            else
+                            {
+                                <strong>--</strong>
+                            }
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+        @if (!Model.CoDuLieuLichLamViec)
+        {
+            <div class="dashboard-weekly-note">
+                <i class="bi bi-info-circle"></i>
+                <span>
+                    Tỷ lệ lấp đầy chỉ được tính khi người chăm sóc có dữ liệu
+                    ngày và khung giờ làm việc trong bảng <strong>LichLamViec</strong>.
+                    Hệ thống không dùng tỷ lệ “đã phân công / tổng lịch” thay thế,
+                    vì đó không phải tỷ lệ lấp đầy thời gian làm việc.
+                </span>
+            </div>
+        }
+
+    </section>
+
+    <!-- =====================================================
+         ANALYTICS
+    ====================================================== -->
+
+    <div class="dashboard-analysis-grid">
+
+
+        <!-- BIỂU ĐỒ DOANH THU -->
+
+        <section class="dashboard-panel dashboard-chart-panel">
+
+
+            <div class="dashboard-panel-header">
+
+
+                <div class="dashboard-panel-heading">
+
+
+                    <span class="dashboard-panel-icon">
+
+                        <i class="bi bi-bar-chart-line"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            PHÂN TÍCH HOẠT ĐỘNG
+                        </small>
+
+
+                        <h2>
+                            Doanh thu &amp; lượt đặt lịch
+                        </h2>
+
+
+                        <p>
+                            Dữ liệu hoạt động 6 tháng gần nhất.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-chart-legend">
+
+
+                    <span>
+
+                        <i class="dashboard-revenue-dot"></i>
+
+                        Doanh thu
+
+                    </span>
+
+
+                    <span>
+
+                        <i class="dashboard-booking-dot"></i>
+
+                        Lượt đặt
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-chart-wrapper">
+
+                <canvas id="monthlyChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- TRẠNG THÁI -->
+
+        <section class="dashboard-panel dashboard-status-panel">
+
+
+            <div class="dashboard-panel-header">
+
+
+                <div class="dashboard-panel-heading">
+
+
+                    <span class="dashboard-panel-icon status">
+
+                        <i class="bi bi-pie-chart"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            TRẠNG THÁI LỊCH
+                        </small>
+
+
+                        <h2>
+                            Phân bố đặt lịch
+                        </h2>
+
+
+                        <p>
+                            Tổng quan trạng thái hiện tại.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-status-chart">
+
+                <canvas id="statusChart"></canvas>
+
+
+                <div class="dashboard-status-center">
+
+                    <strong>
+                        @Model.ThongKeTrangThai.Sum(x => x.SoLuong)
+                    </strong>
+
+                    <span>
+                        Tổng lịch
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-status-list">
+
+
+                @foreach (var item in Model.ThongKeTrangThai.Take(5))
+                {
+                    <div class="dashboard-status-row">
+
+
+                        <span>
+
+                            <i></i>
+
+                            @item.TrangThai
+
+                        </span>
+
+
+                        <strong>
+                            @item.SoLuong
+                        </strong>
+
+                    </div>
+                }
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         ACTION AREA
+    ====================================================== -->
+
+    <div class="dashboard-action-grid">
+
+
+        <!-- CAREGIVER PENDING -->
+
+        <section class="dashboard-panel dashboard-pending-panel">
+
+
+            <div class="dashboard-panel-header">
+
+
+                <div class="dashboard-panel-heading">
+
+
+                    <span class="dashboard-panel-icon">
+
+                        <i class="bi bi-person-check"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            PHÊ DUYỆT HỒ SƠ
+                        </small>
+
+
+                        <h2>
+                            Người chăm sóc chờ duyệt
+                        </h2>
+
+
+                        <p>
+                            Hồ sơ mới cần quản trị viên kiểm tra.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <span class="dashboard-count-badge">
+
+                    @Model.HoSoChoDuyet hồ sơ
+
+                </span>
+
+            </div>
+
+
+
+            @if (Model.HoSoChoDuyetGanDay.Count == 0)
+            {
+                <div class="dashboard-empty">
+
+
+                    <span>
+
+                        <i class="bi bi-check2-circle"></i>
+
+                    </span>
+
+
+                    <strong>
+                        Không có hồ sơ chờ duyệt
+                    </strong>
+
+
+                    <p>
+                        Tất cả hồ sơ hiện tại đã được xử lý.
+                    </p>
+
+                </div>
+            }
+            else
+            {
+                <div class="dashboard-caregiver-list">
+
+
+                    @foreach (var item in Model.HoSoChoDuyetGanDay)
+                    {
+                        string tenNguoiChamSoc =
+                            string.IsNullOrWhiteSpace(item.HoTen)
+                                ? "Người chăm sóc"
+                                : item.HoTen;
+
+                        string chuCaiDauNguoiChamSoc =
+                            tenNguoiChamSoc
+                                .Substring(0, 1)
+                                .ToUpper();
+
+
+                        <article class="dashboard-caregiver-card">
+
+
+                            <div class="dashboard-caregiver-top">
+
+
+                                <span class="dashboard-caregiver-avatar">
+
+                                    @chuCaiDauNguoiChamSoc
+
+                                </span>
+
+
+                                <div class="dashboard-caregiver-info">
+
+
+                                    <strong>
+                                        @tenNguoiChamSoc
+                                    </strong>
+
+
+                                    <p>
+                                        @(string.IsNullOrWhiteSpace(
+                                            item.ChuyenMon)
+                                                ? "Chưa cập nhật chuyên môn"
+                                                : item.ChuyenMon)
+                                    </p>
+
+                                </div>
+
+
+                                <span class="dashboard-pending-badge">
+
+                                    <i class="bi bi-hourglass-split"></i>
+
+                                    Chờ duyệt
+
+                                </span>
+
+                            </div>
+
+
+
+                            <div class="dashboard-caregiver-details">
+
+
+                                <span>
+
+                                    <i class="bi bi-briefcase"></i>
+
+                                    @item.KinhNghiem năm kinh nghiệm
+
+                                </span>
+
+
+                                <span>
+
+                                    <i class="bi bi-geo-alt"></i>
+
+                                    @item.KhuVucHoatDong
+
+                                </span>
+
+
+                                <span>
+
+                                    <i class="bi bi-calendar3"></i>
+
+                                    @item.NgayTao.ToString("dd/MM/yyyy")
+
+                                </span>
+
+                            </div>
+
+
+
+                            <div class="dashboard-caregiver-actions">
+
+
+                                <form asp-area="Admin"
+                                      asp-controller="Dashboard"
+                                      asp-action="TuChoiNguoiChamSoc"
+                                      method="post">
+
+                                    @Html.AntiForgeryToken()
+
+
+                                    <input type="hidden"
+                                           name="maNguoiChamSoc"
+                                           value="@item.MaNguoiChamSoc" />
+
+
+                                    <button type="submit"
+                                            class="dashboard-reject-button">
+
+                                        <i class="bi bi-x-lg"></i>
+
+                                        Từ chối
+
+                                    </button>
+
+                                </form>
+
+
+                                <form asp-area="Admin"
+                                      asp-controller="Dashboard"
+                                      asp-action="DuyetNguoiChamSoc"
+                                      method="post">
+
+                                    @Html.AntiForgeryToken()
+
+
+                                    <input type="hidden"
+                                           name="maNguoiChamSoc"
+                                           value="@item.MaNguoiChamSoc" />
+
+
+                                    <button type="submit"
+                                            class="dashboard-approve-button">
+
+                                        <i class="bi bi-check2"></i>
+
+                                        Phê duyệt
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </article>
+                    }
+
+                </div>
+            }
+
+        </section>
+
+
+
+        <!-- QUICK ACTIONS -->
+
+        <section class="dashboard-panel dashboard-quick-panel">
+
+
+            <div class="dashboard-panel-header">
+
+
+                <div class="dashboard-panel-heading">
+
+
+                    <span class="dashboard-panel-icon quick">
+
+                        <i class="bi bi-lightning-charge"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            TRUY CẬP NHANH
+                        </small>
+
+
+                        <h2>
+                            Thao tác nhanh
+                        </h2>
+
+
+                        <p>
+                            Truy cập các chức năng thường dùng.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="dashboard-quick-list">
+
+
+                <a asp-area="Admin"
+                   asp-controller="Users"
+                   asp-action="Create"
+                   class="dashboard-quick-item">
+
+
+                    <span class="dashboard-quick-icon blue">
+
+                        <i class="bi bi-person-plus"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <strong>
+                            Thêm tài khoản
+                        </strong>
+
+                        <small>
+                            Tạo tài khoản mới
+                        </small>
+
+                    </div>
+
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </a>
+
+
+
+                <a asp-area="Admin"
+                   asp-controller="Services"
+                   asp-action="Index"
+                   class="dashboard-quick-item">
+
+
+                    <span class="dashboard-quick-icon orange">
+
+                        <i class="bi bi-heart-pulse"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <strong>
+                            Quản lý dịch vụ
+                        </strong>
+
+                        <small>
+                            Giá và dịch vụ chăm sóc
+                        </small>
+
+                    </div>
+
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </a>
+
+
+
+                <a asp-area="Admin"
+                   asp-controller="Reports"
+                   asp-action="Index"
+                   class="dashboard-quick-item">
+
+
+                    <span class="dashboard-quick-icon green">
+
+                        <i class="bi bi-file-earmark-bar-graph"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <strong>
+                            Báo cáo thống kê
+                        </strong>
+
+                        <small>
+                            Xem dữ liệu hoạt động
+                        </small>
+
+                    </div>
+
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </a>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         RECENT BOOKINGS
+    ====================================================== -->
+
+    <section class="dashboard-panel dashboard-recent-panel">
+
+
+        <div class="dashboard-panel-header">
+
+
+            <div class="dashboard-panel-heading">
+
+
+                <span class="dashboard-panel-icon">
+
+                    <i class="bi bi-calendar2-check"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        HOẠT ĐỘNG MỚI
+                    </small>
+
+
+                    <h2>
+                        Lịch đặt gần đây
+                    </h2>
+
+
+                    <p>
+                        Danh sách các lịch đặt mới nhất trong hệ thống.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a asp-area="Admin"
+               asp-controller="Bookings"
+               asp-action="Index"
+               class="dashboard-view-all">
+
+                Xem tất cả
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+
+        @if (Model.LichDatGanDay == null ||
+             Model.LichDatGanDay.Count == 0)
+        {
+            <div class="dashboard-empty">
+
+
+                <span>
+
+                    <i class="bi bi-calendar-x"></i>
+
+                </span>
+
+
+                <strong>
+                    Chưa có lịch đặt gần đây
+                </strong>
+
+
+                <p>
+                    Các lịch mới sẽ xuất hiện tại đây.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="dashboard-table-wrapper">
+
+
+                <table class="dashboard-table">
+
+
+                    <thead>
+
+                        <tr>
+                            <th>Khách hàng</th>
+                            <th>Người được chăm sóc</th>
+                            <th>Người chăm sóc</th>
+                            <th>Ngày</th>
+                            <th>Giờ</th>
+                            <th>Chi phí</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        @foreach (var lich in Model.LichDatGanDay)
+                        {
+                            string tenKhachHang =
+                                string.IsNullOrWhiteSpace(
+                                    lich.TenKhachHang)
+                                    ? "Khách hàng"
+                                    : lich.TenKhachHang;
+
+
+                            string chuCaiDau =
+                                tenKhachHang
+                                    .Substring(0, 1)
+                                    .ToUpper();
+
+
+                            <tr>
+
+
+                                <td>
+
+                                    <div class="dashboard-table-person">
+
+
+                                        <span class="dashboard-table-avatar">
+
+                                            @chuCaiDau
+
+                                        </span>
+
+
+                                        <div>
+
+                                            <strong>
+                                                @tenKhachHang
+                                            </strong>
+
+                                            <small>
+                                                Mã đặt lịch:
+                                                <strong>
+                                                    #DL@(lich.MaDatLich)
+                                                </strong>
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    @lich.TenBenhNhan
+                                </td>
+
+
+                                <td>
+                                    @lich.TenNguoiChamSoc
+                                </td>
+
+
+                                <td>
+
+                                    <strong class="dashboard-table-date">
+
+                                        @lich.NgayChamSoc.ToString("dd/MM/yyyy")
+
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="dashboard-table-time">
+
+                                        @(lich.GioBatDau.ToString(@"hh\:mm"))
+
+                                        -
+
+                                        @(lich.GioKetThuc.ToString(@"hh\:mm"))
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong class="dashboard-table-money">
+
+                                        @lich.TongTien.ToString("#,##0")đ
+
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="@GetStatusClass(
+                                                                                                                                                                lich.TrangThai)">
+
+                                        @lich.TrangThai
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <button type="button"
+                                            class="dashboard-table-action">
+
+                                        <i class="bi bi-three-dots"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </section>
+
+</div>
+
+
+@functions {
+
+    private string GetStatusClass(
+        string status)
+    {
+        return status switch
+        {
+            "Chờ xác nhận"
+                => "dashboard-status-badge pending",
+
+            "Đã xác nhận"
+                => "dashboard-status-badge confirmed",
+
+            "Đang thực hiện"
+                => "dashboard-status-badge processing",
+
+            "Đã hoàn thành"
+                => "dashboard-status-badge completed",
+
+            "Đã hủy"
+                => "dashboard-status-badge cancelled",
+
+            _
+                => "dashboard-status-badge default"
+        };
+    }
+
+}
+
+
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+    <script>
+
+        const labels =
+                                    @Html.Raw(labelsJson);
+
+        const revenueData =
+                                    @Html.Raw(revenueJson);
+
+        const bookingData =
+                                    @Html.Raw(bookingJson);
+
+
+        const monthlyChart =
+            document.getElementById(
+                "monthlyChart");
+
+
+        new Chart(
+            monthlyChart,
+            {
+                type: "bar",
+
+                data: {
+
+                    labels: labels,
+
+                    datasets: [
+
+                        {
+                            type: "line",
+
+                            label: "Doanh thu",
+
+                            data: revenueData,
+
+                            borderColor:
+                                "#21a69e",
+
+                            backgroundColor:
+                                "rgba(33,166,158,.10)",
+
+                            borderWidth: 2.5,
+
+                            tension: .38,
+
+                            fill: true,
+
+                            yAxisID:
+                                "yRevenue",
+
+                            pointRadius: 3,
+
+                            pointHoverRadius: 5,
+
+                            pointBackgroundColor:
+                                "#21a69e"
+                        },
+
+                        {
+                            type: "bar",
+
+                            label: "Lượt đặt",
+
+                            data: bookingData,
+
+                            backgroundColor:
+                                "#efaa3d",
+
+                            borderRadius: 7,
+
+                            maxBarThickness: 32,
+
+                            yAxisID:
+                                "yBooking"
+                        }
+
+                    ]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    interaction: {
+
+                        mode: "index",
+
+                        intersect: false
+                    },
+
+                    plugins: {
+
+                        legend: {
+                            display: false
+                        },
+
+                        tooltip: {
+                            padding: 10
+                        }
+                    },
+
+                    scales: {
+
+                        x: {
+
+                            grid: {
+                                display: false
+                            },
+
+                            border: {
+                                display: false
+                            },
+
+                            ticks: {
+
+                                color: "#83918b",
+
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+
+                        yRevenue: {
+
+                            position:
+                                "left",
+
+                            beginAtZero:
+                                true,
+
+                            grid: {
+
+                                color:
+                                    "#edf1ef"
+                            },
+
+                            border: {
+                                display: false
+                            },
+
+                            ticks: {
+
+                                color:
+                                    "#8a9792",
+
+                                font: {
+                                    size: 10
+                                },
+
+                                callback:
+                                    function(value) {
+
+                                        return new Intl
+                                            .NumberFormat(
+                                                "vi-VN",
+                                                {
+                                                    notation:
+                                                        "compact"
+                                                })
+                                            .format(
+                                                value);
+                                    }
+                            }
+                        },
+
+                        yBooking: {
+
+                            position:
+                                "right",
+
+                            beginAtZero:
+                                true,
+
+                            grid: {
+                                display: false
+                            },
+
+                            border: {
+                                display: false
+                            },
+
+                            ticks: {
+
+                                color:
+                                    "#8a9792",
+
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+
+        const weeklyLabels =
+                                    @Html.Raw(weeklyLabelsJson);
+
+        const weeklyBookings =
+                                    @Html.Raw(weeklyBookingsJson);
+
+        const weeklyFill =
+                                    @Html.Raw(weeklyFillJson);
+
+        const weeklyChart =
+            document.getElementById(
+                "weeklyChart");
+
+        if (weeklyChart) {
+            new Chart(
+                weeklyChart,
+                {
+                    data: {
+                        labels: weeklyLabels,
+
+                        datasets: [
+                            {
+                                type: "bar",
+                                label: "Lượt đặt",
+                                data: weeklyBookings,
+                                backgroundColor: "#5286d8",
+                                borderRadius: 7,
+                                maxBarThickness: 30,
+                                yAxisID: "yBookingWeek"
+                            },
+                            {
+                                type: "line",
+                                label: "Lấp đầy (%)",
+                                data: weeklyFill,
+                                borderColor: "#21a69e",
+                                backgroundColor: "rgba(33,166,158,.10)",
+                                borderWidth: 2.5,
+                                tension: .35,
+                                spanGaps: false,
+                                pointRadius: 3,
+                                pointHoverRadius: 5,
+                                yAxisID: "yFillWeek"
+                            }
+                        ]
+                    },
+
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: "index",
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: {
+                                position: "bottom",
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 18
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                border: { display: false },
+                                ticks: {
+                                    color: "#83918b",
+                                    font: { size: 11 }
+                                }
+                            },
+                            yBookingWeek: {
+                                position: "left",
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0,
+                                    color: "#8a9792"
+                                },
+                                grid: { color: "#edf1ef" },
+                                border: { display: false }
+                            },
+                            yFillWeek: {
+                                position: "right",
+                                beginAtZero: true,
+                                min: 0,
+                                max: 100,
+                                grid: { display: false },
+                                border: { display: false },
+                                ticks: {
+                                    color: "#8a9792",
+                                    callback: function(value) {
+                                        return value + "%";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+        }
+
+
+        const statusLabels =
+                                    @Html.Raw(statusLabelsJson);
+
+        const statusValues =
+                                    @Html.Raw(statusValuesJson);
+
+
+        const statusChart =
+            document.getElementById(
+                "statusChart");
+
+
+        new Chart(
+            statusChart,
+            {
+                type: "doughnut",
+
+                data: {
+
+                    labels:
+                        statusLabels,
+
+                    datasets: [
+
+                        {
+                            data:
+                                statusValues,
+
+                            backgroundColor: [
+
+                                "#efaa3d",
+                                "#5286d8",
+                                "#2ca9a1",
+                                "#4bb986",
+                                "#dd6763",
+                                "#8e7bd2"
+                            ],
+
+                            borderWidth:
+                                0,
+
+                            hoverOffset:
+                                5
+                        }
+
+                    ]
+                },
+
+                options: {
+
+                    responsive:
+                        true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    cutout:
+                        "74%",
+
+                    plugins: {
+
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+    </script>
+}

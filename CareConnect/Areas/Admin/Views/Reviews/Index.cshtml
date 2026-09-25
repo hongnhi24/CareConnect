@@ -1,0 +1,499 @@
+﻿@model CareConnect.ViewModels.AdminReviewViewModel
+
+@{
+    ViewData["Title"] = "Đánh giá khách hàng";
+}
+
+<section class="review-page-heading">
+
+    <div>
+        <span class="review-eyebrow">
+            QUẢN LÝ CHẤT LƯỢNG
+        </span>
+
+        <h1>Đánh giá khách hàng</h1>
+
+        <p>
+            Theo dõi mức độ hài lòng, phản hồi dịch vụ
+            và chất lượng làm việc của người chăm sóc.
+        </p>
+    </div>
+
+    <a asp-area="Admin"
+       asp-controller="Reports"
+       asp-action="Index"
+       class="review-report-button">
+
+        <i class="bi bi-bar-chart-fill"></i>
+        Xem báo cáo
+    </a>
+
+</section>
+
+<section class="review-summary-grid">
+
+    <article class="review-summary-card total">
+
+        <span class="review-summary-icon">
+            <i class="bi bi-chat-square-text-fill"></i>
+        </span>
+
+        <div>
+            <strong>@Model.TongDanhGia</strong>
+            <span>Tổng đánh giá</span>
+            <small>Toàn bộ phản hồi khách hàng</small>
+        </div>
+
+    </article>
+
+    <article class="review-summary-card average">
+
+        <span class="review-summary-icon">
+            <i class="bi bi-star-fill"></i>
+        </span>
+
+        <div>
+            <strong>
+                @Model.DiemTrungBinh.ToString("0.0") / 5
+            </strong>
+
+            <span>Điểm trung bình</span>
+
+            <small class="review-inline-stars">
+                @for (int sao = 1;
+                      sao <= 5;
+                      sao++)
+                {
+                    <i class="bi bi-star-fill"></i>
+                }
+            </small>
+        </div>
+
+    </article>
+
+    <article class="review-summary-card positive">
+
+        <span class="review-summary-icon">
+            <i class="bi bi-hand-thumbs-up-fill"></i>
+        </span>
+
+        <div>
+            <strong>@Model.DanhGiaTot</strong>
+            <span>Đánh giá tích cực</span>
+            <small>Từ 4 đến 5 sao</small>
+        </div>
+
+    </article>
+
+    <article class="review-summary-card attention">
+
+        <span class="review-summary-icon">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+        </span>
+
+        <div>
+            <strong>@Model.DanhGiaCanChuY</strong>
+            <span>Cần chú ý</span>
+            <small>Đánh giá từ 1 đến 2 sao</small>
+        </div>
+
+    </article>
+
+</section>
+
+<section class="review-analysis-grid">
+
+    <article class="review-star-panel">
+
+        <div class="review-panel-heading">
+
+            <div>
+                <span>PHÂN BỐ ĐÁNH GIÁ</span>
+                <h2>Tỷ lệ theo số sao</h2>
+            </div>
+
+            <i class="bi bi-stars"></i>
+
+        </div>
+
+        <div class="review-star-distribution">
+
+            @foreach (var item in Model.PhanBoSoSao)
+            {
+                <div class="review-star-row">
+
+                    <span class="review-star-label">
+                        @item.SoSao
+                        <i class="bi bi-star-fill"></i>
+                    </span>
+
+                    <div class="review-star-progress">
+                        <span style="width: @(item.TyLe.ToString(
+                                                        System.Globalization.CultureInfo.InvariantCulture))%">
+                        </span>
+                    </div>
+
+                    <strong>@item.SoLuong</strong>
+
+                    <small>
+                        @item.TyLe.ToString("0.#")%
+                    </small>
+
+                </div>
+            }
+
+        </div>
+
+    </article>
+
+    <article class="review-insight-panel">
+
+        <div class="review-panel-heading">
+
+            <div>
+                <span>NHẬN ĐỊNH NHANH</span>
+                <h2>Chất lượng dịch vụ</h2>
+            </div>
+
+            <i class="bi bi-lightbulb-fill"></i>
+
+        </div>
+
+        <div class="review-insight-content">
+
+            @if (Model.DiemTrungBinh >= 4.5)
+            {
+                <span class="review-insight-icon excellent">
+                    <i class="bi bi-emoji-smile-fill"></i>
+                </span>
+
+                <div>
+                    <strong>Mức độ hài lòng rất tốt</strong>
+
+                    <p>
+                        Điểm đánh giá trung bình đang ở mức cao.
+                        Hệ thống nên tiếp tục duy trì chất lượng hiện tại.
+                    </p>
+                </div>
+            }
+            else if (Model.DiemTrungBinh >= 3.5)
+            {
+                <span class="review-insight-icon normal">
+                    <i class="bi bi-emoji-neutral-fill"></i>
+                </span>
+
+                <div>
+                    <strong>Chất lượng ở mức khá</strong>
+
+                    <p>
+                        Nên xem các đánh giá thấp để tìm ra
+                        vấn đề cần cải thiện.
+                    </p>
+                </div>
+            }
+            else
+            {
+                <span class="review-insight-icon warning">
+                    <i class="bi bi-emoji-frown-fill"></i>
+                </span>
+
+                <div>
+                    <strong>Cần ưu tiên cải thiện</strong>
+
+                    <p>
+                        Điểm trung bình đang thấp.
+                        Admin nên rà soát phản hồi và chất lượng phục vụ.
+                    </p>
+                </div>
+            }
+
+        </div>
+
+    </article>
+
+</section>
+
+<section class="review-filter-panel">
+
+    <div class="review-filter-heading">
+
+        <div>
+            <span>BỘ LỌC DỮ LIỆU</span>
+            <h2>Tìm kiếm đánh giá</h2>
+        </div>
+
+        <i class="bi bi-funnel-fill"></i>
+
+    </div>
+
+    <form asp-area="Admin"
+          asp-controller="Reviews"
+          asp-action="Index"
+          method="get"
+          class="review-filter-form">
+
+        <div class="review-filter-field wide">
+
+            <label for="reviewKeyword">
+                Từ khóa tìm kiếm
+            </label>
+
+            <div class="review-input-wrapper">
+
+                <i class="bi bi-search"></i>
+
+                <input id="reviewKeyword"
+                       type="text"
+                       name="tuKhoa"
+                       value="@Model.TuKhoa"
+                       placeholder="Khách hàng, người chăm sóc, dịch vụ, nội dung..." />
+
+            </div>
+
+        </div>
+
+        <div class="review-filter-field">
+
+            <label for="reviewStar">
+                Số sao
+            </label>
+
+            <select id="reviewStar"
+                    name="soSao">
+
+                <option value="">
+                    Tất cả số sao
+                </option>
+
+                @for (int sao = 5;
+                      sao >= 1;
+                      sao--)
+                {
+                    <option value="@sao"
+                            selected="@(Model.SoSao == sao)">
+                        @sao sao
+                    </option>
+                }
+
+            </select>
+
+        </div>
+
+        <div class="review-filter-field">
+
+            <label for="reviewFromDate">
+                Từ ngày
+            </label>
+
+            <input id="reviewFromDate"
+                   type="date"
+                   name="tuNgay"
+                   value="@(Model.TuNgay?.ToString("yyyy-MM-dd"))" />
+
+        </div>
+
+        <div class="review-filter-field">
+
+            <label for="reviewToDate">
+                Đến ngày
+            </label>
+
+            <input id="reviewToDate"
+                   type="date"
+                   name="denNgay"
+                   value="@(Model.DenNgay?.ToString("yyyy-MM-dd"))" />
+
+        </div>
+
+        <div class="review-filter-actions">
+
+            <button type="submit">
+                <i class="bi bi-funnel-fill"></i>
+                Áp dụng
+            </button>
+
+            <a asp-area="Admin"
+               asp-controller="Reviews"
+               asp-action="Index"
+               title="Xóa bộ lọc">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+            </a>
+
+        </div>
+
+    </form>
+
+</section>
+
+<section class="review-data-panel">
+
+    <div class="review-data-heading">
+
+        <div>
+            <span>DANH SÁCH PHẢN HỒI</span>
+            <h2>Đánh giá trong hệ thống</h2>
+        </div>
+
+        <strong>
+            @Model.DanhSachDanhGia.Count kết quả
+        </strong>
+
+    </div>
+
+    @if (Model.DanhSachDanhGia.Count == 0)
+    {
+        <div class="review-empty">
+
+            <i class="bi bi-chat-square-text"></i>
+
+            <h3>Không tìm thấy đánh giá</h3>
+
+            <p>
+                Hãy thử thay đổi từ khóa hoặc điều kiện lọc.
+            </p>
+
+        </div>
+    }
+    else
+    {
+        <div class="review-list">
+
+            @foreach (var item in Model.DanhSachDanhGia)
+            {
+                <article class="review-card">
+
+                    <div class="review-card-header">
+
+                        <span class="review-customer-avatar">
+                            @GetInitial(item.TenKhachHang)
+                        </span>
+
+                        <div class="review-customer-info">
+
+                            <strong>
+                                @item.TenKhachHang
+                            </strong>
+
+                            <span>
+                                Đánh giá cho
+                                <b>@item.TenNguoiChamSoc</b>
+                            </span>
+
+                        </div>
+
+                        <div class="review-card-rating">
+
+                            <div>
+                                @for (int sao = 1;
+                                      sao <= 5;
+                                      sao++)
+                                {
+                                    <i class="bi @(sao <= item.SoSao
+                                                                               ? "bi-star-fill"
+                                                                               : "bi-star")">
+                            </i>
+                        }
+                    </div>
+
+                    <strong>
+                        @item.SoSao.0
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <blockquote>
+                “@item.NoiDung”
+            </blockquote>
+
+            <div class="review-card-meta">
+
+                <span>
+                    <i class="bi bi-hash"></i>
+                    DL@item.MaDatLich
+                </span>
+
+                <span>
+                    <i class="bi bi-heart-pulse"></i>
+                    @item.TenDichVu
+                </span>
+
+                <span>
+                    <i class="bi bi-person-heart"></i>
+                    @item.TenBenhNhan
+                </span>
+
+                <span>
+                    <i class="bi bi-calendar3"></i>
+                    @item.NgayDanhGia.ToString("dd/MM/yyyy HH:mm")
+                </span>
+
+            </div>
+
+            <div class="review-card-footer">
+
+                <span class="@GetReviewLevelClass(item.SoSao)">
+
+                    @GetReviewLevelText(item.SoSao)
+
+                </span>
+
+                <a asp-area="Admin"
+                   asp-controller="Reviews"
+                   asp-action="Details"
+                   asp-route-id="@item.MaDanhGia">
+
+                    Xem chi tiết
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </article>
+    }
+
+</div>
+    }
+
+</section>
+
+@functions {
+    private string GetInitial(
+        string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return "K";
+        }
+
+        return name.Trim()
+            .Substring(0, 1)
+            .ToUpper();
+    }
+
+    private string GetReviewLevelClass(
+        int stars)
+    {
+        return stars switch
+        {
+            >= 4 => "review-level positive",
+            3 => "review-level normal",
+            _ => "review-level warning"
+        };
+    }
+
+    private string GetReviewLevelText(
+        int stars)
+    {
+        return stars switch
+        {
+            5 => "Rất hài lòng",
+            4 => "Hài lòng",
+            3 => "Bình thường",
+            2 => "Chưa hài lòng",
+            _ => "Cần xử lý"
+        };
+    }
+}

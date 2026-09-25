@@ -1,0 +1,760 @@
+﻿@model CaregiverProfileViewModel
+
+@{
+    ViewData["Title"] = "Hồ sơ cá nhân";
+
+    int tongTruong = 11;
+    int soTruongDaCo = 0;
+
+    if (!string.IsNullOrWhiteSpace(Model.HoTen))
+        soTruongDaCo++;
+
+    if (!string.IsNullOrWhiteSpace(Model.GioiTinh))
+        soTruongDaCo++;
+
+    if (Model.NgaySinh.HasValue)
+        soTruongDaCo++;
+
+    if (!string.IsNullOrWhiteSpace(Model.SoDienThoai))
+        soTruongDaCo++;
+
+    if (!string.IsNullOrWhiteSpace(Model.Email))
+        soTruongDaCo++;
+
+    if (!string.IsNullOrWhiteSpace(Model.DiaChi))
+        soTruongDaCo++;
+
+    if (!string.IsNullOrWhiteSpace(Model.ChuyenMon))
+        soTruongDaCo++;
+
+    if (Model.KinhNghiem > 0)
+        soTruongDaCo++;
+
+    if (!string.IsNullOrWhiteSpace(Model.BangCap))
+        soTruongDaCo++;
+
+    if (!string.IsNullOrWhiteSpace(Model.KhuVucHoatDong))
+        soTruongDaCo++;
+
+    if (!string.IsNullOrWhiteSpace(Model.GioiThieu))
+        soTruongDaCo++;
+
+    int phanTramHoanThien =
+        (int)Math.Round(
+            soTruongDaCo * 100.0 / tongTruong);
+
+    string tenHienThi =
+        string.IsNullOrWhiteSpace(Model.HoTen)
+            ? "Người chăm sóc"
+            : Model.HoTen;
+
+    string vietTat =
+        string.Join(
+            "",
+            tenHienThi
+                .Split(
+                    ' ',
+                    StringSplitOptions.RemoveEmptyEntries)
+                .TakeLast(2)
+                .Select(x => x[0]))
+        .ToUpper();
+
+    string trangThaiClass =
+        Model.TrangThai == "Đã duyệt"
+            ? "is-approved"
+            : Model.TrangThai == "Chờ duyệt"
+                ? "is-pending"
+                : "is-inactive";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="cg-profile-toast"
+         id="profileSuccessToast"
+         role="status">
+
+        <span class="cg-profile-toast-icon">
+            <i class="bi bi-check-lg"></i>
+        </span>
+
+        <div class="cg-profile-toast-content">
+            <strong>Cập nhật thành công</strong>
+            <p>@TempData["Success"]</p>
+        </div>
+
+        <button type="button"
+                class="cg-profile-toast-close"
+                id="closeProfileToast"
+                aria-label="Đóng thông báo">
+
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="cg-profile-toast cg-profile-toast-error"
+         id="profileSuccessToast"
+         role="alert">
+
+        <span class="cg-profile-toast-icon">
+            <i class="bi bi-exclamation-lg"></i>
+        </span>
+
+        <div class="cg-profile-toast-content">
+            <strong>Chưa thể cập nhật</strong>
+            <p>@TempData["Error"]</p>
+        </div>
+
+        <button type="button"
+                class="cg-profile-toast-close"
+                id="closeProfileToast"
+                aria-label="Đóng thông báo">
+
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+}
+
+<div asp-validation-summary="ModelOnly"
+     class="cg-profile-validation">
+</div>
+
+<section class="cg-profile-modern-header">
+
+    <div class="cg-profile-modern-header-content">
+
+        <span class="cg-profile-modern-label">
+            THÔNG TIN CÁ NHÂN
+        </span>
+
+        <h1>Hồ sơ cá nhân</h1>
+
+        <p>
+            Quản lý thông tin cá nhân, chuyên môn và hồ sơ
+            làm việc của bạn.
+        </p>
+
+    </div>
+
+    <div class="cg-profile-modern-header-actions">
+
+        <div class="cg-profile-modern-summary">
+
+            <span class="cg-profile-modern-summary-icon">
+                <i class="bi bi-person-badge-fill"></i>
+            </span>
+
+            <div>
+                <small>Mức độ hoàn thiện</small>
+
+                <strong>
+                    @phanTramHoanThien%
+                </strong>
+
+                <p>
+                    @(phanTramHoanThien == 100
+                        ? "Hồ sơ đã hoàn thiện"
+                        : "Tiếp tục bổ sung thông tin")
+                </p>
+            </div>
+
+        </div>
+
+        <button type="button"
+                class="cg-profile-header-edit-button"
+                id="enableProfileEdit">
+
+            <i class="bi bi-pencil-square"></i>
+            Chỉnh sửa hồ sơ
+        </button>
+
+    </div>
+
+</section>
+
+<form asp-area="Caregiver"
+      asp-controller="Profile"
+      asp-action="Index"
+      method="post"
+      id="caregiverProfileForm">
+
+    @Html.AntiForgeryToken()
+
+    <input asp-for="MaNguoiChamSoc"
+           type="hidden" />
+
+    <div class="cg-profile-page-layout">
+
+        <!-- CỘT TRÁI -->
+        <aside class="cg-profile-page-sidebar">
+
+            <div class="cg-profile-sidebar-sticky">
+
+                <section class="cg-profile-summary-card">
+
+                    <div class="cg-profile-summary-cover"></div>
+
+                    <div class="cg-profile-summary-content">
+
+                        <div class="cg-profile-summary-avatar">
+                            @vietTat
+
+                            <span>
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+                        </div>
+
+                        <h2>@tenHienThi</h2>
+
+                        <p>
+                            @(string.IsNullOrWhiteSpace(Model.ChuyenMon)
+                                ? "Chưa cập nhật chuyên môn"
+                                : Model.ChuyenMon)
+                        </p>
+
+                        <div class="cg-profile-status @trangThaiClass">
+                            <i class="bi bi-patch-check-fill"></i>
+                            @Model.TrangThai
+                        </div>
+
+                        <div class="cg-profile-rating-box">
+
+                            <span>
+                                <i class="bi bi-star-fill"></i>
+                            </span>
+
+                            <div>
+                                <strong>
+                                    @Model.DanhGia.ToString("0.0")
+                                </strong>
+
+                                <small>
+                                    @Model.SoDanhGia lượt đánh giá
+                                </small>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="cg-profile-summary-statistics">
+
+                        <div>
+                            <strong>@Model.KinhNghiem</strong>
+                            <span>Năm kinh nghiệm</span>
+                        </div>
+
+                        <div>
+                            <strong>@Model.SoBuoiHoanThanh</strong>
+                            <span>Buổi hoàn thành</span>
+                        </div>
+
+                    </div>
+
+                    <div class="cg-profile-summary-details">
+
+                        <div>
+                            <span>
+                                <i class="bi bi-geo-alt-fill"></i>
+                            </span>
+
+                            <div>
+                                <small>Khu vực hoạt động</small>
+
+                                <strong>
+                                    @(string.IsNullOrWhiteSpace(
+                                        Model.KhuVucHoatDong)
+                                        ? "Chưa cập nhật"
+                                        : Model.KhuVucHoatDong)
+                                </strong>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span>
+                                <i class="bi bi-cash-stack"></i>
+                            </span>
+
+                            <div>
+                                <small>Giá dịch vụ theo giờ</small>
+
+                                <strong>
+                                    @(Model.GiaTheoGio.HasValue
+                                        ? Model.GiaTheoGio.Value
+                                            .ToString("#,##0") + "đ"
+                                        : "Chưa cập nhật")
+                                </strong>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span>
+                                <i class="bi bi-calendar-check-fill"></i>
+                            </span>
+
+                            <div>
+                                <small>Tham gia CareConnect</small>
+
+                                <strong>
+                                    @Model.NgayTao.ToString("dd/MM/yyyy")
+                                </strong>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </aside>
+
+        <!-- CỘT PHẢI -->
+        <div class="cg-profile-page-main">
+
+            <section class="cg-profile-form-card">
+
+                <div class="cg-profile-form-header">
+
+                    <div class="cg-profile-form-icon">
+                        <i class="bi bi-person-lines-fill"></i>
+                    </div>
+
+                    <div>
+                        <span>THÔNG TIN CƠ BẢN</span>
+                        <h2>Thông tin cá nhân</h2>
+
+                        <p>
+                            Thông tin dùng để xác minh và liên hệ
+                            với người chăm sóc.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="cg-profile-form-grid">
+
+                    <div class="cg-profile-field cg-profile-field-full">
+
+                        <label asp-for="HoTen"></label>
+
+                        <div class="cg-profile-input">
+                            <i class="bi bi-person"></i>
+
+                            <input asp-for="HoTen"
+                                   class="profile-editable"
+                                   disabled />
+                        </div>
+
+                        <span asp-validation-for="HoTen"></span>
+
+                    </div>
+
+                    <div class="cg-profile-field">
+
+                        <label asp-for="GioiTinh"></label>
+
+                        <div class="cg-profile-input">
+                            <i class="bi bi-gender-ambiguous"></i>
+
+                            <select asp-for="GioiTinh"
+                                    class="profile-editable"
+                                    disabled>
+
+                                <option value="">
+                                    Chọn giới tính
+                                </option>
+
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
+
+                            </select>
+                        </div>
+
+                        <span asp-validation-for="GioiTinh"></span>
+
+                    </div>
+
+                    <div class="cg-profile-field">
+
+                        <label asp-for="NgaySinh"></label>
+
+                        <div class="cg-profile-input">
+                            <i class="bi bi-calendar3"></i>
+
+                            <input asp-for="NgaySinh"
+                                   type="date"
+                                   class="profile-editable"
+                                   disabled />
+                        </div>
+
+                        <span asp-validation-for="NgaySinh"></span>
+
+                    </div>
+
+                    <div class="cg-profile-field">
+
+                        <label asp-for="SoDienThoai"></label>
+
+                        <div class="cg-profile-input">
+                            <i class="bi bi-telephone"></i>
+
+                            <input asp-for="SoDienThoai"
+                                   class="profile-editable"
+                                   disabled />
+                        </div>
+
+                        <span asp-validation-for="SoDienThoai"></span>
+
+                    </div>
+
+                    <div class="cg-profile-field">
+
+                        <label asp-for="Email"></label>
+
+                        <div class="cg-profile-input">
+                            <i class="bi bi-envelope"></i>
+
+                            <input asp-for="Email"
+                                   type="email"
+                                   class="profile-editable"
+                                   disabled />
+                        </div>
+
+                        <span asp-validation-for="Email"></span>
+
+                    </div>
+
+                    <div class="cg-profile-field cg-profile-field-full">
+
+                        <label asp-for="DiaChi"></label>
+
+                        <div class="cg-profile-input">
+                            <i class="bi bi-house-door"></i>
+
+                            <input asp-for="DiaChi"
+                                   class="profile-editable"
+                                   placeholder="Nhập địa chỉ hiện tại"
+                                   disabled />
+                        </div>
+
+                        <span asp-validation-for="DiaChi"></span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="cg-profile-form-card">
+
+                <div class="cg-profile-form-header">
+
+                    <div class="cg-profile-form-icon is-teal">
+                        <i class="bi bi-briefcase-fill"></i>
+                    </div>
+
+                    <div>
+                        <span>THÔNG TIN NGHỀ NGHIỆP</span>
+                        <h2>Năng lực chuyên môn</h2>
+
+                        <p>
+                            Cơ sở để hệ thống và quản trị viên
+                            phân công lịch phù hợp.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="cg-profile-form-grid">
+
+                    <div class="cg-profile-field cg-profile-field-full">
+
+                        <label asp-for="ChuyenMon"></label>
+
+                        <div class="cg-profile-input">
+                            <i class="bi bi-heart-pulse"></i>
+
+                            <input asp-for="ChuyenMon"
+                                   class="profile-editable"
+                                   placeholder="Ví dụ: Chăm sóc người cao tuổi"
+                                   disabled />
+                        </div>
+
+                        <span asp-validation-for="ChuyenMon"></span>
+
+                        <small>
+                            Có thể nhập nhiều chuyên môn, phân cách
+                            bằng dấu phẩy.
+                        </small>
+
+                    </div>
+
+                    <div class="cg-profile-field">
+
+                        <label asp-for="KinhNghiem"></label>
+
+                        <div class="cg-profile-input">
+                            <i class="bi bi-award"></i>
+
+                            <input asp-for="KinhNghiem"
+                                   type="number"
+                                   min="0"
+                                   max="50"
+                                   class="profile-editable"
+                                   disabled />
+                        </div>
+
+                        <span asp-validation-for="KinhNghiem"></span>
+
+                    </div>
+
+                    <div class="cg-profile-field">
+
+                        <label asp-for="GiaTheoGio"></label>
+
+                        <div class="cg-profile-input">
+                            <i class="bi bi-currency-dollar"></i>
+
+                            <input asp-for="GiaTheoGio"
+                                   type="number"
+                                   step="any"
+                                   min="0"
+                                   class="profile-editable"
+                                   placeholder="Chưa cập nhật"
+                                   disabled />
+                        </div>
+
+                        <span asp-validation-for="GiaTheoGio"></span>
+
+                    </div>
+
+                    <div class="cg-profile-field cg-profile-field-full">
+
+                        <label asp-for="BangCap"></label>
+
+                        <div class="cg-profile-input">
+                            <i class="bi bi-mortarboard"></i>
+
+                            <input asp-for="BangCap"
+                                   class="profile-editable"
+                                   placeholder="Nhập bằng cấp hoặc chứng chỉ"
+                                   disabled />
+                        </div>
+
+                        <span asp-validation-for="BangCap"></span>
+
+                    </div>
+
+                    <div class="cg-profile-field cg-profile-field-full">
+
+                        <label asp-for="KhuVucHoatDong"></label>
+
+                        <div class="cg-profile-input">
+                            <i class="bi bi-geo-alt"></i>
+
+                            <input asp-for="KhuVucHoatDong"
+                                   class="profile-editable"
+                                   placeholder="Ví dụ: Quận 1, Quận 3"
+                                   disabled />
+                        </div>
+
+                        <span asp-validation-for="KhuVucHoatDong"></span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="cg-profile-form-card">
+
+                <div class="cg-profile-form-header">
+
+                    <div class="cg-profile-form-icon is-purple">
+                        <i class="bi bi-chat-quote-fill"></i>
+                    </div>
+
+                    <div>
+                        <span>GIỚI THIỆU</span>
+                        <h2>Giới thiệu bản thân</h2>
+
+                        <p>
+                            Giúp khách hàng hiểu thêm về kinh nghiệm
+                            và phong cách chăm sóc của bạn.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="cg-profile-field cg-profile-field-full">
+
+                    <label asp-for="GioiThieu"></label>
+
+                    <div class="cg-profile-textarea">
+                        <textarea asp-for="GioiThieu"
+                                  rows="6"
+                                  maxlength="500"
+                                  class="profile-editable"
+                                  disabled></textarea>
+                    </div>
+
+                    <div class="cg-profile-textarea-footer">
+
+                        <span asp-validation-for="GioiThieu"></span>
+
+                        <small>
+                            Tối đa 500 ký tự
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <div class="cg-profile-save-actions"
+                 id="profileSaveActions">
+
+                <button type="button"
+                        class="cg-profile-page-button
+                    cg-profile-page-button-light"
+                        id="cancelProfileEdit">
+
+                    <i class="bi bi-x-lg"></i>
+                    Hủy thay đổi
+                </button>
+
+                <button type="submit"
+                        class="cg-profile-page-button
+                    cg-profile-page-button-primary">
+
+                    <i class="bi bi-check2-circle"></i>
+                    Lưu thay đổi
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const profileForm =
+            document.getElementById(
+                "caregiverProfileForm");
+
+        const editButton =
+            document.getElementById(
+                "enableProfileEdit");
+
+        const cancelButton =
+            document.getElementById(
+                "cancelProfileEdit");
+
+        const saveActions =
+            document.getElementById(
+                "profileSaveActions");
+
+        const editableFields =
+            document.querySelectorAll(
+                ".profile-editable");
+
+        const originalValues =
+            new Map();
+
+        editableFields.forEach(function(field) {
+            originalValues.set(
+                field,
+                field.value);
+        });
+
+        function enableEditMode() {
+            editableFields.forEach(function(field) {
+                field.disabled = false;
+            });
+
+            saveActions?.classList.add(
+                "is-visible");
+
+            editButton?.classList.add(
+                "is-hidden");
+
+            editableFields[0]?.focus();
+        }
+
+        function cancelEditMode() {
+            editableFields.forEach(function(field) {
+                field.value =
+                    originalValues.get(field) ?? "";
+
+                field.disabled = true;
+            });
+
+            saveActions?.classList.remove(
+                "is-visible");
+
+            editButton?.classList.remove(
+                "is-hidden");
+        }
+
+        editButton?.addEventListener(
+            "click",
+            enableEditMode);
+
+        cancelButton?.addEventListener(
+            "click",
+            cancelEditMode);
+
+        /*
+         * Input bị disabled sẽ không được trình duyệt gửi đi.
+         * Bật lại trước khi submit để lưu đầy đủ vào SQL.
+         */
+        profileForm?.addEventListener(
+            "submit",
+            function() {
+                editableFields.forEach(function(field) {
+                    field.disabled = false;
+                });
+            });
+
+        const profileToast =
+            document.getElementById(
+                "profileSuccessToast");
+
+        const closeProfileToast =
+            document.getElementById(
+                "closeProfileToast");
+
+        function closeToast() {
+            if (!profileToast) {
+                return;
+            }
+
+            profileToast.classList.add(
+                "is-hiding");
+
+            setTimeout(function() {
+                profileToast.remove();
+            }, 250);
+        }
+
+        closeProfileToast?.addEventListener(
+            "click",
+            closeToast);
+
+        if (profileToast) {
+            setTimeout(
+                closeToast,
+                4500);
+        }
+    </script>
+}

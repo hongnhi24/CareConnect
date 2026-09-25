@@ -1,0 +1,258 @@
+﻿@model AdminCreateUserViewModel
+
+@{
+    ViewData["Title"] = "Thêm tài khoản";
+}
+
+<section class="create-user-heading">
+
+    <a asp-area="Admin"
+       asp-controller="Users"
+       asp-action="Index"
+       class="create-user-back">
+
+        <i class="bi bi-arrow-left"></i>
+    </a>
+
+    <div>
+        <span class="admin-eyebrow">
+            QUẢN TRỊ TÀI KHOẢN
+        </span>
+
+        <h1>Thêm tài khoản mới</h1>
+
+        <p>
+            Tạo tài khoản khách hàng hoặc người chăm sóc
+            trực tiếp từ hệ thống quản trị.
+        </p>
+    </div>
+
+</section>
+
+<div class="create-user-layout">
+
+    <section class="create-user-card">
+
+        <div class="create-user-card-header">
+
+            <span>
+                <i class="bi bi-person-plus-fill"></i>
+            </span>
+
+            <div>
+                <h2>Thông tin tài khoản</h2>
+                <p>
+                    Các trường có dấu * là bắt buộc.
+                </p>
+            </div>
+
+        </div>
+
+        <form asp-area="Admin"
+              asp-controller="Users"
+              asp-action="Create"
+              method="post"
+              class="create-user-form">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="All"
+                 class="create-validation-summary">
+            </div>
+
+            <div class="create-form-grid">
+
+                <div class="create-form-group full">
+
+                    <label asp-for="HoTen"></label>
+
+                    <div class="create-input">
+                        <i class="bi bi-person"></i>
+
+                        <input asp-for="HoTen"
+                               placeholder="Ví dụ: Nguyễn Văn An" />
+                    </div>
+
+                    <span asp-validation-for="HoTen"></span>
+                </div>
+
+                <div class="create-form-group">
+
+                    <label asp-for="Email"></label>
+
+                    <div class="create-input">
+                        <i class="bi bi-envelope"></i>
+
+                        <input asp-for="Email"
+                               placeholder="example@gmail.com" />
+                    </div>
+
+                    <span asp-validation-for="Email"></span>
+                </div>
+
+                <div class="create-form-group">
+
+                    <label asp-for="SoDienThoai"></label>
+
+                    <div class="create-input">
+                        <i class="bi bi-telephone"></i>
+
+                        <input asp-for="SoDienThoai"
+                               placeholder="0901234567" />
+                    </div>
+
+                    <span asp-validation-for="SoDienThoai"></span>
+                </div>
+
+                <div class="create-form-group">
+
+                    <label asp-for="TenDangNhap"></label>
+
+                    <div class="create-input">
+                        <i class="bi bi-person-badge"></i>
+
+                        <input asp-for="TenDangNhap"
+                               placeholder="Tên đăng nhập" />
+                    </div>
+
+                    <span asp-validation-for="TenDangNhap"></span>
+                </div>
+
+                <div class="create-form-group">
+
+                    <label asp-for="VaiTro"></label>
+
+                    <div class="create-input">
+                        <i class="bi bi-shield-check"></i>
+
+                        <select asp-for="VaiTro">
+                            <option value="">
+                                -- Chọn vai trò --
+                            </option>
+
+                            <option value="Khách hàng">
+                                Khách hàng
+                            </option>
+
+                            <option value="Người chăm sóc">
+                                Người chăm sóc
+                            </option>
+                        </select>
+                    </div>
+
+                    <span asp-validation-for="VaiTro"></span>
+                </div>
+
+                <div class="create-form-group">
+
+                    <label asp-for="MatKhau"></label>
+
+                    <div class="create-input">
+                        <i class="bi bi-lock"></i>
+
+                        <input asp-for="MatKhau"
+                               placeholder="Ít nhất 6 ký tự" />
+                    </div>
+
+                    <span asp-validation-for="MatKhau"></span>
+                </div>
+
+                <div class="create-form-group">
+
+                    <label asp-for="XacNhanMatKhau"></label>
+
+                    <div class="create-input">
+                        <i class="bi bi-shield-lock"></i>
+
+                        <input asp-for="XacNhanMatKhau"
+                               placeholder="Nhập lại mật khẩu" />
+                    </div>
+
+                    <span asp-validation-for="XacNhanMatKhau"></span>
+                </div>
+
+            </div>
+
+            <label class="create-status-option">
+
+                <input asp-for="TrangThai" />
+
+                <span class="create-switch"></span>
+
+                <span>
+                    <strong>Kích hoạt tài khoản ngay</strong>
+
+                    <small>
+                        Người dùng có thể đăng nhập sau khi tạo.
+                    </small>
+                </span>
+
+            </label>
+
+            <div class="create-user-actions">
+
+                <a asp-area="Admin"
+                   asp-controller="Users"
+                   asp-action="Index"
+                   class="create-cancel-button">
+
+                    Hủy
+                </a>
+
+                <button type="submit"
+                        class="create-submit-button">
+
+                    <i class="bi bi-check2-circle"></i>
+                    Tạo tài khoản
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+    <aside class="create-user-note">
+
+        <span class="create-note-icon">
+            <i class="bi bi-lightbulb-fill"></i>
+        </span>
+
+        <h2>Lưu ý khi tạo tài khoản</h2>
+
+        <ul>
+            <li>
+                Email và tên đăng nhập không được trùng với tài khoản có sẵn.
+            </li>
+
+            <li>
+                Tài khoản khách hàng sẽ được liên kết với bảng
+                <strong>KhachHang</strong>.
+            </li>
+
+            <li>
+                Tài khoản người chăm sóc sẽ được liên kết với bảng
+                <strong>NguoiChamSoc</strong>.
+            </li>
+
+            <li>
+                Nếu không kích hoạt ngay, người dùng sẽ chưa thể đăng nhập.
+            </li>
+        </ul>
+
+        <div class="create-security-note">
+            <i class="bi bi-shield-check"></i>
+
+            <span>
+                Dữ liệu sẽ được lưu vào SQL Server sau khi
+                nhấn “Tạo tài khoản”.
+            </span>
+        </div>
+
+    </aside>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

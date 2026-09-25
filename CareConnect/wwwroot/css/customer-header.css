@@ -1,0 +1,704 @@
+﻿/* =========================================================
+   CUSTOMER HEADER, ACCOUNT, NOTIFICATION, SUPPORT
+   ========================================================= */
+
+.customer-logo {
+    color: inherit;
+    text-decoration: none;
+}
+
+.customer-home-link {
+    min-height: 44px;
+    margin: 13px 14px 6px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    color: #64716c;
+    background: #f7faf8;
+    border: 1px solid #e4eae7;
+    border-radius: 11px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+    .customer-home-link:hover {
+        color: #168f8e;
+        background: #eaf8f7;
+        border-color: #ccebe8;
+    }
+
+.customer-topbar-space {
+    flex: 1;
+}
+
+.customer-header-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.customer-header-dropdown {
+    position: relative;
+}
+
+/* Chuông */
+
+.customer-notification-button {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    color: #68746f;
+    background: #f8faf8;
+    border: 1px solid #e3e8e5;
+    border-radius: 50%;
+    font-family: inherit;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+    .customer-notification-button:hover {
+        color: #159b99;
+        background: #eaf8f7;
+        border-color: #cce9e7;
+    }
+
+.customer-notification-count {
+    position: absolute;
+    top: -5px;
+    right: -4px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: #e75c67;
+    border: 2px solid #fff;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+/* Tài khoản */
+
+.customer-account-button {
+    min-height: 48px;
+    padding: 5px 12px 5px 6px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #46524c;
+    background: #fff;
+    border: 1px solid #e3e8e5;
+    border-radius: 13px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+    .customer-account-button:hover {
+        background: #f2fbfa;
+        border-color: #cce9e7;
+    }
+
+.customer-account-avatar {
+    width: 37px;
+    height: 37px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: #167f7e;
+    background: #dff4f2;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.customer-account-name {
+    min-width: 0;
+    text-align: left;
+}
+
+    .customer-account-name strong,
+    .customer-account-name small {
+        display: block;
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .customer-account-name strong {
+        font-size: 14px;
+    }
+
+    .customer-account-name small {
+        margin-top: 2px;
+        color: #939c97;
+        font-size: 11px;
+    }
+
+.customer-account-button > i {
+    color: #9ba49f;
+    font-size: 11px;
+}
+
+/* Dropdown */
+
+.customer-dropdown-panel {
+    position: absolute;
+    z-index: 6000;
+    top: calc(100% + 11px);
+    right: 0;
+    display: none;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e2e8e4;
+    border-radius: 15px;
+    box-shadow: 0 20px 55px rgba(31, 44, 36, 0.18);
+}
+
+    .customer-dropdown-panel.is-open {
+        display: block;
+        animation: customerDropdownShow 0.18s ease;
+    }
+
+@keyframes customerDropdownShow {
+    from {
+        opacity: 0;
+        transform: translateY(-7px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dropdown thông báo */
+
+.customer-notification-panel {
+    width: min(410px, calc(100vw - 30px));
+}
+
+.customer-notification-header {
+    padding: 16px 17px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid #e8ece9;
+}
+
+    .customer-notification-header span {
+        color: #178f8d;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+    }
+
+    .customer-notification-header h3 {
+        margin: 4px 0 0;
+        color: #34403a;
+        font-size: 17px;
+    }
+
+    .customer-notification-header form {
+        margin: 0;
+    }
+
+    .customer-notification-header button {
+        padding: 2px 0;
+        color: #168e8d;
+        background: transparent;
+        border: 0;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+.customer-notification-list {
+    max-height: 410px;
+    overflow-y: auto;
+}
+
+.customer-notification-form {
+    margin: 0;
+}
+
+.customer-notification-item {
+    width: 100%;
+    padding: 13px 15px;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) 8px;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+    color: #3e4943;
+    background: #fff;
+    border: 0;
+    border-bottom: 1px solid #edf0ed;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+    .customer-notification-item:hover {
+        background: #f2fbfa;
+    }
+
+    .customer-notification-item.is-unread {
+        background: #ebf9f8;
+    }
+
+.customer-notification-icon {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    color: #d68a1c;
+    background: #fff0d9;
+    border-radius: 10px;
+}
+
+.customer-notification-content {
+    min-width: 0;
+}
+
+    .customer-notification-content strong,
+    .customer-notification-content > span,
+    .customer-notification-content small {
+        display: block;
+    }
+
+    .customer-notification-content strong {
+        color: #3d4943;
+        font-size: 14px;
+    }
+
+    .customer-notification-content > span {
+        margin-top: 4px;
+        overflow: hidden;
+        color: #7c8781;
+        font-size: 13px;
+        line-height: 1.45;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .customer-notification-content small {
+        margin-top: 6px;
+        color: #9ea7a2;
+        font-size: 11px;
+    }
+
+.customer-unread-dot {
+    width: 7px;
+    height: 7px;
+    margin-top: 6px;
+    background: #20a7a4;
+    border-radius: 50%;
+}
+
+.customer-notification-empty {
+    padding: 38px 18px;
+    text-align: center;
+}
+
+    .customer-notification-empty > span {
+        width: 55px;
+        height: 55px;
+        margin: 0 auto 12px;
+        display: grid;
+        place-items: center;
+        color: #168f8d;
+        background: #e4f6f4;
+        border-radius: 50%;
+        font-size: 21px;
+    }
+
+    .customer-notification-empty strong {
+        display: block;
+        color: #46514b;
+        font-size: 15px;
+    }
+
+    .customer-notification-empty p {
+        margin: 6px 0 0;
+        color: #8d9691;
+        font-size: 13px;
+    }
+
+/* Dropdown tài khoản */
+
+.customer-account-panel {
+    width: 290px;
+}
+
+.customer-account-summary {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    background: #effafa;
+    border-bottom: 1px solid #dcefee;
+}
+
+    .customer-account-summary > span {
+        width: 43px;
+        height: 43px;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        color: #167f7e;
+        background: #d8f1ef;
+        border-radius: 50%;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .customer-account-summary strong,
+    .customer-account-summary small {
+        display: block;
+    }
+
+    .customer-account-summary strong {
+        color: #404b45;
+        font-size: 14px;
+    }
+
+    .customer-account-summary small {
+        margin-top: 3px;
+        color: #909994;
+        font-size: 12px;
+    }
+
+.customer-account-menu {
+    padding: 7px;
+}
+
+    .customer-account-menu a {
+        padding: 10px;
+        display: grid;
+        grid-template-columns: 35px minmax(0, 1fr);
+        gap: 9px;
+        color: #53605a;
+        border-radius: 9px;
+        text-decoration: none;
+    }
+
+        .customer-account-menu a:hover {
+            color: #168f8d;
+            background: #effafa;
+        }
+
+    .customer-account-menu > a > i {
+        width: 35px;
+        height: 35px;
+        display: grid;
+        place-items: center;
+        background: #f2f7f5;
+        border-radius: 9px;
+    }
+
+    .customer-account-menu strong,
+    .customer-account-menu small {
+        display: block;
+    }
+
+    .customer-account-menu strong {
+        font-size: 13px;
+    }
+
+    .customer-account-menu small {
+        margin-top: 2px;
+        color: #959e99;
+        font-size: 11px;
+    }
+
+.customer-account-logout {
+    margin: 0;
+    padding: 8px;
+    border-top: 1px solid #e8ece9;
+}
+
+    .customer-account-logout button {
+        width: 100%;
+        min-height: 39px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        color: #bc4d4d;
+        background: #fff2f2;
+        border: 1px solid #f2d5d5;
+        border-radius: 9px;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+/* Card hỗ trợ */
+
+.customer-support-card {
+    width: calc(100% - 28px);
+    margin: auto 14px 18px;
+    padding: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    color: #48534d;
+    background: #f1fbfa;
+    border: 1px solid #cde9e7;
+    border-radius: 13px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.customer-support-icon {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: #159795;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.customer-support-content {
+    min-width: 0;
+}
+
+    .customer-support-content strong,
+    .customer-support-content small {
+        display: block;
+    }
+
+    .customer-support-content strong {
+        font-size: 13px;
+    }
+
+    .customer-support-content small {
+        margin-top: 3px;
+        color: #909994;
+        font-size: 11px;
+    }
+
+.customer-support-card > i {
+    margin-left: auto;
+    color: #aeb5b1;
+}
+
+/* Modal hỗ trợ */
+
+.customer-support-open {
+    overflow: hidden;
+}
+
+.customer-support-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+}
+
+    .customer-support-modal.is-open {
+        display: flex;
+    }
+
+.customer-support-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(28, 36, 31, 0.58);
+    backdrop-filter: blur(5px);
+}
+
+.customer-support-modal-card {
+    position: relative;
+    z-index: 1;
+    width: min(570px, 100%);
+    overflow: hidden;
+    background: #fff;
+    border-radius: 19px;
+    box-shadow: 0 28px 80px rgba(20, 31, 24, 0.3);
+}
+
+.customer-support-modal-header {
+    position: relative;
+    padding: 23px 65px 22px 23px;
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    color: #fff;
+    background: linear-gradient(135deg, #31b8b5, #178e8c);
+}
+
+.customer-support-modal-symbol {
+    width: 47px;
+    height: 47px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    font-size: 20px;
+}
+
+.customer-support-modal-header small {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+.customer-support-modal-header h2 {
+    margin: 5px 0 0;
+    font-size: 21px;
+}
+
+.customer-support-modal-header p {
+    margin: 6px 0 0;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.customer-support-close {
+    position: absolute;
+    top: 17px;
+    right: 17px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.customer-support-modal-body {
+    padding: 20px;
+}
+
+.customer-support-contact {
+    padding: 13px;
+    display: grid;
+    grid-template-columns: 43px minmax(0, 1fr) 20px;
+    align-items: center;
+    gap: 11px;
+    color: inherit;
+    border: 1px solid #e5eae7;
+    border-radius: 12px;
+    text-decoration: none;
+}
+
+    .customer-support-contact + .customer-support-contact {
+        margin-top: 11px;
+    }
+
+    .customer-support-contact:hover {
+        color: inherit;
+        background: #effafa;
+        border-color: #cce8e6;
+    }
+
+    .customer-support-contact > span {
+        width: 43px;
+        height: 43px;
+        display: grid;
+        place-items: center;
+        color: #168f8d;
+        background: #dff5f3;
+        border-radius: 11px;
+    }
+
+        .customer-support-contact > span.is-email {
+            color: #5074be;
+            background: #eaf0ff;
+        }
+
+    .customer-support-contact small,
+    .customer-support-contact strong,
+    .customer-support-contact p {
+        display: block;
+    }
+
+    .customer-support-contact small {
+        color: #969f9a;
+        font-size: 12px;
+    }
+
+    .customer-support-contact strong {
+        margin-top: 3px;
+        color: #435049;
+        font-size: 14px;
+    }
+
+    .customer-support-contact p {
+        margin: 3px 0 0;
+        color: #87918b;
+        font-size: 12px;
+    }
+
+    .customer-support-contact > i {
+        color: #a6aea9;
+    }
+
+.customer-support-note {
+    margin-top: 13px;
+    padding: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    color: #456762;
+    background: #effafa;
+    border: 1px solid #d4ecea;
+    border-radius: 10px;
+}
+
+    .customer-support-note p {
+        margin: 0;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+@media (max-width: 760px) {
+    .customer-account-name,
+    .customer-account-button > i {
+        display: none;
+    }
+
+    .customer-account-button {
+        min-height: 45px;
+        padding: 4px;
+        border-radius: 50%;
+    }
+
+    .customer-notification-panel {
+        position: fixed;
+        top: 70px;
+        right: 12px;
+        left: 12px;
+        width: auto;
+    }
+
+    .customer-account-panel {
+        position: fixed;
+        top: 70px;
+        right: 12px;
+        width: 285px;
+    }
+}

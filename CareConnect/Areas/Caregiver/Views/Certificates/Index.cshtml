@@ -1,0 +1,1171 @@
+﻿@model List<CareConnect.Models.ChungChi>
+
+@{
+    ViewData["Title"] = "Bằng cấp & chứng chỉ";
+
+    int tongChungChi = Model.Count;
+
+    int daXacMinh =
+        Model.Count(x =>
+            x.TrangThaiXacMinh == "Đã xác minh");
+
+    int choXacMinh =
+        Model.Count(x =>
+            x.TrangThaiXacMinh == "Chờ xác minh");
+
+    int canBoSung =
+        Model.Count(x =>
+            x.TrangThaiXacMinh == "Yêu cầu bổ sung");
+
+    int khongHopLe =
+        Model.Count(x =>
+            x.TrangThaiXacMinh == "Không hợp lệ");
+}
+
+
+<style>
+
+    
+
+    .certificate-success {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding: 13px 16px;
+        color: #28705e;
+        background: #edf9f5;
+        border: 1px solid #d3ebe3;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+
+        .certificate-success i {
+            color: #39a77f;
+            font-size: 17px;
+        }
+
+
+
+    /* =====================================================
+           HEADER CARD
+        ====================================================== */
+
+    .certificate-card-title-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+
+    .certificate-card-eyebrow {
+        display: block;
+        margin-bottom: 3px;
+        color: #c66d00;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .4px;
+    }
+
+
+    .certificate-card-title-content h2 {
+        margin: 0;
+        color: #283f3a;
+        font-size: 20px;
+        font-weight: 800;
+        line-height: 1.35;
+    }
+
+
+    .certificate-card-title-content p {
+        margin: 4px 0 0;
+        color: #8a9793;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+
+    .certificate-count {
+        flex-shrink: 0;
+        margin-left: auto;
+        padding: 7px 13px;
+        border-radius: 999px;
+        color: #64766f;
+        background: #f3f6f5;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+
+
+    /* =====================================================
+           EMPTY
+        ====================================================== */
+
+    .certificate-empty {
+        padding: 58px 20px 45px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+
+    .certificate-empty-icon {
+        width: 66px;
+        height: 66px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 14px;
+        color: #d77d00;
+        background: #fff0d8;
+        border-radius: 18px;
+        font-size: 29px;
+    }
+
+
+    .certificate-empty h3 {
+        margin: 0 0 7px;
+        color: #344943;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+
+    .certificate-empty p {
+        max-width: 430px;
+        margin: 0 0 18px;
+        color: #899691;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+
+
+    /* =====================================================
+           DANH SÁCH
+        ====================================================== */
+
+    .certificate-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+
+
+    /* =====================================================
+           CARD CHỨNG CHỈ
+        ====================================================== */
+
+    .certificate-item {
+        min-width: 0;
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e3e9e6;
+        border-radius: 15px;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+
+        .certificate-item:hover {
+            transform: translateY(-2px);
+            border-color: #e3c99b;
+            box-shadow: 0 8px 22px rgba(52, 69, 63, .065);
+        }
+
+
+
+    /* =====================================================
+           TOP
+        ====================================================== */
+
+    .certificate-item-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+
+
+    .certificate-name-area {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+    }
+
+
+    .certificate-small-icon {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        color: #d77e00;
+        background: #fff0d8;
+        border-radius: 11px;
+        font-size: 17px;
+    }
+
+
+    .certificate-name-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+
+        .certificate-name-content h3 {
+            margin: 0 0 5px;
+            color: #304741;
+            font-size: 15px;
+            font-weight: 800;
+            line-height: 1.45;
+        }
+
+
+    .certificate-issuer {
+        display: flex;
+        align-items: flex-start;
+        gap: 5px;
+        margin: 0;
+        color: #87948f;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+
+        .certificate-issuer i {
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: #9ba6a2;
+        }
+
+
+
+    /* =====================================================
+           TRẠNG THÁI
+        ====================================================== */
+
+    .certificate-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        flex-shrink: 0;
+        padding: 6px 9px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+
+        .certificate-status.pending {
+            color: #9d6a13;
+            background: #fff3d7;
+        }
+
+
+        .certificate-status.verified {
+            color: #19705c;
+            background: #e3f5ef;
+        }
+
+
+        .certificate-status.additional {
+            color: #ad6717;
+            background: #fff0dc;
+        }
+
+
+        .certificate-status.invalid {
+            color: #b64b49;
+            background: #fde9e8;
+        }
+
+
+
+    /* =====================================================
+           THÔNG TIN NGÀY
+        ====================================================== */
+
+    .certificate-info {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        padding: 13px 14px;
+        background: #f8faf9;
+        border-radius: 11px;
+    }
+
+
+    .certificate-info-item {
+        min-width: 0;
+    }
+
+
+        .certificate-info-item small {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 4px;
+            color: #919c98;
+            font-size: 11px;
+        }
+
+
+            .certificate-info-item small i {
+                color: #a1aaa7;
+            }
+
+
+        .certificate-info-item strong {
+            display: block;
+            color: #53665f;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+
+
+    /* =====================================================
+           ĐÃ XÁC MINH
+        ====================================================== */
+
+    .certificate-verified-info {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        margin-top: 12px;
+        padding: 11px 12px;
+        color: #3d7164;
+        background: #eff9f6;
+        border: 1px solid #d7ebe5;
+        border-radius: 10px;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+
+        .certificate-verified-info > i {
+            margin-top: 2px;
+            color: #38a080;
+            font-size: 15px;
+        }
+
+
+        .certificate-verified-info strong {
+            display: block;
+            margin-bottom: 2px;
+            color: #37695d;
+        }
+
+
+
+    /* =====================================================
+           PHẢN HỒI ADMIN
+        ====================================================== */
+
+    .certificate-admin-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        margin-top: 12px;
+        padding: 11px 12px;
+        color: #81663c;
+        background: #fff9ed;
+        border: 1px solid #f0e2c2;
+        border-radius: 10px;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+
+        .certificate-admin-note > i {
+            margin-top: 2px;
+            color: #d28b20;
+        }
+
+
+        .certificate-admin-note strong {
+            display: block;
+            margin-bottom: 2px;
+            color: #755b34;
+        }
+
+
+
+    /* =====================================================
+           FILE
+        ====================================================== */
+
+    .certificate-actions {
+        margin-top: 13px;
+        padding-top: 13px;
+        border-top: 1px solid #edf0ef;
+    }
+
+
+    .certificate-view-file {
+        width: 100%;
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        box-sizing: border-box;
+        color: #bd6c00;
+        background: #fffaf2;
+        border: 1px solid #ecd5aa;
+        border-radius: 9px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 700;
+        transition: background .18s ease, border-color .18s ease;
+    }
+
+
+        .certificate-view-file:hover {
+            color: #a65e00;
+            background: #fff2dd;
+            border-color: #e3bd78;
+        }
+    .certificate-add-file {
+        color: #ffffff;
+        background: linear-gradient( 135deg, #f2a11c, #df8200);
+        border-color: transparent;
+    }
+
+
+        .certificate-add-file:hover {
+            color: #ffffff;
+            background: linear-gradient( 135deg, #e9950f, #ce7600);
+            border-color: transparent;
+        }
+
+
+    /* =====================================================
+           SUMMARY
+        ====================================================== */
+
+    .certificate-summary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 13px;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #edf0ef;
+    }
+
+
+    .certificate-summary-item {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 13px 14px;
+        background: #fafcfa;
+        border: 1px solid #e6ebe8;
+        border-radius: 12px;
+    }
+
+
+    .certificate-summary-icon {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        color: #d67d00;
+        background: #fff0d8;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+
+
+    .certificate-summary-item small {
+        display: block;
+        color: #909b97;
+        font-size: 11px;
+    }
+
+
+    .certificate-summary-item strong {
+        display: block;
+        margin-top: 1px;
+        color: #354943;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+
+
+    /* =====================================================
+           HERO RIÊNG: CHỈ FIX NỘI DUNG,
+           KHÔNG THAY DESIGN CỦA PROFILE
+        ====================================================== */
+
+    .certificate-hero-description {
+        max-width: 610px;
+    }
+
+
+    .certificate-header-link {
+        text-decoration: none !important;
+    }
+
+    .certificate-header-actions {
+        margin-left: auto;
+        justify-content: flex-end;
+        flex-shrink: 0;
+    }
+
+    /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+    @@media (max-width: 1050px) {
+
+        .certificate-list {
+            grid-template-columns: 1fr;
+        }
+    }
+
+
+    @@media (max-width: 800px) {
+
+        .certificate-summary {
+            grid-template-columns: 1fr;
+        }
+
+        .certificate-count {
+            display: none;
+        }
+    }
+
+
+    @@media (max-width: 560px) {
+
+        .certificate-item-top {
+            flex-direction: column;
+        }
+
+        .certificate-info {
+            grid-template-columns: 1fr;
+        }
+
+        .certificate-status {
+            margin-left: 51px;
+        }
+    }
+
+</style>
+
+
+
+<!-- =====================================================
+     HERO
+     DÙNG ĐÚNG COMPONENT STYLE CỦA PROFILE
+====================================================== -->
+<!-- =====================================================
+     HERO
+     DÙNG STYLE GIỐNG HỒ SƠ CÁ NHÂN
+====================================================== -->
+
+<section class="cg-profile-modern-header">
+
+    <!-- LEFT -->
+    <div class="cg-profile-modern-header-content">
+
+        <span class="cg-profile-modern-label">
+            HỒ SƠ CHUYÊN MÔN
+        </span>
+
+        <h1>
+            Bằng cấp & chứng chỉ
+        </h1>
+
+        <p class="certificate-hero-description">
+            Quản lý bằng cấp, chứng chỉ chuyên môn
+            và theo dõi trạng thái xác minh hồ sơ của bạn.
+        </p>
+
+    </div>
+
+
+    <!-- RIGHT -->
+    <div class="
+        cg-profile-modern-header-actions
+        certificate-header-actions">
+
+        <a asp-area="Caregiver"
+           asp-controller="Certificates"
+           asp-action="Create"
+           class="
+            cg-profile-header-edit-button
+            certificate-header-link">
+
+            <i class="bi bi-plus-lg"></i>
+
+            Thêm chứng chỉ
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     THÔNG BÁO THÀNH CÔNG
+====================================================== -->
+@if (TempData["Success"] is string success)
+{
+    <div class="certificate-success">
+
+        <i class="bi bi-check-circle-fill"></i>
+
+        <span>
+            @success
+        </span>
+
+    </div>
+}
+@if (TempData["Error"] is string error)
+{
+    <div style="
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin-bottom:20px;
+        padding:13px 16px;
+        color:#a94442;
+        background:#fff0ef;
+        border:1px solid #f0cecb;
+        border-radius:12px;
+        font-size:13px;
+        font-weight:600;">
+
+        <i class="bi bi-exclamation-circle-fill"></i>
+
+        <span>
+            @error
+        </span>
+
+    </div>
+}
+
+
+<!-- =====================================================
+     CARD DANH SÁCH
+     DÙNG ĐÚNG CARD STYLE CỦA PROFILE
+====================================================== -->
+
+<section class="cg-profile-form-card">
+
+
+    <!-- =================================================
+         HEADER CARD
+    ================================================== -->
+
+    <div class="cg-profile-form-header">
+
+
+        <span class="cg-profile-form-icon">
+
+            <i class="bi bi-file-earmark-medical-fill"></i>
+
+        </span>
+
+
+        <div class="certificate-card-title-content">
+
+
+            <span class="certificate-card-eyebrow">
+                THÔNG TIN CHUYÊN MÔN
+            </span>
+
+
+            <h2>
+                Danh sách bằng cấp & chứng chỉ
+            </h2>
+
+
+            <p>
+                Các chứng chỉ đã gửi và kết quả xác minh từ CareConnect.
+            </p>
+
+        </div>
+
+
+
+        <span class="certificate-count">
+
+            @tongChungChi chứng chỉ
+
+        </span>
+
+    </div>
+
+
+
+    <!-- =================================================
+         CHƯA CÓ CHỨNG CHỈ
+    ================================================== -->
+    @if (Model.Count == 0)
+    {
+        <div class="certificate-empty">
+
+
+            <span class="certificate-empty-icon">
+
+                <i class="bi bi-award"></i>
+
+            </span>
+
+
+            <h3>
+                Chưa có bằng cấp hoặc chứng chỉ
+            </h3>
+
+
+            <p>
+                Hãy tải lên bằng cấp hoặc chứng chỉ chuyên môn
+                để CareConnect kiểm tra và xác minh hồ sơ của bạn.
+            </p>
+
+
+            <a asp-area="Caregiver"
+               asp-controller="Certificates"
+               asp-action="Create"
+               class="
+                cg-profile-header-edit-button
+                certificate-header-link">
+
+                <i class="bi bi-cloud-arrow-up"></i>
+
+                Tải chứng chỉ lên
+
+            </a>
+
+        </div>
+    }
+    else
+    {
+
+        <!-- =================================================
+             DANH SÁCH
+        ================================================== -->
+
+        <div class="certificate-list">
+
+
+            @foreach (var item in Model)
+            {
+                <article class="certificate-item">
+
+
+                    <!-- =====================================
+                         TOP
+                    ====================================== -->
+
+                    <div class="certificate-item-top">
+
+
+                        <div class="certificate-name-area">
+
+
+                            <span class="certificate-small-icon">
+
+                                <i class="bi bi-award-fill"></i>
+
+                            </span>
+
+
+                            <div class="certificate-name-content">
+
+
+                                <h3>
+                                    @item.TenChungChi
+                                </h3>
+
+
+                                <p class="certificate-issuer">
+
+                                    <i class="bi bi-building"></i>
+
+
+                                    <span>
+
+                                        @(string.IsNullOrWhiteSpace(
+                                            item.DonViCap)
+                                            ? "Chưa cập nhật đơn vị cấp"
+                                            : item.DonViCap)
+
+                                    </span>
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =================================
+                             STATUS
+                        ================================== -->
+                        @if (
+                                                    item.TrangThaiXacMinh
+                                                        == "Đã xác minh")
+                        {
+                            <span class="
+                                certificate-status
+                                verified">
+
+                                <i class="bi bi-patch-check-fill"></i>
+
+                                Đã xác minh
+
+                            </span>
+                        }
+                        else if (
+                            item.TrangThaiXacMinh
+                                == "Yêu cầu bổ sung")
+                        {
+                            <span class="
+                                certificate-status
+                                additional">
+
+                                <i class="bi bi-exclamation-circle-fill"></i>
+
+                                Cần bổ sung
+
+                            </span>
+                        }
+                        else if (
+                            item.TrangThaiXacMinh
+                                == "Không hợp lệ")
+                        {
+                            <span class="
+                                certificate-status
+                                invalid">
+
+                                <i class="bi bi-x-circle-fill"></i>
+
+                                Không hợp lệ
+
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="
+                                certificate-status
+                                pending">
+
+                                <i class="bi bi-hourglass-split"></i>
+
+                                Chờ xác minh
+
+                            </span>
+                        }
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         THÔNG TIN NGÀY
+                    ====================================== -->
+
+                    <div class="certificate-info">
+
+
+                        <!-- NGÀY CẤP -->
+
+                        <div class="certificate-info-item">
+
+
+                            <small>
+
+                                <i class="bi bi-calendar-check"></i>
+
+                                Ngày cấp
+
+                            </small>
+
+
+                            <strong>
+
+                                @(item.NgayCap.HasValue
+                                    ? item.NgayCap.Value
+                                        .ToString("dd/MM/yyyy")
+                                    : "Chưa cập nhật")
+
+                            </strong>
+
+                        </div>
+
+
+
+                        <!-- NGÀY HẾT HẠN -->
+
+                        <div class="certificate-info-item">
+
+
+                            <small>
+
+                                <i class="bi bi-calendar-x"></i>
+
+                                Ngày hết hạn
+
+                            </small>
+
+
+                            <strong>
+
+                                @(item.NgayHetHan.HasValue
+                                    ? item.NgayHetHan.Value
+                                        .ToString("dd/MM/yyyy")
+                                    : "Không thời hạn")
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         THÔNG TIN XÁC MINH
+                    ====================================== -->
+                    @if (
+                                            item.TrangThaiXacMinh
+                                                == "Đã xác minh")
+                    {
+                        <div class="certificate-verified-info">
+
+
+                            <i class="bi bi-shield-check"></i>
+
+
+                            <div>
+
+
+                                <strong>
+                                    Đã được CareConnect xác minh
+                                </strong>
+
+
+                                @if (item.NgayXacMinh.HasValue)
+                                {
+                                    <div>
+
+                                        Ngày xác minh:
+
+                                        @item.NgayXacMinh.Value
+                                        .ToString("dd/MM/yyyy")
+
+                                    </div>
+                                }
+
+
+                                @if (!string.IsNullOrWhiteSpace(
+                                    item.PhuongThucXacMinh))
+                                {
+                                    <div>
+
+                                        Phương thức:
+
+                                        @item.PhuongThucXacMinh
+
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+                    }
+
+
+
+                    <!-- =====================================
+                         GHI CHÚ ADMIN
+                    ====================================== -->
+                    @if (!string.IsNullOrWhiteSpace(
+                                            item.GhiChuXacMinh))
+                    {
+                        <div class="certificate-admin-note">
+
+
+                            <i class="bi bi-chat-left-text-fill"></i>
+
+
+                            <div>
+
+
+                                <strong>
+                                    Phản hồi từ quản trị viên
+                                </strong>
+
+
+                                <div>
+                                    @item.GhiChuXacMinh
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+
+
+
+                    <!-- =====================================
+     FILE CHỨNG CHỈ
+====================================== -->
+
+                    <div class="certificate-actions">
+
+                        @if (!string.IsNullOrWhiteSpace(
+                            item.FileChungChi))
+                        {
+                            <!-- ĐÃ CÓ FILE -->
+
+                            <a asp-area="Caregiver"
+                               asp-controller="Certificates"
+                               asp-action="ViewFile"
+                               asp-route-id="@item.MaChungChi"
+                               target="_blank"
+                               class="certificate-view-file">
+
+                                <i class="bi bi-file-earmark-text"></i>
+
+                                Xem file chứng chỉ
+
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- CHƯA CÓ FILE -->
+
+                            <a asp-area="Caregiver"
+                               asp-controller="Certificates"
+                               asp-action="EditFile"
+                               asp-route-id="@item.MaChungChi"
+                               class="
+                                certificate-view-file
+                                certificate-add-file">
+
+                                <i class="bi bi-cloud-arrow-up-fill"></i>
+
+                                Bổ sung file chứng chỉ
+
+                            </a>
+                        }
+
+                    </div>
+
+                </article>
+            }
+
+        </div>
+
+
+
+        <!-- =================================================
+             THỐNG KÊ CUỐI CARD
+        ================================================== -->
+
+        <div class="certificate-summary">
+
+
+            <!-- TỔNG -->
+
+            <div class="certificate-summary-item">
+
+
+                <span class="certificate-summary-icon">
+
+                    <i class="bi bi-files"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        Tổng chứng chỉ
+                    </small>
+
+                    <strong>
+                        @tongChungChi
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ĐÃ XÁC MINH -->
+
+            <div class="certificate-summary-item">
+
+
+                <span class="certificate-summary-icon">
+
+                    <i class="bi bi-patch-check-fill"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        Đã xác minh
+                    </small>
+
+                    <strong>
+                        @daXacMinh
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CHỜ XÁC MINH -->
+
+            <div class="certificate-summary-item">
+
+
+                <span class="certificate-summary-icon">
+
+                    <i class="bi bi-hourglass-split"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        Chờ xác minh
+                    </small>
+
+                    <strong>
+                        @choXacMinh
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</section>

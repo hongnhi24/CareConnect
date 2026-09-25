@@ -1,0 +1,703 @@
+﻿@model AdminCaregiverListViewModel
+
+@{
+    ViewData["Title"] = "Duyệt người chăm sóc";
+
+    bool dangTatCa =
+        string.IsNullOrWhiteSpace(Model.TrangThai);
+
+    bool dangChoDuyet =
+        Model.TrangThai == "Chờ duyệt";
+
+    bool dangDaDuyet =
+        Model.TrangThai == "Đã duyệt";
+
+    bool dangTuChoi =
+        Model.TrangThai == "Từ chối";
+}
+
+
+<div class="caregiver-admin-page">
+
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="caregiver-alert success">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <span>
+                @TempData["Success"]
+            </span>
+
+        </div>
+    }
+
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="caregiver-alert error">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            <span>
+                @TempData["Error"]
+            </span>
+
+        </div>
+    }
+
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="caregiver-admin-hero">
+
+
+        <div class="caregiver-admin-hero-left">
+
+
+            <span class="caregiver-admin-eyebrow">
+
+                <i class="bi bi-person-check"></i>
+
+                QUẢN LÝ HỒ SƠ
+
+            </span>
+
+
+            <h1>
+                Duyệt người chăm sóc
+            </h1>
+
+
+            <p>
+                Xem xét thông tin chuyên môn, kinh nghiệm và
+                quyết định phê duyệt hồ sơ người chăm sóc
+                trước khi hoạt động trên CareConnect.
+            </p>
+
+        </div>
+
+
+        <div class="caregiver-admin-hero-actions">
+
+
+            <a asp-area="Admin"
+               asp-controller="Dashboard"
+               asp-action="Index"
+               class="caregiver-back-dashboard">
+
+                <i class="bi bi-grid-1x2"></i>
+
+                <span>
+                    Về trang tổng quan
+                </span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <section class="caregiver-review-stats">
+
+
+        <!-- TẤT CẢ -->
+
+        <a asp-area="Admin"
+           asp-controller="Caregivers"
+           asp-action="Index"
+           class="review-stat-card all @(dangTatCa ? "active" : "")">
+
+
+            <span class="review-stat-icon">
+
+                <i class="bi bi-people-fill"></i>
+
+            </span>
+
+
+            <div class="review-stat-content">
+
+                <small>
+                    Tổng hồ sơ
+                </small>
+
+                <strong>
+                    @Model.TongHoSo
+                </strong>
+
+                <p>
+                    Toàn bộ hồ sơ người chăm sóc
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- CHỜ DUYỆT -->
+
+        <a asp-area="Admin"
+           asp-controller="Caregivers"
+           asp-action="Index"
+           asp-route-trangThai="Chờ duyệt"
+           class="review-stat-card pending @(dangChoDuyet ? "active" : "")">
+
+
+            <span class="review-stat-icon">
+
+                <i class="bi bi-hourglass-split"></i>
+
+            </span>
+
+
+            <div class="review-stat-content">
+
+                <small>
+                    Chờ duyệt
+                </small>
+
+                <strong>
+                    @Model.ChoDuyet
+                </strong>
+
+                <p>
+                    Hồ sơ cần quản trị viên xử lý
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- ĐÃ DUYỆT -->
+
+        <a asp-area="Admin"
+           asp-controller="Caregivers"
+           asp-action="Index"
+           asp-route-trangThai="Đã duyệt"
+           class="review-stat-card approved @(dangDaDuyet ? "active" : "")">
+
+
+            <span class="review-stat-icon">
+
+                <i class="bi bi-person-check-fill"></i>
+
+            </span>
+
+
+            <div class="review-stat-content">
+
+                <small>
+                    Đã duyệt
+                </small>
+
+                <strong>
+                    @Model.DaDuyet
+                </strong>
+
+                <p>
+                    Hồ sơ đã được phê duyệt
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- TỪ CHỐI -->
+
+        <a asp-area="Admin"
+           asp-controller="Caregivers"
+           asp-action="Index"
+           asp-route-trangThai="Từ chối"
+           class="review-stat-card rejected @(dangTuChoi ? "active" : "")">
+
+
+            <span class="review-stat-icon">
+
+                <i class="bi bi-person-x-fill"></i>
+
+            </span>
+
+
+            <div class="review-stat-content">
+
+                <small>
+                    Đã từ chối
+                </small>
+
+                <strong>
+                    @Model.TuChoi
+                </strong>
+
+                <p>
+                    Hồ sơ không đạt yêu cầu
+                </p>
+
+            </div>
+
+        </a>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FILTER
+    ====================================================== -->
+
+    <section class="caregiver-filter-panel">
+
+
+        <div class="caregiver-filter-header">
+
+
+            <div class="caregiver-panel-heading">
+
+
+                <span class="caregiver-panel-icon">
+
+                    <i class="bi bi-funnel"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        BỘ LỌC HỒ SƠ
+                    </small>
+
+                    <h2>
+                        Tìm kiếm người chăm sóc
+                    </h2>
+
+                    <p>
+                        Lọc hồ sơ theo thông tin cá nhân,
+                        chuyên môn hoặc trạng thái xét duyệt.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <form asp-area="Admin"
+              asp-controller="Caregivers"
+              asp-action="Index"
+              method="get"
+              class="caregiver-filter-form">
+
+
+            <div class="caregiver-search-input">
+
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       name="tuKhoa"
+                       value="@Model.TuKhoa"
+                       placeholder="Tìm tên, email, số điện thoại hoặc chuyên môn..." />
+
+            </div>
+
+
+            <div class="caregiver-filter-select">
+
+                <i class="bi bi-sliders"></i>
+
+                <select name="trangThai">
+
+                    <option value="">
+                        Tất cả trạng thái
+                    </option>
+
+                    <option value="Chờ duyệt"
+                            selected="@(Model.TrangThai == "Chờ duyệt")">
+                        Chờ duyệt
+                    </option>
+
+                    <option value="Đã duyệt"
+                            selected="@(Model.TrangThai == "Đã duyệt")">
+                        Đã duyệt
+                    </option>
+
+                    <option value="Từ chối"
+                            selected="@(Model.TrangThai == "Từ chối")">
+                        Từ chối
+                    </option>
+
+                    <option value="Chưa hoàn thiện"
+                            selected="@(Model.TrangThai == "Chưa hoàn thiện")">
+                        Chưa hoàn thiện
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button type="submit"
+                    class="caregiver-filter-button">
+
+                <i class="bi bi-funnel-fill"></i>
+
+                <span>
+                    Lọc hồ sơ
+                </span>
+
+            </button>
+
+
+            <a asp-area="Admin"
+               asp-controller="Caregivers"
+               asp-action="Index"
+               class="clear-caregiver-filter"
+               title="Xóa bộ lọc">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+
+            </a>
+
+        </form>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         LIST
+    ====================================================== -->
+
+    <section class="caregiver-list-panel">
+
+
+        <div class="caregiver-list-header">
+
+
+            <div class="caregiver-panel-heading">
+
+
+                <span class="caregiver-panel-icon">
+
+                    <i class="bi bi-person-vcard"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        DANH SÁCH HỒ SƠ
+                    </small>
+
+                    <h2>
+                        Người chăm sóc
+                    </h2>
+
+                    <p>
+                        Hồ sơ chờ duyệt được ưu tiên hiển thị
+                        để quản trị viên xử lý.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <span class="caregiver-result-count">
+
+                @Model.DanhSach.Count kết quả
+
+            </span>
+
+        </div>
+
+
+
+        @if (Model.DanhSach.Count == 0)
+        {
+            <div class="caregiver-list-empty">
+
+
+                <span>
+
+                    <i class="bi bi-folder2-open"></i>
+
+                </span>
+
+
+                <strong>
+                    Không tìm thấy hồ sơ
+                </strong>
+
+
+                <p>
+                    Hãy thay đổi từ khóa hoặc điều kiện lọc.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="caregiver-admin-grid">
+
+
+                @foreach (var item in Model.DanhSach)
+                {
+                    string hoTen =
+                        string.IsNullOrWhiteSpace(item.HoTen)
+                            ? "Người chăm sóc"
+                            : item.HoTen;
+
+                    string chuCaiDau =
+                        hoTen
+                            .Substring(0, 1)
+                            .ToUpper();
+
+
+                    <article class="caregiver-admin-card">
+
+
+                        <!-- =============================
+                             HEADER
+                        ============================== -->
+
+                        <div class="caregiver-card-top">
+
+
+                            <span class="caregiver-list-avatar">
+
+                                @chuCaiDau
+
+                            </span>
+
+
+                            <div class="caregiver-card-identity">
+
+                                <h3>
+                                    @hoTen
+                                </h3>
+
+                                <p>
+
+                                    <i class="bi bi-award"></i>
+
+                                    @(
+                                        string.IsNullOrWhiteSpace(
+                                            item.ChuyenMon)
+                                            ? "Chưa cập nhật chuyên môn"
+                                            : item.ChuyenMon
+                                    )
+
+                                </p>
+
+                            </div>
+
+
+                            <span class="@GetCaregiverStatusClass(
+                                                                item.TrangThai)">
+
+                                @item.TrangThai
+
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- =============================
+                             CONTACT
+                        ============================== -->
+
+                        <div class="caregiver-contact">
+
+
+                            <span title="@item.Email">
+
+                                <i class="bi bi-envelope"></i>
+
+                                @item.Email
+
+                            </span>
+
+
+                            <span>
+
+                                <i class="bi bi-telephone"></i>
+
+                                @item.SoDienThoai
+
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- =============================
+                             INFORMATION
+                        ============================== -->
+
+                        <div class="caregiver-card-info">
+
+
+                            <div>
+
+                                <span class="caregiver-info-icon">
+
+                                    <i class="bi bi-briefcase"></i>
+
+                                </span>
+
+
+                                <small>
+                                    Kinh nghiệm
+                                </small>
+
+
+                                <strong>
+                                    @item.KinhNghiem năm
+                                </strong>
+
+                            </div>
+
+
+
+                            <div>
+
+                                <span class="caregiver-info-icon">
+
+                                    <i class="bi bi-geo-alt"></i>
+
+                                </span>
+
+
+                                <small>
+                                    Khu vực
+                                </small>
+
+
+                                <strong title="@item.KhuVucHoatDong">
+
+                                    @(
+                                        string.IsNullOrWhiteSpace(
+                                            item.KhuVucHoatDong)
+                                            ? "Chưa cập nhật"
+                                            : item.KhuVucHoatDong
+                                    )
+
+                                </strong>
+
+                            </div>
+
+
+
+                            <div>
+
+                                <span class="caregiver-info-icon">
+
+                                    <i class="bi bi-cash-coin"></i>
+
+                                </span>
+
+
+                                <small>
+                                    Giá theo giờ
+                                </small>
+
+
+                                <strong>
+                                    @(item.GiaTheoGio.ToString("#,##0"))đ
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =============================
+                             FOOTER
+                        ============================== -->
+
+                        <div class="caregiver-card-footer">
+
+
+                            <small>
+
+                                <i class="bi bi-calendar3"></i>
+
+                                Gửi ngày
+                                @(item.NgayTao.ToString("dd/MM/yyyy"))
+
+                            </small>
+
+
+                            <a asp-area="Admin"
+                               asp-controller="Caregivers"
+                               asp-action="Review"
+                               asp-route-id="@item.MaNguoiChamSoc">
+
+                                Xem hồ sơ
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+        }
+
+    </section>
+
+</div>
+
+
+@functions {
+
+    private string GetCaregiverStatusClass(
+        string status)
+    {
+        return status switch
+        {
+            "Chờ duyệt"
+                => "caregiver-status pending",
+
+            "Đã duyệt"
+                => "caregiver-status approved",
+
+            "Đang hoạt động"
+                => "caregiver-status active",
+
+            "Từ chối"
+                => "caregiver-status rejected",
+
+            "Chưa hoàn thiện"
+                => "caregiver-status incomplete",
+
+            _
+                => "caregiver-status default"
+        };
+    }
+
+}

@@ -1,0 +1,702 @@
+﻿@model CareConnect.ViewModels.CustomerProfileViewModel
+
+@{
+    ViewData["Title"] = "Hồ sơ cá nhân";
+
+    string hoTen =
+        string.IsNullOrWhiteSpace(Model.HoTen)
+            ? "Khách hàng"
+            : Model.HoTen;
+
+    string chuCaiDau =
+        hoTen.Trim()
+            .Substring(0, 1)
+            .ToUpper();
+}
+
+<div class="customer-profile-page">
+
+    <!-- =====================================================
+         BANNER
+    ====================================================== -->
+    <section class="customer-profile-hero">
+
+        <div class="customer-profile-hero-content">
+
+            <span class="customer-profile-badge">
+                THÔNG TIN CÁ NHÂN
+            </span>
+
+            <h1>
+                Hồ sơ cá nhân
+            </h1>
+
+            <p>
+                Quản lý thông tin cá nhân và tài khoản
+                CareConnect của gia đình bạn.
+            </p>
+
+        </div>
+
+        <div class="customer-profile-hero-status">
+
+            <div class="hero-status-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <div>
+                <span>Trạng thái tài khoản</span>
+                <strong>Đang hoạt động</strong>
+                <small>Tài khoản đã được xác thực</small>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         THÔNG BÁO
+    ====================================================== -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="profile-alert profile-alert-success">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            @TempData["Success"]
+
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="profile-alert profile-alert-error">
+
+            <i class="bi bi-exclamation-circle-fill"></i>
+
+            @TempData["Error"]
+
+        </div>
+    }
+
+
+    <!-- =====================================================
+         BỐ CỤC 2 CỘT
+    ====================================================== -->
+    <div class="customer-profile-layout">
+
+
+        <!-- =================================================
+             CỘT TRÁI
+        ================================================== -->
+        <aside class="customer-profile-left">
+
+            <section class="customer-profile-card">
+
+                <div class="customer-profile-cover">
+                </div>
+
+                <div class="customer-profile-avatar">
+                    @chuCaiDau
+
+                    <span class="profile-online-dot">
+                        <i class="bi bi-check"></i>
+                    </span>
+                </div>
+
+                <div class="customer-profile-main">
+
+                    <h2>
+                        @hoTen
+                    </h2>
+
+                    <p>
+                        Tài khoản gia đình
+                    </p>
+
+                    <span class="customer-profile-active">
+
+                        <i class="bi bi-patch-check-fill"></i>
+
+                        Đang hoạt động
+
+                    </span>
+
+                </div>
+
+
+                <!-- THỐNG KÊ -->
+                <div class="customer-profile-stats">
+
+                    <a asp-area="Customer"
+                       asp-controller="Relatives"
+                       asp-action="Index">
+
+                        <strong>
+                            @Model.SoNguoiThan
+                        </strong>
+
+                        <span>
+                            Hồ sơ người thân
+                        </span>
+
+                    </a>
+
+
+                    <a asp-area="Customer"
+                       asp-controller="Bookings"
+                       asp-action="Index">
+
+                        <strong>
+                            @Model.SoLichChamSoc
+                        </strong>
+
+                        <span>
+                            Lịch chăm sóc
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- THÔNG TIN NHANH -->
+                <div class="customer-profile-quick-info">
+
+                    <div>
+
+                        <span class="quick-info-icon">
+                            <i class="bi bi-telephone"></i>
+                        </span>
+
+                        <div>
+                            <small>Số điện thoại</small>
+
+                            <strong>
+                                @Model.SoDienThoai
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="quick-info-icon">
+                            <i class="bi bi-envelope"></i>
+                        </span>
+
+                        <div>
+                            <small>Email</small>
+
+                            <strong>
+                                @(string.IsNullOrWhiteSpace(Model.Email)
+                                    ? "Chưa cập nhật"
+                                    : Model.Email)
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="quick-info-icon">
+                            <i class="bi bi-geo-alt"></i>
+                        </span>
+
+                        <div>
+                            <small>Địa chỉ</small>
+
+                            <strong>
+                                @(string.IsNullOrWhiteSpace(Model.DiaChi)
+                                    ? "Chưa cập nhật"
+                                    : Model.DiaChi)
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- KHỐI NHẮC -->
+            <section class="customer-profile-note-card">
+
+                <span>
+                    <i class="bi bi-shield-heart"></i>
+                </span>
+
+                <div>
+                    <h3>Bảo mật thông tin</h3>
+
+                    <p>
+                        Thông tin cá nhân được sử dụng
+                        để xác minh tài khoản và hỗ trợ
+                        quá trình chăm sóc.
+                    </p>
+                </div>
+
+            </section>
+
+        </aside>
+
+
+        <!-- =================================================
+             CỘT PHẢI
+        ================================================== -->
+        <div class="customer-profile-right">
+
+
+            <!-- =============================================
+                 THÔNG TIN CƠ BẢN
+            ============================================== -->
+            <section class="customer-profile-section-card">
+
+                <header class="customer-profile-section-header">
+
+                    <span class="section-header-icon">
+                        <i class="bi bi-person-vcard"></i>
+                    </span>
+
+                    <div>
+
+                        <small>
+                            THÔNG TIN CƠ BẢN
+                        </small>
+
+                        <h2>
+                            Thông tin cá nhân
+                        </h2>
+
+                        <p>
+                            Thông tin dùng để xác minh
+                            và liên hệ với khách hàng.
+                        </p>
+
+                    </div>
+
+                </header>
+
+
+                <form asp-area="Customer"
+                      asp-controller="Profile"
+                      asp-action="Index"
+                      method="post"
+                      class="customer-profile-form">
+
+                    @Html.AntiForgeryToken()
+
+                    <input asp-for="MaKhachHang"
+                           type="hidden" />
+
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="profile-validation-summary">
+                    </div>
+
+
+                    <!-- HỌ TÊN -->
+                    <div class="profile-form-group profile-full">
+
+                        <label asp-for="HoTen">
+                            Họ và tên
+                        </label>
+
+                        <div class="profile-control">
+
+                            <i class="bi bi-person"></i>
+
+                            <input asp-for="HoTen" />
+
+                        </div>
+
+                        <span asp-validation-for="HoTen"
+                              class="profile-validation">
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-form-row">
+
+                        <!-- GIỚI TÍNH -->
+                        <div class="profile-form-group">
+
+                            <label asp-for="GioiTinh">
+                                Giới tính
+                            </label>
+
+                            <div class="profile-control">
+
+                                <i class="bi bi-gender-ambiguous"></i>
+
+                                <select asp-for="GioiTinh">
+
+                                    <option value="">
+                                        Chọn giới tính
+                                    </option>
+
+                                    <option value="Nam">
+                                        Nam
+                                    </option>
+
+                                    <option value="Nữ">
+                                        Nữ
+                                    </option>
+
+                                    <option value="Khác">
+                                        Khác
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- NGÀY SINH -->
+                        <div class="profile-form-group">
+
+                            <label asp-for="NgaySinh">
+                                Ngày sinh
+                            </label>
+
+                            <div class="profile-control">
+
+                                <i class="bi bi-calendar3"></i>
+
+                                <input asp-for="NgaySinh"
+                                       type="date" />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-form-row">
+
+                        <!-- SĐT -->
+                        <div class="profile-form-group">
+
+                            <label asp-for="SoDienThoai">
+                                Số điện thoại
+                            </label>
+
+                            <div class="profile-control">
+
+                                <i class="bi bi-telephone"></i>
+
+                                <input asp-for="SoDienThoai" />
+
+                            </div>
+
+                            <span asp-validation-for="SoDienThoai"
+                                  class="profile-validation">
+                            </span>
+
+                        </div>
+
+
+                        <!-- EMAIL -->
+                        <div class="profile-form-group">
+
+                            <label asp-for="Email">
+                                Email
+                            </label>
+
+                            <div class="profile-control">
+
+                                <i class="bi bi-envelope"></i>
+
+                                <input asp-for="Email"
+                                       type="email" />
+
+                            </div>
+
+                            <span asp-validation-for="Email"
+                                  class="profile-validation">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CCCD -->
+                    <div class="profile-form-group profile-full">
+
+                        <label asp-for="CCCD">
+                            Căn cước công dân
+                        </label>
+
+                        <div class="profile-control">
+
+                            <i class="bi bi-person-vcard-fill"></i>
+
+                            <input asp-for="CCCD" />
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ĐỊA CHỈ -->
+                    <div class="profile-form-group profile-full">
+
+                        <label asp-for="DiaChi">
+                            Địa chỉ
+                        </label>
+
+                        <div class="profile-control profile-textarea">
+
+                            <i class="bi bi-house-door"></i>
+
+                            <textarea asp-for="DiaChi"
+                                      rows="3">
+                            </textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTION -->
+                    <div class="customer-profile-form-actions">
+
+                        <button type="submit"
+                                class="customer-profile-save">
+
+                            <i class="bi bi-pencil-square"></i>
+
+                            Cập nhật hồ sơ
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- =============================================
+                 QUẢN LÝ TÀI KHOẢN
+            ============================================== -->
+            <section class="customer-account-management">
+
+                <div class="account-management-main">
+
+                    <span class="account-management-icon">
+                        <i class="bi bi-shield-lock"></i>
+                    </span>
+
+                    <div>
+
+                        <small>
+                            QUẢN LÝ TÀI KHOẢN
+                        </small>
+
+                        <h2>
+                            Bảo mật & tài khoản
+                        </h2>
+
+                        <p>
+                            Bạn có thể vô hiệu hóa tài khoản
+                            nếu không còn nhu cầu sử dụng
+                            CareConnect.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <button type="button"
+                        class="customer-delete-account-button"
+                        onclick="openDeleteAccountModal()">
+
+                    <i class="bi bi-trash3"></i>
+
+                    Xóa tài khoản
+
+                </button>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MODAL XÓA TÀI KHOẢN
+========================================================= -->
+<div class="customer-delete-account-modal"
+     id="deleteAccountModal"
+     aria-hidden="true">
+
+    <div class="customer-delete-account-backdrop"
+         onclick="closeDeleteAccountModal()">
+    </div>
+
+
+    <div class="customer-delete-account-dialog">
+
+        <button type="button"
+                class="customer-delete-account-close"
+                onclick="closeDeleteAccountModal()">
+
+            <i class="bi bi-x-lg"></i>
+
+        </button>
+
+
+        <div class="delete-account-icon">
+            <i class="bi bi-person-x"></i>
+        </div>
+
+
+        <span class="delete-account-label">
+            XÓA TÀI KHOẢN
+        </span>
+
+        <h3>
+            Bạn có chắc muốn xóa tài khoản?
+        </h3>
+
+        <p class="delete-account-description">
+            Tài khoản sẽ bị vô hiệu hóa và
+            không thể tiếp tục đăng nhập vào CareConnect.
+        </p>
+
+
+        <div class="delete-account-warning">
+
+            <i class="bi bi-exclamation-triangle"></i>
+
+            <div>
+
+                <strong>
+                    Sau khi xóa tài khoản
+                </strong>
+
+                <ul>
+                    <li>
+                        Các hồ sơ người thân sẽ
+                        ngừng hoạt động.
+                    </li>
+
+                    <li>
+                        Các lịch Chờ xác nhận và
+                        Đã xác nhận sẽ bị hủy.
+                    </li>
+
+                    <li>
+                        Lịch đã hoàn thành, nhật ký,
+                        thanh toán và đánh giá vẫn
+                        được giữ trong lịch sử.
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+
+
+        <div class="delete-account-actions">
+
+            <button type="button"
+                    class="delete-account-cancel"
+                    onclick="closeDeleteAccountModal()">
+
+                Giữ lại tài khoản
+
+            </button>
+
+
+            <form asp-area="Customer"
+                  asp-controller="Profile"
+                  asp-action="DeleteAccount"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit"
+                        class="delete-account-confirm">
+
+                    <i class="bi bi-trash3"></i>
+
+                    Xóa tài khoản
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        function openDeleteAccountModal() {
+
+            const modal =
+                document.getElementById(
+                    "deleteAccountModal");
+
+            modal?.classList.add("show");
+
+            modal?.setAttribute(
+                "aria-hidden",
+                "false");
+
+            document.body.classList.add(
+                "modal-open");
+        }
+
+
+        function closeDeleteAccountModal() {
+
+            const modal =
+                document.getElementById(
+                    "deleteAccountModal");
+
+            modal?.classList.remove("show");
+
+            modal?.setAttribute(
+                "aria-hidden",
+                "true");
+
+            document.body.classList.remove(
+                "modal-open");
+        }
+
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Escape") {
+                    closeDeleteAccountModal();
+                }
+
+            });
+
+    </script>
+}

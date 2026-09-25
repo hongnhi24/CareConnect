@@ -1,0 +1,1110 @@
+﻿:root {
+    --cg-primary: #e59a2f;
+    --cg-primary-dark: #c67b16;
+    --cg-primary-soft: #fff3e3;
+    --cg-teal: #27aaa5;
+    --cg-teal-soft: #ddf5f3;
+    --cg-green: #4abf91;
+    --cg-green-soft: #e3faef;
+    --cg-blue: #5b89d6;
+    --cg-blue-soft: #eaf1fc;
+    --cg-purple: #826bd6;
+    --cg-purple-soft: #eeeafd;
+    --cg-text: #242b28;
+    --cg-muted: #7e8984;
+    --cg-border: #ebece7;
+    --cg-background: #f7f7f4;
+    --cg-white: #ffffff;
+    --cg-danger: #df5f5f;
+    --cg-shadow: 0 14px 38px rgba(44, 55, 49, 0.065);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+    body.caregiver-body {
+        color: var(--cg-text);
+        background: var(--cg-background);
+        font-family: "Segoe UI", Arial, sans-serif;
+        font-size: 14px;
+    }
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font: inherit;
+}
+
+/* SIDEBAR */
+
+.caregiver-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 1000;
+    width: 250px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--cg-white);
+    border-right: 1px solid var(--cg-border);
+    transition: transform 0.25s ease;
+}
+
+.caregiver-logo {
+    height: 78px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--cg-border);
+}
+
+    .caregiver-logo span {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        color: white;
+        background: linear-gradient( 135deg, #f0ad47, #d98615);
+        border-radius: 13px;
+        font-size: 20px;
+        box-shadow: 0 8px 18px rgba(229, 154, 47, 0.25);
+    }
+
+    .caregiver-logo strong {
+        color: #252d29;
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+.caregiver-menu-title {
+    padding: 22px 22px 10px;
+    color: #9aa39e;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+}
+
+.caregiver-navigation {
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+    .caregiver-navigation a {
+        min-height: 46px;
+        padding: 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        color: #626d67;
+        border-radius: 11px;
+        font-size: 13px;
+        font-weight: 650;
+        transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+        .caregiver-navigation a i {
+            width: 19px;
+            color: #87918c;
+            font-size: 16px;
+        }
+
+        .caregiver-navigation a:hover {
+            color: var(--cg-primary-dark);
+            background: #fff8ef;
+            transform: translateX(2px);
+        }
+
+        .caregiver-navigation a.active {
+            color: var(--cg-primary-dark);
+            background: linear-gradient( 90deg, #fff1df, #fff8ef);
+        }
+
+            .caregiver-navigation a.active i {
+                color: var(--cg-primary);
+            }
+
+.caregiver-account {
+    margin-top: auto;
+    padding: 18px 15px;
+    border-top: 1px solid var(--cg-border);
+}
+
+.caregiver-user {
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.caregiver-avatar {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: grid;
+    place-items: center;
+    color: #b57320;
+    background: #ffecd4;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.caregiver-user div {
+    min-width: 0;
+}
+
+.caregiver-user strong,
+.caregiver-user small {
+    display: block;
+}
+
+.caregiver-user strong {
+    max-width: 155px;
+    overflow: hidden;
+    color: #3b443f;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.caregiver-user small {
+    margin-top: 3px;
+    color: #939c97;
+    font-size: 10px;
+}
+
+.caregiver-account button {
+    width: 100%;
+    height: 36px;
+    padding: 0 3px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #6c7671;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+
+    .caregiver-account button:hover {
+        color: var(--cg-danger);
+    }
+
+/* PAGE */
+
+.caregiver-page {
+    min-height: 100vh;
+    margin-left: 250px;
+}
+
+.caregiver-topbar {
+    height: 64px;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid var(--cg-border);
+    backdrop-filter: blur(10px);
+}
+
+.caregiver-menu-button {
+    display: none;
+    margin-right: auto;
+    color: #58625d;
+    background: transparent;
+    border: 0;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.topbar-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #7d8782;
+    font-size: 12px;
+}
+
+.caregiver-notification {
+    position: relative;
+    width: 39px;
+    height: 39px;
+    display: grid;
+    place-items: center;
+    color: #6c7671;
+    background: #f7f7f3;
+    border: 1px solid var(--cg-border);
+    border-radius: 50%;
+}
+
+    .caregiver-notification span {
+        position: absolute;
+        top: -3px;
+        right: -2px;
+        width: 17px;
+        height: 17px;
+        display: grid;
+        place-items: center;
+        color: white;
+        background: #e75c67;
+        border-radius: 50%;
+        font-size: 9px;
+        font-weight: 750;
+    }
+
+.caregiver-content {
+    padding: 32px;
+}
+
+/* ALERT */
+
+.caregiver-alert {
+    margin-bottom: 18px;
+    padding: 13px 16px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border-radius: 11px;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+    .caregiver-alert.success {
+        color: #23785a;
+        background: #e5f8ef;
+    }
+
+    .caregiver-alert.error {
+        color: #a54141;
+        background: #fdeaea;
+    }
+
+/* WELCOME */
+
+.caregiver-welcome {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.welcome-label,
+.panel-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--cg-primary-dark);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+}
+
+.caregiver-welcome h1 {
+    margin: 0;
+    color: #242c28;
+    font-size: 27px;
+    line-height: 1.25;
+}
+
+    .caregiver-welcome h1 span {
+        color: var(--cg-primary-dark);
+    }
+
+.caregiver-welcome p {
+    margin: 7px 0 0;
+    color: var(--cg-muted);
+    font-size: 13px;
+}
+
+.profile-shortcut {
+    padding: 10px 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #8a611e;
+    background: #fff4e4;
+    border: 1px solid #f5dfbd;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* STAT */
+
+.caregiver-stat-grid {
+    margin: 28px 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.caregiver-stat-card {
+    position: relative;
+    min-height: 145px;
+    padding: 21px;
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    overflow: hidden;
+    background: white;
+    border: 1px solid var(--cg-border);
+    border-radius: 17px;
+    box-shadow: var(--cg-shadow);
+}
+
+.caregiver-stat-icon {
+    position: relative;
+    z-index: 2;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    font-size: 20px;
+}
+
+.caregiver-stat-card strong,
+.caregiver-stat-card span {
+    position: relative;
+    z-index: 2;
+    display: block;
+}
+
+.caregiver-stat-card strong {
+    color: #222925;
+    font-size: 27px;
+    line-height: 1.1;
+}
+
+.caregiver-stat-card span {
+    margin-top: 7px;
+    color: #818a85;
+    font-size: 11px;
+}
+
+.caregiver-stat-card .income-value {
+    font-size: 22px;
+}
+
+.stat-today .caregiver-stat-icon {
+    color: var(--cg-teal);
+    background: var(--cg-teal-soft);
+}
+
+.stat-request .caregiver-stat-icon {
+    color: var(--cg-primary);
+    background: var(--cg-primary-soft);
+}
+
+.stat-complete .caregiver-stat-icon {
+    color: var(--cg-green);
+    background: var(--cg-green-soft);
+}
+
+.stat-income .caregiver-stat-icon {
+    color: #6b9c69;
+    background: #ebf4e7;
+}
+
+.stat-decoration {
+    position: absolute;
+    right: -28px;
+    bottom: -42px;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    opacity: 0.35;
+}
+
+.stat-today .stat-decoration {
+    background: var(--cg-teal-soft);
+}
+
+.stat-request .stat-decoration {
+    background: var(--cg-primary-soft);
+}
+
+.stat-complete .stat-decoration {
+    background: var(--cg-green-soft);
+}
+
+.stat-income .stat-decoration {
+    background: #eaf3e7;
+}
+
+/* DASHBOARD GRID */
+
+.caregiver-dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(305px, 0.85fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.caregiver-dashboard-main,
+.caregiver-dashboard-side {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.caregiver-panel {
+    background: white;
+    border: 1px solid var(--cg-border);
+    border-radius: 17px;
+    box-shadow: var(--cg-shadow);
+}
+
+.schedule-panel,
+.notification-panel {
+    padding: 22px;
+}
+
+.caregiver-panel-header {
+    margin-bottom: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+    .caregiver-panel-header h2 {
+        margin: 0;
+        color: #29312d;
+        font-size: 16px;
+    }
+
+    .caregiver-panel-header > a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--cg-primary-dark);
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+/* SCHEDULE */
+
+.caregiver-schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.caregiver-schedule-card {
+    min-height: 99px;
+    padding: 14px;
+    display: grid;
+    grid-template-columns: 51px 42px minmax(0, 1fr) auto;
+    gap: 13px;
+    align-items: center;
+    background: linear-gradient( 90deg, #ffffff, #fdfdfa);
+    border: 1px solid #eef0eb;
+    border-radius: 13px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .caregiver-schedule-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(45, 55, 50, 0.075);
+    }
+
+.schedule-date {
+    width: 51px;
+    height: 59px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff3e4;
+    border-radius: 10px;
+}
+
+    .schedule-date strong {
+        color: var(--cg-primary-dark);
+        font-size: 19px;
+    }
+
+    .schedule-date span {
+        margin-top: 2px;
+        color: #b38d57;
+        font-size: 7px;
+        font-weight: 800;
+    }
+
+.schedule-patient-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    color: var(--cg-teal);
+    background: var(--cg-teal-soft);
+    border-radius: 50%;
+    font-size: 17px;
+}
+
+.schedule-information {
+    min-width: 0;
+}
+
+.schedule-name-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+    .schedule-name-row h3 {
+        margin: 0;
+        color: #333b37;
+        font-size: 13px;
+    }
+
+.schedule-status {
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 8px;
+    font-weight: 700;
+}
+
+    .schedule-status.confirmed {
+        color: #278d86;
+        background: #e2f6f3;
+    }
+
+    .schedule-status.pending {
+        color: #ad741f;
+        background: #fff0d9;
+    }
+
+.schedule-information > p {
+    margin: 5px 0 7px;
+    color: #848d88;
+    font-size: 9px;
+}
+
+    .schedule-information > p strong {
+        color: #646d68;
+    }
+
+.schedule-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: #8b9490;
+    font-size: 9px;
+}
+
+    .schedule-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .schedule-meta span:last-child {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+.schedule-price {
+    min-width: 85px;
+    text-align: right;
+}
+
+    .schedule-price strong {
+        display: block;
+        color: var(--cg-primary-dark);
+        font-size: 12px;
+    }
+
+    .schedule-price a {
+        display: inline-block;
+        margin-top: 8px;
+        color: #808985;
+        font-size: 9px;
+    }
+
+/* EMPTY */
+
+.caregiver-empty {
+    padding: 42px 20px;
+    color: #87908b;
+    text-align: center;
+}
+
+    .caregiver-empty.compact {
+        padding: 20px;
+    }
+
+.empty-icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 12px;
+    display: grid;
+    place-items: center;
+    color: var(--cg-primary);
+    background: var(--cg-primary-soft);
+    border-radius: 50%;
+    font-size: 22px;
+}
+
+.caregiver-empty strong {
+    display: block;
+    color: #535d58;
+}
+
+.caregiver-empty p {
+    margin: 5px 0 0;
+    font-size: 11px;
+}
+
+/* PROFILE */
+
+.caregiver-profile-card {
+    position: relative;
+    padding: 72px 22px 22px;
+    overflow: hidden;
+    text-align: center;
+    background: white;
+    border: 1px solid var(--cg-border);
+    border-radius: 17px;
+    box-shadow: var(--cg-shadow);
+}
+
+.profile-cover {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 90px;
+    background: linear-gradient( 135deg, #fff2dd, #f7e0bd);
+}
+
+.caregiver-profile-avatar {
+    position: relative;
+    z-index: 2;
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 12px;
+    display: grid;
+    place-items: center;
+    color: var(--cg-primary-dark);
+    background: white;
+    border: 4px solid white;
+    border-radius: 50%;
+    box-shadow: 0 7px 19px rgba(55, 48, 37, 0.13);
+    font-size: 30px;
+}
+
+.caregiver-profile-card h2 {
+    margin: 0;
+    color: #2e3632;
+    font-size: 16px;
+}
+
+.caregiver-profile-card > p {
+    margin: 5px 0 10px;
+    color: #838c87;
+    font-size: 10px;
+}
+
+.profile-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.stars {
+    color: #e69a28;
+    font-size: 11px;
+}
+
+.profile-rating strong {
+    color: #9a712e;
+    font-size: 11px;
+}
+
+.profile-details {
+    margin: 19px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--cg-border);
+    border-bottom: 1px solid var(--cg-border);
+}
+
+    .profile-details div {
+        padding: 13px 5px;
+    }
+
+        .profile-details div:first-child {
+            border-right: 1px solid var(--cg-border);
+        }
+
+    .profile-details span,
+    .profile-details strong {
+        display: block;
+    }
+
+    .profile-details span {
+        color: #949c98;
+        font-size: 8px;
+    }
+
+    .profile-details strong {
+        margin-top: 4px;
+        color: #4b5550;
+        font-size: 10px;
+    }
+
+        .profile-details strong.available {
+            color: #3a9c73;
+        }
+
+.profile-button {
+    height: 41px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #76511a;
+    background: #fff4e4;
+    border: 1px solid #f2d9b2;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* REQUEST */
+
+.request-panel {
+    padding: 19px;
+}
+
+.request-number,
+.notification-count {
+    padding: 5px 9px;
+    color: var(--cg-primary-dark);
+    background: var(--cg-primary-soft);
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 750;
+}
+
+.request-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.request-card {
+    padding: 13px;
+    background: #fffaf4;
+    border: 1px solid #f3e5d1;
+    border-radius: 12px;
+}
+
+.request-top {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 9px;
+    align-items: center;
+}
+
+.request-icon {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    color: var(--cg-primary);
+    background: #ffead0;
+    border-radius: 9px;
+}
+
+.request-top strong,
+.request-top span {
+    display: block;
+}
+
+.request-top > div:nth-child(2) strong {
+    color: #3e4742;
+    font-size: 10px;
+}
+
+.request-top > div:nth-child(2) span {
+    margin-top: 3px;
+    color: #909894;
+    font-size: 8px;
+}
+
+.request-price {
+    color: var(--cg-primary-dark);
+    font-size: 10px;
+}
+
+.request-meta {
+    margin: 11px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #818b86;
+    font-size: 8px;
+}
+
+    .request-meta span {
+        display: flex;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+.request-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+    .request-actions form {
+        width: 100%;
+    }
+
+.request-detail-button,
+.accept-button {
+    width: 100%;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.request-detail-button {
+    color: #737d78;
+    background: white;
+    border: 1px solid #e6e7e2;
+}
+
+.accept-button {
+    color: white;
+    background: linear-gradient( 135deg, #e7a344, #d98b1d);
+    border: 0;
+    cursor: pointer;
+}
+
+/* QUICK */
+
+.caregiver-quick-card {
+    padding: 19px;
+    background: white;
+    border: 1px solid var(--cg-border);
+    border-radius: 17px;
+    box-shadow: var(--cg-shadow);
+}
+
+    .caregiver-quick-card h2 {
+        margin: 0 0 12px;
+        font-size: 14px;
+    }
+
+    .caregiver-quick-card > a {
+        min-height: 56px;
+        padding: 10px 5px;
+        display: grid;
+        grid-template-columns: 35px minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: center;
+        border-top: 1px solid var(--cg-border);
+    }
+
+        .caregiver-quick-card > a > span {
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            color: var(--cg-primary);
+            background: var(--cg-primary-soft);
+            border-radius: 9px;
+        }
+
+    .caregiver-quick-card strong,
+    .caregiver-quick-card small {
+        display: block;
+    }
+
+    .caregiver-quick-card strong {
+        color: #505a55;
+        font-size: 10px;
+    }
+
+    .caregiver-quick-card small {
+        margin-top: 3px;
+        color: #949c98;
+        font-size: 8px;
+    }
+
+    .caregiver-quick-card > a > i {
+        color: #a0a7a3;
+        font-size: 11px;
+    }
+
+/* NOTIFICATION */
+
+.caregiver-notification-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.caregiver-notification-card {
+    position: relative;
+    padding: 13px;
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 10px;
+    background: #fafbf8;
+    border: 1px solid #eef0eb;
+    border-radius: 11px;
+}
+
+.notification-card-icon {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    color: var(--cg-purple);
+    background: var(--cg-purple-soft);
+    border-radius: 9px;
+}
+
+.caregiver-notification-card strong {
+    display: block;
+    color: #4c5651;
+    font-size: 10px;
+}
+
+.caregiver-notification-card p {
+    margin: 4px 0;
+    display: -webkit-box;
+    overflow: hidden;
+    color: #7f8984;
+    font-size: 8px;
+    line-height: 1.5;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.caregiver-notification-card small {
+    color: #9da4a0;
+    font-size: 7px;
+}
+
+.new-notification-dot {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 6px;
+    height: 6px;
+    background: var(--cg-purple);
+    border-radius: 50%;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1200px) {
+    .caregiver-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .caregiver-dashboard-grid {
+        grid-template-columns: minmax(0, 1.55fr) minmax(290px, 0.8fr);
+    }
+}
+
+@media (max-width: 950px) {
+    .caregiver-sidebar {
+        transform: translateX(-100%);
+        box-shadow: 15px 0 40px rgba(45, 52, 48, 0.15);
+    }
+
+        .caregiver-sidebar.open {
+            transform: translateX(0);
+        }
+
+    .caregiver-page {
+        margin-left: 0;
+    }
+
+    .caregiver-menu-button {
+        display: inline-grid;
+        place-items: center;
+    }
+
+    .caregiver-topbar {
+        justify-content: space-between;
+    }
+
+    .caregiver-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .caregiver-content {
+        padding: 22px 16px 35px;
+    }
+
+    .caregiver-topbar {
+        padding: 0 16px;
+    }
+
+    .caregiver-welcome {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .caregiver-stat-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .caregiver-schedule-card {
+        grid-template-columns: 45px minmax(0, 1fr);
+    }
+
+    .schedule-patient-icon {
+        display: none;
+    }
+
+    .schedule-information {
+        grid-column: 2;
+    }
+
+    .schedule-price {
+        grid-column: 2;
+        text-align: left;
+    }
+
+    .caregiver-notification-list {
+        grid-template-columns: 1fr;
+    }
+}

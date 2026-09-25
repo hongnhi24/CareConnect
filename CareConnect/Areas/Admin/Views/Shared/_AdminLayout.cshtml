@@ -1,0 +1,346 @@
+﻿@{
+    string controllerHienTai =
+        ViewContext.RouteData.Values["controller"]?
+            .ToString()
+        ?? string.Empty;
+
+    string tenAdmin =
+        User.Identity?.Name ?? "Admin";
+
+    string chuCaiAdmin =
+        string.Join(
+            "",
+            tenAdmin
+                .Split(
+                    ' ',
+                    StringSplitOptions.RemoveEmptyEntries)
+                .TakeLast(2)
+                .Select(x => x[0]))
+        .ToUpper();
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - CareConnect Admin</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/admin-dashboard.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/admin-users.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/admin-caregiver-review.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/admin-bookings.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/admin-services.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/admin-reports.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/admin-reviews.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/admin-suggestion-config.css"
+          asp-append-version="true" />
+</head>
+
+<body class="admin-body">
+
+    <aside class="admin-sidebar"
+           id="adminSidebar">
+
+        <div class="admin-brand">
+
+            <span class="admin-brand-icon">
+                <i class="bi bi-shield-check"></i>
+            </span>
+
+            <div>
+                <strong>CareConnect</strong>
+                <small>Administrator</small>
+            </div>
+
+            <span class="admin-badge">
+                Admin
+            </span>
+
+        </div>
+
+        <div class="admin-menu-label">
+            QUẢN TRỊ HỆ THỐNG
+        </div>
+
+        <nav class="admin-navigation">
+
+            <a asp-area="Admin"
+               asp-controller="Dashboard"
+               asp-action="Index"
+               class="@(controllerHienTai == "Dashboard"
+                              ? "active"
+                              : "")">
+
+                <i class="bi bi-grid-fill"></i>
+
+                <span>
+                    Tổng quan
+                </span>
+
+            </a>
+
+            <a asp-area="Admin"
+               asp-controller="Users"
+               asp-action="Index"
+               class="@(controllerHienTai == "Users"
+                      ? "active"
+                      : "")">
+
+                <i class="bi bi-people-fill"></i>
+                <span>Người dùng</span>
+            </a>
+
+            <a asp-area="Admin"
+               asp-controller="Caregivers"
+               asp-action="Index"
+               asp-route-trangThai="Chờ duyệt"
+               class="@(controllerHienTai == "Caregivers"
+                                  ? "active"
+                                  : "")">
+
+                <i class="bi bi-clipboard2-pulse-fill"></i>
+                <span>Duyệt người chăm sóc</span>
+            </a>
+            <a asp-area="Admin"
+               asp-controller="Certificates"
+               asp-action="Index"
+               class="@(controllerHienTai == "Certificates"
+                              ? "active"
+                              : "")">
+
+                <i class="bi bi-patch-check"></i>
+
+                <span>
+                    Xác minh chứng chỉ
+                </span>
+
+            </a>
+
+            <a asp-area="Admin"
+               asp-controller="Bookings"
+               asp-action="Index"
+               class="@(controllerHienTai == "Bookings"
+                      ? "active"
+                      : "")">
+
+                <i class="bi bi-calendar2-check-fill"></i>
+                <span>Quản lý lịch đặt</span>
+            </a>
+
+            <a asp-area="Admin"
+               asp-controller="Services"
+               asp-action="Index"
+               class="@(controllerHienTai == "Services"
+                      ? "active"
+                      : "")">
+
+                <i class="bi bi-heart-pulse-fill"></i>
+                <span>Dịch vụ chăm sóc</span>
+            </a>
+            <a asp-area="Admin"
+               asp-controller="Reviews"
+               asp-action="Index"
+               class="@(controllerHienTai == "Reviews"
+                      ? "active"
+                      : "")">
+
+                <i class="bi bi-star-fill"></i>
+                <span>Đánh giá khách hàng</span>
+            </a>
+            <a asp-area="Admin"
+               asp-controller="Reports"
+               asp-action="Index"
+               class="@(controllerHienTai == "Reports"
+                      ? "active"
+                      : "")">
+
+                <i class="bi bi-bar-chart-fill"></i>
+                <span>Báo cáo & thống kê</span>
+            </a>
+
+            <a asp-area="Admin"
+               asp-controller="SuggestionConfig"
+               asp-action="Index"
+               class="@(controllerHienTai == "SuggestionConfig"
+                      ? "active"
+                      : "")">
+
+                <i class="bi bi-sliders2-vertical"></i>
+                <span>Cấu hình gợi ý</span>
+            </a>
+
+        </nav>
+
+        <div class="admin-system-card">
+
+            <span>
+                <i class="bi bi-database-check"></i>
+            </span>
+
+            <div>
+                <strong>CareConnect System</strong>
+                <small>Dữ liệu được quản lý tập trung</small>
+            </div>
+
+            <i class="bi bi-shield-check"></i>
+
+        </div>
+
+        <div class="admin-account">
+
+            <div class="admin-user">
+
+                <span class="admin-avatar">
+                    @chuCaiAdmin
+                </span>
+
+                <div>
+                    <strong>@tenAdmin</strong>
+                    <small>Quản trị viên</small>
+                </div>
+
+            </div>
+
+            <form asp-area=""
+                  asp-controller="Account"
+                  asp-action="Logout"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit">
+                    <i class="bi bi-box-arrow-left"></i>
+                    Đăng xuất
+                </button>
+
+            </form>
+
+        </div>
+
+    </aside>
+
+    <div class="admin-page">
+
+        <header class="admin-topbar">
+
+            <button type="button"
+                    class="admin-menu-button"
+                    id="adminMenuButton">
+
+                <i class="bi bi-list"></i>
+            </button>
+
+            <div class="admin-search">
+
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       placeholder="Tìm người dùng, lịch đặt..." />
+
+            </div>
+
+            <div class="admin-topbar-actions">
+
+                <a href="#"
+                   class="admin-topbar-button"
+                   title="Trợ giúp">
+
+                    <i class="bi bi-question-circle"></i>
+                </a>
+
+                <a href="#"
+                   class="admin-topbar-button notification"
+                   title="Thông báo">
+
+                    <i class="bi bi-bell"></i>
+                    <span></span>
+                </a>
+
+                <a asp-area=""
+                   asp-controller="Home"
+                   asp-action="Index"
+                   class="admin-topbar-link home-link">
+
+                    <i class="bi bi-house-door-fill"></i>
+                    <span>Trang chủ</span>
+                </a>
+
+                <form asp-area=""
+                      asp-controller="Account"
+                      asp-action="Logout"
+                      method="post"
+                      class="admin-topbar-logout-form">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="admin-topbar-link logout-link">
+
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Đăng xuất</span>
+                    </button>
+
+                </form>
+
+            </div>
+
+        </header>
+
+        <main class="admin-content">
+            @RenderBody()
+        </main>
+
+    </div>
+
+    <script>
+            const adminMenuButton =
+                document.getElementById("adminMenuButton");
+
+            const adminSidebar =
+                document.getElementById("adminSidebar");
+
+            adminMenuButton?.addEventListener(
+                "click",
+                function() {
+                    adminSidebar?.classList.toggle("open");
+                });
+    </script>
+
+    @await RenderSectionAsync(
+        "Scripts",
+        required: false)
+
+</body>
+</html>

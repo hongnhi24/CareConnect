@@ -1,0 +1,347 @@
+﻿@model CareConnect.ViewModels.AdminServiceFormViewModel
+
+@{
+    ViewData["Title"] = "Chỉnh sửa dịch vụ";
+}
+
+
+<div class="service-admin-page">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="service-form-heading">
+
+
+        <a asp-area="Admin"
+           asp-controller="Services"
+           asp-action="Index"
+           class="service-back-button"
+           title="Quay lại danh sách dịch vụ">
+
+            <i class="bi bi-arrow-left"></i>
+
+        </a>
+
+
+        <div>
+
+
+            <span>
+                QUẢN LÝ DỊCH VỤ
+            </span>
+
+
+            <h1>
+                Chỉnh sửa dịch vụ
+            </h1>
+
+
+            <p>
+                Cập nhật thông tin, mức giá, thời lượng
+                và trạng thái hoạt động của dịch vụ chăm sóc.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FORM
+    ====================================================== -->
+
+    <section class="service-form-layout">
+
+
+        <div class="service-form-card">
+
+
+            <!-- =============================================
+                 FORM HEADER
+            ============================================== -->
+
+            <div class="service-form-card-heading">
+
+
+                <span>
+
+                    <i class="bi bi-pencil-square"></i>
+
+                </span>
+
+
+                <div>
+
+                    <h2>
+                        Cập nhật thông tin dịch vụ
+                    </h2>
+
+
+                    <p>
+                        Kiểm tra thông tin trước khi lưu thay đổi.
+                        Các trường có dấu * là bắt buộc.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 FORM
+            ============================================== -->
+
+            <form asp-area="Admin"
+                  asp-controller="Services"
+                  asp-action="Edit"
+                  asp-route-id="@Model.MaDichVu"
+                  method="post">
+
+
+                @Html.AntiForgeryToken()
+
+
+                <input asp-for="MaDichVu"
+                       type="hidden" />
+
+
+
+                <!-- VALIDATION SUMMARY -->
+
+                <div asp-validation-summary="ModelOnly"
+                     class="service-validation-summary">
+                </div>
+
+
+
+                <div class="service-form-grid">
+
+
+                    <!-- =====================================
+                         CODE
+                    ====================================== -->
+
+                    <div class="service-form-field">
+
+
+                        <label asp-for="MaDichVuCode">
+
+                            Mã dịch vụ *
+
+                        </label>
+
+
+                        <input asp-for="MaDichVuCode"
+                               autocomplete="off"
+                               placeholder="Ví dụ: DV26011" />
+
+
+                        <span asp-validation-for="MaDichVuCode">
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         NAME
+                    ====================================== -->
+
+                    <div class="service-form-field">
+
+
+                        <label asp-for="TenDichVu">
+
+                            Tên dịch vụ *
+
+                        </label>
+
+
+                        <input asp-for="TenDichVu"
+                               autocomplete="off"
+                               placeholder="Nhập tên dịch vụ" />
+
+
+                        <span asp-validation-for="TenDichVu">
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         PRICE
+                    ====================================== -->
+
+                    <div class="service-form-field">
+
+
+                        <label asp-for="Gia">
+
+                            Giá dịch vụ *
+
+                        </label>
+
+
+                        <input asp-for="Gia"
+                               type="number"
+                               min="0"
+                               step="1000"
+                               inputmode="numeric"
+                               placeholder="Ví dụ: 300000" />
+
+
+                        <span asp-validation-for="Gia">
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         DURATION
+                    ====================================== -->
+
+                    <div class="service-form-field">
+
+
+                        <label asp-for="ThoiLuong">
+
+                            Thời lượng *
+
+                        </label>
+
+
+                        <input asp-for="ThoiLuong"
+                               type="number"
+                               min="1"
+                               step="1"
+                               inputmode="numeric"
+                               placeholder="Nhập số phút, ví dụ: 120" />
+
+
+                        <span asp-validation-for="ThoiLuong">
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         DESCRIPTION
+                    ====================================== -->
+
+                    <div class="service-form-field full">
+
+
+                        <label asp-for="MoTa">
+
+                            Mô tả dịch vụ
+
+                        </label>
+
+
+                        <textarea asp-for="MoTa"
+                                  rows="5"
+                                  maxlength="1000"
+                                  placeholder="Mô tả công việc, phạm vi chăm sóc và các nội dung chính của dịch vụ..."></textarea>
+
+
+                        <span asp-validation-for="MoTa">
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         STATUS
+                    ====================================== -->
+
+                    <div class="service-switch-field full">
+
+
+                        <label>
+
+
+                            <input asp-for="TrangThai"
+                                   type="checkbox" />
+
+
+                            <span>
+
+
+                                <strong>
+                                    Dịch vụ đang hoạt động
+                                </strong>
+
+
+                                <small>
+                                    Bỏ chọn nếu muốn tạm ngừng
+                                    dịch vụ và không cho sử dụng
+                                    khi tạo lịch đặt mới.
+                                </small>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================================
+                     ACTIONS
+                ========================================== -->
+
+                <div class="service-form-actions">
+
+
+                    <a asp-area="Admin"
+                       asp-controller="Services"
+                       asp-action="Index">
+
+                        <i class="bi bi-x-lg"></i>
+
+                        <span>
+                            Hủy bỏ
+                        </span>
+
+                    </a>
+
+
+                    <button type="submit">
+
+
+                        <i class="bi bi-check2-circle"></i>
+
+
+                        <span>
+                            Lưu thay đổi
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

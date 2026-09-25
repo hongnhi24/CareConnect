@@ -1,0 +1,318 @@
+﻿@model CareConnect.ViewModels.CustomerReviewDetailsViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết đánh giá";
+}
+
+<section class="customer-review-detail-heading">
+
+    <div class="customer-review-detail-heading-left">
+
+        <div class="customer-review-detail-heading-top">
+
+            <a asp-area="Customer"
+               asp-controller="Reviews"
+               asp-action="Index"
+               class="customer-review-detail-back">
+
+                <i class="bi bi-arrow-left"></i>
+
+            </a>
+
+            <span class="customer-review-detail-badge">
+                PHẢN HỒI DỊCH VỤ
+            </span>
+
+        </div>
+
+        <h1>
+            Chi tiết đánh giá
+        </h1>
+
+        <p>
+            Xem lại phản hồi bạn đã gửi cho buổi chăm sóc.
+        </p>
+
+    </div>
+
+</section>
+
+<div class="customer-review-details-layout">
+
+    <main class="customer-review-details-card">
+
+        <div class="customer-review-details-heading">
+
+            <span>
+                <i class="bi bi-star-fill"></i>
+            </span>
+
+            <div>
+                <h2>Đánh giá của bạn</h2>
+
+                <p>
+                    Gửi lúc
+                    @(Model.NgayDanhGia.ToString(
+                        "dd/MM/yyyy HH:mm"))
+                </p>
+            </div>
+
+        </div>
+
+        <div class="customer-review-details-stars">
+
+            @for (int i = 1; i <= 5; i++)
+            {
+                <i class="bi @(i <= Model.SoSao
+                                       ? "bi-star-fill"
+                                       : "bi-star")">
+        </i>
+    }
+
+    <strong>@Model.SoSao/5</strong>
+
+</div>
+
+<div class="customer-review-details-content">
+
+    <i class="bi bi-quote"></i>
+
+    <p>@Model.NoiDung</p>
+
+</div>
+<div class="customer-review-details-actions">
+
+    <a asp-area="Customer"
+       asp-controller="Reviews"
+       asp-action="Edit"
+       asp-route-id="@Model.MaDanhGia"
+       class="customer-review-edit-btn">
+
+        <i class="bi bi-pencil-square"></i>
+
+        Chỉnh sửa đánh giá
+
+    </a>
+
+
+    <form asp-area="Customer"
+          asp-controller="Reviews"
+          asp-action="Delete"
+          asp-route-id="@Model.MaDanhGia"
+          method="post"
+          onsubmit="return confirm('Bạn có chắc chắn muốn xóa đánh giá này không?');">
+
+        @Html.AntiForgeryToken()
+
+        <button type="submit"
+                class="customer-review-delete-btn">
+
+            <i class="bi bi-trash3"></i>
+
+            Xóa đánh giá
+
+        </button>
+
+    </form>
+
+</div>
+</main>
+
+<aside class="review-care-profile">
+
+    <!-- =========================
+         TOP COLOR
+    ========================== -->
+    <div class="review-care-profile-cover"></div>
+
+
+    <!-- =========================
+         ICON
+    ========================== -->
+    <div class="review-care-profile-avatar">
+
+        <div class="review-care-profile-avatar-inner">
+            <i class="bi bi-calendar2-heart"></i>
+        </div>
+
+        <span class="review-care-profile-check">
+            <i class="bi bi-check-lg"></i>
+        </span>
+
+    </div>
+
+
+    <!-- =========================
+         TITLE
+    ========================== -->
+    <div class="review-care-profile-main">
+
+        <h2>
+            Thông tin buổi chăm sóc
+        </h2>
+
+        <p>
+            @($"#DL{Model.MaDatLich}")
+        </p>
+
+        <span class="review-care-profile-status">
+            <i class="bi bi-patch-check-fill"></i>
+            Đã hoàn thành
+        </span>
+
+    </div>
+
+
+    <!-- =========================
+         QUICK STATS
+    ========================== -->
+    <div class="review-care-profile-stats">
+
+        <div>
+
+            <strong>
+                @Model.NgayChamSoc.ToString("dd/MM")
+            </strong>
+
+            <span>
+                Ngày chăm sóc
+            </span>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                @Model.GioBatDau.ToString(@"hh\:mm")
+            </strong>
+
+            <span>
+                Giờ bắt đầu
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         INFORMATION
+    ========================== -->
+    <div class="review-care-profile-info">
+
+
+        <!-- NGƯỜI ĐƯỢC CHĂM SÓC -->
+        <div class="review-care-profile-row">
+
+            <span class="review-care-profile-row-icon">
+                <i class="bi bi-person-heart"></i>
+            </span>
+
+            <div>
+
+                <small>
+                    Người được chăm sóc
+                </small>
+
+                <strong>
+                    @Model.TenBenhNhan
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- NGƯỜI CHĂM SÓC -->
+        <div class="review-care-profile-row">
+
+            <span class="review-care-profile-row-icon">
+                <i class="bi bi-person-badge"></i>
+            </span>
+
+            <div>
+
+                <small>
+                    Người chăm sóc
+                </small>
+
+                <strong>
+                    @Model.TenNguoiChamSoc
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- DỊCH VỤ -->
+        <div class="review-care-profile-row">
+
+            <span class="review-care-profile-row-icon service">
+                <i class="bi bi-heart-pulse"></i>
+            </span>
+
+            <div>
+
+                <small>
+                    Dịch vụ
+                </small>
+
+                <strong>
+                    @Model.TenDichVu
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- KHUNG GIỜ -->
+        <div class="review-care-profile-row">
+
+            <span class="review-care-profile-row-icon time">
+                <i class="bi bi-clock"></i>
+            </span>
+
+            <div>
+
+                <small>
+                    Khung giờ chăm sóc
+                </small>
+
+                <strong>
+                    @Model.GioBatDau.ToString(@"hh\:mm")
+                    -
+                    @Model.GioKetThuc.ToString(@"hh\:mm")
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         ACTION
+    ========================== -->
+    <div class="review-care-profile-footer">
+
+        <a asp-area="Customer"
+           asp-controller="Bookings"
+           asp-action="Details"
+           asp-route-id="@Model.MaDatLich">
+
+            <i class="bi bi-calendar2-check"></i>
+
+            Xem lịch chăm sóc liên quan
+
+            <i class="bi bi-chevron-right"></i>
+
+        </a>
+
+    </div>
+
+</aside>
+</div>

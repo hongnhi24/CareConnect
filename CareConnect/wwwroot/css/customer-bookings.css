@@ -1,0 +1,1289 @@
+﻿/* =========================================================
+   CARECONNECT - CUSTOMER BOOKINGS
+   Trang: Lịch chăm sóc
+
+   DESIGN SYSTEM
+   - Tiêu đề trang: 30px
+   - Tiêu đề card: 18px
+   - Tiêu đề phần: 17px
+   - Label: 13px
+   - Nội dung: 14px
+   - Nút: 14px
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.cb-page {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    color: #2d413d;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.cb-hero {
+    width: 100%;
+    min-height: 132px;
+    box-sizing: border-box;
+    padding: 24px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: linear-gradient( 120deg, #e8f7f3 0%, #edf8f5 55%, #f5faf8 100% );
+    border: 1px solid #c8e2dc;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(30, 91, 80, 0.08);
+}
+
+.cb-hero-main {
+    min-width: 0;
+}
+
+.cb-hero-badge {
+    display: inline-flex;
+    padding: 6px 11px;
+    margin-bottom: 8px;
+    border-radius: 999px;
+    color: #08786f;
+    background: #c7ebe3;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+.cb-hero h1 {
+    margin: 0;
+    color: #223d38;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.cb-hero p {
+    max-width: 650px;
+    margin: 7px 0 0;
+    color: #738580;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   TODAY CARD
+   ========================================================= */
+
+.cb-today-card {
+    min-width: 190px;
+    box-sizing: border-box;
+    padding: 13px 15px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid #c4dfd9;
+    border-radius: 14px;
+    box-shadow: 0 7px 18px rgba(25, 87, 77, 0.06);
+}
+
+.cb-today-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    color: #087f76;
+    background: #ccece5;
+    font-size: 18px;
+}
+
+.cb-today-card > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.cb-today-card small {
+    color: #929e9a;
+    font-size: 12px;
+}
+
+.cb-today-card strong {
+    margin-top: 2px;
+    color: #334a45;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   ALERT
+   ========================================================= */
+
+.cb-alert {
+    margin-top: 16px;
+    padding: 13px 15px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+    .cb-alert.is-success {
+        color: #27755e;
+        background: #edf9f4;
+        border: 1px solid #cde8dc;
+    }
+
+    .cb-alert.is-error {
+        color: #ad4e4a;
+        background: #fff2f1;
+        border: 1px solid #efd1ce;
+    }
+
+
+/* =========================================================
+   STAT GRID
+   ========================================================= */
+
+.cb-stat-grid {
+    width: 100%;
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 11px;
+}
+
+.cb-stat-card {
+    min-width: 0;
+    min-height: 112px;
+    box-sizing: border-box;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    background: #ffffff;
+    border: 1px solid #e1e9e6;
+    border-radius: 14px;
+    box-shadow: 0 7px 20px rgba(35, 63, 56, 0.04);
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+    .cb-stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(35, 63, 56, 0.075);
+    }
+
+.cb-stat-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.cb-stat-card strong {
+    margin-top: 10px;
+    color: #2d413c;
+    font-size: 22px;
+    font-weight: 850;
+    line-height: 1;
+}
+
+.cb-stat-card > span:last-child {
+    margin-top: 6px;
+    color: #7c8985;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+
+/* TẤT CẢ */
+
+.cb-stat-card.is-all
+.cb-stat-icon {
+    color: #3976c7;
+    background: #e7f0ff;
+}
+
+.cb-stat-card.is-all.active {
+    border-color: #9fc1ef;
+    background: #f1f6ff;
+}
+
+
+/* CHỜ XÁC NHẬN */
+
+.cb-stat-card.is-pending
+.cb-stat-icon {
+    color: #d68b1b;
+    background: #fff0d6;
+}
+
+.cb-stat-card.is-pending.active {
+    border-color: #edcf9f;
+    background: #fff9ee;
+}
+
+
+/* ĐÃ XÁC NHẬN */
+
+.cb-stat-card.is-confirmed
+.cb-stat-icon {
+    color: #087f76;
+    background: #dff3ee;
+}
+
+.cb-stat-card.is-confirmed.active {
+    border-color: #9dd6cb;
+    background: #eef9f6;
+}
+
+
+/* ĐANG THỰC HIỆN */
+
+.cb-stat-card.is-progress
+.cb-stat-icon {
+    color: #6c5dc3;
+    background: #eeeaff;
+}
+
+.cb-stat-card.is-progress.active {
+    border-color: #c8c0ee;
+    background: #f7f5ff;
+}
+
+
+/* ĐÃ HOÀN THÀNH */
+
+.cb-stat-card.is-completed
+.cb-stat-icon {
+    color: #388e66;
+    background: #e2f4ea;
+}
+
+.cb-stat-card.is-completed.active {
+    border-color: #afe0c5;
+    background: #f1faf5;
+}
+
+
+/* ĐÃ HỦY */
+
+.cb-stat-card.is-cancelled
+.cb-stat-icon {
+    color: #c9534f;
+    background: #ffe9e7;
+}
+
+.cb-stat-card.is-cancelled.active {
+    border-color: #efb8b4;
+    background: #fff4f3;
+}
+
+
+/* =========================================================
+   FILTER PANEL
+   ========================================================= */
+
+.cb-filter-panel {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 16px;
+    padding: 18px 20px;
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 18px;
+    align-items: end;
+    background: #ffffff;
+    border: 1px solid #e1e9e6;
+    border-radius: 16px;
+    box-shadow: 0 9px 25px rgba(35, 63, 56, 0.045);
+}
+
+.cb-filter-heading {
+    min-width: 0;
+}
+
+    .cb-filter-heading > span {
+        display: block;
+        color: #07857b;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+    }
+
+    .cb-filter-heading h2 {
+        margin: 4px 0 0;
+        color: #344944;
+        font-size: 17px;
+        font-weight: 800;
+        line-height: 1.35;
+    }
+
+
+/* =========================================================
+   FILTER GRID
+   ========================================================= */
+
+.cb-filter-grid {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: minmax(180px, 1.45fr) minmax(135px, 0.95fr) minmax(135px, 0.95fr) minmax(150px, 1fr) 108px 76px;
+    gap: 8px;
+    align-items: end;
+}
+
+.cb-filter-field {
+    min-width: 0;
+}
+
+    .cb-filter-field label {
+        display: block;
+        margin-bottom: 6px;
+        color: #61716c;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+.cb-filter-control {
+    position: relative;
+    min-width: 0;
+}
+
+    .cb-filter-control i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #8d9b96;
+        font-size: 14px;
+        pointer-events: none;
+    }
+
+
+/* INPUT / SELECT */
+
+.cb-filter-field input,
+.cb-filter-field select {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    height: 42px;
+    box-sizing: border-box;
+    padding: 0 11px;
+    color: #52645f;
+    background: #f8faf9;
+    border: 1px solid #dde6e3;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+}
+
+.cb-filter-control input {
+    padding-left: 37px;
+}
+
+.cb-filter-field input:focus,
+.cb-filter-field select:focus {
+    background: #ffffff;
+    border-color: #68b9b1;
+    box-shadow: 0 0 0 3px rgba(16, 151, 141, 0.07);
+}
+
+
+/* =========================================================
+   FILTER BUTTONS
+   ========================================================= */
+
+.cb-filter-button,
+.cb-reset-button {
+    width: 100%;
+    min-width: 0;
+    height: 42px;
+    box-sizing: border-box;
+    padding: 0 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 750;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.cb-filter-button {
+    color: #ffffff;
+    background: #078f85;
+    border: 1px solid #078f85;
+    box-shadow: 0 6px 15px rgba(7, 143, 133, 0.14);
+}
+
+    .cb-filter-button:hover {
+        background: #067a72;
+    }
+
+.cb-reset-button {
+    color: #58706a;
+    background: #ffffff;
+    border: 1px solid #dce5e2;
+}
+
+    .cb-reset-button:hover {
+        background: #f5f8f7;
+    }
+
+
+/* =========================================================
+   LIST PANEL
+   ========================================================= */
+
+.cb-list-panel {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 16px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e1e9e6;
+    border-radius: 17px;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, 0.045);
+}
+
+.cb-list-heading {
+    min-height: 72px;
+    box-sizing: border-box;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-bottom: 1px solid #ebefed;
+}
+
+    .cb-list-heading span {
+        display: block;
+        color: #07857b;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+    }
+
+    .cb-list-heading h2 {
+        margin: 4px 0 0;
+        color: #344944;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+    .cb-list-heading > strong {
+        flex-shrink: 0;
+        padding: 6px 10px;
+        color: #087f76;
+        background: #e1f3ef;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+
+/* =========================================================
+   BOOKING LIST
+   ========================================================= */
+
+.cb-booking-list {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+/* =========================================================
+   BOOKING ITEM
+   ========================================================= */
+
+.cb-booking-item {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr) 145px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e2e8e5;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(34, 62, 55, 0.035);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+    .cb-booking-item:hover {
+        transform: translateY(-1px);
+        border-color: #c9e0da;
+        box-shadow: 0 11px 25px rgba(34, 62, 55, 0.065);
+    }
+
+    .cb-booking-item[hidden] {
+        display: none !important;
+    }
+
+
+/* =========================================================
+   DATE COLUMN - XANH MINT
+   ========================================================= */
+
+.cb-booking-date {
+    padding: 18px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    text-align: center;
+    background: linear-gradient( 180deg, #e6f7f3 0%, #d9f1eb 100% );
+    border-right: 1px solid #c7e4dd;
+}
+
+    .cb-booking-date strong {
+        color: #087f76;
+        font-size: 28px;
+        font-weight: 850;
+        line-height: 1;
+    }
+
+    .cb-booking-date span {
+        margin-top: 5px;
+        color: #317b73;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+    }
+
+    .cb-booking-date small {
+        margin-top: 3px;
+        color: #6f928b;
+        font-size: 11px;
+    }
+
+
+/* =========================================================
+   BOOKING CONTENT
+   ========================================================= */
+
+.cb-booking-content {
+    min-width: 0;
+    padding: 16px 18px;
+}
+
+.cb-booking-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.cb-booking-code {
+    display: block;
+    margin-bottom: 3px;
+    color: #0a8d83;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.cb-booking-top h3 {
+    margin: 0;
+    color: #2f443f;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.cb-booking-relative {
+    margin: 7px 0 0;
+    color: #7c8985;
+    font-size: 14px;
+}
+
+    .cb-booking-relative i {
+        margin-right: 5px;
+        color: #0c958b;
+    }
+
+    .cb-booking-relative strong {
+        color: #475a55;
+    }
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.cb-status {
+    flex-shrink: 0;
+    padding: 5px 9px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+    .cb-status.is-pending {
+        color: #aa711c;
+        background: #fff1d7;
+    }
+
+    .cb-status.is-confirmed {
+        color: #087d74;
+        background: #ddf2ed;
+    }
+
+    .cb-status.is-progress {
+        color: #6557b5;
+        background: #ede9ff;
+    }
+
+    .cb-status.is-completed {
+        color: #377f5d;
+        background: #e1f4e9;
+    }
+
+    .cb-status.is-cancelled {
+        color: #be504c;
+        background: #ffe9e7;
+    }
+
+    .cb-status.is-default {
+        color: #687772;
+        background: #edf1ef;
+    }
+
+
+/* =========================================================
+   META
+   ========================================================= */
+
+.cb-booking-meta {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: minmax(150px, 0.8fr) minmax(130px, 0.7fr) minmax(210px, 1.5fr);
+    gap: 8px;
+}
+
+    .cb-booking-meta > div {
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 9px 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f8faf9;
+        border: 1px solid #e7ece9;
+        border-radius: 9px;
+    }
+
+        .cb-booking-meta > div > span {
+            width: 29px;
+            height: 29px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0b9187;
+            background: #e4f5f1;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+    .cb-booking-meta p {
+        min-width: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cb-booking-meta small {
+        color: #98a19e;
+        font-size: 11px;
+    }
+
+    .cb-booking-meta strong {
+        margin-top: 1px;
+        overflow: hidden;
+        color: #50615c;
+        font-size: 12px;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+/* =========================================================
+   INFO BOX
+   ========================================================= */
+
+.cb-info-box {
+    margin-top: 9px;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+    .cb-info-box.is-pending {
+        color: #876327;
+        background: #fff8ea;
+        border: 1px solid #f2dfbc;
+    }
+
+    .cb-info-box.is-confirmed {
+        color: #39756a;
+        background: #ecf8f5;
+        border: 1px solid #d0eae3;
+    }
+
+    .cb-info-box.is-progress {
+        color: #655a9c;
+        background: #f5f2ff;
+        border: 1px solid #ddd7f4;
+    }
+
+    .cb-info-box.is-completed {
+        color: #4a765d;
+        background: #eef8f2;
+        border: 1px solid #d6e9dd;
+    }
+
+
+/* =========================================================
+   CANCEL BOX
+   ========================================================= */
+
+.cb-cancel-box {
+    margin-top: 9px;
+    box-sizing: border-box;
+    padding: 9px 10px;
+    background: #fff0ef;
+    border: 1px solid #efd0cd;
+    border-radius: 9px;
+}
+
+    .cb-cancel-box > div {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #bd504c;
+    }
+
+    .cb-cancel-box strong {
+        font-size: 12px;
+    }
+
+    .cb-cancel-box p {
+        margin: 4px 0 0;
+        color: #8b6764;
+        font-size: 12px;
+    }
+
+    .cb-cancel-box small {
+        display: block;
+        margin-top: 4px;
+        color: #a38c89;
+        font-size: 10px;
+    }
+
+
+/* =========================================================
+   SIDE COLUMN
+   ========================================================= */
+
+.cb-booking-side {
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 16px 13px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 15px;
+    border-left: 1px solid #edf0ee;
+}
+
+
+/* =========================================================
+   PRICE
+   ========================================================= */
+
+.cb-booking-price {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: center;
+    background: #fff8ea;
+    border: 1px solid #f2dfbc;
+    border-radius: 9px;
+}
+
+    .cb-booking-price small {
+        display: block;
+        color: #a08c6d;
+        font-size: 10px;
+    }
+
+    .cb-booking-price strong {
+        display: block;
+        margin-top: 3px;
+        color: #d47e13;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+
+/* =========================================================
+   DETAILS BUTTON
+   ========================================================= */
+
+.cb-detail-button {
+    width: 100%;
+    min-height: 38px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #ffffff;
+    background: #078f85;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 750;
+    text-decoration: none;
+    box-shadow: 0 6px 14px rgba(7, 143, 133, 0.14);
+}
+
+    .cb-detail-button:hover {
+        color: #ffffff;
+        background: #067a72;
+    }
+
+
+/* =========================================================
+   EMPTY
+   ========================================================= */
+
+.cb-empty {
+    padding: 45px 20px;
+    text-align: center;
+}
+
+    .cb-empty > span {
+        width: 55px;
+        height: 55px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0b9187;
+        background: #e3f5f1;
+        border-radius: 15px;
+        font-size: 21px;
+    }
+
+    .cb-empty h3 {
+        margin: 13px 0 0;
+        color: #3c504b;
+        font-size: 18px;
+    }
+
+    .cb-empty p {
+        margin: 6px 0 0;
+        color: #87938f;
+        font-size: 14px;
+    }
+
+    .cb-empty a {
+        min-height: 42px;
+        margin-top: 15px;
+        padding: 0 15px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        color: #ffffff;
+        background: #078f85;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 750;
+        text-decoration: none;
+    }
+
+.cb-filter-empty {
+    display: none;
+}
+
+    .cb-filter-empty.show {
+        display: block;
+    }
+
+
+/* =========================================================
+   RESPONSIVE - 1180
+   Tránh filter tràn trước khi màn hình quá nhỏ
+   ========================================================= */
+
+@media (max-width: 1180px) {
+
+    .cb-filter-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .cb-filter-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .cb-filter-keyword {
+        grid-column: span 2;
+    }
+
+    .cb-filter-button,
+    .cb-reset-button {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - 1050
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+    .cb-stat-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .cb-filter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cb-filter-keyword {
+        grid-column: 1 / -1;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - 900
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .cb-booking-item {
+        grid-template-columns: 80px minmax(0, 1fr);
+    }
+
+    .cb-booking-side {
+        grid-column: 1 / -1;
+        padding: 11px 15px;
+        align-items: center;
+        flex-direction: row;
+        border-top: 1px solid #edf0ee;
+        border-left: 0;
+    }
+
+    .cb-booking-price {
+        width: auto;
+        min-width: 140px;
+    }
+
+    .cb-detail-button {
+        width: auto;
+        padding: 0 14px;
+    }
+
+    .cb-booking-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cb-meta-address {
+        grid-column: 1 / -1;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - 650
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .cb-hero {
+        padding: 21px 18px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+        .cb-hero h1 {
+            font-size: 26px;
+        }
+
+    .cb-today-card {
+        width: 100%;
+    }
+
+    .cb-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cb-filter-panel {
+        padding: 16px;
+    }
+
+    .cb-filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cb-filter-keyword {
+        grid-column: auto;
+    }
+
+    .cb-booking-item {
+        grid-template-columns: 1fr;
+    }
+
+    .cb-booking-date {
+        padding: 11px 15px;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: row;
+        gap: 7px;
+        border-right: 0;
+        border-bottom: 1px solid #c7e4dd;
+    }
+
+        .cb-booking-date strong {
+            font-size: 22px;
+        }
+
+        .cb-booking-date span,
+        .cb-booking-date small {
+            margin: 0;
+        }
+
+    .cb-booking-top {
+        flex-direction: column;
+    }
+
+    .cb-booking-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .cb-meta-address {
+        grid-column: auto;
+    }
+
+    .cb-booking-side {
+        grid-column: auto;
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .cb-booking-price,
+    .cb-detail-button {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - 420
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .cb-stat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cb-list-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+/* =========================================================
+   CUSTOMER BOOKINGS - NEW THEME
+   ========================================================= */
+
+.customer-booking-heading {
+    min-height: 142px;
+    box-sizing: border-box;
+    margin-bottom: 16px !important;
+    padding: 25px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient( 105deg, #ffffff 0%, #f8fcfb 22%, #edf9f6 45%, #d5f0eb 68%, #a5ddd6 84%, #70c9c0 100% );
+    border: 1px solid #bfe0da;
+    border-radius: 19px;
+    box-shadow: 0 13px 32px rgba(30, 91, 80, .07);
+}
+.customer-booking-heading h1 {
+    color: #223d38 !important;
+    font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    font-size: 30px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.2px !important;
+}
+
+    .customer-booking-heading p {
+        color: #6f817b !important;
+        font-size: 14px !important;
+    }
+
+    .customer-booking-heading > div > span {
+        display: inline-flex !important;
+        padding: 6px 11px;
+        color: #087d74 !important;
+        background: rgba(223, 244, 239, .95);
+        border-radius: 999px;
+        font-size: 11px !important;
+        font-weight: 850 !important;
+    }
+
+.customer-booking-stats a {
+    border: 1px solid #e0e8e5 !important;
+    border-radius: 15px !important;
+    box-shadow: 0 8px 22px rgba(35, 63, 56, .045) !important;
+}
+
+    .customer-booking-stats a.active {
+        color: #087f76 !important;
+        background: linear-gradient( 135deg, #eef9f6, #dff3ee ) !important;
+        border-color: #8ed0c7 !important;
+    }
+
+.customer-booking-panel {
+    border: 1px solid #e0e8e5 !important;
+    border-radius: 18px !important;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, .05) !important;
+}
+
+.customer-booking-panel-heading {
+    background: linear-gradient( 100deg, #ffffff 0%, #f8fcfb 55%, #e3f5f1 100% );
+}
+
+.customer-booking-card {
+    background: linear-gradient( 135deg, #ffffff 0%, #ffffff 50%, #f4fbf9 75%, #e5f6f2 100% ) !important;
+    border: 1px solid #dfe8e5 !important;
+}
+/* =========================================================
+   CUSTOMER BOOKING - ACTIONS
+========================================================= */
+
+.cb-booking-actions {
+    width: 100%;
+    margin-top: 12px;
+    display: grid;
+    gap: 9px;
+}
+
+
+/* =========================================================
+   HỦY LỊCH
+========================================================= */
+
+.cb-cancel-button {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: #ad4e49;
+    background: #fff4f3;
+    border: 1px solid #efd0cd;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+}
+
+
+    .cb-cancel-button:hover {
+        color: #973e3a;
+        background: #ffeae8;
+        border-color: #e7bab6;
+        transform: translateY(-1px);
+    }
+
+
+    /* =========================================================
+   DỪNG GIỮA CHỪNG
+========================================================= */
+
+    .cb-cancel-button.is-stop {
+        color: #9b531e;
+        background: #fff5e8;
+        border-color: #efd7b6;
+    }
+
+
+        .cb-cancel-button.is-stop:hover {
+            color: #864312;
+            background: #ffedd7;
+            border-color: #e7c89e;
+        }
+
+
+/* =========================================================
+   MESSAGE KHÔNG CÒN THAO TÁC
+========================================================= */
+
+.cb-action-message {
+    min-height: 42px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+    .cb-action-message.is-completed {
+        color: #287b59;
+        background: #e8f7ee;
+        border: 1px solid #d0eadb;
+    }
+
+
+    .cb-action-message.is-cancelled {
+        color: #a1504c;
+        background: #fff1f0;
+        border: 1px solid #efd3d0;
+    }

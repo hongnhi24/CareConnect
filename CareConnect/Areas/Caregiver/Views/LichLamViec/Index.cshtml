@@ -1,0 +1,1952 @@
+﻿@model CaregiverScheduleViewModel
+
+@{
+    ViewData["Title"] = "Quản lý lịch";
+
+
+    string LayTrangThaiClass(string trangThai)
+    {
+        return trangThai switch
+        {
+            "Chờ xác nhận" => "is-pending",
+            "Đã xác nhận" => "is-confirmed",
+            "Đang thực hiện" => "is-progress",
+            "Đã hoàn thành" => "is-completed",
+            "Đã hủy" => "is-cancelled",
+            _ => "is-default"
+        };
+    }
+
+
+    string LayTrangThaiIcon(string trangThai)
+    {
+        return trangThai switch
+        {
+            "Chờ xác nhận" => "bi-hourglass-split",
+            "Đã xác nhận" => "bi-check-circle-fill",
+            "Đang thực hiện" => "bi-play-circle-fill",
+            "Đã hoàn thành" => "bi-check2-all",
+            "Đã hủy" => "bi-x-circle-fill",
+            _ => "bi-question-circle-fill"
+        };
+    }
+}
+
+
+@* =========================================================
+   THÔNG BÁO THÀNH CÔNG
+========================================================= *@
+
+@if (TempData["Success"] != null)
+{
+    <div class="cg-schedule-toast"
+         id="scheduleToast"
+         role="status">
+
+        <span class="cg-schedule-toast-icon">
+
+            <i class="bi bi-check-lg"></i>
+
+        </span>
+
+
+        <div>
+
+            <strong>
+                Cập nhật thành công
+            </strong>
+
+            <p>
+                @TempData["Success"]
+            </p>
+
+        </div>
+
+
+        <button type="button"
+                id="closeScheduleToast"
+                aria-label="Đóng thông báo">
+
+            <i class="bi bi-x-lg"></i>
+
+        </button>
+
+    </div>
+}
+
+
+@* =========================================================
+   THÔNG BÁO LỖI
+========================================================= *@
+
+@if (TempData["Error"] != null)
+{
+    <div class="cg-schedule-toast is-error"
+         id="scheduleToast"
+         role="alert">
+
+        <span class="cg-schedule-toast-icon">
+
+            <i class="bi bi-exclamation-lg"></i>
+
+        </span>
+
+
+        <div>
+
+            <strong>
+                Chưa thể cập nhật
+            </strong>
+
+            <p>
+                @TempData["Error"]
+            </p>
+
+        </div>
+
+
+        <button type="button"
+                id="closeScheduleToast"
+                aria-label="Đóng thông báo">
+
+            <i class="bi bi-x-lg"></i>
+
+        </button>
+
+    </div>
+}
+
+
+
+@* =========================================================
+   HEADER
+========================================================= *@
+
+<section class="cg-schedule-header">
+
+    <div>
+
+        <span class="cg-schedule-page-label">
+            LỊCH CHĂM SÓC
+        </span>
+
+
+        <h1>
+            Quản lý lịch
+        </h1>
+
+
+        <p>
+            Theo dõi lịch được phân công và cập nhật tiến độ
+            chăm sóc của bạn.
+        </p>
+
+    </div>
+
+
+    <div class="cg-schedule-header-date">
+
+        <span>
+
+            <i class="bi bi-calendar3"></i>
+
+        </span>
+
+
+        <div>
+
+            <small>
+                Hôm nay
+            </small>
+
+            <strong>
+                @DateTime.Now.ToString("dd/MM/yyyy")
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+@* =========================================================
+   THỐNG KÊ
+========================================================= *@
+
+<section class="cg-schedule-statistics">
+
+
+    <a asp-area="Caregiver"
+       asp-controller="LichLamViec"
+       asp-action="Index"
+       class="cg-schedule-stat-card is-total
+        @(string.IsNullOrWhiteSpace(Model.LocNhanh)
+           ? "is-active"
+           : "")">
+
+        <span class="cg-schedule-stat-icon">
+
+            <i class="bi bi-calendar2-week-fill"></i>
+
+        </span>
+
+
+        <div>
+
+            <small>
+                TỔNG LỊCH
+            </small>
+
+            <strong>
+                @Model.TongLich
+            </strong>
+
+            <p>
+                Tất cả lịch được phân công
+            </p>
+
+        </div>
+
+
+        <span class="cg-stat-arrow">
+
+            <i class="bi bi-arrow-right"></i>
+
+        </span>
+
+    </a>
+
+
+
+    <a asp-area="Caregiver"
+       asp-controller="LichLamViec"
+       asp-action="Index"
+       asp-route-locNhanh="cho-xac-nhan"
+       class="cg-schedule-stat-card is-pending
+        @(Model.LocNhanh == "cho-xac-nhan"
+           ? "is-active"
+           : "")">
+
+        <span class="cg-schedule-stat-icon">
+
+            <i class="bi bi-hourglass-split"></i>
+
+        </span>
+
+
+        <div>
+
+            <small>
+                CHỜ XÁC NHẬN
+            </small>
+
+            <strong>
+                @Model.ChoXacNhan
+            </strong>
+
+            <p>
+                Cần bạn xử lý
+            </p>
+
+        </div>
+
+
+        <span class="cg-stat-arrow">
+
+            <i class="bi bi-arrow-right"></i>
+
+        </span>
+
+    </a>
+
+
+
+    <a asp-area="Caregiver"
+       asp-controller="LichLamViec"
+       asp-action="Index"
+       asp-route-locNhanh="sap-toi"
+       class="cg-schedule-stat-card is-upcoming
+        @(Model.LocNhanh == "sap-toi"
+           ? "is-active"
+           : "")">
+
+        <span class="cg-schedule-stat-icon">
+
+            <i class="bi bi-clock-fill"></i>
+
+        </span>
+
+
+        <div>
+
+            <small>
+                SẮP TỚI
+            </small>
+
+            <strong>
+                @Model.SapToi
+            </strong>
+
+            <p>
+                Lịch đã xác nhận
+            </p>
+
+        </div>
+
+
+        <span class="cg-stat-arrow">
+
+            <i class="bi bi-arrow-right"></i>
+
+        </span>
+
+    </a>
+
+
+
+    <a asp-area="Caregiver"
+       asp-controller="LichLamViec"
+       asp-action="Index"
+       asp-route-locNhanh="da-hoan-thanh"
+       class="cg-schedule-stat-card is-completed
+        @(Model.LocNhanh == "da-hoan-thanh"
+           ? "is-active"
+           : "")">
+
+        <span class="cg-schedule-stat-icon">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+        </span>
+
+
+        <div>
+
+            <small>
+                ĐÃ HOÀN THÀNH
+            </small>
+
+            <strong>
+                @Model.DaHoanThanh
+            </strong>
+
+            <p>
+                Các buổi đã kết thúc
+            </p>
+
+        </div>
+
+
+        <span class="cg-stat-arrow">
+
+            <i class="bi bi-arrow-right"></i>
+
+        </span>
+
+    </a>
+
+</section>
+
+
+
+@* =========================================================
+   BỘ LỌC
+========================================================= *@
+
+<section class="cg-schedule-filter-card">
+
+
+    <div class="cg-schedule-section-heading">
+
+        <div>
+
+            <span>
+                BỘ LỌC
+            </span>
+
+            <h2>
+                Tìm kiếm lịch chăm sóc
+            </h2>
+
+        </div>
+
+
+        @if (!string.IsNullOrWhiteSpace(Model.TuKhoa)
+             || !string.IsNullOrWhiteSpace(Model.TrangThai)
+             || Model.TuNgay.HasValue
+             || Model.DenNgay.HasValue)
+        {
+            <a asp-area="Caregiver"
+               asp-controller="LichLamViec"
+               asp-action="Index"
+               class="cg-schedule-clear-filter">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+
+                Xóa bộ lọc
+
+            </a>
+        }
+
+    </div>
+
+
+
+    <form asp-area="Caregiver"
+          asp-controller="LichLamViec"
+          asp-action="Index"
+          method="get"
+          class="cg-schedule-filter-form">
+
+
+        <div class="cg-schedule-filter-field is-search">
+
+            <label for="tuKhoa">
+                Từ khóa
+            </label>
+
+
+            <div>
+
+                <i class="bi bi-search"></i>
+
+
+                <input type="text"
+                       id="tuKhoa"
+                       name="tuKhoa"
+                       value="@Model.TuKhoa"
+                       placeholder="Tên khách hàng, bệnh nhân, dịch vụ..." />
+
+            </div>
+
+        </div>
+
+
+
+        <div class="cg-schedule-filter-field">
+
+            <label for="trangThai">
+                Trạng thái
+            </label>
+
+
+            <div>
+
+                <i class="bi bi-funnel"></i>
+
+
+                <select id="trangThai"
+                        name="trangThai">
+
+                    <option value="">
+                        Tất cả trạng thái
+                    </option>
+
+
+                    <option value="Chờ xác nhận"
+                            selected="@(Model.TrangThai == "Chờ xác nhận")">
+                        Chờ xác nhận
+                    </option>
+
+
+                    <option value="Đã xác nhận"
+                            selected="@(Model.TrangThai == "Đã xác nhận")">
+                        Đã xác nhận
+                    </option>
+
+
+                    <option value="Đang thực hiện"
+                            selected="@(Model.TrangThai == "Đang thực hiện")">
+                        Đang thực hiện
+                    </option>
+
+
+                    <option value="Đã hoàn thành"
+                            selected="@(Model.TrangThai == "Đã hoàn thành")">
+                        Đã hoàn thành
+                    </option>
+
+
+                    <option value="Đã hủy"
+                            selected="@(Model.TrangThai == "Đã hủy")">
+                        Đã hủy
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="cg-schedule-filter-field">
+
+            <label for="tuNgay">
+                Từ ngày
+            </label>
+
+
+            <div>
+
+                <i class="bi bi-calendar3"></i>
+
+
+                <input type="date"
+                       id="tuNgay"
+                       name="tuNgay"
+                       value="@Model.TuNgay?.ToString("yyyy-MM-dd")" />
+
+            </div>
+
+        </div>
+
+
+
+        <div class="cg-schedule-filter-field">
+
+            <label for="denNgay">
+                Đến ngày
+            </label>
+
+
+            <div>
+
+                <i class="bi bi-calendar3"></i>
+
+
+                <input type="date"
+                       id="denNgay"
+                       name="denNgay"
+                       value="@Model.DenNgay?.ToString("yyyy-MM-dd")" />
+
+            </div>
+
+        </div>
+
+
+
+        <button type="submit"
+                class="cg-schedule-filter-button">
+
+            <i class="bi bi-search"></i>
+
+            Tìm kiếm
+
+        </button>
+
+    </form>
+
+</section>
+
+
+
+@* =========================================================
+   DANH SÁCH
+========================================================= *@
+
+<section class="cg-schedule-list-card">
+
+
+    <div class="cg-schedule-section-heading">
+
+        <div>
+
+            <span>
+                DANH SÁCH LỊCH
+            </span>
+
+
+            <h2>
+                Lịch chăm sóc được phân công
+            </h2>
+
+
+            <p>
+                Hiển thị @Model.DanhSachLich.Count lịch phù hợp.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    @if (Model.DanhSachLich.Count == 0)
+    {
+        <div class="cg-schedule-empty">
+
+            <span>
+
+                <i class="bi bi-calendar2-x"></i>
+
+            </span>
+
+
+            <h3>
+                Không tìm thấy lịch phù hợp
+            </h3>
+
+
+            <p>
+                Hiện chưa có lịch nào phù hợp với bộ lọc
+                bạn đã chọn.
+            </p>
+
+        </div>
+    }
+    else
+    {
+        <div class="cg-schedule-list">
+
+
+            @foreach (var lich in Model.DanhSachLich)
+            {
+                <article class="cg-schedule-item">
+
+
+                    @* =============================================
+                       DATE
+                    ============================================= *@
+
+                    <div class="cg-schedule-date-box">
+
+                        <strong>
+                            @lich.NgayChamSoc.ToString("dd")
+                        </strong>
+
+
+                        <span>
+                            THÁNG @lich.NgayChamSoc.ToString("MM")
+                        </span>
+
+
+                        <small>
+                            @lich.NgayChamSoc.ToString("yyyy")
+                        </small>
+
+                    </div>
+
+
+
+                    @* =============================================
+                       MAIN INFO
+                    ============================================= *@
+
+                    <div class="cg-schedule-item-main">
+
+
+                        <div class="cg-schedule-item-heading">
+
+
+                            <div>
+
+                                <span class="cg-schedule-code">
+
+                                    LỊCH #@lich.MaDatLich
+
+                                </span>
+
+
+                                <h3>
+                                    @lich.TenBenhNhan
+                                </h3>
+
+                            </div>
+
+
+
+                            <span class="cg-schedule-status
+                                @LayTrangThaiClass(lich.TrangThai)">
+
+                                <i class="bi
+                                    @LayTrangThaiIcon(lich.TrangThai)">
+                                </i>
+
+                                @lich.TrangThai
+
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="cg-schedule-service">
+
+                            <span>
+
+                                <i class="bi bi-heart-pulse-fill"></i>
+
+                            </span>
+
+
+                            <div>
+
+                                <small>
+                                    Dịch vụ chăm sóc
+                                </small>
+
+                                <strong>
+                                    @lich.TenDichVu
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="cg-schedule-information">
+
+
+                            <div>
+
+                                <i class="bi bi-clock"></i>
+
+
+                                <span>
+
+                                    <small>
+                                        Thời gian
+                                    </small>
+
+
+                                    <strong>
+
+                                        @lich.GioBatDau.ToString(@"hh\:mm")
+                                        –
+                                        @lich.GioKetThuc.ToString(@"hh\:mm")
+
+                                    </strong>
+
+                                </span>
+
+                            </div>
+
+
+
+                            <div>
+
+                                <i class="bi bi-person"></i>
+
+
+                                <span>
+
+                                    <small>
+                                        Người liên hệ
+                                    </small>
+
+
+                                    <strong>
+                                        @lich.TenKhachHang
+                                    </strong>
+
+
+                                    <em>
+                                        @lich.SoDienThoaiKhachHang
+                                    </em>
+
+                                </span>
+
+                            </div>
+
+
+
+                            <div>
+
+                                <i class="bi bi-geo-alt"></i>
+
+
+                                <span>
+
+                                    <small>
+                                        Địa chỉ chăm sóc
+                                    </small>
+
+
+                                    <strong>
+                                        @lich.DiaChiChamSoc
+                                    </strong>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        @if (!string.IsNullOrWhiteSpace(
+                                lich.TinhTrangSucKhoe))
+                        {
+                            <div class="cg-schedule-health-note">
+
+                                <i class="bi bi-clipboard2-pulse"></i>
+
+
+                                <div>
+
+                                    <small>
+                                        Tình trạng sức khỏe
+                                    </small>
+
+
+                                    <p>
+                                        @lich.TinhTrangSucKhoe
+                                    </p>
+
+                                </div>
+
+                            </div>
+                        }
+
+
+
+                        @if (!string.IsNullOrWhiteSpace(
+                                lich.GhiChu))
+                        {
+                            <div class="cg-schedule-note">
+
+                                <i class="bi bi-sticky"></i>
+
+
+                                <div>
+
+                                    <small>
+                                        Ghi chú
+                                    </small>
+
+
+                                    <p>
+                                        @lich.GhiChu
+                                    </p>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+
+
+                    @* =============================================
+                       SIDE / ACTIONS
+                    ============================================= *@
+
+                    <div class="cg-schedule-item-side">
+
+
+                        <div class="cg-schedule-price">
+
+                            <small>
+                                Chi phí dịch vụ
+                            </small>
+
+
+                            <strong>
+                                @lich.TongTien.ToString("#,##0")đ
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="cg-schedule-actions">
+
+
+                            @* =====================================
+                               XEM CHI TIẾT
+                            ===================================== *@
+
+                            <button type="button"
+                                    class="cg-schedule-action-btn detail"
+                                    data-detail-button
+                                    data-code="@lich.MaDatLich"
+                                    data-patient="@lich.TenBenhNhan"
+                                    data-customer="@lich.TenKhachHang"
+                                    data-phone="@lich.SoDienThoaiKhachHang"
+                                    data-service="@lich.TenDichVu"
+                                    data-date="@lich.NgayChamSoc.ToString("dd/MM/yyyy")"
+                                    data-time="@($"{lich.GioBatDau:hh\\:mm} - {lich.GioKetThuc:hh\\:mm}")"
+                                    data-address="@lich.DiaChiChamSoc"
+                                    data-health="@lich.TinhTrangSucKhoe"
+                                    data-note="@lich.GhiChu"
+                                    data-status="@lich.TrangThai"
+                                    data-price="@lich.TongTien.ToString("#,##0")đ">
+
+                                <i class="bi bi-eye"></i>
+
+                                <span>
+                                    Xem chi tiết
+                                </span>
+
+                            </button>
+
+
+
+                            @* =====================================
+                               CHỜ XÁC NHẬN:
+                               NHẬN / TỪ CHỐI
+                            ===================================== *@
+
+                            @if (lich.CoTheXacNhan)
+                            {
+                                <form asp-area="Caregiver"
+                                      asp-controller="LichLamViec"
+                                      asp-action="XacNhanLich"
+                                      method="post"
+                                      class="cg-accept-form">
+
+                                    @Html.AntiForgeryToken()
+
+
+                                    <input type="hidden"
+                                           name="maDatLich"
+                                           value="@lich.MaDatLich" />
+
+
+                                    <button type="submit"
+                                            class="cg-schedule-action-btn accept"
+                                            onclick="return confirm('Bạn xác nhận nhận lịch chăm sóc này?')">
+
+                                        <i class="bi bi-check-circle"></i>
+
+                                        <span>
+                                            Nhận lịch
+                                        </span>
+
+                                    </button>
+
+                                </form>
+
+
+
+                                <details class="cg-reject-box">
+
+
+                                    <summary class="cg-schedule-action-btn reject">
+
+                                        <i class="bi bi-x-circle"></i>
+
+                                        <span>
+                                            Từ chối lịch
+                                        </span>
+
+                                    </summary>
+
+
+
+                                    <div class="cg-reject-content">
+
+
+                                        <div class="cg-reject-heading">
+
+                                            <span class="cg-reject-heading-icon">
+
+                                                <i class="bi bi-calendar-x"></i>
+
+                                            </span>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Từ chối lịch chăm sóc
+                                                </strong>
+
+
+                                                <small>
+                                                    Vui lòng cho biết lý do
+                                                    bạn không thể nhận lịch này.
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <form asp-area="Caregiver"
+                                              asp-controller="LichLamViec"
+                                              asp-action="TuChoiLich"
+                                              method="post"
+                                              class="cg-reject-form"
+                                              data-reject-form>
+
+                                            @Html.AntiForgeryToken()
+
+
+                                            <input type="hidden"
+                                                   name="MaDatLich"
+                                                   value="@lich.MaDatLich" />
+
+
+
+                                            <div class="cg-reject-field">
+
+                                                <label>
+
+                                                    Lý do từ chối
+
+                                                    <span>*</span>
+
+                                                </label>
+
+
+                                                <select name="LyDo"
+                                                        required
+                                                        data-reject-reason>
+
+                                                    <option value="">
+                                                        -- Chọn lý do --
+                                                    </option>
+
+
+                                                    <option value="Trùng với lịch chăm sóc khác">
+                                                        Trùng với lịch chăm sóc khác
+                                                    </option>
+
+
+                                                    <option value="Không thể làm việc trong khung giờ này">
+                                                        Không thể làm việc trong khung giờ này
+                                                    </option>
+
+
+                                                    <option value="Khu vực chăm sóc quá xa">
+                                                        Khu vực chăm sóc quá xa
+                                                    </option>
+
+
+                                                    <option value="Dịch vụ không phù hợp chuyên môn">
+                                                        Dịch vụ không phù hợp chuyên môn
+                                                    </option>
+
+
+                                                    <option value="Có việc cá nhân đột xuất">
+                                                        Có việc cá nhân đột xuất
+                                                    </option>
+
+
+                                                    <option value="Không còn khả dụng trong ngày này">
+                                                        Không còn khả dụng trong ngày này
+                                                    </option>
+
+
+                                                    <option value="Lý do khác">
+                                                        Lý do khác
+                                                    </option>
+
+                                                </select>
+
+                                            </div>
+
+
+
+                                            <div class="cg-reject-field">
+
+                                                <label>
+                                                    Ghi chú
+                                                </label>
+
+
+                                                <textarea name="GhiChu"
+                                                          maxlength="500"
+                                                          rows="3"
+                                                          placeholder="Nhập thêm thông tin nếu cần..."
+                                                          data-reject-note></textarea>
+
+
+                                                <small data-reject-note-hint>
+
+                                                    Không bắt buộc,
+                                                    trừ khi chọn “Lý do khác”.
+
+                                                </small>
+
+                                            </div>
+
+
+
+                                            <div class="cg-reject-footer">
+
+
+                                                <button type="button"
+                                                        class="cg-reject-cancel"
+                                                        data-close-reject>
+
+                                                    Quay lại
+
+                                                </button>
+
+
+
+                                                <button type="submit"
+                                                        class="cg-reject-submit">
+
+                                                    <i class="bi bi-x-circle"></i>
+
+                                                    Xác nhận từ chối
+
+                                                </button>
+
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+
+                                </details>
+                            }
+
+
+
+                            @* =====================================
+                               BẮT ĐẦU CHĂM SÓC
+                            ===================================== *@
+
+                            @if (lich.CoTheBatDau)
+                            {
+                                <form asp-area="Caregiver"
+                                      asp-controller="LichLamViec"
+                                      asp-action="CapNhatTrangThai"
+                                      method="post"
+                                      class="cg-schedule-action-form">
+
+                                    @Html.AntiForgeryToken()
+
+
+                                    <input type="hidden"
+                                           name="MaDatLich"
+                                           value="@lich.MaDatLich" />
+
+
+                                    <input type="hidden"
+                                           name="TrangThai"
+                                           value="Đang thực hiện" />
+
+
+                                    <button type="submit"
+                                            class="cg-schedule-button is-progress"
+                                            onclick="return confirm('Bạn muốn bắt đầu buổi chăm sóc này?')">
+
+                                        <i class="bi bi-play-fill"></i>
+
+                                        Bắt đầu chăm sóc
+
+                                    </button>
+
+                                </form>
+                            }
+
+
+
+                            @* =====================================
+                               HOÀN THÀNH
+                            ===================================== *@
+
+                            @if (lich.CoTheHoanThanh)
+                            {
+                                <form asp-area="Caregiver"
+                                      asp-controller="LichLamViec"
+                                      asp-action="CapNhatTrangThai"
+                                      method="post"
+                                      class="cg-schedule-action-form">
+
+                                    @Html.AntiForgeryToken()
+
+
+                                    <input type="hidden"
+                                           name="MaDatLich"
+                                           value="@lich.MaDatLich" />
+
+
+                                    <input type="hidden"
+                                           name="TrangThai"
+                                           value="Đã hoàn thành" />
+
+
+                                    <button type="submit"
+                                            class="cg-schedule-button is-complete"
+                                            onclick="return confirm('Xác nhận buổi chăm sóc đã hoàn thành?')">
+
+                                        <i class="bi bi-check2-all"></i>
+
+                                        Hoàn thành
+
+                                    </button>
+
+                                </form>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </article>
+            }
+
+        </div>
+    }
+
+</section>
+
+
+
+@* =========================================================
+   MODAL CHI TIẾT
+========================================================= *@
+
+<div class="cg-schedule-modal"
+     id="scheduleDetailModal"
+     aria-hidden="true">
+
+
+    <div class="cg-schedule-modal-overlay"
+         data-close-modal>
+    </div>
+
+
+
+    <section class="cg-schedule-modal-card"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="scheduleModalTitle">
+
+
+        <div class="cg-schedule-modal-cover">
+
+
+            <div class="cg-schedule-modal-cover-content">
+
+                <span class="cg-schedule-modal-code"
+                      id="modalScheduleCode">
+
+                    LỊCH CHĂM SÓC
+
+                </span>
+
+
+                <h2 id="scheduleModalTitle">
+                    Chi tiết lịch chăm sóc
+                </h2>
+
+
+                <p>
+                    Thông tin đầy đủ về lịch được phân công.
+                </p>
+
+            </div>
+
+
+
+            <button type="button"
+                    class="cg-schedule-modal-close"
+                    data-close-modal
+                    aria-label="Đóng">
+
+                <i class="bi bi-x-lg"></i>
+
+            </button>
+
+        </div>
+
+
+
+        <div class="cg-schedule-modal-body">
+
+
+            <div class="cg-schedule-modal-highlight">
+
+
+                <div class="cg-schedule-modal-patient">
+
+
+                    <span class="cg-schedule-modal-avatar">
+
+                        <i class="bi bi-person-heart"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            Người được chăm sóc
+                        </small>
+
+
+                        <strong id="modalPatient">
+                            Chưa cập nhật
+                        </strong>
+
+
+                        <p id="modalHealth">
+                            Chưa cập nhật tình trạng sức khỏe.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="cg-schedule-modal-status-box">
+
+                    <small>
+                        Trạng thái hiện tại
+                    </small>
+
+
+                    <span id="modalStatus">
+                        Chưa xác định
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="cg-schedule-modal-section-title">
+
+                <span>
+
+                    <i class="bi bi-calendar2-check"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        THÔNG TIN LỊCH
+                    </small>
+
+
+                    <h3>
+                        Thời gian và dịch vụ
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="cg-schedule-modal-grid">
+
+
+                <div class="cg-schedule-modal-info">
+
+                    <span>
+
+                        <i class="bi bi-heart-pulse"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            Dịch vụ chăm sóc
+                        </small>
+
+
+                        <strong id="modalService">
+                            Chưa cập nhật
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="cg-schedule-modal-info">
+
+                    <span>
+
+                        <i class="bi bi-calendar3"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            Ngày chăm sóc
+                        </small>
+
+
+                        <strong id="modalDate">
+                            Chưa cập nhật
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="cg-schedule-modal-info">
+
+                    <span>
+
+                        <i class="bi bi-clock"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            Khung giờ
+                        </small>
+
+
+                        <strong id="modalTime">
+                            Chưa cập nhật
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="cg-schedule-modal-info is-price">
+
+                    <span>
+
+                        <i class="bi bi-cash-stack"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            Chi phí dịch vụ
+                        </small>
+
+
+                        <strong id="modalPrice">
+                            0đ
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="cg-schedule-modal-section-title">
+
+                <span class="is-teal">
+
+                    <i class="bi bi-person-lines-fill"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        THÔNG TIN LIÊN HỆ
+                    </small>
+
+
+                    <h3>
+                        Khách hàng và địa điểm
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="cg-schedule-modal-contact">
+
+
+                <div class="cg-schedule-modal-contact-card">
+
+                    <span>
+
+                        <i class="bi bi-person-circle"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            Người liên hệ
+                        </small>
+
+
+                        <strong id="modalCustomer">
+                            Chưa cập nhật
+                        </strong>
+
+
+                        <p id="modalPhone">
+                            Chưa cập nhật
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="cg-schedule-modal-location">
+
+                    <span>
+
+                        <i class="bi bi-geo-alt-fill"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            Địa chỉ chăm sóc
+                        </small>
+
+
+                        <strong id="modalAddress">
+                            Chưa cập nhật
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="cg-schedule-modal-note">
+
+                <span>
+
+                    <i class="bi bi-sticky-fill"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        Ghi chú từ khách hàng
+                    </small>
+
+
+                    <p id="modalNote">
+                        Không có ghi chú.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="cg-schedule-modal-footer">
+
+            <button type="button"
+                    class="cg-schedule-button is-light"
+                    data-close-modal>
+
+                <i class="bi bi-x-lg"></i>
+
+                Đóng
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+
+@section Scripts
+{
+    <script>
+
+        /* =====================================================
+           MODAL CHI TIẾT
+        ===================================================== */
+
+        const detailModal =
+            document.getElementById(
+                "scheduleDetailModal");
+
+
+        const detailButtons =
+            document.querySelectorAll(
+                "[data-detail-button]");
+
+
+        const closeModalButtons =
+            document.querySelectorAll(
+                "[data-close-modal]");
+
+
+
+        function setModalText(
+            id,
+            value,
+            fallback) {
+
+            const element =
+                document.getElementById(id);
+
+
+            if (!element) {
+                return;
+            }
+
+
+            element.textContent =
+                value && value.trim()
+                    ? value
+                    : fallback;
+        }
+
+
+
+        function openDetailModal(button) {
+
+            setModalText(
+                "modalScheduleCode",
+                `LỊCH #${button.dataset.code}`,
+                "LỊCH CHĂM SÓC");
+
+
+            setModalText(
+                "modalPatient",
+                button.dataset.patient,
+                "Chưa cập nhật");
+
+
+            setModalText(
+                "modalHealth",
+                button.dataset.health,
+                "Chưa cập nhật tình trạng sức khỏe.");
+
+
+            setModalText(
+                "modalService",
+                button.dataset.service,
+                "Chưa cập nhật");
+
+
+            setModalText(
+                "modalStatus",
+                button.dataset.status,
+                "Chưa xác định");
+
+
+            setModalText(
+                "modalDate",
+                button.dataset.date,
+                "Chưa cập nhật");
+
+
+            setModalText(
+                "modalTime",
+                button.dataset.time,
+                "Chưa cập nhật");
+
+
+            setModalText(
+                "modalCustomer",
+                button.dataset.customer,
+                "Chưa cập nhật");
+
+
+            setModalText(
+                "modalPhone",
+                button.dataset.phone,
+                "Chưa cập nhật");
+
+
+            setModalText(
+                "modalPrice",
+                button.dataset.price,
+                "0đ");
+
+
+            setModalText(
+                "modalAddress",
+                button.dataset.address,
+                "Chưa cập nhật");
+
+
+            setModalText(
+                "modalNote",
+                button.dataset.note,
+                "Không có ghi chú.");
+
+
+            detailModal?.classList.add(
+                "is-open");
+
+
+            detailModal?.setAttribute(
+                "aria-hidden",
+                "false");
+
+
+            document.body.classList.add(
+                "cg-modal-open");
+        }
+
+
+
+        function closeDetailModal() {
+
+            detailModal?.classList.remove(
+                "is-open");
+
+
+            detailModal?.setAttribute(
+                "aria-hidden",
+                "true");
+
+
+            document.body.classList.remove(
+                "cg-modal-open");
+        }
+
+
+
+        detailButtons.forEach(
+            function(button) {
+
+                button.addEventListener(
+                    "click",
+                    function() {
+
+                        openDetailModal(
+                            button);
+                    });
+            });
+
+
+
+        closeModalButtons.forEach(
+            function(button) {
+
+                button.addEventListener(
+                    "click",
+                    closeDetailModal);
+            });
+
+
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Escape") {
+
+                    closeDetailModal();
+                }
+            });
+
+
+
+        /* =====================================================
+           TOAST
+        ===================================================== */
+
+        const scheduleToast =
+            document.getElementById(
+                "scheduleToast");
+
+
+        const closeScheduleToast =
+            document.getElementById(
+                "closeScheduleToast");
+
+
+
+        function hideScheduleToast() {
+
+            if (!scheduleToast) {
+                return;
+            }
+
+
+            scheduleToast.classList.add(
+                "is-hiding");
+
+
+            setTimeout(
+                function() {
+
+                    scheduleToast.remove();
+
+                },
+                250);
+        }
+
+
+
+        closeScheduleToast?.addEventListener(
+            "click",
+            hideScheduleToast);
+
+
+
+        if (scheduleToast) {
+
+            setTimeout(
+                hideScheduleToast,
+                4500);
+        }
+
+
+
+        /* =====================================================
+           TỪ CHỐI LỊCH
+           CLIENT VALIDATION
+        ===================================================== */
+
+        document
+            .querySelectorAll(
+                "[data-reject-form]")
+            .forEach(
+                function(form) {
+
+
+                    const reason =
+                        form.querySelector(
+                            "[data-reject-reason]");
+
+
+                    const note =
+                        form.querySelector(
+                            "[data-reject-note]");
+
+
+                    const hint =
+                        form.querySelector(
+                            "[data-reject-note-hint]");
+
+
+
+                    function updateRejectValidation() {
+
+                        const isOther =
+                            reason?.value
+                            === "Lý do khác";
+
+
+                        if (note) {
+
+                            note.required =
+                                isOther;
+                        }
+
+
+                        if (hint) {
+
+                            hint.classList.toggle(
+                                "is-required",
+                                isOther);
+
+
+                            hint.textContent =
+                                isOther
+                                    ? "Vui lòng nhập ghi chú khi chọn “Lý do khác”."
+                                    : "Không bắt buộc, trừ khi chọn “Lý do khác”.";
+                        }
+                    }
+
+
+
+                    reason?.addEventListener(
+                        "change",
+                        updateRejectValidation);
+
+
+
+                    form.addEventListener(
+                        "submit",
+                        function(event) {
+
+
+                            updateRejectValidation();
+
+
+                            if (!form.checkValidity()) {
+
+                                event.preventDefault();
+
+                                form.reportValidity();
+
+                                return;
+                            }
+
+
+                            const confirmed =
+                                confirm(
+                                    "Bạn chắc chắn muốn từ chối lịch này? "
+                                    + "Sau khi từ chối, lịch sẽ được trả về "
+                                    + "hàng chờ phân công.");
+
+
+                            if (!confirmed) {
+
+                                event.preventDefault();
+                            }
+                        });
+
+
+
+                    updateRejectValidation();
+
+                });
+
+
+
+        /* =====================================================
+           ĐÓNG FORM TỪ CHỐI
+        ===================================================== */
+
+        document
+            .querySelectorAll(
+                "[data-close-reject]")
+            .forEach(
+                function(button) {
+
+                    button.addEventListener(
+                        "click",
+                        function() {
+
+                            const details =
+                                button.closest(
+                                    "details");
+
+
+                            details?.removeAttribute(
+                                "open");
+                        });
+                });
+
+    </script>
+}

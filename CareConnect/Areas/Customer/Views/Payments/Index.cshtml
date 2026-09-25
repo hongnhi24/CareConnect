@@ -1,0 +1,301 @@
+﻿@model CareConnect.ViewModels.CustomerPaymentListViewModel
+
+@{
+    ViewData["Title"] = "Thanh toán";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="customer-payment-alert success">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Success"]</span>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="customer-payment-alert error">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+    </div>
+}
+
+<section class="customer-payment-heading">
+
+    <div>
+        <span>QUẢN LÝ THANH TOÁN</span>
+
+        <h1>Thanh toán dịch vụ</h1>
+
+        <p>
+            Theo dõi chi phí, trạng thái và lịch sử thanh toán
+            của các lịch chăm sóc.
+        </p>
+    </div>
+
+</section>
+
+<section class="customer-payment-stats">
+
+    <article>
+        <span class="all">
+            <i class="bi bi-receipt"></i>
+        </span>
+
+        <div>
+            <strong>@Model.TongKhoanThanhToan</strong>
+            <small>Tổng khoản thanh toán</small>
+        </div>
+    </article>
+
+    <article>
+        <span class="pending">
+            <i class="bi bi-hourglass-split"></i>
+        </span>
+
+        <div>
+            <strong>@Model.ChuaThanhToan</strong>
+            <small>Chưa thanh toán</small>
+        </div>
+    </article>
+
+    <article>
+        <span class="paid">
+            <i class="bi bi-check2-circle"></i>
+        </span>
+
+        <div>
+            <strong>@Model.DaThanhToan</strong>
+            <small>Đã thanh toán</small>
+        </div>
+    </article>
+
+    <article>
+        <span class="money">
+            <i class="bi bi-cash-stack"></i>
+        </span>
+
+        <div>
+            <strong>
+                @Model.TongDaThanhToan.ToString("#,##0")đ
+            </strong>
+
+            <small>Tổng đã thanh toán</small>
+        </div>
+    </article>
+
+</section>
+
+<section class="customer-payment-filter">
+
+    <form method="get">
+
+        <select name="trangThai">
+
+            <option value="">
+                Tất cả trạng thái
+            </option>
+
+            <option value="Chưa thanh toán"
+                    selected="@(Model.TrangThai == "Chưa thanh toán")">
+                Chưa thanh toán
+            </option>
+
+            <option value="Đã đặt cọc"
+                    selected="@(Model.TrangThai == "Đã đặt cọc")">
+                Đã đặt cọc
+            </option>
+
+            <option value="Đã thanh toán"
+                    selected="@(Model.TrangThai == "Đã thanh toán")">
+                Đã thanh toán
+            </option>
+
+            <option value="Đã hoàn tiền"
+                    selected="@(Model.TrangThai == "Đã hoàn tiền")">
+                Đã hoàn tiền
+            </option>
+
+            <option value="Không hoàn phí"
+                    selected="@(Model.TrangThai == "Không hoàn phí")">
+                Không hoàn phí
+            </option>
+
+        </select>
+
+        <button type="submit">
+            <i class="bi bi-funnel-fill"></i>
+            Lọc
+        </button>
+
+        <a asp-area="Customer"
+           asp-controller="Payments"
+           asp-action="Index">
+
+            <i class="bi bi-arrow-counterclockwise"></i>
+        </a>
+
+    </form>
+
+</section>
+
+<section class="customer-payment-panel">
+
+    <div class="customer-payment-panel-heading">
+
+        <div>
+            <span>DANH SÁCH THANH TOÁN</span>
+            <h2>Chi phí dịch vụ</h2>
+        </div>
+
+        <strong>
+            @Model.DanhSach.Count kết quả
+        </strong>
+
+    </div>
+
+    @if (Model.DanhSach.Count == 0)
+    {
+        <div class="customer-payment-empty">
+
+            <i class="bi bi-credit-card-2-front"></i>
+
+            <h3>Chưa có khoản thanh toán</h3>
+
+            <p>
+                Các khoản thanh toán từ lịch chăm sóc
+                sẽ được hiển thị tại đây.
+            </p>
+
+        </div>
+    }
+    else
+    {
+        <div class="customer-payment-list">
+
+            @foreach (var item in Model.DanhSach)
+            {
+                <article class="customer-payment-card">
+
+                    <div class="customer-payment-card-top">
+
+                        <div>
+                            <span>
+                                @(string.IsNullOrWhiteSpace(
+                                    item.MaThanhToanCode)
+                                    ? $"#DL{item.MaDatLich}"
+                                    : item.MaThanhToanCode)
+                            </span>
+
+                            <h3>@item.TenDichVu</h3>
+                            <p>@item.TenBenhNhan</p>
+                        </div>
+
+                        <span class="@GetPaymentStatusClass(
+                                                        item.TrangThaiThanhToan)">
+
+                            @item.TrangThaiThanhToan
+                        </span>
+
+                    </div>
+
+                    <div class="customer-payment-info">
+
+                        <div>
+                            <span>Ngày chăm sóc</span>
+
+                            <strong>
+                                @(item.NgayChamSoc
+                                    .ToString("dd/MM/yyyy"))
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Khung giờ</span>
+
+                            <strong>
+                                @item.GioBatDau.ToString(@"hh\:mm")
+                                -
+                                @item.GioKetThuc.ToString(@"hh\:mm")
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Phương thức</span>
+                            <strong>@item.PhuongThucThanhToan</strong>
+                        </div>
+
+                        <div>
+                            <span>Thanh toán</span>
+
+                            <strong class="payment-money">
+
+                                @if (item.DaThanhToan > 0
+                                    && item.DaThanhToan < item.SoTien)
+                                {
+                                    @($"{item.DaThanhToan:#,##0}đ / {item.SoTien:#,##0}đ")
+                                }
+                                else
+                                {
+                                    @($"{item.DaThanhToan:#,##0}đ")
+                                }
+
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    <div class="customer-payment-actions">
+
+                        <a asp-area="Customer"
+                           asp-controller="Payments"
+                           asp-action="Details"
+                           asp-route-id="@item.MaDatLich">
+
+                            <i class="bi bi-eye"></i>
+                            Xem chi tiết
+                        </a>
+
+                        @if (item.CoTheThanhToan)
+                        {
+                            <a asp-area="Customer"
+                               asp-controller="Payments"
+                               asp-action="Pay"
+                               asp-route-id="@item.MaDatLich"
+                               class="pay">
+
+                                <i class="bi bi-credit-card"></i>
+                                Thanh toán
+                            </a>
+                        }
+
+                    </div>
+
+                </article>
+            }
+
+        </div>
+    }
+
+</section>
+
+@functions {
+    private string GetPaymentStatusClass(
+        string status)
+    {
+        return status switch
+        {
+            "Đã thanh toán" =>
+                "payment-status paid",
+
+            "Đã hoàn tiền" =>
+                "payment-status refunded",
+
+            "Không hoàn phí" =>
+                "payment-status no-refund",
+
+            _ =>
+                "payment-status pending"
+        };
+    }
+}

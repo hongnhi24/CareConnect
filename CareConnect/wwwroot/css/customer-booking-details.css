@@ -1,0 +1,876 @@
+﻿/* =========================================================
+   CARECONNECT - CUSTOMER BOOKING DETAILS
+   Đồng bộ với Customer Profile / Bookings / Booking Create
+
+   FONT SYSTEM
+   - Tiêu đề trang: 30px
+   - Tiêu đề card: 18px
+   - Tiêu đề phần: 17px
+   - Label: 13px
+   - Nội dung: 14px
+   - Nút: 14px
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE HEADING
+   ========================================================= */
+
+.customer-booking-detail-heading {
+    width: 100%;
+    min-height: 132px;
+    box-sizing: border-box;
+    padding: 24px 26px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient( 120deg, #e8f7f3 0%, #edf8f5 55%, #f5faf8 100% );
+    border: 1px solid #c8e2dc;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(30, 91, 80, 0.08);
+}
+
+
+/* BACK */
+
+.customer-detail-back {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #087f76;
+    background: transparent;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+    .customer-detail-back:hover {
+        color: #06766e;
+        background: rgba(8, 127, 118, 0.08);
+    }
+
+
+/* HEADING CONTENT */
+
+.customer-booking-detail-heading > div {
+    min-width: 0;
+}
+
+    .customer-booking-detail-heading > div > span {
+        display: inline-flex;
+        margin-bottom: 8px;
+        padding: 6px 11px;
+        color: #08786f;
+        background: #c7ebe3;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+    }
+
+.customer-booking-detail-heading h1 {
+    margin: 0;
+    color: #223d38;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.customer-booking-detail-heading p {
+    margin: 7px 0 0;
+    color: #738580;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+   ========================================================= */
+
+.customer-booking-detail-layout {
+    width: 100%;
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 18px;
+    align-items: start;
+}
+
+.customer-booking-detail-main {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   OVERVIEW
+   ========================================================= */
+
+.customer-detail-overview {
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e1e9e6;
+    border-radius: 17px;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, 0.045);
+}
+
+.customer-detail-overview-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #edf1ef;
+}
+
+.customer-detail-code {
+    display: inline-flex;
+    padding: 5px 9px;
+    color: #087f76;
+    background: #e1f3ef;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.customer-detail-overview-top h2 {
+    margin: 8px 0 0;
+    color: #30443f;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.customer-detail-overview-top p {
+    margin: 5px 0 0;
+    color: #7f8c88;
+    font-size: 14px;
+}
+
+    .customer-detail-overview-top p strong {
+        color: #475a55;
+    }
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.customer-status {
+    flex-shrink: 0;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+    .customer-status.pending {
+        color: #a86f1d;
+        background: #fff1d7;
+    }
+
+    .customer-status.confirmed {
+        color: #087d74;
+        background: #ddf2ed;
+    }
+
+    .customer-status.processing {
+        color: #6258b5;
+        background: #eeeaff;
+    }
+
+    .customer-status.completed {
+        color: #377f5d;
+        background: #e1f4e9;
+    }
+
+    .customer-status.cancelled {
+        color: #bd504c;
+        background: #ffe9e7;
+    }
+
+    .customer-status.default {
+        color: #667670;
+        background: #edf1ef;
+    }
+
+
+/* =========================================================
+   OVERVIEW GRID
+   ========================================================= */
+
+.customer-detail-overview-grid {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+    .customer-detail-overview-grid > div {
+        min-width: 0;
+        padding: 13px;
+        display: grid;
+        grid-template-columns: 36px minmax(0, 1fr);
+        column-gap: 10px;
+        background: #f8faf9;
+        border: 1px solid #e6ece9;
+        border-radius: 11px;
+    }
+
+        .customer-detail-overview-grid > div > i {
+            width: 36px;
+            height: 36px;
+            grid-row: 1 / span 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #078f85;
+            background: #e1f4ef;
+            border-radius: 9px;
+            font-size: 14px;
+        }
+
+        .customer-detail-overview-grid > div > span {
+            color: #929d99;
+            font-size: 12px;
+        }
+
+        .customer-detail-overview-grid > div > strong {
+            min-width: 0;
+            margin-top: 2px;
+            overflow: hidden;
+            color: #4b5f59;
+            font-size: 13px;
+            font-weight: 750;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+.customer-detail-price {
+    color: #d17c13 !important;
+    font-size: 15px !important;
+    font-weight: 850 !important;
+}
+
+
+/* =========================================================
+   GENERAL SECTION
+   ========================================================= */
+
+.customer-detail-section {
+    margin-top: 14px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e1e9e6;
+    border-radius: 17px;
+    box-shadow: 0 9px 25px rgba(35, 63, 56, 0.04);
+}
+
+.customer-detail-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #edf1ef;
+}
+
+    .customer-detail-section-heading > span {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #087f76;
+        background: #dff3ee;
+        border-radius: 11px;
+        font-size: 17px;
+    }
+
+        .customer-detail-section-heading > span.service {
+            color: #6258ba;
+            background: #eeeaff;
+        }
+
+    .customer-detail-section-heading h2 {
+        margin: 0;
+        color: #344944;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+    .customer-detail-section-heading p {
+        margin: 3px 0 0;
+        color: #899591;
+        font-size: 14px;
+    }
+
+
+/* =========================================================
+   INFORMATION GRID
+   ========================================================= */
+
+.customer-detail-information-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+    .customer-detail-information-grid > div,
+    .customer-detail-service-card > div {
+        padding: 12px 13px;
+        background: #f8faf9;
+        border: 1px solid #e7ece9;
+        border-radius: 10px;
+    }
+
+        .customer-detail-information-grid > div.full,
+        .customer-detail-service-card > div.full {
+            grid-column: 1 / -1;
+        }
+
+    .customer-detail-information-grid span,
+    .customer-detail-service-card span {
+        display: block;
+        color: #939e9a;
+        font-size: 12px;
+    }
+
+    .customer-detail-information-grid strong,
+    .customer-detail-service-card strong {
+        display: block;
+        margin-top: 4px;
+        color: #465a54;
+        font-size: 14px;
+        font-weight: 750;
+    }
+
+
+/* =========================================================
+   SERVICE CARD
+   ========================================================= */
+
+.customer-detail-service-card {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+    .customer-detail-service-card p {
+        margin: 5px 0 0;
+        color: #6f807a;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+
+/* =========================================================
+   CANCEL CARD
+   ========================================================= */
+
+.customer-detail-cancel-card {
+    margin-top: 14px;
+    padding: 18px;
+    background: linear-gradient( 135deg, #fff5f4 0%, #fff9f8 100% );
+    border: 1px solid #efcfcc;
+    border-radius: 15px;
+}
+
+.customer-detail-cancel-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .customer-detail-cancel-heading > span {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #c6534f;
+        background: #ffe5e3;
+        border-radius: 10px;
+    }
+
+    .customer-detail-cancel-heading h2 {
+        margin: 0;
+        color: #a94743;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+    .customer-detail-cancel-heading p {
+        margin: 3px 0 0;
+        color: #9c7470;
+        font-size: 13px;
+    }
+
+.customer-detail-cancel-content {
+    margin-top: 13px;
+    padding: 13px;
+    background: rgba(255,255,255,.65);
+    border-radius: 10px;
+}
+
+    .customer-detail-cancel-content > span {
+        display: block;
+        color: #9c7470;
+        font-size: 12px;
+    }
+
+    .customer-detail-cancel-content > strong {
+        display: block;
+        margin-top: 4px;
+        color: #8c4b47;
+        font-size: 14px;
+    }
+
+    .customer-detail-cancel-content small {
+        display: block;
+        margin-top: 7px;
+        color: #a38682;
+        font-size: 11px;
+    }
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.customer-booking-detail-sidebar {
+    position: sticky;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+
+/* =========================================================
+   CAREGIVER CARD
+   ========================================================= */
+
+.customer-caregiver-card {
+    padding: 20px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e1e9e6;
+    border-radius: 16px;
+    box-shadow: 0 9px 25px rgba(35, 63, 56, 0.045);
+}
+
+.customer-caregiver-avatar {
+    width: 62px;
+    height: 62px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #087f76;
+    background: #dff3ee;
+    border-radius: 16px;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.customer-caregiver-label {
+    display: block;
+    margin-top: 12px;
+    color: #07857b;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .06em;
+}
+
+.customer-caregiver-card h2 {
+    margin: 5px 0 0;
+    color: #344944;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.customer-caregiver-card > p {
+    margin: 5px 0 0;
+    color: #7f8d89;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.customer-caregiver-card > a {
+    min-height: 40px;
+    margin-top: 14px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #087f76;
+    background: #edf8f5;
+    border: 1px solid #d3e9e3;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.customer-caregiver-pending {
+    margin-top: 14px;
+    padding: 11px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #89682e;
+    background: #fff7e8;
+    border: 1px solid #f0dfba;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   SUMMARY CARD
+   ========================================================= */
+
+.customer-detail-summary-card {
+    padding: 17px;
+    background: #ffffff;
+    border: 1px solid #e1e9e6;
+    border-radius: 15px;
+    box-shadow: 0 9px 25px rgba(35, 63, 56, 0.045);
+}
+
+    .customer-detail-summary-card h2 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: #344944;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+        .customer-detail-summary-card h2 i {
+            color: #078f85;
+        }
+
+    .customer-detail-summary-card dl {
+        margin: 13px 0 0;
+    }
+
+        .customer-detail-summary-card dl > div {
+            padding: 9px 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            border-bottom: 1px solid #edf1ef;
+        }
+
+            .customer-detail-summary-card dl > div:last-child {
+                border-bottom: 0;
+            }
+
+    .customer-detail-summary-card dt {
+        color: #899591;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .customer-detail-summary-card dd {
+        margin: 0;
+        max-width: 150px;
+        text-align: right;
+        color: #455a55;
+        font-size: 12px;
+        font-weight: 750;
+    }
+
+        .customer-detail-summary-card dd.price {
+            color: #d17c13;
+            font-size: 15px;
+            font-weight: 850;
+        }
+
+
+/* =========================================================
+   RETURN BUTTON
+   ========================================================= */
+
+.customer-detail-return {
+    min-height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: #ffffff;
+    background: #078f85;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 750;
+    box-shadow: 0 7px 17px rgba(7, 143, 133, .14);
+}
+
+    .customer-detail-return:hover {
+        color: #ffffff;
+        background: #067a72;
+    }
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+    .customer-booking-detail-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .customer-booking-detail-sidebar {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    .customer-detail-return {
+        grid-column: 1 / -1;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .customer-booking-detail-heading {
+        padding: 21px 18px;
+    }
+
+        .customer-booking-detail-heading h1 {
+            font-size: 26px;
+        }
+
+    .customer-detail-overview-grid,
+    .customer-detail-information-grid,
+    .customer-detail-service-card,
+    .customer-booking-detail-sidebar {
+        grid-template-columns: 1fr;
+    }
+
+        .customer-detail-information-grid > div.full,
+        .customer-detail-service-card > div.full,
+        .customer-detail-return {
+            grid-column: auto;
+        }
+
+    .customer-detail-overview-top {
+        flex-direction: column;
+    }
+}
+/* =========================================================
+   BOOKING DETAILS - WHITE -> TEAL
+   ========================================================= */
+
+.customer-booking-detail-heading {
+    background: linear-gradient( 105deg, #ffffff 0%, #f8fcfb 22%, #edf9f6 45%, #d5f0eb 68%, #a5ddd6 84%, #70c9c0 100% ) !important;
+    border: 1px solid #bfe0da !important;
+    border-radius: 19px !important;
+    box-shadow: 0 13px 32px rgba(30, 91, 80, .07) !important;
+}
+
+    .customer-booking-detail-heading h1 {
+        color: #223d38 !important;
+        font-size: 30px !important;
+        font-weight: 850 !important;
+    }
+
+    .customer-booking-detail-heading p {
+        color: #6f817b !important;
+        font-size: 14px !important;
+    }
+
+.customer-detail-overview,
+.customer-detail-section,
+.customer-caregiver-card,
+.customer-detail-summary-card {
+    background: #ffffff !important;
+    border: 1px solid #dfe8e5 !important;
+    border-radius: 17px !important;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, .05) !important;
+}
+
+.customer-detail-overview-grid > div,
+.customer-detail-information-grid > div,
+.customer-detail-service-card > div {
+    background: linear-gradient( 110deg, #ffffff 0%, #f7fbf9 65%, #eef8f5 100% ) !important;
+    border: 1px solid #e3ebe8 !important;
+}
+/* =========================================================
+   SUCCESS TOAST - NEW DESIGN
+========================================================= */
+
+.booking-success-toast {
+    position: fixed;
+    top: 92px;
+    right: 24px;
+    z-index: 9999;
+    width: min(440px, calc(100vw - 32px));
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 18px 14px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    border: 1px solid #d8ece7;
+    box-shadow: 0 18px 45px rgba(25, 73, 62, 0.12), 0 6px 16px rgba(25, 73, 62, 0.06);
+    animation: bookingToastSlideIn .28s ease;
+}
+
+.booking-success-toast__icon {
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #dff7ef, #c9f0e5);
+    color: #14866f;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 8px 18px rgba(20, 134, 111, .14);
+    font-size: 24px;
+}
+
+.booking-success-toast__body {
+    flex: 1;
+    min-width: 0;
+}
+
+.booking-success-toast__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.booking-success-toast__title-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.booking-success-toast__title {
+    color: #214b40;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.booking-success-toast__subtitle {
+    color: #7b918b;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.booking-success-toast__close {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #92a49f;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+    .booking-success-toast__close:hover {
+        background: #f2f7f5;
+        color: #57716a;
+    }
+
+.booking-success-toast__message {
+    margin-top: 10px;
+    color: #556b65;
+    font-size: 14px;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+.booking-success-toast__progress {
+    position: relative;
+    overflow: hidden;
+    height: 5px;
+    margin-top: 14px;
+    background: #e8f1ee;
+    border-radius: 999px;
+}
+
+    .booking-success-toast__progress span {
+        display: block;
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(90deg, #24b39a, #168c7b);
+        border-radius: inherit;
+        transform-origin: left center;
+        animation: bookingToastCountdown 6s linear forwards;
+    }
+
+.booking-success-toast.is-hiding {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+    transition: .22s ease;
+}
+
+@keyframes bookingToastSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes bookingToastCountdown {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
+}
+
+@media (max-width: 768px) {
+    .booking-success-toast {
+        top: 78px;
+        right: 16px;
+        left: 16px;
+        width: auto;
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    .booking-success-toast__icon {
+        width: 48px;
+        height: 48px;
+        flex-basis: 48px;
+        font-size: 22px;
+        border-radius: 16px;
+    }
+
+    .booking-success-toast__message {
+        font-size: 13px;
+        line-height: 1.6;
+    }
+}

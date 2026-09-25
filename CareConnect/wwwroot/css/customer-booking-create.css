@@ -1,0 +1,1607 @@
+﻿/* =========================================================
+   CARECONNECT - CUSTOMER BOOKING CREATE
+   Đồng bộ với Customer Profile + Customer Bookings
+
+   FONT SYSTEM
+   - Tiêu đề trang: 30px
+   - Tiêu đề card: 18px
+   - Tiêu đề phần: 17px
+   - Label: 13px
+   - Nội dung: 14px
+   - Nút: 14px
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.booking-create-page {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    color: #2e433e;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.customer-booking-create-heading {
+    width: 100%;
+    min-height: 132px;
+    box-sizing: border-box;
+    padding: 24px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    background: linear-gradient( 120deg, #e8f7f3 0%, #edf8f5 55%, #f5faf8 100% );
+    border: 1px solid #c8e2dc;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(30, 91, 80, 0.08);
+}
+
+
+/* =========================================================
+   HERO LEFT
+   ========================================================= */
+
+.booking-create-heading-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.booking-create-heading-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+
+/* BACK BUTTON */
+
+.booking-create-back {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #087f76;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    font-size: 15px;
+    text-decoration: none;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+    .booking-create-back:hover {
+        color: #066f68;
+        background: rgba(8, 127, 118, 0.08);
+        transform: translateX(-1px);
+    }
+
+
+/* BADGE */
+
+.booking-create-badge {
+    display: inline-flex;
+    padding: 6px 11px;
+    color: #08786f;
+    background: #c7ebe3;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+
+/* TITLE */
+
+.customer-booking-create-heading h1 {
+    color: #223d38 !important;
+    font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    font-size: 30px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.2px !important;
+}
+
+
+/* DESCRIPTION */
+
+.customer-booking-create-heading p {
+    max-width: 760px;
+    margin: 7px 0 0;
+    color: #738580;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   TODAY CARD
+   ========================================================= */
+
+.booking-create-today {
+    min-width: 220px;
+    box-sizing: border-box;
+    padding: 14px 17px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #bdddd6;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(27, 91, 79, 0.06);
+}
+
+.booking-create-today-icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #078f85;
+    background: #d2eee7;
+    border-radius: 13px;
+    font-size: 21px;
+}
+
+.booking-create-today > div {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.booking-create-today small {
+    color: #998f84;
+    font-size: 13px;
+}
+
+.booking-create-today strong {
+    margin-top: 3px;
+    color: #263f3a;
+    font-size: 18px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+   ========================================================= */
+
+.booking-create-layout {
+    width: 100%;
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 18px;
+    align-items: start;
+}
+
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
+.booking-create-card {
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e1e9e6;
+    border-radius: 17px;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, 0.045);
+}
+
+
+/* =========================================================
+   MAIN CARD HEADING
+   ========================================================= */
+
+.booking-create-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #edf1ef;
+}
+
+    .booking-create-card-heading > span {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #087f76;
+        background: #dff3ee;
+        border-radius: 11px;
+        font-size: 18px;
+    }
+
+    .booking-create-card-heading h2 {
+        margin: 0;
+        color: #344944;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .booking-create-card-heading p {
+        margin: 3px 0 0;
+        color: #899591;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+.booking-required {
+    color: #d45955;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.booking-create-form {
+    min-width: 0;
+}
+
+.booking-create-validation {
+    margin-bottom: 14px;
+    color: #c65450;
+    font-size: 13px;
+}
+
+    .booking-create-validation:empty {
+        display: none;
+    }
+
+
+/* =========================================================
+   SECTION
+   ========================================================= */
+
+.booking-create-section {
+    margin-bottom: 14px;
+    padding: 18px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid #e3ebe8;
+    border-radius: 14px;
+}
+
+    .booking-create-section:last-of-type {
+        margin-bottom: 0;
+    }
+
+
+/* =========================================================
+   SECTION TITLE
+   ========================================================= */
+
+.booking-create-section-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    margin-bottom: 15px;
+}
+
+    .booking-create-section-title > i {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #087f76;
+        background: #dff3ee;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+
+
+/* THỜI GIAN */
+
+.booking-create-section:nth-of-type(3)
+.booking-create-section-title > i {
+    color: #6258ba;
+    background: #eeeaff;
+}
+
+
+/* ĐỊA ĐIỂM */
+
+.booking-create-section:nth-of-type(4)
+.booking-create-section-title > i {
+    color: #d58b1d;
+    background: #fff1d8;
+}
+
+.booking-create-section-title h3 {
+    margin: 0;
+    color: #344944;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.booking-create-section-title p {
+    margin: 3px 0 0;
+    color: #899591;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORM GRID
+   ========================================================= */
+
+.booking-create-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.booking-create-group {
+    min-width: 0;
+}
+
+    .booking-create-group.full {
+        grid-column: 1 / -1;
+    }
+
+
+    /* =========================================================
+   LABEL
+   ========================================================= */
+
+    .booking-create-group label {
+        display: block;
+        margin-bottom: 6px;
+        color: #566963;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+        .booking-create-group label span {
+            color: #d45955;
+        }
+
+
+/* =========================================================
+   INPUT WRAPPER
+   ========================================================= */
+
+.booking-create-input,
+.booking-create-textarea {
+    position: relative;
+    min-width: 0;
+}
+
+    .booking-create-input > i,
+    .booking-create-textarea > i {
+        position: absolute;
+        left: 13px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #95a29d;
+        font-size: 14px;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+
+    /* =========================================================
+   INPUT / SELECT / TEXTAREA
+   ========================================================= */
+
+    .booking-create-input input,
+    .booking-create-input select,
+    .booking-create-textarea textarea {
+        width: 100%;
+        box-sizing: border-box;
+        color: #53645f;
+        background: #f7f9f8;
+        border: 1px solid #dfe7e4;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 14px;
+        outline: none;
+        transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .booking-create-input input,
+    .booking-create-input select {
+        height: 44px;
+        padding: 0 13px 0 39px;
+    }
+
+    .booking-create-textarea textarea {
+        min-height: 96px;
+        padding: 12px 13px 12px 39px;
+        resize: vertical;
+    }
+
+    .booking-create-textarea > i {
+        top: 14px;
+        transform: none;
+    }
+
+    .booking-create-input input:focus,
+    .booking-create-input select:focus,
+    .booking-create-textarea textarea:focus {
+        background: #ffffff;
+        border-color: #68b9b1;
+        box-shadow: 0 0 0 3px rgba(16, 151, 141, 0.07);
+    }
+
+
+/* =========================================================
+   VALIDATION
+   ========================================================= */
+
+.booking-create-error {
+    display: block;
+    margin-top: 5px;
+    color: #c65450;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   SERVICE GRID
+   ========================================================= */
+
+.booking-service-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   SERVICE OPTION
+   ========================================================= */
+
+.booking-service-option {
+    position: relative;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 14px;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    background: #fbfdfc;
+    border: 1px solid #dce7e3;
+    border-radius: 13px;
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+    .booking-service-option:hover {
+        transform: translateY(-1px);
+        border-color: #abd8cf;
+        background: #f5fbf9;
+        box-shadow: 0 8px 19px rgba(33, 78, 68, 0.055);
+    }
+
+
+    /* RADIO */
+
+    .booking-service-option > input[type="radio"] {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+
+/* =========================================================
+   SERVICE CHECK
+   ========================================================= */
+
+.booking-service-check {
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    background: #ffffff;
+    border: 1px solid #d6e2de;
+    border-radius: 50%;
+    font-size: 11px;
+    transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+
+/* SELECTED - JS */
+
+.booking-service-option.is-selected {
+    background: #eef9f6;
+    border-color: #67bdb3;
+    box-shadow: 0 0 0 3px rgba(16, 151, 141, 0.06);
+}
+
+    .booking-service-option.is-selected
+    .booking-service-check {
+        color: #ffffff;
+        background: #0a958a;
+        border-color: #0a958a;
+    }
+
+
+/* SELECTED - CSS */
+
+.booking-service-option:has( input[type="radio"]:checked ) {
+    background: #eef9f6;
+    border-color: #67bdb3;
+    box-shadow: 0 0 0 3px rgba(16, 151, 141, 0.06);
+}
+
+    .booking-service-option:has( input[type="radio"]:checked )
+    .booking-service-check {
+        color: #ffffff;
+        background: #0a958a;
+        border-color: #0a958a;
+    }
+
+
+/* =========================================================
+   SERVICE ICON
+   ========================================================= */
+
+.booking-service-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #078f85;
+    background: #dff3ee;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   SERVICE CONTENT
+   ========================================================= */
+
+.booking-service-content {
+    min-width: 0;
+    height: 100%;
+    padding-right: 26px;
+    display: flex;
+    flex-direction: column;
+}
+
+.booking-service-code {
+    color: #078a80;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+}
+
+.booking-service-content > strong {
+    margin-top: 2px;
+    color: #384d48;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+
+/* MÔ TẢ HIỆN ĐẦY ĐỦ */
+
+.booking-service-content > small {
+    margin-top: 6px;
+    display: block;
+    color: #7b8985;
+    font-size: 13px;
+    line-height: 1.55;
+    white-space: normal;
+    overflow: visible;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   SERVICE META
+   ========================================================= */
+
+.booking-service-meta {
+    margin-top: auto;
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    border-top: 1px solid #edf1ef;
+}
+
+    .booking-service-meta > span {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: #788781;
+        font-size: 12px;
+    }
+
+        .booking-service-meta > span:last-child {
+            color: #d17c13;
+            font-weight: 800;
+        }
+
+    .booking-service-meta i {
+        color: #0a9187;
+    }
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.booking-create-actions {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 9px;
+}
+
+.booking-create-cancel,
+.booking-create-submit {
+    min-height: 44px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 750;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+}
+
+.booking-create-cancel {
+    color: #566b65;
+    background: #ffffff;
+    border: 1px solid #dae4e1;
+}
+
+    .booking-create-cancel:hover {
+        color: #405a54;
+        background: #f6f9f8;
+    }
+
+.booking-create-submit {
+    color: #ffffff;
+    background: #078f85;
+    border: 1px solid #078f85;
+    box-shadow: 0 8px 18px rgba(7, 143, 133, 0.16);
+}
+
+    .booking-create-submit:hover {
+        color: #ffffff;
+        background: #067a72;
+        transform: translateY(-1px);
+    }
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.booking-create-sidebar {
+    position: sticky;
+    top: 90px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+
+/* =========================================================
+   SIDEBAR CARDS
+   ========================================================= */
+
+.booking-customer-summary,
+.booking-price-summary {
+    padding: 17px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid #e1e9e6;
+    border-radius: 15px;
+    box-shadow: 0 9px 25px rgba(35, 63, 56, 0.045);
+}
+
+
+/* =========================================================
+   SIDEBAR HEADING
+   ========================================================= */
+
+.booking-summary-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 13px;
+    border-bottom: 1px solid #edf1ef;
+}
+
+    .booking-summary-heading > span {
+        width: 39px;
+        height: 39px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #087f76;
+        background: #dff3ee;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+
+        .booking-summary-heading > span.price {
+            color: #d18418;
+            background: #fff1d8;
+        }
+
+    .booking-summary-heading h2 {
+        margin: 0;
+        color: #344944;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+    .booking-summary-heading p {
+        margin: 3px 0 0;
+        color: #899591;
+        font-size: 13px;
+        line-height: 1.45;
+    }
+
+
+/* =========================================================
+   SIDEBAR DATA
+   ========================================================= */
+
+.booking-customer-summary dl,
+.booking-price-summary dl {
+    margin: 13px 0 0;
+}
+
+    .booking-customer-summary dl > div,
+    .booking-price-summary dl > div {
+        padding: 9px 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        border-bottom: 1px solid #edf1ef;
+    }
+
+        .booking-customer-summary dl > div:last-child,
+        .booking-price-summary dl > div:last-child {
+            border-bottom: 0;
+        }
+
+.booking-customer-summary dt,
+.booking-price-summary dt {
+    color: #899591;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.booking-customer-summary dd,
+.booking-price-summary dd {
+    max-width: 160px;
+    margin: 0;
+    text-align: right;
+    color: #455a55;
+    font-size: 12px;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   TOTAL
+   ========================================================= */
+
+.booking-price-summary dl > div.total {
+    margin-top: 10px;
+    padding: 13px;
+    background: linear-gradient( 135deg, #fff9ed 0%, #fff4df 100% );
+    border: 1px solid #efdfbd;
+    border-radius: 10px;
+}
+
+    .booking-price-summary
+    dl > div.total dt {
+        color: #967d56;
+    }
+
+    .booking-price-summary
+    dl > div.total dd {
+        color: #d17c13;
+        font-size: 18px;
+        font-weight: 850;
+    }
+
+
+/* =========================================================
+   PROCESS NOTE
+   ========================================================= */
+
+.booking-create-note {
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: linear-gradient( 135deg, #edf8f5 0%, #e7f5f1 100% );
+    border: 1px solid #cee8e1;
+    border-radius: 13px;
+}
+
+    .booking-create-note > i {
+        flex-shrink: 0;
+        margin-top: 1px;
+        color: #0a9187;
+        font-size: 15px;
+    }
+
+    .booking-create-note strong {
+        color: #3d5e56;
+        font-size: 13px;
+    }
+
+    .booking-create-note p {
+        margin: 5px 0 0;
+        color: #6e817b;
+        font-size: 13px;
+        line-height: 1.55;
+    }
+
+
+/* =========================================================
+   RESPONSIVE <= 1100
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .booking-create-layout {
+        grid-template-columns: minmax(0, 1fr) 270px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE <= 920
+   ========================================================= */
+
+@media (max-width: 920px) {
+
+    .booking-create-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-create-sidebar {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .booking-create-note {
+        grid-column: 1 / -1;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE <= 850
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .customer-booking-create-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .booking-create-today {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE <= 720
+   ========================================================= */
+
+@media (max-width: 720px) {
+
+    .customer-booking-create-heading {
+        padding: 21px 18px;
+    }
+
+        .customer-booking-create-heading h1 {
+            font-size: 26px;
+        }
+
+    .booking-service-grid,
+    .booking-create-grid,
+    .booking-create-sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-create-group.full {
+        grid-column: auto;
+    }
+
+    .booking-create-note {
+        grid-column: auto;
+    }
+
+    .booking-create-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE <= 480
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .booking-create-card {
+        padding: 15px;
+    }
+
+    .booking-create-section {
+        padding: 14px;
+    }
+
+    .booking-service-option {
+        grid-template-columns: 36px minmax(0, 1fr);
+    }
+
+    .booking-service-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .booking-service-meta {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+/* =========================================================
+   BOOKING CREATE - WHITE -> TEAL HERO
+   ========================================================= */
+
+.customer-booking-create-heading {
+    background: linear-gradient( 105deg, #ffffff 0%, #f8fcfb 22%, #edf9f6 45%, #d5f0eb 68%, #a5ddd6 84%, #70c9c0 100% ) !important;
+    border: 1px solid #bfe0da !important;
+    border-radius: 19px !important;
+    box-shadow: 0 13px 32px rgba(30, 91, 80, .07) !important;
+}
+
+    .customer-booking-create-heading h1 {
+        color: #223d38 !important;
+        font-size: 30px !important;
+        font-weight: 850 !important;
+    }
+
+.booking-create-badge {
+    color: #087d74 !important;
+    background: rgba(223, 244, 239, .95) !important;
+}
+
+.booking-create-today {
+    background: rgba(255, 255, 255, .90) !important;
+    border: 1px solid #b9dcd5 !important;
+    box-shadow: 0 8px 20px rgba(27, 91, 79, .07) !important;
+}
+
+.booking-create-card,
+.booking-customer-summary,
+.booking-price-summary {
+    border: 1px solid #dfe8e5 !important;
+    border-radius: 17px !important;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, .05) !important;
+}
+
+.booking-create-section {
+    background: linear-gradient( 120deg, #ffffff 0%, #ffffff 70%, #f3faf8 100% ) !important;
+}
+
+.booking-service-option {
+    background: linear-gradient( 135deg, #ffffff, #f7fbf9, #eef8f5 ) !important;
+}
+
+/* =========================================================
+   CAREGIVER MATCHING - NEW UI
+========================================================= */
+
+.caregiver-picker-panel {
+    margin-top: 24px;
+}
+
+
+.caregiver-picker-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+
+    .caregiver-picker-heading > div {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+
+    .caregiver-picker-heading strong {
+        color: #263f38;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+
+    .caregiver-picker-heading small {
+        color: #84918d;
+        line-height: 1.5;
+    }
+
+
+.caregiver-reload-btn {
+    border: 1px solid #d9e3df;
+    background: #ffffff;
+    color: #31544a;
+    border-radius: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .2s;
+}
+
+
+    .caregiver-reload-btn:hover {
+        background: #f1faf7;
+        border-color: #1a9d8b;
+    }
+
+
+/* LIST */
+
+.caregiver-match-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+
+/* CARD */
+
+.caregiver-match-card {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #dfe7e4;
+    border-radius: 18px;
+    padding: 20px;
+    transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+
+    .caregiver-match-card:hover {
+        transform: translateY(-2px);
+        border-color: #9fd7cc;
+        box-shadow: 0 10px 30px rgba(44, 95, 82, .08);
+    }
+
+
+    /* SELECTED */
+
+    .caregiver-match-card.is-selected {
+        border: 2px solid #159b88;
+        background: linear-gradient( 180deg, #ffffff 0%, #f3fbf8 100% );
+    }
+
+
+/* HEADER */
+
+.caregiver-card-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 16px;
+}
+
+
+.caregiver-avatar {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: #edf8f5;
+    color: #197d6e;
+    font-size: 22px;
+}
+
+
+.caregiver-main-info {
+    flex: 1;
+    min-width: 0;
+}
+
+
+.caregiver-name-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+
+    .caregiver-name-row strong {
+        color: #28463e;
+        font-size: 17px;
+        font-weight: 750;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+.caregiver-best-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 7px;
+    border-radius: 999px;
+    background: #fff5d9;
+    color: #936d14;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+
+.caregiver-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+    color: #63736e;
+    font-size: 13px;
+}
+
+
+    .caregiver-rating i {
+        color: #e5a91e;
+    }
+
+
+/* SPECIALTY */
+
+.caregiver-specialty {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    min-height: 46px;
+    color: #455e57;
+    font-size: 14px;
+    line-height: 1.55;
+    margin-bottom: 14px;
+}
+
+
+    .caregiver-specialty i {
+        color: #229b89;
+        margin-top: 3px;
+    }
+
+
+/* META */
+
+.caregiver-meta-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+
+    .caregiver-meta-grid > div {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #f5f8f7;
+        color: #526660;
+        border-radius: 8px;
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+
+
+    .caregiver-meta-grid i {
+        color: #66867e;
+    }
+
+
+/* SCORE */
+
+.caregiver-score-section {
+    padding-top: 14px;
+    border-top: 1px solid #edf0ef;
+}
+
+
+.caregiver-score-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+    .caregiver-score-title span {
+        color: #687b75;
+        font-size: 13px;
+    }
+
+
+    .caregiver-score-title strong {
+        color: #176f62;
+        font-size: 22px;
+    }
+
+
+.caregiver-score-bar {
+    height: 6px;
+    margin-top: 8px;
+    background: #e5efec;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+
+    .caregiver-score-bar span {
+        display: block;
+        height: 100%;
+        background: linear-gradient( 90deg, #25a895, #197e70 );
+        border-radius: inherit;
+    }
+
+
+/* REASON */
+
+.caregiver-match-reason {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    margin-top: 12px;
+    color: #667872;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+    .caregiver-match-reason i {
+        color: #20a18e;
+        margin-top: 2px;
+    }
+
+
+/* BUTTON */
+
+.caregiver-select-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 16px;
+    padding: 11px 14px;
+    border: 1px solid #cae1dc;
+    border-radius: 10px;
+    background: #f2f8f6;
+    color: #236c5f;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+
+    .caregiver-select-btn:hover {
+        background: #e5f5f1;
+        border-color: #64b9aa;
+    }
+
+
+.caregiver-match-card.is-selected
+.caregiver-select-btn {
+    background: #168c7b;
+    border-color: #168c7b;
+    color: #ffffff;
+}
+
+
+/* SEARCH STATE */
+
+.caregiver-search-state {
+    padding: 18px;
+    border: 1px dashed #cadbd6;
+    border-radius: 12px;
+    background: #fafcfb;
+    color: #687c76;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+    .caregiver-match-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* =========================================================
+   RELATIVES - CREATE HEADER
+========================================================= */
+
+.relative-create-header-card {
+    position: relative;
+    width: 100%;
+    margin-bottom: 24px;
+    padding: 30px 32px;
+    overflow: hidden;
+    background: linear-gradient( 90deg, #ffffff 0%, #f6fffd 32%, #ebfaf7 68%, #d7f3ee 100% );
+    border: 1px solid #cfe9e3;
+    border-radius: 24px;
+    box-shadow: 0 12px 32px rgba(32, 76, 71, .05);
+}
+
+
+    /* vòng tròn trang trí nhẹ */
+
+    .relative-create-header-card::before {
+        content: "";
+        position: absolute;
+        top: -85px;
+        right: -45px;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background: rgba(33, 178, 166, .08);
+        pointer-events: none;
+    }
+
+
+    .relative-create-header-card::after {
+        content: "";
+        position: absolute;
+        right: 190px;
+        bottom: -115px;
+        width: 190px;
+        height: 190px;
+        border-radius: 50%;
+        background: rgba(33, 178, 166, .055);
+        pointer-events: none;
+    }
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.relative-create-heading {
+    position: relative;
+    z-index: 1;
+    min-height: 145px;
+    display: flex;
+    align-items: center;
+}
+
+
+.relative-create-heading-left {
+    min-width: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.relative-create-back {
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #506864;
+    background: rgba(255, 255, 255, .82);
+    border: 1px solid #cfe4e0;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(34, 83, 78, .05);
+    font-size: 17px;
+    text-decoration: none;
+    transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+
+    .relative-create-back:hover {
+        color: #0d918a;
+        background: #ffffff;
+        border-color: #acdcd7;
+        transform: translateX(-1px);
+    }
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.relative-create-heading-text {
+    min-width: 0;
+}
+
+
+.relative-create-eyebrow {
+    display: block;
+    margin-bottom: 10px;
+    color: #0b918b;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .05em;
+}
+
+
+.relative-create-heading-text h1 {
+    margin: 0;
+    color: #203e39;
+    font-size: 30px;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+
+.relative-create-heading-text p {
+    max-width: 720px;
+    margin: 10px 0 0;
+    color: #6e827e;
+    font-size: 13px;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.relative-create-form-card {
+    width: 100%;
+    padding: 28px 30px;
+    background: #ffffff;
+    border: 1px solid #dce9e7;
+    border-radius: 24px;
+    box-shadow: 0 12px 32px rgba(32, 76, 71, .045);
+}
+
+
+/* =========================================================
+   FORM SECTION HEADING
+========================================================= */
+
+.relative-create-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #e5efed;
+}
+
+
+    .relative-create-section-heading > span {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        display: grid;
+        place-items: center;
+        color: #0d918a;
+        background: #e1f5f2;
+        border-radius: 13px;
+        font-size: 18px;
+    }
+
+
+    .relative-create-section-heading h2 {
+        margin: 0;
+        color: #243f3a;
+        font-size: 19px;
+        font-weight: 700;
+    }
+
+
+    .relative-create-section-heading p {
+        margin: 4px 0 0;
+        color: #81918e;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .relative-create-header-card {
+        padding: 22px 20px;
+        border-radius: 18px;
+    }
+
+
+    .relative-create-heading {
+        min-height: 0;
+    }
+
+
+    .relative-create-heading-text h1 {
+        font-size: 24px;
+    }
+
+
+    .relative-create-form-card {
+        padding: 20px;
+        border-radius: 18px;
+    }
+}
+body.customer-body
+.customer-booking-create-heading
+h1.booking-create-main-title {
+    margin: 0 !important;
+    color: #203e38 !important;
+    font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    font-size: 30px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.25px !important;
+    font-style: normal !important;
+    text-transform: none !important;
+}

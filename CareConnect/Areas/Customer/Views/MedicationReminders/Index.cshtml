@@ -1,0 +1,1347 @@
+﻿@model CustomerMedicationReminderPageViewModel
+
+@{
+    ViewData["Title"] = "Nhắc uống thuốc";
+}
+
+<style>
+
+   
+    .medication-reminder-page .booking-create-layout {
+        grid-template-columns: minmax(0, 1fr) 360px;
+    }
+
+    .medication-reminder-page .booking-create-sidebar {
+        position: sticky;
+        top: 90px;
+    }
+
+
+    /* =============================================
+       DANH SÁCH LỊCH
+    ============================================== */
+
+    .medication-list-card {
+        padding: 17px;
+        box-sizing: border-box;
+        background: #ffffff;
+        border: 1px solid #e1e9e6;
+        border-radius: 15px;
+        box-shadow: 0 9px 25px rgba(35, 63, 56, 0.045);
+    }
+
+
+    .medication-list-wrapper {
+        margin-top: 14px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        max-height: 620px;
+        overflow-y: auto;
+
+        padding-right: 3px;
+    }
+
+
+    .medication-list-wrapper::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .medication-list-wrapper::-webkit-scrollbar-thumb {
+        background: #c8dcd7;
+        border-radius: 20px;
+    }
+
+
+    /* =============================================
+       ITEM THUỐC
+    ============================================== */
+
+    .medication-reminder-item {
+        padding: 13px;
+
+        background: linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f8fcfb 100%
+        );
+
+        border: 1px solid #e0e9e6;
+        border-radius: 12px;
+
+        transition:
+            border-color .18s ease,
+            box-shadow .18s ease,
+            transform .18s ease;
+    }
+
+
+    .medication-reminder-item:hover {
+        border-color: #b8dcd5;
+
+        box-shadow:
+            0 7px 18px
+            rgba(35, 84, 73, .055);
+
+        transform: translateY(-1px);
+    }
+
+
+    .medication-reminder-item.inactive {
+        opacity: .68;
+        background: #f7f8f8;
+    }
+
+
+    /* TOP */
+
+    .medication-item-top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+
+    .medication-time {
+        min-width: 58px;
+        height: 42px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: #087f76;
+        background: #dff3ee;
+
+        border-radius: 10px;
+
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+
+    .medication-name-box {
+        flex: 1;
+        min-width: 0;
+    }
+
+
+    .medication-name {
+        margin: 0;
+
+        color: #344944;
+
+        font-size: 14px;
+        font-weight: 800;
+        line-height: 1.4;
+    }
+
+
+    .medication-patient {
+        margin: 3px 0 0;
+
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        color: #899591;
+
+        font-size: 12px;
+    }
+
+
+    /* STATUS */
+
+    .medication-status {
+        margin-top: 10px;
+
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+
+        padding: 5px 8px;
+
+        border-radius: 999px;
+
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+
+    .medication-status.active {
+        color: #08786f;
+        background: #e1f5ef;
+    }
+
+
+    .medication-status.paused {
+        color: #777;
+        background: #eeeeee;
+    }
+
+
+    .medication-status i {
+        font-size: 7px;
+    }
+
+
+    /* INFO */
+
+    .medication-info {
+        margin-top: 11px;
+        padding-top: 10px;
+
+        border-top: 1px solid #edf1ef;
+    }
+
+
+    .medication-info-row {
+        display: flex;
+        align-items: flex-start;
+
+        gap: 7px;
+
+        margin-bottom: 7px;
+
+        color: #6f817c;
+
+        font-size: 12px;
+        line-height: 1.45;
+    }
+
+
+    .medication-info-row:last-child {
+        margin-bottom: 0;
+    }
+
+
+    .medication-info-row > i {
+        width: 15px;
+        flex-shrink: 0;
+
+        margin-top: 1px;
+
+        color: #0a9187;
+    }
+
+
+    .medication-info-row strong {
+        color: #4a605a;
+        font-weight: 700;
+    }
+
+
+    /* GHI CHÚ */
+
+    .medication-note {
+        margin-top: 10px;
+        padding: 9px 10px;
+
+        display: flex;
+        align-items: flex-start;
+        gap: 7px;
+
+        color: #7e6949;
+        background: #fff9ef;
+
+        border: 1px solid #f0e5cf;
+        border-radius: 8px;
+
+        font-size: 12px;
+        line-height: 1.45;
+    }
+
+
+    /* BUTTON */
+
+    .medication-actions {
+        margin-top: 11px;
+        padding-top: 10px;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+
+        border-top: 1px solid #edf1ef;
+    }
+
+
+    .medication-actions form {
+        margin: 0;
+    }
+
+
+    .medication-action-button {
+        width: 100%;
+        height: 34px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+
+        border-radius: 8px;
+
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: .18s ease;
+    }
+
+
+    .medication-action-toggle {
+        color: #087f76;
+        background: #f1faf8;
+        border: 1px solid #c9e5df;
+    }
+
+
+    .medication-action-toggle:hover {
+        background: #e3f5f1;
+    }
+
+
+    .medication-action-delete {
+        color: #c55250;
+        background: #fff8f8;
+        border: 1px solid #efd2d1;
+    }
+
+
+    .medication-action-delete:hover {
+        background: #fdeeee;
+    }
+
+
+    /* EMPTY */
+
+    .medication-empty {
+        padding: 28px 10px;
+
+        text-align: center;
+
+        color: #899591;
+    }
+
+
+    .medication-empty i {
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #87bbb3;
+        font-size: 30px;
+    }
+
+
+    .medication-empty strong {
+        display: block;
+
+        margin-bottom: 4px;
+
+        color: #4f645f;
+        font-size: 13px;
+    }
+
+
+    .medication-empty span {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+
+    /* RESPONSIVE */
+
+    @@media (max-width: 1100px) {
+
+        .medication-reminder-page .booking-create-layout {
+            grid-template-columns:
+                minmax(0, 1fr) 320px;
+        }
+
+    }
+
+
+    @@media (max-width: 920px) {
+
+        .medication-reminder-page .booking-create-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .medication-reminder-page .booking-create-sidebar {
+            position: static;
+            display: block;
+        }
+
+        .medication-list-wrapper {
+            max-height: none;
+        }
+
+    }
+
+</style>
+
+
+<div class="booking-create-page medication-reminder-page">
+
+
+    <!-- =====================================================
+         HERO - GIỐNG TRANG ĐẶT LỊCH
+    ====================================================== -->
+
+    <section class="customer-booking-create-heading">
+
+        <div class="booking-create-heading-content">
+
+            <div class="booking-create-heading-top">
+
+                <a asp-area="Customer"
+                   asp-controller="Dashboard"
+                   asp-action="Index"
+                   class="booking-create-back"
+                   title="Quay lại tổng quan">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                </a>
+
+
+                <span class="booking-create-badge">
+                    NHẮC UỐNG THUỐC
+                </span>
+
+            </div>
+
+
+            <h1 style="
+                font-family: 'Segoe UI', Arial, sans-serif !important;
+                font-size: 30px !important;
+                font-weight: 700 !important;
+                line-height: 1.25 !important;
+                letter-spacing: -0.25px !important;">
+                Lịch nhắc uống thuốc
+            </h1>
+
+
+            <p>
+                Thiết lập lịch uống thuốc cho người thân.
+                CareConnect sẽ nhắc bạn khi đến thời gian sử dụng thuốc.
+            </p>
+
+        </div>
+
+
+        <!-- HÔM NAY -->
+
+        <div class="booking-create-today">
+
+            <span class="booking-create-today-icon">
+
+                <i class="bi bi-capsule-pill"></i>
+
+            </span>
+
+
+            <div>
+
+                <small>
+                    Hôm nay
+                </small>
+
+                <strong>
+                    @DateTime.Today.ToString("dd/MM/yyyy")
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    @if (TempData["Success"] is string success)
+    {
+        <div class="booking-create-note"
+             style="margin-top:18px;">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <div>
+
+                <strong>
+                    Thành công
+                </strong>
+
+                <p>
+                    @success
+                </p>
+
+            </div>
+
+        </div>
+    }
+
+
+
+    <!-- =====================================================
+         MAIN LAYOUT
+    ====================================================== -->
+
+    <div class="booking-create-layout">
+
+
+        <!-- =================================================
+             CỘT TRÁI - FORM
+        ================================================== -->
+
+        <main class="booking-create-card">
+
+
+            <!-- CARD HEADING -->
+
+            <div class="booking-create-card-heading">
+
+                <span>
+                    <i class="bi bi-alarm-fill"></i>
+                </span>
+
+
+                <div>
+
+                    <h2>
+                        Thông tin lịch uống thuốc
+                    </h2>
+
+                    <p>
+                        Các trường có dấu
+                        <strong class="booking-required">*</strong>
+                        là thông tin bắt buộc.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            @if (Model.NguoiThan.Count == 0)
+            {
+                <div class="booking-create-note">
+
+                    <i class="bi bi-info-circle-fill"></i>
+
+                    <div>
+
+                        <strong>
+                            Chưa có hồ sơ người thân
+                        </strong>
+
+                        <p>
+                            Bạn cần tạo hồ sơ người thân
+                            trước khi thiết lập lịch uống thuốc.
+                        </p>
+
+                    </div>
+
+                </div>
+            }
+            else
+            {
+
+                <!-- =========================================
+                     FORM
+                ========================================== -->
+
+                <form asp-area="Customer"
+                      asp-controller="MedicationReminders"
+                      asp-action="Create"
+                      method="post"
+                      class="booking-create-form">
+
+                    @Html.AntiForgeryToken()
+
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="booking-create-validation">
+                    </div>
+
+
+                    <!-- =====================================
+                         1. NGƯỜI DÙNG THUỐC
+                    ====================================== -->
+
+                    <section class="booking-create-section">
+
+                        <div class="booking-create-section-title">
+
+                            <i class="bi bi-person-heart"></i>
+
+
+                            <div>
+
+                                <h3>
+                                    Người dùng thuốc
+                                </h3>
+
+                                <p>
+                                    Chọn thành viên trong gia đình
+                                    cần được nhắc uống thuốc.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="booking-create-grid">
+
+                            <div class="
+                                booking-create-group
+                                full">
+
+                                <label asp-for="Form.MaBenhNhan">
+
+                                    Người dùng thuốc
+
+                                    <span>*</span>
+
+                                </label>
+
+
+                                <div class="booking-create-input">
+
+                                    <i class="bi bi-person-vcard"></i>
+
+
+                                    <select asp-for="Form.MaBenhNhan">
+
+                                        <option value="">
+                                            -- Chọn người thân --
+                                        </option>
+
+
+                                        @foreach (
+                                            var person
+                                            in Model.NguoiThan)
+                                        {
+                                            <option value="@person.MaBenhNhan">
+
+                                                @person.HoTen
+                                                -
+                                                @person.QuanHe
+
+                                            </option>
+                                        }
+
+                                    </select>
+
+                                </div>
+
+
+                                <span asp-validation-for="Form.MaBenhNhan"
+                                      class="booking-create-error">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- =====================================
+                         2. THÔNG TIN THUỐC
+                    ====================================== -->
+
+                    <section class="booking-create-section">
+
+                        <div class="booking-create-section-title">
+
+                            <i class="bi bi-capsule-pill"></i>
+
+
+                            <div>
+
+                                <h3>
+                                    Thông tin thuốc
+                                </h3>
+
+                                <p>
+                                    Nhập tên thuốc, liều dùng
+                                    và hướng dẫn sử dụng.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="booking-create-grid">
+
+
+                            <!-- TÊN THUỐC -->
+
+                            <div class="
+                                booking-create-group
+                                full">
+
+                                <label asp-for="Form.TenThuoc">
+
+                                    Tên thuốc
+
+                                    <span>*</span>
+
+                                </label>
+
+
+                                <div class="booking-create-input">
+
+                                    <i class="bi bi-capsule"></i>
+
+                                    <input asp-for="Form.TenThuoc"
+                                           placeholder="Ví dụ: Amlodipine 5mg" />
+
+                                </div>
+
+
+                                <span asp-validation-for="Form.TenThuoc"
+                                      class="booking-create-error">
+                                </span>
+
+                            </div>
+
+
+
+                            <!-- LIỀU DÙNG -->
+
+                            <div class="booking-create-group">
+
+                                <label asp-for="Form.LieuDung">
+                                    Liều dùng
+                                </label>
+
+
+                                <div class="booking-create-input">
+
+                                    <i class="bi bi-prescription2"></i>
+
+                                    <input asp-for="Form.LieuDung"
+                                           placeholder="Ví dụ: 1 viên" />
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- CÁCH DÙNG -->
+
+                            <div class="booking-create-group">
+
+                                <label asp-for="Form.CachDung">
+                                    Cách dùng
+                                </label>
+
+
+                                <div class="booking-create-input">
+
+                                    <i class="bi bi-cup-hot"></i>
+
+                                    <input asp-for="Form.CachDung"
+                                           placeholder="Ví dụ: Uống sau ăn" />
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- =====================================
+                         3. THỜI GIAN NHẮC
+                    ====================================== -->
+
+                    <section class="booking-create-section">
+
+                        <div class="booking-create-section-title">
+
+                            <i class="bi bi-clock-fill"></i>
+
+
+                            <div>
+
+                                <h3>
+                                    Thời gian nhắc
+                                </h3>
+
+                                <p>
+                                    Chọn giờ uống thuốc
+                                    và thời gian áp dụng lịch.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="booking-create-grid">
+
+
+                            <!-- GIỜ -->
+
+                            <div class="
+                                booking-create-group
+                                full">
+
+                                <label asp-for="Form.ThoiGianUong">
+
+                                    Giờ uống thuốc
+
+                                    <span>*</span>
+
+                                </label>
+
+
+                                <div class="booking-create-input">
+
+                                    <i class="bi bi-alarm"></i>
+
+                                    <input asp-for="Form.ThoiGianUong"
+                                           type="time" />
+
+                                </div>
+
+
+                                <span asp-validation-for="Form.ThoiGianUong"
+                                      class="booking-create-error">
+                                </span>
+
+                            </div>
+
+
+
+                            <!-- BẮT ĐẦU -->
+
+                            <div class="booking-create-group">
+
+                                <label asp-for="Form.NgayBatDau">
+
+                                    Ngày bắt đầu
+
+                                    <span>*</span>
+
+                                </label>
+
+
+                                <div class="booking-create-input">
+
+                                    <i class="bi bi-calendar-plus"></i>
+
+                                    <input asp-for="Form.NgayBatDau"
+                                           type="date" />
+
+                                </div>
+
+
+                                <span asp-validation-for="Form.NgayBatDau"
+                                      class="booking-create-error">
+                                </span>
+
+                            </div>
+
+
+
+                            <!-- KẾT THÚC -->
+
+                            <div class="booking-create-group">
+
+                                <label asp-for="Form.NgayKetThuc">
+                                    Ngày kết thúc
+                                </label>
+
+
+                                <div class="booking-create-input">
+
+                                    <i class="bi bi-calendar-check"></i>
+
+                                    <input asp-for="Form.NgayKetThuc"
+                                           type="date" />
+
+                                </div>
+
+
+                                <span asp-validation-for="Form.NgayKetThuc"
+                                      class="booking-create-error">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Hiện tại service chỉ xử lý hằng ngày -->
+
+                        <input asp-for="Form.TanSuat"
+                               type="hidden"
+                               value="Hằng ngày" />
+
+                    </section>
+
+
+
+                    <!-- =====================================
+                         4. GHI CHÚ
+                    ====================================== -->
+
+                    <section class="booking-create-section">
+
+                        <div class="booking-create-section-title">
+
+                            <i class="bi bi-journal-text"></i>
+
+
+                            <div>
+
+                                <h3>
+                                    Ghi chú
+                                </h3>
+
+                                <p>
+                                    Thêm lưu ý đặc biệt khi sử dụng thuốc.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="booking-create-grid">
+
+                            <div class="
+                                booking-create-group
+                                full">
+
+                                <label asp-for="Form.GhiChu">
+                                    Ghi chú
+                                </label>
+
+
+                                <div class="booking-create-textarea">
+
+                                    <i class="bi bi-pencil-square"></i>
+
+
+                                    <textarea asp-for="Form.GhiChu"
+                                              placeholder="Ví dụ: Theo dõi huyết áp sau khi uống...">
+                                    </textarea>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- =====================================
+                         BUTTON
+                    ====================================== -->
+
+                    <div class="booking-create-actions">
+
+                        <a asp-area="Customer"
+                           asp-controller="Dashboard"
+                           asp-action="Index"
+                           class="booking-create-cancel">
+
+                            <i class="bi bi-arrow-left"></i>
+
+                            Quay lại
+
+                        </a>
+
+
+                        <button type="submit"
+                                class="booking-create-submit">
+
+                            <i class="bi bi-alarm-fill"></i>
+
+                            Tạo lịch nhắc
+
+                        </button>
+
+                    </div>
+
+                </form>
+            }
+
+        </main>
+
+
+
+        <!-- =================================================
+             CỘT PHẢI - DANH SÁCH
+        ================================================== -->
+
+        <aside class="booking-create-sidebar">
+
+
+            <section class="medication-list-card">
+
+
+                <!-- HEADER -->
+
+                <div class="booking-summary-heading">
+
+                    <span>
+                        <i class="bi bi-calendar2-check"></i>
+                    </span>
+
+
+                    <div>
+
+                        <h2>
+                            Lịch đã tạo
+                        </h2>
+
+                        <p>
+                            @Model.LichNhac.Count lịch uống thuốc
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                @if (Model.LichNhac.Count == 0)
+                {
+                    <div class="medication-empty">
+
+                        <i class="bi bi-capsule"></i>
+
+                        <strong>
+                            Chưa có lịch nhắc
+                        </strong>
+
+                        <span>
+                            Lịch bạn tạo sẽ xuất hiện tại đây.
+                        </span>
+
+                    </div>
+                }
+                else
+                {
+
+                    <div class="medication-list-wrapper">
+
+
+                        @foreach (var item in Model.LichNhac)
+                        {
+
+                            <article class="
+                                medication-reminder-item
+                                @(item.TrangThai
+                                    ? ""
+                                    : "inactive")">
+
+
+                                <!-- TOP -->
+
+                                <div class="medication-item-top">
+
+
+                                    <div class="medication-time">
+
+                                        @item.ThoiGianUong.ToString(@"hh\:mm")
+
+                                    </div>
+
+
+                                    <div class="medication-name-box">
+
+                                        <h3 class="medication-name">
+
+                                            @item.TenThuoc
+
+                                        </h3>
+
+
+                                        <p class="medication-patient">
+
+                                            <i class="bi bi-person"></i>
+
+                                            @item.TenBenhNhan
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <!-- STATUS -->
+
+                                @if (item.TrangThai)
+                                {
+                                    <span class="
+                                        medication-status
+                                        active">
+
+                                        <i class="bi bi-circle-fill"></i>
+
+                                        Đang hoạt động
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="
+                                        medication-status
+                                        paused">
+
+                                        <i class="bi bi-circle-fill"></i>
+
+                                        Đã tạm dừng
+
+                                    </span>
+                                }
+
+
+
+                                <!-- INFO -->
+
+                                <div class="medication-info">
+
+
+                                    @if (!string.IsNullOrWhiteSpace(
+                                        item.LieuDung))
+                                    {
+                                        <div class="medication-info-row">
+
+                                            <i class="bi bi-capsule"></i>
+
+                                            <div>
+
+                                                <strong>Liều:</strong>
+
+                                                @item.LieuDung
+
+                                            </div>
+
+                                        </div>
+                                    }
+
+
+
+                                    @if (!string.IsNullOrWhiteSpace(
+                                        item.CachDung))
+                                    {
+                                        <div class="medication-info-row">
+
+                                            <i class="bi bi-cup-hot"></i>
+
+                                            <div>
+
+                                                <strong>Cách dùng:</strong>
+
+                                                @item.CachDung
+
+                                            </div>
+
+                                        </div>
+                                    }
+
+
+
+                                    <div class="medication-info-row">
+
+                                        <i class="bi bi-calendar3"></i>
+
+                                        <div>
+
+                                            <strong>
+                                                Thời gian:
+                                            </strong>
+
+                                            @item.NgayBatDau.ToString("dd/MM/yyyy")
+
+                                            →
+
+                                            @(item.NgayKetThuc.HasValue
+                                                ? item.NgayKetThuc.Value.ToString("dd/MM/yyyy")
+                                                : "Không giới hạn")
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <div class="medication-info-row">
+
+                                        <i class="bi bi-arrow-repeat"></i>
+
+                                        <div>
+
+                                            <strong>
+                                                Tần suất:
+                                            </strong>
+
+                                            @item.TanSuat
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <!-- GHI CHÚ -->
+
+                                @if (!string.IsNullOrWhiteSpace(
+                                    item.GhiChu))
+                                {
+                                    <div class="medication-note">
+
+                                        <i class="bi bi-sticky"></i>
+
+                                        <span>
+                                            @item.GhiChu
+                                        </span>
+
+                                    </div>
+                                }
+
+
+
+                                <!-- ACTION -->
+
+                                <div class="medication-actions">
+
+
+                                    <form asp-area="Customer"
+                                          asp-controller="MedicationReminders"
+                                          asp-action="Toggle"
+                                          method="post">
+
+                                        @Html.AntiForgeryToken()
+
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@item.MaLichNhac" />
+
+
+                                        <button type="submit"
+                                                class="
+                                                    medication-action-button
+                                                    medication-action-toggle">
+
+                                            @if (item.TrangThai)
+                                            {
+                                                <i class="bi bi-pause-circle"></i>
+
+                                                <span>
+                                                    Tạm dừng
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <i class="bi bi-play-circle"></i>
+
+                                                <span>
+                                                    Bật lại
+                                                </span>
+                                            }
+
+                                        </button>
+
+                                    </form>
+
+
+
+                                    <form asp-area="Customer"
+                                          asp-controller="MedicationReminders"
+                                          asp-action="Delete"
+                                          method="post"
+                                          onsubmit="
+                                            return confirm(
+                                                'Bạn có chắc muốn xóa lịch này?'
+                                            );">
+
+                                        @Html.AntiForgeryToken()
+
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@item.MaLichNhac" />
+
+
+                                        <button type="submit"
+                                                class="
+                                                    medication-action-button
+                                                    medication-action-delete">
+
+                                            <i class="bi bi-trash3"></i>
+
+                                            Xóa
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </article>
+
+                        }
+
+                    </div>
+                }
+
+            </section>
+
+
+
+            <!-- GHI CHÚ GIỐNG ĐẶT LỊCH -->
+
+            <div class="booking-create-note">
+
+                <i class="bi bi-bell-fill"></i>
+
+                <div>
+
+                    <strong>
+                        Cách hoạt động
+                    </strong>
+
+                    <p>
+                        Khi đến giờ uống thuốc,
+                        CareConnect sẽ tạo thông báo
+                        trên tài khoản của bạn.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</div>

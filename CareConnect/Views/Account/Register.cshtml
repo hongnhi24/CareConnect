@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+}
+
+<section class="register-role-page">
+    <div class="register-role-heading">
+        <span class="register-heading-decoration"></span>
+
+        <h1>Tạo tài khoản CareConnect</h1>
+
+        <p>
+            Bắt đầu hành trình chăm sóc người thân yêu cùng chúng tôi
+        </p>
+    </div>
+
+    <div class="register-role-card">
+        <h2>Bạn muốn đăng ký với vai trò gì?</h2>
+
+        <div class="register-role-list">
+            <a asp-controller="Account"
+               asp-action="RegisterCustomer"
+               class="register-role-option">
+
+                <span class="register-role-icon customer-role-icon">
+                    <i class="bi bi-house-heart"></i>
+                </span>
+
+                <span class="register-role-content">
+                    <strong>Gia đình / Khách hàng</strong>
+
+                    <small>
+                        Tôi cần tìm người chăm sóc cho người thân
+                    </small>
+                </span>
+
+                <span class="register-role-arrow">
+                    <i class="bi bi-chevron-right"></i>
+                </span>
+            </a>
+
+            <a asp-controller="Account"
+               asp-action="RegisterCaregiver"
+               class="register-role-option">
+
+                <span class="register-role-icon caregiver-role-icon">
+                    <i class="bi bi-person-badge"></i>
+                </span>
+
+                <span class="register-role-content">
+                    <strong>Người chăm sóc</strong>
+
+                    <small>
+                        Tôi muốn cung cấp dịch vụ chăm sóc người cao tuổi
+                    </small>
+                </span>
+
+                <span class="register-role-arrow">
+                    <i class="bi bi-chevron-right"></i>
+                </span>
+            </a>
+        </div>
+
+        <div class="register-role-login">
+            <span>Đã có tài khoản?</span>
+
+            <a asp-controller="Account"
+               asp-action="Login">
+                Đăng nhập
+            </a>
+        </div>
+    </div>
+</section>

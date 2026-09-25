@@ -1,0 +1,362 @@
+﻿@model CareConnect.ViewModels.CustomerPaymentConfirmViewModel
+
+@{
+    ViewData["Title"] = "Xác nhận thanh toán";
+}
+
+<section class="customer-payment-detail-heading">
+
+    <a asp-area="Customer"
+       asp-controller="Payments"
+       asp-action="Details"
+       asp-route-id="@Model.MaDatLich">
+
+        <i class="bi bi-arrow-left"></i>
+    </a>
+
+    <div>
+        <span>XÁC NHẬN THANH TOÁN</span>
+
+        <h1>Thanh toán dịch vụ</h1>
+
+        <p>
+            Bạn có thể đặt cọc trước hoặc
+            thanh toán toàn bộ chi phí dịch vụ.
+        </p>
+    </div>
+
+</section>
+
+<div class="customer-pay-layout">
+
+    <main class="customer-pay-card">
+
+        <form asp-area="Customer"
+              asp-controller="Payments"
+              asp-action="Pay"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input asp-for="MaDatLich"
+                   type="hidden" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="payment-validation">
+            </div>
+
+
+            @* ==========================================
+               HÌNH THỨC THANH TOÁN
+               ========================================== *@
+
+            <div class="customer-pay-heading">
+
+                <span>
+                    <i class="bi bi-wallet2"></i>
+                </span>
+
+                <div>
+                    <h2>Hình thức thanh toán</h2>
+
+                    <p>
+                        Chọn số tiền bạn muốn
+                        thanh toán ở lần này.
+                    </p>
+                </div>
+
+            </div>
+
+
+            @if (!Model.DaDatCoc)
+            {
+                <div class="payment-method-list">
+
+                    <label>
+
+                        <input asp-for="LoaiThanhToan"
+                               type="radio"
+                               value="Đặt cọc" />
+
+                        <span>
+                            <i class="bi bi-piggy-bank"></i>
+                        </span>
+
+                        <div>
+                            <strong>
+                                Đặt cọc
+                                @Model.TyLeDatCoc.ToString("0")%
+                            </strong>
+
+                            <small>
+                                Thanh toán
+                                @Model.SoTienDatCoc.ToString("#,##0")đ
+                                trước để giữ lịch.
+                            </small>
+                        </div>
+
+                    </label>
+
+
+                    <label>
+
+                        <input asp-for="LoaiThanhToan"
+                               type="radio"
+                               value="Thanh toán toàn bộ" />
+
+                        <span>
+                            <i class="bi bi-check-circle"></i>
+                        </span>
+
+                        <div>
+                            <strong>
+                                Thanh toán 100%
+                            </strong>
+
+                            <small>
+                                Thanh toán toàn bộ
+                                @Model.SoTien.ToString("#,##0")đ.
+                            </small>
+                        </div>
+
+                    </label>
+
+                </div>
+
+                <span asp-validation-for="LoaiThanhToan"
+                      class="payment-field-error">
+                </span>
+            }
+            else
+            {
+                <input asp-for="LoaiThanhToan"
+                       type="hidden"
+                       value="Thanh toán phần còn lại" />
+
+                <div class="payment-validation">
+
+                    <i class="bi bi-info-circle"></i>
+
+                    Bạn đã đặt cọc
+                    <strong>
+                        @Model.DaThanhToan.ToString("#,##0")đ
+                    </strong>.
+
+                    Số tiền còn phải thanh toán là
+
+                    <strong>
+                        @Model.SoTienConLai.ToString("#,##0")đ
+                    </strong>.
+
+                </div>
+            }
+
+
+            @* ==========================================
+               PHƯƠNG THỨC
+               ========================================== *@
+
+            <div class="customer-pay-heading">
+
+                <span>
+                    <i class="bi bi-credit-card-fill"></i>
+                </span>
+
+                <div>
+                    <h2>Phương thức thanh toán</h2>
+
+                    <p>
+                        Chọn một phương thức phù hợp.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="payment-method-list">
+
+                <label>
+
+                    <input asp-for="PhuongThucThanhToan"
+                           type="radio"
+                           value="Tiền mặt" />
+
+                    <span>
+                        <i class="bi bi-cash-stack"></i>
+                    </span>
+
+                    <div>
+                        <strong>Tiền mặt</strong>
+
+                        <small>
+                            Mô phỏng thanh toán trực tiếp.
+                        </small>
+                    </div>
+
+                </label>
+
+
+                <label>
+
+                    <input asp-for="PhuongThucThanhToan"
+                           type="radio"
+                           value="Chuyển khoản" />
+
+                    <span>
+                        <i class="bi bi-bank"></i>
+                    </span>
+
+                    <div>
+                        <strong>Chuyển khoản</strong>
+
+                        <small>
+                            Chuyển khoản ngân hàng.
+                        </small>
+                    </div>
+
+                </label>
+
+
+                <label>
+
+                    <input asp-for="PhuongThucThanhToan"
+                           type="radio"
+                           value="VNPay" />
+
+                    <span>
+                        <i class="bi bi-qr-code"></i>
+                    </span>
+
+                    <div>
+                        <strong>VNPay</strong>
+
+                        <small>
+                            Mô phỏng thanh toán VNPay.
+                        </small>
+                    </div>
+
+                </label>
+
+            </div>
+
+            <span asp-validation-for="PhuongThucThanhToan"
+                  class="payment-field-error">
+            </span>
+
+
+            <div class="customer-pay-actions">
+
+                <a asp-area="Customer"
+                   asp-controller="Payments"
+                   asp-action="Details"
+                   asp-route-id="@Model.MaDatLich">
+
+                    Hủy
+                </a>
+
+                <button type="submit">
+
+                    <i class="bi bi-check2-circle"></i>
+
+                    @(Model.DaDatCoc
+                        ? "Thanh toán phần còn lại"
+                        : "Xác nhận thanh toán")
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+
+    <aside class="customer-pay-summary">
+
+        <h2>Tóm tắt thanh toán</h2>
+
+        <dl>
+
+            <div>
+                <dt>Mã lịch</dt>
+
+                <dd>
+                    @($"#DL{Model.MaDatLich}")
+                </dd>
+            </div>
+
+
+            <div>
+                <dt>Người được chăm sóc</dt>
+
+                <dd>
+                    @Model.TenBenhNhan
+                </dd>
+            </div>
+
+
+            <div>
+                <dt>Dịch vụ</dt>
+
+                <dd>
+                    @Model.TenDichVu
+                </dd>
+            </div>
+
+
+            <div>
+                <dt>Ngày chăm sóc</dt>
+
+                <dd>
+                    @Model.NgayChamSoc
+                    .ToString("dd/MM/yyyy")
+                </dd>
+            </div>
+
+
+            <div>
+                <dt>Tổng tiền dịch vụ</dt>
+
+                <dd>
+                    @Model.SoTien.ToString("#,##0")đ
+                </dd>
+            </div>
+
+
+            @if (Model.DaThanhToan > 0)
+            {
+                <div>
+                    <dt>Đã thanh toán</dt>
+
+                    <dd>
+                        @Model.DaThanhToan.ToString("#,##0")đ
+                    </dd>
+                </div>
+            }
+
+
+            <div class="total">
+
+                <dt>
+                    @(Model.DaDatCoc
+                        ? "Còn phải thanh toán"
+                        : "Số tiền dịch vụ")
+                </dt>
+
+                <dd>
+                    @(Model.DaDatCoc
+                        ? Model.SoTienConLai.ToString("#,##0")
+                        : Model.SoTien.ToString("#,##0"))đ
+                </dd>
+
+            </div>
+
+        </dl>
+
+    </aside>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

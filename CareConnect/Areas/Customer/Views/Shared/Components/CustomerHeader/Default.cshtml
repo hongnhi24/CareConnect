@@ -1,0 +1,251 @@
+﻿@model CustomerHeaderViewModel
+<form id="realtimeNotificationTokenForm"
+      style="display:none;">
+
+    @Html.AntiForgeryToken()
+
+</form>
+<div class="customer-header-tools">
+
+    <!-- Chuông thông báo -->
+    <div class="customer-header-dropdown">
+
+        <button type="button"
+                class="customer-notification-button"
+                id="customerNotificationButton"
+                aria-label="Thông báo hệ thống">
+
+            <i class="bi bi-bell"></i>
+
+            <span id="notificationBadge"
+                  class="customer-notification-count"
+                  data-count="@Model.SoThongBaoChuaDoc"
+                  style="@(Model.SoThongBaoChuaDoc > 0
+                          ? ""
+                          : "display:none;")">
+
+                @(Model.SoThongBaoChuaDoc > 99
+                    ? "99+"
+                    : Model.SoThongBaoChuaDoc)
+
+            </span>
+
+        </button>
+
+        <div class="customer-dropdown-panel
+            customer-notification-panel"
+             id="customerNotificationPanel">
+
+            <div class="customer-notification-header">
+
+                <div>
+                    <span>THÔNG BÁO HỆ THỐNG</span>
+                    <h3>Thông báo gần đây</h3>
+                </div>
+
+                <form asp-area="Customer"
+                      asp-controller="Notifications"
+                      asp-action="MarkAllAsRead"
+                      method="post"
+                      id="markAllNotificationsForm"
+                      style="@(Model.SoThongBaoChuaDoc > 0
+                              ? ""
+                              : "display:none;")">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit">
+                        Đánh dấu đã đọc
+                    </button>
+
+                </form>
+
+            </div>
+
+            <div id="notificationEmpty"
+                 class="customer-notification-empty"
+                 style="@(Model.ThongBaoGanDay.Count == 0
+                         ? ""
+                         : "display:none;")">
+
+                <span>
+                    <i class="bi bi-bell-slash"></i>
+                </span>
+
+                <strong>
+                    Chưa có thông báo
+                </strong>
+
+                <p>
+                    Thông báo từ hệ thống sẽ xuất hiện tại đây.
+                </p>
+
+            </div>
+
+
+            <div id="notificationList"
+                 class="customer-notification-list">
+
+                @foreach (var thongBao in Model.ThongBaoGanDay)
+                {
+                    <form asp-area="Customer"
+                          asp-controller="Notifications"
+                          asp-action="Open"
+                          method="post"
+                          class="customer-notification-form">
+
+                        @Html.AntiForgeryToken()
+
+
+                        <input type="hidden"
+                               name="maThongBao"
+                               value="@thongBao.MaThongBao" />
+
+
+                        <button type="submit"
+                                class="customer-notification-item
+                            @(!thongBao.DaDoc
+                                ? "is-unread"
+                                : "")">
+
+                            <span class="customer-notification-icon">
+
+                                <i class="bi bi-bell-fill"></i>
+
+                            </span>
+
+
+                            <span class="customer-notification-content">
+
+                                <strong>
+                                    @thongBao.TieuDe
+                                </strong>
+
+                                <span>
+                                    @thongBao.NoiDung
+                                </span>
+
+                                <small>
+
+                                    <i class="bi bi-clock"></i>
+
+                                    @thongBao.NgayGui.ToString("dd/MM/yyyy HH:mm")
+
+                                </small>
+
+                            </span>
+
+
+                            @if (!thongBao.DaDoc)
+                            {
+                                <span class="customer-unread-dot">
+                                </span>
+                            }
+
+                        </button>
+
+                    </form>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Tài khoản -->
+    <div class="customer-header-dropdown">
+
+        <button type="button"
+                class="customer-account-button"
+                id="customerAccountButton">
+
+            <span class="customer-account-avatar">
+                @Model.VietTat
+            </span>
+
+            <span class="customer-account-name">
+                <strong>@Model.TenNguoiDung</strong>
+                <small>Gia đình</small>
+            </span>
+
+            <i class="bi bi-chevron-down"></i>
+        </button>
+
+        <div class="customer-dropdown-panel
+            customer-account-panel"
+             id="customerAccountPanel">
+
+            <div class="customer-account-summary">
+
+                <span>
+                    @Model.VietTat
+                </span>
+
+                <div>
+                    <strong>@Model.TenNguoiDung</strong>
+                    <small>Tài khoản gia đình</small>
+                </div>
+
+            </div>
+
+            <div class="customer-account-menu">
+
+                <a asp-area="Customer"
+                   asp-controller="Dashboard"
+                   asp-action="Index">
+
+                    <i class="bi bi-grid"></i>
+
+                    <span>
+                        <strong>Tổng quan</strong>
+                        <small>Trở về bảng điều khiển</small>
+                    </span>
+                </a>
+
+                <a asp-area="Customer"
+                   asp-controller="Relatives"
+                   asp-action="Index">
+
+                    <i class="bi bi-person-heart"></i>
+
+                    <span>
+                        <strong>Hồ sơ người thân</strong>
+                        <small>Quản lý người được chăm sóc</small>
+                    </span>
+                </a>
+
+                <a asp-area=""
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    <i class="bi bi-house-door"></i>
+
+                    <span>
+                        <strong>Về trang chủ</strong>
+                        <small>Trở lại website CareConnect</small>
+                    </span>
+                </a>
+
+            </div>
+
+            <form asp-area=""
+                  asp-controller="Account"
+                  asp-action="Logout"
+                  method="post"
+                  class="customer-account-logout">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit">
+                    <i class="bi bi-box-arrow-left"></i>
+                    Đăng xuất
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

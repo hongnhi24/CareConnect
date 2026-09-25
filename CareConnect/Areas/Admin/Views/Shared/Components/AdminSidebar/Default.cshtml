@@ -1,0 +1,152 @@
+﻿@model CareConnect.ViewModels.AdminSidebarViewModel
+
+<nav class="admin-navigation">
+
+    <!-- TỔNG QUAN -->
+    <a asp-area="Admin"
+       asp-controller="Dashboard"
+       asp-action="Index"
+       class="@(Model.ControllerHienTai == "Dashboard"
+                  ? "active"
+                  : "")">
+
+        <span class="admin-nav-icon">
+            <i class="bi bi-grid-1x2-fill"></i>
+        </span>
+
+        <span class="admin-nav-text">
+            Tổng quan
+        </span>
+    </a>
+
+    <!-- NGƯỜI DÙNG -->
+    <a asp-area="Admin"
+       asp-controller="Users"
+       asp-action="Index"
+       class="@(Model.ControllerHienTai == "Users"
+                  ? "active"
+                  : "")">
+
+        <span class="admin-nav-icon">
+            <i class="bi bi-people-fill"></i>
+        </span>
+
+        <span class="admin-nav-text">
+            Người dùng
+        </span>
+
+        @if (Model.SoTaiKhoanBiKhoa > 0)
+        {
+            <span class="admin-menu-count danger">
+                @Model.SoTaiKhoanBiKhoa
+            </span>
+        }
+    </a>
+
+    <!-- DUYỆT NGƯỜI CHĂM SÓC -->
+    <a asp-area="Admin"
+       asp-controller="Caregivers"
+       asp-action="Index"
+       asp-route-trangThai="Chờ duyệt"
+       class="@(Model.ControllerHienTai == "Caregivers"
+                  ? "active"
+                  : "")">
+
+        <span class="admin-nav-icon">
+            <i class="bi bi-clipboard2-pulse-fill"></i>
+        </span>
+
+        <span class="admin-nav-text">
+            Duyệt người chăm sóc
+        </span>
+
+        @if (Model.SoHoSoChoDuyet > 0)
+        {
+            <span class="admin-menu-count warning">
+                @Model.SoHoSoChoDuyet
+            </span>
+        }
+        else
+        {
+            <span class="admin-menu-count success">
+                <i class="bi bi-check2"></i>
+            </span>
+        }
+    </a>
+
+    <!-- QUẢN LÝ LỊCH ĐẶT -->
+    <a asp-area="Admin"
+       asp-controller="Bookings"
+       asp-action="Index"
+       class="@(Model.ControllerHienTai == "Bookings"
+                  ? "active"
+                  : "")">
+
+        <span class="admin-nav-icon">
+            <i class="bi bi-calendar2-check-fill"></i>
+        </span>
+
+        <span class="admin-nav-text">
+            Quản lý lịch đặt
+        </span>
+
+        @if (Model.SoLichChoXacNhan > 0)
+        {
+            <span class="admin-menu-count info">
+                @Model.SoLichChoXacNhan
+            </span>
+        }
+    </a>
+
+    <!-- DỊCH VỤ -->
+    <a asp-area="Admin"
+       asp-controller="Services"
+       asp-action="Index"
+       class="@(Model.ControllerHienTai == "Services"
+                  ? "active"
+                  : "")">
+
+        <span class="admin-nav-icon">
+            <i class="bi bi-heart-pulse-fill"></i>
+        </span>
+
+        <span class="admin-nav-text">
+            Dịch vụ chăm sóc
+        </span>
+    </a>
+
+    <!-- BÁO CÁO -->
+    <a asp-area="Admin"
+       asp-controller="Reports"
+       asp-action="Index"
+       class="@(Model.ControllerHienTai == "Reports"
+                  ? "active"
+                  : "")">
+
+        <span class="admin-nav-icon">
+            <i class="bi bi-bar-chart-fill"></i>
+        </span>
+
+        <span class="admin-nav-text">
+            Báo cáo & thống kê
+        </span>
+    </a>
+
+    <!-- CẤU HÌNH -->
+    <a asp-area="Admin"
+       asp-controller="Settings"
+       asp-action="Index"
+       class="@(Model.ControllerHienTai == "Settings"
+                  ? "active"
+                  : "")">
+
+        <span class="admin-nav-icon">
+            <i class="bi bi-sliders"></i>
+        </span>
+
+        <span class="admin-nav-text">
+            Cấu hình hệ thống
+        </span>
+    </a>
+
+</nav>

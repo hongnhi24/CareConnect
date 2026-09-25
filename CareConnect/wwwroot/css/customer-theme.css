@@ -1,0 +1,954 @@
+﻿/* =========================================================
+   CARECONNECT CUSTOMER THEME
+   Đồng bộ phong cách với Caregiver Portal
+
+   FONT SYSTEM
+   - Tiêu đề trang: 30px
+   - Tiêu đề card: 18px
+   - Tiêu đề phần: 17px
+   - Label: 13px
+   - Nội dung: 14px
+   - Nút: 14px
+   ========================================================= */
+
+:root {
+    --ct-primary: #169d98;
+    --ct-primary-dark: #087a73;
+    --ct-primary-soft: #e7f6f4;
+    --ct-orange: #e99a22;
+    --ct-orange-soft: #fff2dd;
+    --ct-green: #42a77b;
+    --ct-green-soft: #e8f7ef;
+    --ct-purple: #7865ce;
+    --ct-purple-soft: #efedff;
+    --ct-danger: #d85c59;
+    --ct-danger-soft: #fff0ef;
+    --ct-bg: #f7f9f7;
+    --ct-card: #ffffff;
+    --ct-text: #243c37;
+    --ct-text-soft: #788682;
+    --ct-muted: #929c98;
+    --ct-border: #e5ebe8;
+    --ct-radius-lg: 18px;
+    --ct-radius-md: 14px;
+    --ct-radius-sm: 10px;
+    --ct-shadow: 0 12px 30px rgba(38, 62, 56, 0.055);
+}
+
+
+/* =========================================================
+   TOÀN TRANG
+   ========================================================= */
+
+.customer-body {
+    background: var(--ct-bg);
+    color: var(--ct-text);
+}
+
+.customer-page {
+    background: var(--ct-bg);
+}
+
+.customer-content {
+    padding: 28px 30px 48px;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.customer-sidebar {
+    background: #ffffff;
+    border-right: 1px solid var(--ct-border);
+}
+
+.customer-logo {
+    min-height: 72px;
+}
+
+.customer-logo-icon {
+    border-radius: 13px;
+    box-shadow: 0 7px 18px rgba(22, 157, 152, 0.16);
+}
+
+.customer-home-link {
+    margin: 14px 14px 0;
+    border: 1px solid #dce8e5;
+    border-radius: 11px;
+    background: #f7faf9;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+    .customer-home-link:hover {
+        background: var(--ct-primary-soft);
+        border-color: #c9e5e1;
+    }
+
+.sidebar-label {
+    font-size: 13px;
+    letter-spacing: .08em;
+}
+
+.customer-navigation a {
+    min-height: 48px;
+    margin: 3px 12px;
+    padding: 0 14px;
+    border-radius: 11px;
+    color: #596762;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background .18s ease, color .18s ease;
+}
+
+    .customer-navigation a:hover {
+        background: #f4f8f6;
+        color: var(--ct-primary-dark);
+    }
+
+    .customer-navigation a.active,
+    .customer-navigation .customer-user.active {
+        color: var(--ct-primary-dark);
+        background: var(--ct-primary-soft);
+    }
+
+.customer-navigation i {
+    width: 22px;
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.customer-topbar {
+    min-height: 72px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--ct-border);
+}
+
+.customer-notification-button,
+.customer-account-button {
+    border-color: var(--ct-border);
+}
+
+.customer-account-button {
+    border-radius: 13px;
+}
+
+.customer-account-avatar {
+    background: var(--ct-primary-soft);
+    color: var(--ct-primary-dark);
+}
+
+.customer-account-name strong {
+    font-size: 14px;
+}
+
+.customer-account-name small {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   PAGE HEADINGS
+   ========================================================= */
+
+.dashboard-welcome,
+.customer-booking-heading,
+.customer-booking-detail-heading,
+.customer-journal-heading,
+.customer-journal-detail-heading,
+.customer-payment-heading,
+.customer-payment-detail-heading,
+.customer-review-heading,
+.customer-review-create-heading,
+.customer-review-detail-heading,
+.relative-page-heading,
+.relative-list-heading,
+.relative-form-heading,
+.relative-detail-heading,
+.customer-booking-create-heading {
+    margin-bottom: 22px;
+}
+
+    .dashboard-welcome h1,
+    .customer-booking-heading h1,
+    .customer-booking-detail-heading h1,
+    .customer-journal-heading h1,
+    .customer-journal-detail-heading h1,
+    .customer-payment-heading h1,
+    .customer-payment-detail-heading h1,
+    .customer-review-heading h1,
+    .customer-review-create-heading h1,
+    .customer-review-detail-heading h1,
+    .relative-page-heading h1,
+    .relative-list-heading h1,
+    .relative-form-heading h1,
+    .relative-detail-heading h1,
+    .customer-booking-create-heading h1 {
+        margin: 0;
+        color: var(--ct-text);
+        font-size: 30px;
+        font-weight: 800;
+        line-height: 1.25;
+    }
+
+    .dashboard-welcome p,
+    .customer-booking-heading p,
+    .customer-booking-detail-heading p,
+    .customer-journal-heading p,
+    .customer-journal-detail-heading p,
+    .customer-payment-heading p,
+    .customer-payment-detail-heading p,
+    .customer-review-heading p,
+    .customer-review-create-heading p,
+    .customer-review-detail-heading p,
+    .relative-page-heading p,
+    .relative-list-heading p,
+    .relative-form-heading p,
+    .relative-detail-heading p,
+    .customer-booking-create-heading p {
+        margin-top: 7px;
+        color: var(--ct-text-soft);
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+
+/* =========================================================
+   EYEBROW / SECTION LABEL
+   ========================================================= */
+
+.dashboard-welcome-label,
+.dashboard-section-label,
+.relative-detail-eyebrow {
+    color: var(--ct-primary-dark);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .07em;
+}
+
+
+/* =========================================================
+   CARD CHUNG
+   ========================================================= */
+
+.dashboard-stat-card,
+.booking-card,
+.notification-card,
+.customer-booking-card,
+.customer-booking-panel,
+.customer-detail-section,
+.customer-detail-overview,
+.customer-detail-summary-card,
+.customer-detail-service-card,
+.customer-caregiver-card,
+.customer-detail-cancel-card,
+.customer-journal-stat-card,
+.customer-journal-card,
+.customer-journal-panel,
+.customer-journal-filter-card,
+.journal-detail-card,
+.journal-detail-summary-card,
+.customer-payment-card,
+.customer-payment-panel,
+.customer-pay-card,
+.customer-pay-summary,
+.payment-detail-card,
+.payment-total-card,
+.payment-related-booking,
+.customer-review-card,
+.customer-review-panel,
+.customer-review-create-card,
+.customer-review-details-card,
+.customer-review-summary,
+.relative-card,
+.relative-filter-card,
+.relative-list-panel,
+.relative-form-card,
+.relative-form-section,
+.relative-summary-card,
+.relative-detail-card,
+.relative-profile-hero,
+.relative-emergency-card,
+.relative-summary-detail-card,
+.booking-create-card,
+.booking-create-section,
+.booking-create-sidebar,
+.booking-customer-summary,
+.booking-price-summary {
+    background: var(--ct-card);
+    border: 1px solid var(--ct-border);
+    border-radius: var(--ct-radius-lg);
+    box-shadow: var(--ct-shadow);
+}
+
+
+    /* =========================================================
+   TIÊU ĐỀ CARD = 18PX
+   ========================================================= */
+
+    .booking-name-row strong,
+    .notification-card strong,
+    .customer-booking-card h3,
+    .customer-journal-card h3,
+    .customer-payment-card h3,
+    .customer-review-card h3,
+    .relative-card-name,
+    .relative-summary-card h2,
+    .customer-detail-summary-card h2,
+    .journal-detail-summary-card h2,
+    .customer-review-summary h2,
+    .booking-summary-heading h2 {
+        font-size: 18px;
+        font-weight: 800;
+        color: #34443f;
+    }
+
+
+/* =========================================================
+   TIÊU ĐỀ PHẦN = 17PX
+   ========================================================= */
+
+.section-title-row h2,
+.customer-booking-panel-heading h2,
+.customer-booking-detail-heading h2,
+.customer-detail-section-heading h2,
+.customer-journal-panel-heading h2,
+.journal-detail-card-heading h2,
+.journal-detail-summary-heading h2,
+.customer-payment-panel-heading h2,
+.payment-detail-card-heading h2,
+.customer-review-panel-heading h2,
+.customer-review-details-heading h2,
+.relative-form-card-heading h2,
+.relative-form-section-title h2,
+.relative-summary-detail-heading h2,
+.relative-emergency-heading h2,
+.booking-create-card-heading h2,
+.booking-create-section-title h2,
+.booking-summary-heading h2 {
+    font-size: 17px;
+    font-weight: 800;
+    color: #394843;
+}
+
+
+/* =========================================================
+   LABEL = 13PX
+   ========================================================= */
+
+.booking-create-group label,
+.relative-form-group label,
+.customer-payment-filter label,
+.customer-review-form-section label,
+.customer-review-filter label,
+.customer-journal-filter-card label {
+    color: #5d6a65;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   NỘI DUNG = 14PX
+   ========================================================= */
+
+.customer-content p,
+.customer-content span,
+.customer-content small,
+.customer-content li,
+.customer-content td,
+.customer-content th {
+    line-height: 1.55;
+}
+
+.booking-information > p,
+.notification-card p,
+.customer-booking-card p,
+.customer-detail-section p,
+.customer-caregiver-card p,
+.customer-journal-card p,
+.journal-detail-card p,
+.customer-payment-card p,
+.payment-detail-card p,
+.customer-review-card p,
+.customer-review-details-content,
+.relative-card p,
+.relative-health-box,
+.relative-need-box,
+.relative-detail-card p,
+.booking-create-note,
+.booking-service-content p {
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   INPUT / SELECT / TEXTAREA
+   ========================================================= */
+
+.booking-create-input input,
+.booking-create-input select,
+.booking-create-textarea textarea,
+.relative-input input,
+.relative-input select,
+.relative-textarea textarea,
+.customer-journal-search input,
+.customer-journal-select,
+.customer-payment-filter input,
+.customer-payment-filter select,
+.customer-review-filter input,
+.customer-review-filter select,
+.customer-review-textarea textarea {
+    min-height: 44px;
+    color: #45534e;
+    background: #f8f9f7;
+    border: 1px solid #e1e6e3;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+    .booking-create-input input:focus,
+    .booking-create-input select:focus,
+    .booking-create-textarea textarea:focus,
+    .relative-input input:focus,
+    .relative-input select:focus,
+    .relative-textarea textarea:focus,
+    .customer-journal-search input:focus,
+    .customer-journal-select:focus,
+    .customer-payment-filter input:focus,
+    .customer-payment-filter select:focus,
+    .customer-review-filter input:focus,
+    .customer-review-filter select:focus,
+    .customer-review-textarea textarea:focus {
+        background: #ffffff;
+        border-color: #63b9b2;
+        box-shadow: 0 0 0 3px rgba(22, 157, 152, .09);
+    }
+
+
+/* =========================================================
+   NÚT = 14PX
+   ========================================================= */
+
+.customer-content button,
+.customer-content a[class*="button"],
+.customer-content a[class*="btn"],
+.customer-content a[class*="create"],
+.customer-content a[class*="submit"],
+.customer-content a[class*="back"],
+.customer-content a[class*="return"] {
+    font-size: 14px;
+}
+
+
+/* Nút chính */
+
+.dashboard-new-booking-button,
+.dashboard-primary-button,
+.relative-create-button,
+.relative-submit-button,
+.relative-detail-book-button,
+.booking-create-submit,
+.customer-review-actions .is-primary,
+.customer-review-form-actions button,
+.customer-pay-actions button {
+    min-height: 44px;
+    border-radius: 10px;
+    background: var(--ct-primary);
+    color: #ffffff;
+    border-color: var(--ct-primary);
+    font-size: 14px;
+    font-weight: 750;
+    box-shadow: 0 7px 18px rgba(22, 157, 152, .14);
+}
+
+    .dashboard-new-booking-button:hover,
+    .dashboard-primary-button:hover,
+    .relative-create-button:hover,
+    .relative-submit-button:hover,
+    .booking-create-submit:hover {
+        background: var(--ct-primary-dark);
+    }
+
+
+/* Nút phụ */
+
+.relative-cancel-button,
+.booking-create-cancel,
+.customer-detail-return,
+.customer-detail-back,
+.customer-journal-detail-back,
+.relative-detail-back,
+.relative-form-back {
+    min-height: 42px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.customer-status,
+.payment-status,
+.review-status,
+.status-confirmed,
+.status-pending,
+.status-awaiting-payment,
+.status-completed,
+.status-cancelled {
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+.dashboard-stat-grid {
+    gap: 16px;
+}
+
+.dashboard-stat-card {
+    min-height: 148px;
+    padding: 20px;
+    border-radius: 16px;
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+}
+
+.stat-number {
+    font-size: 22px;
+}
+
+.dashboard-main-grid {
+    gap: 18px;
+}
+
+
+/* =========================================================
+   BOOKING
+   ========================================================= */
+
+.customer-booking-list,
+.customer-journal-list,
+.customer-payment-list,
+.customer-review-list {
+    gap: 14px;
+}
+
+.customer-booking-card,
+.customer-journal-card,
+.customer-payment-card,
+.customer-review-card {
+    padding: 20px;
+    border-radius: 16px;
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+    .customer-booking-card:hover,
+    .customer-journal-card:hover,
+    .customer-payment-card:hover,
+    .customer-review-card:hover,
+    .relative-card:hover {
+        transform: translateY(-1px);
+        border-color: #cfe4e0;
+        box-shadow: 0 15px 34px rgba(40, 66, 59, .08);
+    }
+
+
+/* =========================================================
+   RELATIVES
+   ========================================================= */
+
+.relative-card-grid {
+    gap: 16px;
+}
+
+.relative-card {
+    padding: 20px;
+    border-radius: 16px;
+}
+
+.relative-card-actions {
+    padding-top: 14px;
+    border-top: 1px solid #edf1ef;
+}
+
+.relative-health-box {
+    border-radius: 12px;
+}
+
+.relative-avatar {
+    border-radius: 13px;
+}
+
+
+/* =========================================================
+   FORM PAGE LAYOUT
+   ========================================================= */
+
+.booking-create-layout,
+.relative-form-layout,
+.customer-pay-layout,
+.customer-review-create-layout {
+    gap: 18px;
+}
+
+.booking-create-card,
+.relative-form-card,
+.customer-pay-card,
+.customer-review-create-card {
+    padding: 23px;
+}
+
+
+/* =========================================================
+   EMPTY STATES
+   ========================================================= */
+
+.dashboard-empty,
+.customer-booking-empty,
+.customer-journal-empty,
+.customer-review-empty,
+.relative-empty {
+    padding: 34px 24px;
+    background: #ffffff;
+    border: 1px dashed #dbe5e1;
+    border-radius: 16px;
+    color: var(--ct-text-soft);
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   FILTER
+   ========================================================= */
+
+.relative-filter-card,
+.customer-journal-filter-card,
+.customer-payment-filter,
+.customer-review-filter {
+    padding: 16px;
+    border-radius: 14px;
+}
+
+
+/* =========================================================
+   THÔNG BÁO
+   ========================================================= */
+
+.customer-booking-alert,
+.customer-journal-alert,
+.customer-payment-alert,
+.customer-review-alert,
+.relative-alert {
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   SUPPORT CARD
+   ========================================================= */
+
+.customer-support-card {
+    border-radius: 13px;
+    background: #f8fbfa;
+    border: 1px solid #dce8e5;
+}
+
+    .customer-support-card:hover {
+        background: var(--ct-primary-soft);
+    }
+
+
+/* =========================================================
+   DROPDOWN
+   ========================================================= */
+
+.customer-dropdown-panel {
+    border: 1px solid var(--ct-border);
+    border-radius: 16px;
+    box-shadow: 0 18px 50px rgba(30, 53, 47, .14);
+}
+
+.customer-notification-item {
+    border-radius: 11px;
+}
+
+.customer-account-menu a {
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+    .customer-content {
+        padding: 24px 20px 40px;
+    }
+}
+
+
+@media (max-width: 680px) {
+
+    .customer-content {
+        padding: 22px 16px 36px;
+    }
+
+    .dashboard-welcome h1,
+    .customer-booking-heading h1,
+    .customer-booking-detail-heading h1,
+    .customer-journal-heading h1,
+    .customer-journal-detail-heading h1,
+    .customer-payment-heading h1,
+    .customer-payment-detail-heading h1,
+    .customer-review-heading h1,
+    .customer-review-create-heading h1,
+    .customer-review-detail-heading h1,
+    .relative-page-heading h1,
+    .relative-list-heading h1,
+    .relative-form-heading h1,
+    .relative-detail-heading h1,
+    .customer-booking-create-heading h1 {
+        font-size: 26px;
+    }
+}
+/* =========================================================
+   CUSTOMER TYPOGRAPHY
+   Đồng bộ font với Admin / Caregiver
+========================================================= */
+
+
+/* =========================================================
+   FONT FAMILY
+========================================================= */
+
+.customer-body {
+    font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+
+    /* Form control dùng cùng font */
+
+    .customer-body button,
+    .customer-body input,
+    .customer-body select,
+    .customer-body textarea {
+        font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    }
+
+
+    /* =========================================================
+   HEADING
+========================================================= */
+
+    .customer-body h1 {
+        font-weight: 700 !important;
+        letter-spacing: -.25px;
+    }
+
+
+    .customer-body h2 {
+        font-weight: 700 !important;
+        letter-spacing: -.15px;
+    }
+
+
+    .customer-body h3 {
+        font-weight: 600 !important;
+    }
+
+
+    .customer-body h4,
+    .customer-body h5,
+    .customer-body h6 {
+        font-weight: 600 !important;
+    }
+
+
+    /* =========================================================
+   TEXT THƯỜNG
+========================================================= */
+
+    .customer-body p {
+        font-weight: 400 !important;
+    }
+
+
+    .customer-body small {
+        font-weight: 400;
+    }
+
+
+    /* Những strong bình thường không cần quá đậm */
+
+    .customer-body strong {
+        font-weight: 600 !important;
+    }
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.customer-logo strong {
+    font-weight: 700 !important;
+}
+
+
+.customer-navigation a {
+    font-weight: 500 !important;
+}
+
+
+    .customer-navigation a span {
+        font-weight: 500 !important;
+    }
+
+
+    .customer-navigation a.active {
+        font-weight: 600 !important;
+    }
+
+
+        .customer-navigation a.active span {
+            font-weight: 600 !important;
+        }
+
+
+.sidebar-label {
+    font-weight: 600 !important;
+}
+
+
+/* =========================================================
+   TOPBAR / USER
+========================================================= */
+
+.customer-user strong,
+.customer-topbar strong {
+    font-weight: 600 !important;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.customer-body button,
+.customer-body .btn {
+    font-weight: 600 !important;
+}
+
+
+/* =========================================================
+   HERO
+   Giữ nổi bật nhưng không còn kiểu 800 / 900
+========================================================= */
+
+.customer-body [class*="hero"] h1 {
+    font-weight: 700 !important;
+}
+
+
+.customer-body [class*="hero"] h2 {
+    font-weight: 700 !important;
+}
+
+
+.customer-body [class*="hero"] strong {
+    font-weight: 600 !important;
+}
+
+
+/* Badge / eyebrow vẫn được phép đậm */
+
+.customer-body [class*="eyebrow"],
+.customer-body [class*="badge"] {
+    font-weight: 700 !important;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.customer-body [class*="card"] h2,
+.customer-body [class*="card"] h3 {
+    font-weight: 600 !important;
+}
+
+
+.customer-body [class*="card"] strong {
+    font-weight: 600 !important;
+}
+
+
+/* =========================================================
+   TABLE / LIST
+========================================================= */
+
+.customer-body th {
+    font-weight: 600 !important;
+}
+
+
+.customer-body td {
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   LINK / ACTION
+========================================================= */
+
+.customer-body a {
+    font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+
+/* =========================================================
+   KHÔNG CHO CÁC FILE CUSTOMER CŨ ĐẨY LÊN 800 / 900
+========================================================= */
+
+.customer-body .fw-bold,
+.customer-body .fw-bolder {
+    font-weight: 700 !important;
+}
+body.customer-body
+.medication-heading
+h1.medication-main-title {
+    margin: 0 !important;
+    color: #203e38 !important;
+    font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    font-size: 30px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.25px !important;
+    font-style: normal !important;
+    text-transform: none !important;
+}

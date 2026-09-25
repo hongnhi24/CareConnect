@@ -1,0 +1,251 @@
+﻿@model CareConnect.ViewModels.RegisterCaregiverStep2ViewModel
+
+@{
+    ViewData["Title"] = "Thông tin chuyên môn";
+}
+
+<section class="caregiver-register-page">
+    <div class="caregiver-register-heading">
+        <div class="caregiver-heading-icon">
+            <i class="bi bi-person-plus"></i>
+        </div>
+
+        <h1>Tạo tài khoản CareConnect</h1>
+
+        <p>
+            Bắt đầu hành trình chăm sóc người thân yêu cùng chúng tôi
+        </p>
+    </div>
+
+    <div class="caregiver-register-card caregiver-step2-card">
+        <div class="caregiver-register-title">
+            <a asp-controller="Account"
+               asp-action="RegisterCaregiver"
+               class="caregiver-back-button"
+               aria-label="Quay lại bước 1">
+
+                <i class="bi bi-arrow-left"></i>
+            </a>
+
+            <div>
+                <h2>Đăng ký Người chăm sóc</h2>
+                <p>Bước 2/3 - Chuyên môn và chứng chỉ</p>
+            </div>
+        </div>
+
+        <div class="caregiver-progress">
+            <span class="active"></span>
+            <span class="active"></span>
+            <span></span>
+        </div>
+
+        <form asp-controller="Account"
+              asp-action="RegisterCaregiverStep2"
+              method="post"
+              class="caregiver-register-form">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="register-validation-summary">
+            </div>
+
+            <div class="caregiver-form-group">
+                <label>Chuyên môn</label>
+
+                <div class="specialty-grid">
+                    <label class="specialty-option">
+                        <input type="checkbox"
+                               name="ChuyenMon"
+                               value="Chăm sóc tiểu đường"
+                               checked="@Model.ChuyenMon.Contains("Chăm sóc tiểu đường")" />
+
+                        <span>Chăm sóc tiểu đường</span>
+                    </label>
+
+                    <label class="specialty-option">
+                        <input type="checkbox"
+                               name="ChuyenMon"
+                               value="Phục hồi vận động"
+                               checked="@Model.ChuyenMon.Contains("Phục hồi vận động")" />
+
+                        <span>Phục hồi vận động</span>
+                    </label>
+
+                    <label class="specialty-option">
+                        <input type="checkbox"
+                               name="ChuyenMon"
+                               value="Chăm sóc sau phẫu thuật"
+                               checked="@Model.ChuyenMon.Contains("Chăm sóc sau phẫu thuật")" />
+
+                        <span>Chăm sóc sau phẫu thuật</span>
+                    </label>
+
+                    <label class="specialty-option">
+                        <input type="checkbox"
+                               name="ChuyenMon"
+                               value="Vật lý trị liệu"
+                               checked="@Model.ChuyenMon.Contains("Vật lý trị liệu")" />
+
+                        <span>Vật lý trị liệu</span>
+                    </label>
+
+                    <label class="specialty-option">
+                        <input type="checkbox"
+                               name="ChuyenMon"
+                               value="Chăm sóc sa sút trí tuệ"
+                               checked="@Model.ChuyenMon.Contains("Chăm sóc sa sút trí tuệ")" />
+
+                        <span>Chăm sóc sa sút trí tuệ</span>
+                    </label>
+
+                    <label class="specialty-option">
+                        <input type="checkbox"
+                               name="ChuyenMon"
+                               value="Dinh dưỡng người cao tuổi"
+                               checked="@Model.ChuyenMon.Contains("Dinh dưỡng người cao tuổi")" />
+
+                        <span>Dinh dưỡng người cao tuổi</span>
+                    </label>
+
+                    <label class="specialty-option">
+                        <input type="checkbox"
+                               name="ChuyenMon"
+                               value="Chăm sóc toàn diện"
+                               checked="@Model.ChuyenMon.Contains("Chăm sóc toàn diện")" />
+
+                        <span>Chăm sóc toàn diện</span>
+                    </label>
+
+                    <label class="specialty-option">
+                        <input type="checkbox"
+                               name="ChuyenMon"
+                               value="Chăm sóc sau đột quỵ"
+                               checked="@Model.ChuyenMon.Contains("Chăm sóc sau đột quỵ")" />
+
+                        <span>Chăm sóc sau đột quỵ</span>
+                    </label>
+                </div>
+
+                <span asp-validation-for="ChuyenMon"
+                      class="field-validation">
+                </span>
+            </div>
+
+            <div class="caregiver-form-group">
+                <label asp-for="SoNamKinhNghiem"></label>
+
+                <select asp-for="SoNamKinhNghiem">
+                    <option value="">Chọn số năm</option>
+                    <option value="0">Chưa có kinh nghiệm</option>
+                    <option value="1">Dưới 1 năm</option>
+                    <option value="2">Từ 1 đến 2 năm</option>
+                    <option value="3">Từ 3 đến 5 năm</option>
+                    <option value="6">Từ 6 đến 10 năm</option>
+                    <option value="11">Trên 10 năm</option>
+                </select>
+
+                <span asp-validation-for="SoNamKinhNghiem"
+                      class="field-validation">
+                </span>
+            </div>
+
+            <div class="certificate-section">
+                <div class="certificate-heading">
+                    <div>
+                        <h3>Bằng cấp và chứng chỉ</h3>
+
+                        <p>
+                            Thông tin sẽ được sử dụng để quản trị viên
+                            xác minh hồ sơ.
+                        </p>
+                    </div>
+
+                    <i class="bi bi-award"></i>
+                </div>
+
+                <div class="caregiver-form-group">
+                    <label asp-for="BangCap"></label>
+
+                    <input asp-for="BangCap"
+                           placeholder="Ví dụ: Trung cấp Điều dưỡng" />
+
+                    <span asp-validation-for="BangCap"
+                          class="field-validation">
+                    </span>
+                </div>
+
+                <div class="caregiver-form-group">
+                    <label asp-for="TenChungChi"></label>
+
+                    <input asp-for="TenChungChi"
+                           placeholder="Ví dụ: Chứng chỉ chăm sóc người cao tuổi" />
+
+                    <span asp-validation-for="TenChungChi"
+                          class="field-validation">
+                    </span>
+                </div>
+
+                <div class="caregiver-form-group">
+                    <label asp-for="DonViCap"></label>
+
+                    <input asp-for="DonViCap"
+                           placeholder="Tên trường hoặc đơn vị cấp chứng chỉ" />
+
+                    <span asp-validation-for="DonViCap"
+                          class="field-validation">
+                    </span>
+                </div>
+
+                <div class="certificate-date-grid">
+                    <div class="caregiver-form-group">
+                        <label asp-for="NgayCap"></label>
+
+                        <input asp-for="NgayCap"
+                               type="date" />
+
+                        <span asp-validation-for="NgayCap"
+                              class="field-validation">
+                        </span>
+                    </div>
+
+                    <div class="caregiver-form-group">
+                        <label asp-for="NgayHetHan"></label>
+
+                        <input asp-for="NgayHetHan"
+                               type="date" />
+
+                        <span asp-validation-for="NgayHetHan"
+                              class="field-validation">
+                        </span>
+                    </div>
+                </div>
+
+                <p class="certificate-note">
+                    <i class="bi bi-info-circle"></i>
+                    Có thể bỏ trống ngày hết hạn nếu chứng chỉ không có
+                    thời hạn.
+                </p>
+            </div>
+
+            <div class="caregiver-step-actions">
+                <a asp-controller="Account"
+                   asp-action="RegisterCaregiver"
+                   class="caregiver-secondary-button">
+
+                    Quay lại
+                </a>
+
+                <button type="submit"
+                        class="caregiver-next-button">
+
+                    Tiếp tục
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

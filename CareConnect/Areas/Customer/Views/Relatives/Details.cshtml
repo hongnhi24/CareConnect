@@ -1,0 +1,574 @@
+﻿@model CareConnect.ViewModels.CustomerRelativeDetailsViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết hồ sơ người thân";
+
+    string hoTen =
+        string.IsNullOrWhiteSpace(Model.HoTen)
+            ? "Người được chăm sóc"
+            : Model.HoTen;
+
+    string chuCaiDau =
+        hoTen.Substring(0, 1).ToUpper();
+
+    string gioiTinh =
+        string.IsNullOrWhiteSpace(Model.GioiTinh)
+            ? "Chưa cập nhật"
+            : Model.GioiTinh;
+
+    string quanHe =
+        string.IsNullOrWhiteSpace(Model.QuanHe)
+            ? "Người thân"
+            : Model.QuanHe;
+
+    string soDienThoai =
+        string.IsNullOrWhiteSpace(Model.SoDienThoai)
+            ? "Chưa cập nhật"
+            : Model.SoDienThoai;
+
+    string diaChi =
+        string.IsNullOrWhiteSpace(Model.DiaChi)
+            ? "Chưa cập nhật"
+            : Model.DiaChi;
+
+    string tinhTrangSucKhoe =
+        string.IsNullOrWhiteSpace(Model.TinhTrangSucKhoe)
+            ? "Chưa cập nhật"
+            : Model.TinhTrangSucKhoe;
+
+    string tienSuBenh =
+        string.IsNullOrWhiteSpace(Model.TienSuBenh)
+            ? "Không ghi nhận"
+            : Model.TienSuBenh;
+
+    string nhomMau =
+        string.IsNullOrWhiteSpace(Model.NhomMau)
+            ? "Chưa cập nhật"
+            : Model.NhomMau;
+
+    string diUngThuoc =
+        string.IsNullOrWhiteSpace(Model.DiUngThuoc)
+            ? "Không ghi nhận"
+            : Model.DiUngThuoc;
+
+    string nguoiLienHeKhanCap =
+        string.IsNullOrWhiteSpace(Model.NguoiLienHeKhanCap)
+            ? "Chưa cập nhật"
+            : Model.NguoiLienHeKhanCap;
+
+    string soDienThoaiKhanCap =
+        string.IsNullOrWhiteSpace(Model.SoDienThoaiKhanCap)
+            ? "Chưa cập nhật"
+            : Model.SoDienThoaiKhanCap;
+
+    string ghiChu =
+        string.IsNullOrWhiteSpace(Model.GhiChu)
+            ? "Không có ghi chú bổ sung."
+            : Model.GhiChu;
+
+    string maHoSo =
+        string.IsNullOrWhiteSpace(Model.MaBenhNhanCode)
+            ? $"BN{Model.MaBenhNhan:D4}"
+            : Model.MaBenhNhanCode;
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="relative-detail-alert success">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Success"]</span>
+    </div>
+}
+
+<section class="relative-detail-header-card">
+
+    <div class="relative-detail-heading">
+
+        <div class="relative-detail-heading-left">
+
+            <a asp-area="Customer"
+               asp-controller="Relatives"
+               asp-action="Index"
+               class="relative-back-button">
+
+                <i class="bi bi-arrow-left"></i>
+
+            </a>
+
+
+            <div class="relative-detail-heading-text">
+
+                <span class="relative-detail-eyebrow">
+
+                    HỒ SƠ NGƯỜI ĐƯỢC CHĂM SÓC
+
+                </span>
+
+
+                <h1>
+                    Chi tiết hồ sơ người thân
+                </h1>
+
+
+                <p>
+                    Theo dõi đầy đủ thông tin cá nhân,
+                    tình trạng sức khỏe và người liên hệ khẩn cấp.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="relative-detail-actions">
+
+            <a asp-area="Customer"
+               asp-controller="Relatives"
+               asp-action="Edit"
+               asp-route-id="@Model.MaBenhNhan"
+               class="relative-detail-edit-button">
+
+                <i class="bi bi-pencil-square"></i>
+
+                Chỉnh sửa hồ sơ
+
+            </a>
+
+
+            <a asp-area="Customer"
+               asp-controller="Bookings"
+               asp-action="Create"
+               asp-route-maBenhNhan="@Model.MaBenhNhan"
+               class="relative-detail-book-button">
+
+                <i class="bi bi-calendar-plus"></i>
+
+                Đặt lịch chăm sóc
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="relative-profile-hero">
+
+    <div class="relative-profile-main">
+
+        <span class="relative-profile-avatar">
+            @chuCaiDau
+        </span>
+
+        <div class="relative-profile-identity">
+
+            <span class="relative-profile-code">
+                @maHoSo
+            </span>
+
+            <h2>@hoTen</h2>
+
+            <div class="relative-profile-meta">
+
+                <span>
+                    <i class="bi bi-people-fill"></i>
+                    @quanHe
+                </span>
+
+                <span>
+                    <i class="bi bi-gender-ambiguous"></i>
+                    @gioiTinh
+                </span>
+
+                @if (Model.Tuoi > 0)
+                {
+                    <span>
+                        <i class="bi bi-calendar3"></i>
+                        @Model.Tuoi tuổi
+                    </span>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="relative-profile-stat">
+
+        <span>
+            <i class="bi bi-calendar2-check-fill"></i>
+        </span>
+
+        <div>
+            <strong>@Model.SoLichChamSoc</strong>
+            <small>Lịch chăm sóc</small>
+        </div>
+
+    </div>
+
+    <div class="relative-profile-stat">
+
+        <span>
+            <i class="bi bi-clock-history"></i>
+        </span>
+
+        <div>
+            <strong>
+                @Model.NgayTao.ToString("dd/MM/yyyy")
+            </strong>
+
+            <small>Ngày tạo hồ sơ</small>
+        </div>
+
+    </div>
+
+</section>
+
+<div class="relative-detail-layout">
+
+    <main class="relative-detail-main">
+
+        <section class="relative-detail-card">
+
+            <div class="relative-detail-card-heading">
+
+                <span class="personal">
+                    <i class="bi bi-person-vcard-fill"></i>
+                </span>
+
+                <div>
+                    <h2>Thông tin cá nhân</h2>
+
+                    <p>
+                        Thông tin cơ bản của người được chăm sóc.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="relative-detail-grid">
+
+                <div class="relative-detail-item">
+
+                    <span>
+                        <i class="bi bi-person"></i>
+                        Họ và tên
+                    </span>
+
+                    <strong>@hoTen</strong>
+
+                </div>
+
+                <div class="relative-detail-item">
+
+                    <span>
+                        <i class="bi bi-people"></i>
+                        Quan hệ với khách hàng
+                    </span>
+
+                    <strong>@quanHe</strong>
+
+                </div>
+
+                <div class="relative-detail-item">
+
+                    <span>
+                        <i class="bi bi-gender-ambiguous"></i>
+                        Giới tính
+                    </span>
+
+                    <strong>@gioiTinh</strong>
+
+                </div>
+
+                <div class="relative-detail-item">
+
+                    <span>
+                        <i class="bi bi-calendar3"></i>
+                        Ngày sinh
+                    </span>
+
+                    <strong>
+                        @(Model.NgaySinh.HasValue
+                            ? Model.NgaySinh.Value.ToString("dd/MM/yyyy")
+                            : "Chưa cập nhật")
+                    </strong>
+
+                </div>
+
+                <div class="relative-detail-item">
+
+                    <span>
+                        <i class="bi bi-telephone"></i>
+                        Số điện thoại
+                    </span>
+
+                    <strong>@soDienThoai</strong>
+
+                </div>
+
+                <div class="relative-detail-item">
+
+                    <span>
+                        <i class="bi bi-droplet-fill"></i>
+                        Nhóm máu
+                    </span>
+
+                    <strong class="blood-type">
+                        @nhomMau
+                    </strong>
+
+                </div>
+
+                <div class="relative-detail-item full">
+
+                    <span>
+                        <i class="bi bi-geo-alt-fill"></i>
+                        Địa chỉ chăm sóc
+                    </span>
+
+                    <strong>@diaChi</strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="relative-detail-card">
+
+            <div class="relative-detail-card-heading">
+
+                <span class="health">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                </span>
+
+                <div>
+                    <h2>Thông tin sức khỏe</h2>
+
+                    <p>
+                        Dữ liệu cần thiết để người chăm sóc chuẩn bị phù hợp.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="relative-health-detail-grid">
+
+                <article class="relative-health-detail-box current">
+
+                    <div>
+                        <span>
+                            <i class="bi bi-activity"></i>
+                        </span>
+
+                        <h3>Tình trạng sức khỏe hiện tại</h3>
+                    </div>
+
+                    <p>@tinhTrangSucKhoe</p>
+
+                </article>
+
+                <article class="relative-health-detail-box history">
+
+                    <div>
+                        <span>
+                            <i class="bi bi-clipboard2-pulse-fill"></i>
+                        </span>
+
+                        <h3>Tiền sử bệnh</h3>
+                    </div>
+
+                    <p>@tienSuBenh</p>
+
+                </article>
+
+                <article class="relative-health-detail-box allergy">
+
+                    <div>
+                        <span>
+                            <i class="bi bi-capsule"></i>
+                        </span>
+
+                        <h3>Dị ứng thuốc</h3>
+                    </div>
+
+                    <p>@diUngThuoc</p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+        <section class="relative-detail-card">
+
+            <div class="relative-detail-card-heading">
+
+                <span class="note">
+                    <i class="bi bi-journal-text"></i>
+                </span>
+
+                <div>
+                    <h2>Ghi chú chăm sóc</h2>
+
+                    <p>
+                        Thông tin bổ sung dành cho người chăm sóc.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="relative-detail-note">
+
+                <i class="bi bi-info-circle-fill"></i>
+
+                <p>@ghiChu</p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <aside class="relative-detail-sidebar">
+
+        <section class="relative-emergency-card">
+
+            <div class="relative-emergency-heading">
+
+                <span>
+                    <i class="bi bi-telephone-forward-fill"></i>
+                </span>
+
+                <div>
+                    <h2>Liên hệ khẩn cấp</h2>
+
+                    <p>
+                        Thông tin liên hệ khi xảy ra sự cố.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="relative-emergency-person">
+
+                <span class="relative-emergency-avatar">
+                    @{
+                        string chuCaiLienHe =
+                            nguoiLienHeKhanCap == "Chưa cập nhật"
+                                ? "?"
+                                : nguoiLienHeKhanCap
+                                    .Substring(0, 1)
+                                    .ToUpper();
+                    }
+
+                    @chuCaiLienHe
+                </span>
+
+                <div>
+                    <span>Người liên hệ</span>
+                    <strong>@nguoiLienHeKhanCap</strong>
+                </div>
+
+            </div>
+
+            <div class="relative-emergency-phone">
+
+                <span>
+                    <i class="bi bi-telephone-fill"></i>
+                    Số điện thoại
+                </span>
+
+                <strong>@soDienThoaiKhanCap</strong>
+
+            </div>
+
+            @if (soDienThoaiKhanCap != "Chưa cập nhật")
+            {
+                <a href="tel:@soDienThoaiKhanCap">
+
+                    <i class="bi bi-telephone-outbound-fill"></i>
+                    Gọi liên hệ khẩn cấp
+                </a>
+            }
+
+        </section>
+
+        <section class="relative-summary-detail-card">
+
+            <div class="relative-summary-detail-heading">
+
+                <i class="bi bi-list-check"></i>
+                <h2>Tóm tắt hồ sơ</h2>
+
+            </div>
+
+            <dl>
+
+                <div>
+                    <dt>Mã hồ sơ</dt>
+                    <dd>@maHoSo</dd>
+                </div>
+
+                <div>
+                    <dt>Họ và tên</dt>
+                    <dd>@hoTen</dd>
+                </div>
+
+                <div>
+                    <dt>Quan hệ</dt>
+                    <dd>@quanHe</dd>
+                </div>
+
+                <div>
+                    <dt>Nhóm máu</dt>
+                    <dd>@nhomMau</dd>
+                </div>
+
+                <div>
+                    <dt>Số lịch chăm sóc</dt>
+                    <dd>@Model.SoLichChamSoc lịch</dd>
+                </div>
+
+                <div>
+                    <dt>Ngày tạo</dt>
+
+                    <dd>
+                        @Model.NgayTao.ToString("dd/MM/yyyy")
+                    </dd>
+                </div>
+
+            </dl>
+
+        </section>
+
+        <div class="relative-detail-security">
+
+            <i class="bi bi-shield-lock-fill"></i>
+
+            <div>
+                <strong>Dữ liệu được bảo vệ</strong>
+
+                <p>
+                    Chỉ tài khoản gia đình đang quản lý
+                    mới có thể xem và chỉnh sửa hồ sơ này.
+                </p>
+            </div>
+
+        </div>
+
+        <a asp-area="Customer"
+           asp-controller="Relatives"
+           asp-action="Index"
+           class="relative-detail-return">
+
+            <i class="bi bi-arrow-left"></i>
+            Quay lại danh sách hồ sơ
+        </a>
+
+    </aside>
+
+</div>

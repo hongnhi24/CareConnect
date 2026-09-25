@@ -1,0 +1,1116 @@
+﻿@model CareConnect.ViewModels.CaregiverCertificateViewModel
+
+@{
+    ViewData["Title"] = "Thêm bằng cấp & chứng chỉ";
+}
+
+<style>
+
+    /* =====================================================
+           PAGE
+        ====================================================== */
+
+    .certificate-create-page {
+        width: 100%;
+    }
+
+
+    /* =====================================================
+           HERO
+           DÙNG CÙNG STYLE VỚI PROFILE
+        ====================================================== */
+
+    .certificate-create-header-link {
+        text-decoration: none !important;
+    }
+
+
+    .certificate-create-header-actions {
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+
+
+    /* =====================================================
+           MAIN LAYOUT
+        ====================================================== */
+
+    .certificate-create-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 22px;
+        align-items: start;
+    }
+
+
+    /* =====================================================
+           FORM CARD
+        ====================================================== */
+
+    .certificate-create-card {
+        background: #ffffff;
+        border: 1px solid #e6ebe8;
+        border-radius: 20px;
+        box-shadow: 0 8px 28px rgba(48, 68, 62, .045);
+        overflow: hidden;
+    }
+
+
+    .certificate-create-card-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 22px 26px;
+        border-bottom: 1px solid #edf0ef;
+    }
+
+
+    .certificate-create-card-icon {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        color: #d77f00;
+        background: #fff0d8;
+        border-radius: 13px;
+        font-size: 21px;
+    }
+
+
+    .certificate-create-card-header small {
+        display: block;
+        margin-bottom: 3px;
+        color: #c76d00;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .4px;
+    }
+
+
+    .certificate-create-card-header h2 {
+        margin: 0;
+        color: #2c433d;
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+
+    .certificate-create-card-header p {
+        margin: 4px 0 0;
+        color: #8b9793;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+
+    .certificate-create-card-body {
+        padding: 26px;
+    }
+
+
+    /* =====================================================
+           SECTION
+        ====================================================== */
+
+    .certificate-create-section {
+        padding: 20px;
+        background: #fbfcfb;
+        border: 1px solid #e7ece9;
+        border-radius: 14px;
+        margin-bottom: 18px;
+    }
+
+
+        .certificate-create-section:last-child {
+            margin-bottom: 0;
+        }
+
+
+    .certificate-create-section-title {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-bottom: 18px;
+    }
+
+
+        .certificate-create-section-title span {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            color: #d67d00;
+            background: #fff0d8;
+            border-radius: 10px;
+        }
+
+
+        .certificate-create-section-title h3 {
+            margin: 0;
+            color: #324943;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+
+        .certificate-create-section-title p {
+            margin: 3px 0 0;
+            color: #899691;
+            font-size: 12px;
+        }
+
+
+    /* =====================================================
+           GRID
+        ====================================================== */
+
+    .certificate-create-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+
+    .certificate-create-group.full {
+        grid-column: 1 / -1;
+    }
+
+
+    /* =====================================================
+           INPUT
+        ====================================================== */
+
+    .certificate-create-group label {
+        display: block;
+        margin-bottom: 7px;
+        color: #465c56;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+
+    .certificate-create-required {
+        color: #d46a45;
+    }
+
+
+    .certificate-create-input {
+        position: relative;
+    }
+
+
+        .certificate-create-input > i {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ba6a2;
+            font-size: 15px;
+            pointer-events: none;
+        }
+
+
+        .certificate-create-input input,
+        .certificate-create-input select {
+            width: 100%;
+            min-height: 46px;
+            box-sizing: border-box;
+            padding: 10px 13px 10px 40px;
+            color: #40564f;
+            background: #ffffff;
+            border: 1px solid #dce4e1;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            transition: border-color .18s ease, box-shadow .18s ease;
+        }
+
+
+            .certificate-create-input input:focus,
+            .certificate-create-input select:focus {
+                border-color: #e2b468;
+                box-shadow: 0 0 0 3px rgba(230, 159, 45, .10);
+            }
+
+
+            .certificate-create-input input::placeholder {
+                color: #a4afab;
+            }
+
+
+    /* =====================================================
+           UPLOAD
+        ====================================================== */
+
+    .certificate-upload-box {
+        position: relative;
+        padding: 24px;
+        text-align: center;
+        background: linear-gradient( 135deg, #fffdf9, #fff8ed );
+        border: 1.5px dashed #e4bc79;
+        border-radius: 14px;
+        transition: border-color .18s ease, background .18s ease;
+    }
+
+
+        .certificate-upload-box:hover {
+            border-color: #da920f;
+            background: #fff7e8;
+        }
+
+
+    .certificate-upload-icon {
+        width: 54px;
+        height: 54px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 10px;
+        color: #d77d00;
+        background: #fff0d5;
+        border-radius: 15px;
+        font-size: 24px;
+    }
+
+
+    .certificate-upload-box strong {
+        display: block;
+        margin-bottom: 4px;
+        color: #3e534d;
+        font-size: 14px;
+    }
+
+
+    .certificate-upload-box p {
+        margin: 0 0 14px;
+        color: #8a9793;
+        font-size: 12px;
+    }
+
+
+    .certificate-upload-box input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        background: #ffffff;
+        border: 1px solid #e4e9e7;
+        border-radius: 9px;
+        font-size: 12px;
+    }
+
+
+    .certificate-upload-hint {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 10px;
+        color: #8e9a96;
+        font-size: 11px;
+    }
+
+
+    /* =====================================================
+           VALIDATION
+        ====================================================== */
+
+    .certificate-create-error {
+        display: block;
+        margin-top: 5px;
+        color: #c95252;
+        font-size: 11px;
+    }
+
+
+    .certificate-validation-summary {
+        margin-bottom: 18px;
+        padding: 12px 14px;
+        color: #b94f4f;
+        background: #fff4f4;
+        border: 1px solid #f0d2d2;
+        border-radius: 10px;
+        font-size: 12px;
+    }
+
+
+        .certificate-validation-summary:empty {
+            display: none;
+        }
+
+
+    /* =====================================================
+           ACTIONS
+        ====================================================== */
+
+    .certificate-create-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 22px;
+    }
+
+
+    .certificate-create-back {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 0 17px;
+        color: #63736e;
+        background: #ffffff;
+        border: 1px solid #dce4e1;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+
+        .certificate-create-back:hover {
+            color: #455a54;
+            background: #f7f9f8;
+        }
+
+
+    .certificate-create-submit {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 0 19px;
+        color: #ffffff;
+        background: linear-gradient( 135deg, #f3a11c, #df8200 );
+        border: none;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 7px 18px rgba(223, 130, 0, .17);
+    }
+
+
+        .certificate-create-submit:hover {
+            transform: translateY(-1px);
+        }
+
+
+    /* =====================================================
+           SIDEBAR INFO
+        ====================================================== */
+
+    .certificate-create-side-card {
+        padding: 20px;
+        background: #ffffff;
+        border: 1px solid #e6ebe8;
+        border-radius: 17px;
+        box-shadow: 0 8px 24px rgba(48, 68, 62, .04);
+    }
+
+
+        .certificate-create-side-card +
+        .certificate-create-side-card {
+            margin-top: 16px;
+        }
+
+
+    .certificate-create-side-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+
+        .certificate-create-side-title span {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            color: #d77d00;
+            background: #fff0d8;
+            border-radius: 10px;
+        }
+
+
+        .certificate-create-side-title h3 {
+            margin: 0;
+            color: #344a44;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+
+        .certificate-create-side-title p {
+            margin: 3px 0 0;
+            color: #909b97;
+            font-size: 11px;
+        }
+
+
+    .certificate-create-checklist {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+
+    .certificate-create-check {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        color: #677872;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+
+        .certificate-create-check i {
+            margin-top: 2px;
+            color: #d98a11;
+        }
+
+
+    .certificate-create-note {
+        padding: 13px;
+        color: #796342;
+        background: #fff8e9;
+        border: 1px solid #efe0be;
+        border-radius: 10px;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+
+    /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+    @@media (max-width: 1000px) {
+
+        .certificate-create-layout {
+            grid-template-columns: 1fr;
+        }
+    }
+
+
+    @@media (max-width: 650px) {
+
+        .certificate-create-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .certificate-create-group.full {
+            grid-column: auto;
+        }
+
+        .certificate-create-actions {
+            flex-direction: column-reverse;
+        }
+
+        .certificate-create-back,
+        .certificate-create-submit {
+            width: 100%;
+        }
+    }
+
+</style>
+
+
+<div class="certificate-create-page">
+
+
+    <!-- =====================================================
+         HERO
+         DÙNG CHUNG STYLE PROFILE
+    ====================================================== -->
+
+    <section class="cg-profile-modern-header">
+
+
+        <div class="cg-profile-modern-header-content">
+
+
+            <span class="cg-profile-modern-label">
+
+                HỒ SƠ CHUYÊN MÔN
+
+            </span>
+
+
+            <h1>
+                Thêm bằng cấp & chứng chỉ
+            </h1>
+
+
+            <p>
+                Gửi ảnh hoặc PDF bản scan để CareConnect
+                kiểm tra và xác minh thông tin chuyên môn.
+            </p>
+
+        </div>
+
+
+        <div class="
+            cg-profile-modern-header-actions
+            certificate-create-header-actions">
+
+
+            <a asp-area="Caregiver"
+               asp-controller="Certificates"
+               asp-action="Index"
+               class="
+                cg-profile-header-edit-button
+                certificate-create-header-link">
+
+                <i class="bi bi-arrow-left"></i>
+
+                Danh sách chứng chỉ
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <div class="certificate-create-layout">
+
+
+        <!-- =================================================
+             FORM
+        ================================================== -->
+
+        <main class="certificate-create-card">
+
+
+            <!-- HEADER -->
+
+            <div class="certificate-create-card-header">
+
+
+                <span class="certificate-create-card-icon">
+
+                    <i class="bi bi-award-fill"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        THÔNG TIN CHỨNG CHỈ
+                    </small>
+
+
+                    <h2>
+                        Khai báo bằng cấp / chứng chỉ
+                    </h2>
+
+
+                    <p>
+                        Điền đầy đủ thông tin để quá trình
+                        xác minh diễn ra nhanh hơn.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="certificate-create-card-body">
+
+
+                <form asp-area="Caregiver"
+                      asp-controller="Certificates"
+                      asp-action="Create"
+                      method="post"
+                      enctype="multipart/form-data">
+
+
+                    @Html.AntiForgeryToken()
+
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="certificate-validation-summary">
+                    </div>
+
+
+
+                    <!-- =====================================
+                         THÔNG TIN CƠ BẢN
+                    ====================================== -->
+
+                    <section class="certificate-create-section">
+
+
+                        <div class="certificate-create-section-title">
+
+
+                            <span>
+                                <i class="bi bi-file-earmark-medical"></i>
+                            </span>
+
+
+                            <div>
+
+                                <h3>
+                                    Thông tin cơ bản
+                                </h3>
+
+                                <p>
+                                    Tên chứng chỉ và đơn vị cấp.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="certificate-create-grid">
+
+
+                            <!-- TÊN -->
+
+                            <div class="
+                                certificate-create-group
+                                full">
+
+
+                                <label asp-for="TenChungChi">
+
+                                    Tên chứng chỉ
+
+                                    <span class="certificate-create-required">
+                                        *
+                                    </span>
+
+                                </label>
+
+
+                                <div class="certificate-create-input">
+
+                                    <i class="bi bi-award"></i>
+
+
+                                    <input asp-for="TenChungChi"
+                                           placeholder="Ví dụ: Chứng chỉ Điều dưỡng cơ bản" />
+
+                                </div>
+
+
+                                <span asp-validation-for="TenChungChi"
+                                      class="certificate-create-error">
+                                </span>
+
+                            </div>
+
+
+
+                            <!-- ĐƠN VỊ -->
+
+                            <div class="
+                                certificate-create-group
+                                full">
+
+
+                                <label asp-for="DonViCap">
+                                    Đơn vị cấp
+                                </label>
+
+
+                                <div class="certificate-create-input">
+
+                                    <i class="bi bi-building"></i>
+
+
+                                    <input asp-for="DonViCap"
+                                           placeholder="Ví dụ: Trường Đại học Y Dược TP.HCM" />
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- =====================================
+                         THỜI HẠN
+                    ====================================== -->
+
+                    <section class="certificate-create-section">
+
+
+                        <div class="certificate-create-section-title">
+
+
+                            <span>
+                                <i class="bi bi-calendar-check"></i>
+                            </span>
+
+
+                            <div>
+
+                                <h3>
+                                    Thời gian hiệu lực
+                                </h3>
+
+                                <p>
+                                    Ngày cấp và ngày hết hạn của chứng chỉ.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="certificate-create-grid">
+
+
+                            <!-- NGÀY CẤP -->
+
+                            <div class="certificate-create-group">
+
+
+                                <label asp-for="NgayCap">
+                                    Ngày cấp
+                                </label>
+
+
+                                <div class="certificate-create-input">
+
+                                    <i class="bi bi-calendar-plus"></i>
+
+
+                                    <input asp-for="NgayCap"
+                                           type="date" />
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- NGÀY HẾT HẠN -->
+
+                            <div class="certificate-create-group">
+
+
+                                <label asp-for="NgayHetHan">
+                                    Ngày hết hạn
+                                </label>
+
+
+                                <div class="certificate-create-input">
+
+                                    <i class="bi bi-calendar-x"></i>
+
+
+                                    <input asp-for="NgayHetHan"
+                                           type="date" />
+
+                                </div>
+
+
+                                <span asp-validation-for="NgayHetHan"
+                                      class="certificate-create-error">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- =====================================
+                         FILE
+                    ====================================== -->
+
+                    <section class="certificate-create-section">
+
+
+                        <div class="certificate-create-section-title">
+
+
+                            <span>
+                                <i class="bi bi-cloud-arrow-up"></i>
+                            </span>
+
+
+                            <div>
+
+                                <h3>
+                                    File chứng chỉ
+                                </h3>
+
+                                <p>
+                                    Tải ảnh hoặc PDF rõ nét của bản gốc.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="certificate-create-group">
+
+
+                            <label asp-for="FileChungChi">
+
+                                Ảnh / PDF chứng chỉ
+
+                                <span class="certificate-create-required">
+                                    *
+                                </span>
+
+                            </label>
+
+
+                            <div class="certificate-upload-box">
+
+
+                                <span class="certificate-upload-icon">
+
+                                    <i class="bi bi-file-earmark-arrow-up"></i>
+
+                                </span>
+
+
+                                <strong>
+                                    Chọn file chứng chỉ
+                                </strong>
+
+
+                                <p>
+                                    Ảnh hoặc PDF cần rõ nội dung,
+                                    không bị cắt mất thông tin.
+                                </p>
+
+
+                                <input asp-for="FileChungChi"
+                                       type="file"
+                                       accept=".jpg,.jpeg,.png,.pdf" />
+
+
+                                <div class="certificate-upload-hint">
+
+                                    <i class="bi bi-info-circle"></i>
+
+                                    JPG, JPEG, PNG, PDF · tối đa 5MB
+
+                                </div>
+
+                            </div>
+
+
+                            <span asp-validation-for="FileChungChi"
+                                  class="certificate-create-error">
+                            </span>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- =====================================
+                         BUTTON
+                    ====================================== -->
+
+                    <div class="certificate-create-actions">
+
+
+                        <a asp-area="Caregiver"
+                           asp-controller="Certificates"
+                           asp-action="Index"
+                           class="certificate-create-back">
+
+                            <i class="bi bi-arrow-left"></i>
+
+                            Quay lại
+
+                        </a>
+
+
+                        <button type="submit"
+                                class="certificate-create-submit">
+
+                            <i class="bi bi-cloud-arrow-up-fill"></i>
+
+                            Gửi chứng chỉ
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </main>
+
+
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside>
+
+
+            <!-- YÊU CẦU FILE -->
+
+            <section class="certificate-create-side-card">
+
+
+                <div class="certificate-create-side-title">
+
+
+                    <span>
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <h3>
+                            Yêu cầu hồ sơ
+                        </h3>
+
+                        <p>
+                            Trước khi gửi chứng chỉ
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="certificate-create-checklist">
+
+
+                    <div class="certificate-create-check">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        <span>
+                            Ảnh/PDF phải nhìn rõ tên chứng chỉ
+                            và đơn vị cấp.
+                        </span>
+
+                    </div>
+
+
+                    <div class="certificate-create-check">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        <span>
+                            Không chỉnh sửa hoặc làm thay đổi
+                            nội dung trên chứng chỉ.
+                        </span>
+
+                    </div>
+
+
+                    <div class="certificate-create-check">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        <span>
+                            Ngày hết hạn phải sau ngày cấp
+                            nếu chứng chỉ có thời hạn.
+                        </span>
+
+                    </div>
+
+
+                    <div class="certificate-create-check">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        <span>
+                            File hỗ trợ JPG, JPEG, PNG hoặc PDF,
+                            tối đa 5MB.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- QUY TRÌNH -->
+
+            <section class="certificate-create-side-card">
+
+
+                <div class="certificate-create-side-title">
+
+
+                    <span>
+
+                        <i class="bi bi-hourglass-split"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <h3>
+                            Quy trình xác minh
+                        </h3>
+
+                        <p>
+                            Sau khi bạn gửi hồ sơ
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="certificate-create-note">
+
+                    Chứng chỉ sẽ chuyển sang trạng thái
+                    <strong>“Chờ xác minh”</strong>.
+
+                    Quản trị viên sẽ kiểm tra file,
+                    thông tin đơn vị cấp và phản hồi
+                    nếu cần bổ sung.
+
+                </div>
+
+            </section>
+
+        </aside>
+
+    </div>
+
+</div>

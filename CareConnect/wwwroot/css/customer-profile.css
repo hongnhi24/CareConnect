@@ -1,0 +1,1102 @@
+﻿/* =========================================================
+   CUSTOMER PROFILE
+   Design system đồng bộ Caregiver Portal
+
+   Tiêu đề trang: 30px
+   Tiêu đề card: 18px
+   Tiêu đề phần: 17px
+   Label: 13px
+   Nội dung: 14px
+   Nút: 14px
+   ========================================================= */
+
+.customer-profile-page {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.customer-profile-hero {
+    min-height: 132px;
+    padding: 24px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: linear-gradient( 120deg, #fbfffd 0%, #f1faf7 100% );
+    border: 1px solid #dfeae6;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(39, 67, 60, .045);
+}
+
+.customer-profile-badge {
+    display: inline-flex;
+    padding: 6px 11px;
+    margin-bottom: 9px;
+    border-radius: 999px;
+    background: #e6f5f2;
+    color: #087d74;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .05em;
+}
+
+.customer-profile-hero h1 {
+    margin: 0;
+    color: #233e38;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.customer-profile-hero p {
+    margin: 7px 0 0;
+    color: #7b8985;
+    font-size: 14px;
+}
+
+
+/* HERO STATUS */
+
+.customer-profile-hero-status {
+    min-width: 260px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border: 1px solid #e2eae7;
+    border-radius: 14px;
+}
+
+.hero-status-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #e8f6f2;
+    color: #159b8e;
+    font-size: 19px;
+}
+
+.customer-profile-hero-status div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-profile-hero-status span {
+    color: #909b97;
+    font-size: 12px;
+}
+
+.customer-profile-hero-status strong {
+    margin-top: 1px;
+    color: #314844;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.customer-profile-hero-status small {
+    margin-top: 2px;
+    color: #9ca6a2;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   ALERT
+   ========================================================= */
+
+.profile-alert {
+    margin-top: 16px;
+    padding: 13px 15px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.profile-alert-success {
+    color: #22745e;
+    background: #eef9f5;
+    border: 1px solid #d1eade;
+}
+
+.profile-alert-error {
+    color: #ae4b4b;
+    background: #fff2f2;
+    border: 1px solid #f1d1d1;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+   ========================================================= */
+
+.customer-profile-layout {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+}
+
+
+/* =========================================================
+   LEFT PROFILE CARD
+   ========================================================= */
+
+.customer-profile-card {
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e2e9e6;
+    border-radius: 17px;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, .05);
+}
+
+.customer-profile-cover {
+    height: 90px;
+    background: linear-gradient( 135deg, #25b1a7 0%, #0e8f86 100% );
+}
+
+.customer-profile-avatar {
+    position: relative;
+    width: 76px;
+    height: 76px;
+    margin: -38px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid #ffffff;
+    border-radius: 50%;
+    background: #eaf7f4;
+    color: #087c73;
+    font-size: 28px;
+    font-weight: 800;
+    box-shadow: 0 6px 15px rgba(27, 72, 62, .12);
+}
+
+.profile-online-dot {
+    position: absolute;
+    right: -1px;
+    bottom: 3px;
+    width: 19px;
+    height: 19px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    background: #44bd92;
+    color: #ffffff;
+    font-size: 10px;
+}
+
+.customer-profile-main {
+    padding: 12px 18px 16px;
+    text-align: center;
+}
+
+    .customer-profile-main h2 {
+        margin: 0;
+        color: #2c413d;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .customer-profile-main p {
+        margin: 5px 0 10px;
+        color: #8b9793;
+        font-size: 14px;
+    }
+
+.customer-profile-active {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: #edf4f1;
+    color: #64736f;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* STATS */
+
+.customer-profile-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid #edf1ef;
+    border-bottom: 1px solid #edf1ef;
+}
+
+    .customer-profile-stats a {
+        padding: 15px 8px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        text-decoration: none;
+        transition: background .18s ease;
+    }
+
+        .customer-profile-stats a + a {
+            border-left: 1px solid #edf1ef;
+        }
+
+        .customer-profile-stats a:hover {
+            background: #f6fbf9;
+        }
+
+    .customer-profile-stats strong {
+        color: #314844;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .customer-profile-stats span {
+        margin-top: 3px;
+        color: #94a09c;
+        font-size: 12px;
+    }
+
+
+/* QUICK INFO */
+
+.customer-profile-quick-info {
+    padding: 14px 17px 18px;
+}
+
+    .customer-profile-quick-info > div {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 7px 0;
+    }
+
+.quick-info-icon {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #eaf7f4;
+    color: #0d9187;
+    font-size: 14px;
+}
+
+.customer-profile-quick-info div > div {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-profile-quick-info small {
+    color: #949f9b;
+    font-size: 12px;
+}
+
+.customer-profile-quick-info strong {
+    margin-top: 1px;
+    overflow: hidden;
+    color: #52635f;
+    font-size: 13px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   NOTE CARD
+   ========================================================= */
+
+.customer-profile-note-card {
+    margin-top: 15px;
+    padding: 17px;
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    background: #ffffff;
+    border: 1px solid #e2e9e6;
+    border-radius: 15px;
+}
+
+    .customer-profile-note-card > span {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: #e9f7f4;
+        color: #14968b;
+    }
+
+    .customer-profile-note-card h3 {
+        margin: 0 0 4px;
+        color: #354a45;
+        font-size: 17px;
+    }
+
+    .customer-profile-note-card p {
+        margin: 0;
+        color: #85918d;
+        font-size: 14px;
+        line-height: 1.55;
+    }
+
+
+/* =========================================================
+   RIGHT COLUMN
+   ========================================================= */
+
+.customer-profile-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.customer-profile-section-card {
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e2e9e6;
+    border-radius: 17px;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, .045);
+}
+
+
+/* SECTION HEADER */
+
+.customer-profile-section-header {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding-bottom: 15px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #edf1ef;
+}
+
+.section-header-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: #e8f6f2;
+    color: #0c8d83;
+    font-size: 18px;
+}
+
+.customer-profile-section-header small {
+    color: #07857b;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .05em;
+}
+
+.customer-profile-section-header h2 {
+    margin: 2px 0;
+    color: #324642;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.customer-profile-section-header p {
+    margin: 0;
+    color: #909a97;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.profile-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.profile-form-group {
+    margin-bottom: 15px;
+}
+
+    .profile-form-group label {
+        display: block;
+        margin-bottom: 6px;
+        color: #586762;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+.profile-control {
+    position: relative;
+}
+
+    .profile-control > i {
+        position: absolute;
+        left: 13px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9aa4a0;
+        font-size: 14px;
+        pointer-events: none;
+    }
+
+    .profile-control input,
+    .profile-control select,
+    .profile-control textarea {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #e2e7e4;
+        border-radius: 10px;
+        background: #f7f8f6;
+        color: #5d6d69;
+        font-family: inherit;
+        font-size: 14px;
+        outline: none;
+        transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+
+    .profile-control input,
+    .profile-control select {
+        height: 44px;
+        padding: 0 13px 0 39px;
+    }
+
+    .profile-control textarea {
+        min-height: 82px;
+        padding: 12px 13px 12px 39px;
+        resize: vertical;
+    }
+
+.profile-textarea > i {
+    top: 14px;
+    transform: none;
+}
+
+.profile-control input:focus,
+.profile-control select:focus,
+.profile-control textarea:focus {
+    background: #ffffff;
+    border-color: #67b9b1;
+    box-shadow: 0 0 0 3px rgba(18, 145, 135, .07);
+}
+
+.profile-validation {
+    display: block;
+    margin-top: 4px;
+    color: #c65454;
+    font-size: 12px;
+}
+
+
+/* FORM ACTION */
+
+.customer-profile-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 3px;
+}
+
+.customer-profile-save {
+    min-height: 42px;
+    padding: 0 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 0;
+    border-radius: 10px;
+    background: #10978d;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 750;
+    cursor: pointer;
+    box-shadow: 0 7px 17px rgba(16, 151, 141, .15);
+}
+
+    .customer-profile-save:hover {
+        background: #087f76;
+    }
+
+
+/* =========================================================
+   ACCOUNT MANAGEMENT
+   ========================================================= */
+
+.customer-account-management {
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    background: #ffffff;
+    border: 1px solid #eddede;
+    border-radius: 16px;
+}
+
+.account-management-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+}
+
+.account-management-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: #fff1f0;
+    color: #cf5d59;
+    font-size: 17px;
+}
+
+.account-management-main small {
+    color: #cf5955;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.account-management-main h2 {
+    margin: 2px 0 3px;
+    color: #394b47;
+    font-size: 17px;
+}
+
+.account-management-main p {
+    margin: 0;
+    color: #89938f;
+    font-size: 14px;
+}
+
+
+/* DELETE BUTTON */
+
+.customer-delete-account-button {
+    min-height: 40px;
+    padding: 0 15px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid #e4b4b2;
+    border-radius: 9px;
+    background: #fffafa;
+    color: #c65350;
+    font-size: 14px;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+    .customer-delete-account-button:hover {
+        background: #fff0ef;
+    }
+
+
+/* =========================================================
+   DELETE MODAL
+   ========================================================= */
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.customer-delete-account-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: .2s ease;
+}
+
+    .customer-delete-account-modal.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+.customer-delete-account-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 42, 39, .46);
+    backdrop-filter: blur(4px);
+}
+
+.customer-delete-account-dialog {
+    position: relative;
+    z-index: 1;
+    width: min(480px, 100%);
+    padding: 27px;
+    background: #ffffff;
+    border-radius: 21px;
+    box-shadow: 0 25px 70px rgba(28, 48, 43, .18);
+}
+
+.customer-delete-account-close {
+    position: absolute;
+    top: 17px;
+    right: 17px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: #f4f7f6;
+    color: #72817d;
+    cursor: pointer;
+}
+
+.delete-account-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    border-radius: 14px;
+    background: #fff0ef;
+    color: #d45b57;
+    font-size: 21px;
+}
+
+.delete-account-label {
+    color: #cc5551;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.customer-delete-account-dialog h3 {
+    margin: 5px 0 8px;
+    color: #263f3a;
+    font-size: 18px;
+}
+
+.delete-account-description {
+    margin: 0;
+    color: #7b8985;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.delete-account-warning {
+    margin-top: 18px;
+    padding: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #fff9ef;
+    border: 1px solid #f0dbb8;
+    border-radius: 13px;
+}
+
+    .delete-account-warning > i {
+        color: #dd9226;
+        font-size: 17px;
+    }
+
+    .delete-account-warning strong {
+        color: #765426;
+        font-size: 13px;
+    }
+
+    .delete-account-warning ul {
+        margin: 6px 0 0 18px;
+        padding: 0;
+        color: #887354;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+.delete-account-actions {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+}
+
+    .delete-account-actions form {
+        margin: 0;
+    }
+
+.delete-account-cancel,
+.delete-account-confirm {
+    width: 100%;
+    min-height: 42px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+.delete-account-cancel {
+    border: 1px solid #dce4e1;
+    background: #ffffff;
+    color: #566963;
+}
+
+.delete-account-confirm {
+    border: 1px solid #d95d59;
+    background: #d95d59;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+    .customer-profile-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .customer-profile-left {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .customer-profile-note-card {
+        margin-top: 0;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .customer-profile-hero {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .customer-profile-hero-status {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .customer-profile-left {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .customer-account-management {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .customer-delete-account-button {
+        justify-content: center;
+    }
+}
+/* =========================================================
+   CUSTOMER PROFILE - COLOR SYNC
+   Đồng bộ màu với trang Hồ sơ người thân
+   DÁN CUỐI customer-profile.css
+   ========================================================= */
+
+
+/* =========================================================
+   1. HERO HỒ SƠ CÁ NHÂN
+   ========================================================= */
+
+.profile-hero,
+.customer-profile-hero,
+.profile-page-hero {
+    background: linear-gradient( 120deg, #e8f7f3 0%, #edf8f5 55%, #f5faf8 100% ) !important;
+    border: 1px solid #c8e2dc !important;
+    border-radius: 18px !important;
+    box-shadow: 0 12px 30px rgba(30, 91, 80, 0.09) !important;
+}
+
+
+/* Badge TÀI KHOẢN CỦA TÔI / THÔNG TIN CÁ NHÂN */
+
+.profile-badge,
+.profile-eyebrow,
+.profile-label,
+.customer-profile-badge {
+    color: #08786f !important;
+    background: #c7ebe3 !important;
+    border-radius: 999px !important;
+}
+
+
+/* =========================================================
+   2. CARD TÀI KHOẢN PHÍA TRÊN
+   ========================================================= */
+
+.profile-account-card,
+.profile-summary-card,
+.customer-profile-summary {
+    background: rgba(255, 255, 255, 0.88) !important;
+    border: 1px solid #bdddd6 !important;
+    box-shadow: 0 7px 18px rgba(27, 91, 79, 0.06) !important;
+}
+
+
+/* Avatar */
+
+.profile-avatar,
+.profile-summary-avatar,
+.customer-profile-avatar {
+    color: #087f76 !important;
+    background: #ccece5 !important;
+}
+
+
+/* =========================================================
+   3. CÁC Ô THỐNG KÊ
+   ========================================================= */
+
+.profile-stat,
+.profile-stat-card,
+.profile-summary-stat {
+    background: #f3faf8 !important;
+    border: 1px solid #d7e9e4 !important;
+}
+
+    .profile-stat strong,
+    .profile-stat-card strong,
+    .profile-summary-stat strong {
+        color: #087f76 !important;
+    }
+
+
+/* =========================================================
+   4. CARD THÔNG TIN CÁ NHÂN
+   ========================================================= */
+
+.profile-section,
+.profile-card,
+.customer-profile-card {
+    background: #ffffff !important;
+    border: 1px solid #dfe9e6 !important;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, 0.045) !important;
+}
+
+
+/* Icon đầu section */
+
+.profile-section-icon,
+.profile-card-icon,
+.profile-info-icon {
+    color: #07877d !important;
+    background: #dff3ee !important;
+}
+
+
+/* Chữ nhỏ trên tiêu đề */
+
+.profile-section-label,
+.profile-card-label,
+.profile-section-eyebrow {
+    color: #07877d !important;
+}
+
+
+/* =========================================================
+   5. INPUT
+   ========================================================= */
+
+.profile-page input,
+.profile-page select,
+.profile-page textarea,
+.customer-profile-page input,
+.customer-profile-page select,
+.customer-profile-page textarea {
+    background: #f8fbfa !important;
+    border: 1px solid #dce7e3 !important;
+    color: #425651 !important;
+}
+
+    .profile-page input:focus,
+    .profile-page select:focus,
+    .profile-page textarea:focus,
+    .customer-profile-page input:focus,
+    .customer-profile-page select:focus,
+    .customer-profile-page textarea:focus {
+        background: #ffffff !important;
+        border-color: #67b9b0 !important;
+        box-shadow: 0 0 0 3px rgba(16, 151, 141, 0.08) !important;
+        outline: none !important;
+    }
+
+
+/* =========================================================
+   6. NÚT CHỈNH SỬA / LƯU
+   ========================================================= */
+
+.profile-edit-btn,
+.profile-save-btn,
+.customer-profile-edit,
+.customer-profile-save {
+    color: #ffffff !important;
+    background: #078f85 !important;
+    border-color: #078f85 !important;
+    box-shadow: 0 9px 20px rgba(7, 143, 133, 0.18) !important;
+}
+
+    .profile-edit-btn:hover,
+    .profile-save-btn:hover,
+    .customer-profile-edit:hover,
+    .customer-profile-save:hover {
+        color: #ffffff !important;
+        background: #067a72 !important;
+    }
+
+
+/* =========================================================
+   7. KHỐI THÔNG TIN TÀI KHOẢN
+   ========================================================= */
+
+.profile-account-info,
+.profile-user-info {
+    background: linear-gradient( 135deg, #f4fbf9 0%, #edf8f5 100% ) !important;
+    border-color: #d6eae5 !important;
+}
+
+
+/* =========================================================
+   8. ICON NHỎ
+   ========================================================= */
+
+.profile-field-icon,
+.profile-contact-icon {
+    color: #0a8d83 !important;
+    background: #e4f5f1 !important;
+}
+
+
+/* =========================================================
+   9. TRẠNG THÁI TÀI KHOẢN
+   ========================================================= */
+
+.profile-status,
+.profile-active-status {
+    color: #247b66 !important;
+    background: #def3eb !important;
+    border-color: #cbe9de !important;
+}
+
+
+/* =========================================================
+   10. CÁC KHỐI PHỤ
+   ========================================================= */
+
+.profile-extra-card,
+.profile-security-card {
+    background: #fbfefd !important;
+    border: 1px solid #dfeae6 !important;
+}
+
+
+/* =========================================================
+   11. DANGER ZONE - GIỮ ĐỎ
+   Không đổi nút xóa tài khoản thành xanh
+   ========================================================= */
+
+.profile-danger,
+.profile-danger-zone {
+    background: #fff8f7 !important;
+    border-color: #efd8d5 !important;
+}
+
+    .profile-delete-btn,
+    .profile-danger button {
+        color: #c6534e !important;
+        background: #fff4f3 !important;
+        border-color: #e9c9c6 !important;
+    }
+
+        .profile-delete-btn:hover,
+        .profile-danger button:hover {
+            color: #ffffff !important;
+            background: #d95d59 !important;
+            border-color: #d95d59 !important;
+        }
+/* =========================================================
+   CUSTOMER PROFILE - UNIFIED HERO
+   ========================================================= */
+
+.customer-profile-heading,
+.customer-profile-hero {
+    background: linear-gradient( 105deg, #ffffff 0%, #f8fcfb 22%, #edf9f6 45%, #d5f0eb 68%, #a5ddd6 84%, #70c9c0 100% ) !important;
+    border: 1px solid #bfe0da !important;
+    border-radius: 19px !important;
+    box-shadow: 0 13px 32px rgba(30, 91, 80, .07) !important;
+}
+
+    .customer-profile-heading h1,
+    .customer-profile-hero h1 {
+        color: #223d38 !important;
+        font-size: 30px !important;
+        font-weight: 850 !important;
+    }
+
+    .customer-profile-heading p,
+    .customer-profile-hero p {
+        color: #6f817b !important;
+        font-size: 14px !important;
+    }
+
+.customer-profile-card {
+    border: 1px solid #dfe8e5 !important;
+    border-radius: 17px !important;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, .05) !important;
+}
+
+/* card hồ sơ bên trái */
+
+.customer-profile-card-cover {
+    background: linear-gradient( 135deg, #2bb4ad 0%, #079087 100% ) !important;
+}
+
+/* input */
+
+.customer-profile-form input,
+.customer-profile-form select,
+.customer-profile-form textarea {
+    background: #f7f9f8 !important;
+    border: 1px solid #dfe7e4 !important;
+    border-radius: 10px !important;
+    font-size: 14px !important;
+}
+
+    .customer-profile-form input:focus,
+    .customer-profile-form select:focus,
+    .customer-profile-form textarea:focus {
+        background: #ffffff !important;
+        border-color: #68b9b1 !important;
+        box-shadow: 0 0 0 3px rgba(16, 151, 141, .07) !important;
+    }

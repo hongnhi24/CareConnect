@@ -1,0 +1,395 @@
+﻿@model CareConnect.ViewModels.CaregiverCertificateFileViewModel
+
+@{
+    ViewData["Title"] = "Bổ sung file chứng chỉ";
+}
+
+
+<style>
+
+    .certificate-edit-file-page {
+        max-width: 850px;
+        margin: 0 auto;
+    }
+
+
+    .certificate-edit-card {
+        padding: 28px;
+
+        background: #ffffff;
+
+        border: 1px solid #e5eae7;
+        border-radius: 20px;
+
+        box-shadow:
+            0 8px 28px
+            rgba(48, 68, 62, .05);
+    }
+
+
+    .certificate-edit-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        margin-bottom: 24px;
+        padding-bottom: 20px;
+
+        border-bottom: 1px solid #edf0ef;
+    }
+
+
+    .certificate-edit-icon {
+        width: 50px;
+        height: 50px;
+
+        display: grid;
+        place-items: center;
+
+        flex-shrink: 0;
+
+        color: #d77d00;
+        background: #fff0d8;
+
+        border-radius: 13px;
+
+        font-size: 21px;
+    }
+
+
+    .certificate-edit-header h1 {
+        margin: 0 0 4px;
+
+        color: #304740;
+
+        font-size: 23px;
+        font-weight: 800;
+    }
+
+
+    .certificate-edit-header p {
+        margin: 0;
+
+        color: #8a9793;
+
+        font-size: 13px;
+    }
+
+
+    .certificate-current-info {
+        padding: 16px;
+
+        margin-bottom: 20px;
+
+        background: #f8faf9;
+
+        border-radius: 12px;
+    }
+
+
+    .certificate-current-info small {
+        display: block;
+
+        margin-bottom: 4px;
+
+        color: #929d99;
+
+        font-size: 11px;
+    }
+
+
+    .certificate-current-info strong {
+        display: block;
+
+        color: #354b45;
+
+        font-size: 15px;
+    }
+
+
+    .certificate-current-info p {
+        margin: 5px 0 0;
+
+        color: #788781;
+
+        font-size: 12px;
+    }
+
+
+    .certificate-file-label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #465b55;
+
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+
+    .certificate-upload-box {
+        padding: 25px;
+
+        text-align: center;
+
+        background: #fffaf2;
+
+        border: 1.5px dashed #e1aa50;
+        border-radius: 14px;
+    }
+
+
+    .certificate-upload-icon {
+        width: 55px;
+        height: 55px;
+
+        display: grid;
+        place-items: center;
+
+        margin: 0 auto 11px;
+
+        color: #d77d00;
+        background: #fff0d8;
+
+        border-radius: 15px;
+
+        font-size: 24px;
+    }
+
+
+    .certificate-upload-box input {
+        width: 100%;
+
+        margin-top: 15px;
+        padding: 10px;
+
+        box-sizing: border-box;
+
+        background: #ffffff;
+
+        border: 1px solid #e3e8e6;
+        border-radius: 9px;
+    }
+
+
+    .certificate-upload-box p {
+        margin: 5px 0;
+
+        color: #87948f;
+
+        font-size: 12px;
+    }
+
+
+    .certificate-edit-error {
+        display: block;
+
+        margin-top: 6px;
+
+        color: #c64d4d;
+
+        font-size: 12px;
+    }
+
+
+    .certificate-edit-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        margin-top: 22px;
+
+        gap: 12px;
+    }
+
+
+    .certificate-edit-back {
+        padding: 11px 17px;
+
+        color: #64756f;
+        background: #ffffff;
+
+        border: 1px solid #dce3e0;
+        border-radius: 10px;
+
+        text-decoration: none;
+
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+
+    .certificate-edit-submit {
+        padding: 11px 19px;
+
+        color: #ffffff;
+
+        background:
+            linear-gradient(
+                135deg,
+                #f2a11c,
+                #df8200);
+
+        border: 0;
+        border-radius: 10px;
+
+        font-size: 13px;
+        font-weight: 700;
+
+        cursor: pointer;
+    }
+
+</style>
+
+
+<div class="certificate-edit-file-page">
+
+    <div class="certificate-edit-card">
+
+
+        <div class="certificate-edit-header">
+
+            <span class="certificate-edit-icon">
+
+                <i class="bi bi-file-earmark-arrow-up-fill"></i>
+
+            </span>
+
+
+            <div>
+
+                <h1>
+                    Bổ sung file chứng chỉ
+                </h1>
+
+                <p>
+                    Tải ảnh hoặc PDF bản scan để
+                    CareConnect tiến hành xác minh.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="certificate-current-info">
+
+            <small>
+                Chứng chỉ
+            </small>
+
+            <strong>
+                @Model.TenChungChi
+            </strong>
+
+            <p>
+                @(string.IsNullOrWhiteSpace(
+                    Model.DonViCap)
+                    ? "Chưa cập nhật đơn vị cấp"
+                    : Model.DonViCap)
+            </p>
+
+        </div>
+
+
+
+        <form asp-area="Caregiver"
+              asp-controller="Certificates"
+              asp-action="EditFile"
+              method="post"
+              enctype="multipart/form-data">
+
+
+            @Html.AntiForgeryToken()
+
+
+            <input asp-for="MaChungChi"
+                   type="hidden" />
+
+
+            <input asp-for="TenChungChi"
+                   type="hidden" />
+
+
+            <input asp-for="DonViCap"
+                   type="hidden" />
+
+
+
+            <div asp-validation-summary="ModelOnly"
+                 class="certificate-edit-error">
+            </div>
+
+
+
+            <label class="certificate-file-label">
+
+                File chứng chỉ *
+
+            </label>
+
+
+            <div class="certificate-upload-box">
+
+                <span class="certificate-upload-icon">
+
+                    <i class="bi bi-cloud-arrow-up"></i>
+
+                </span>
+
+
+                <strong>
+                    Chọn ảnh hoặc PDF chứng chỉ
+                </strong>
+
+
+                <p>
+                    JPG, JPEG, PNG hoặc PDF · tối đa 5MB
+                </p>
+
+
+                <input asp-for="FileChungChi"
+                       type="file"
+                       accept=".jpg,.jpeg,.png,.pdf" />
+
+            </div>
+
+
+            <span asp-validation-for="FileChungChi"
+                  class="certificate-edit-error">
+            </span>
+
+
+
+            <div class="certificate-edit-actions">
+
+                <a asp-area="Caregiver"
+                   asp-controller="Certificates"
+                   asp-action="Index"
+                   class="certificate-edit-back">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    Quay lại
+
+                </a>
+
+
+                <button type="submit"
+                        class="certificate-edit-submit">
+
+                    <i class="bi bi-cloud-arrow-up-fill"></i>
+
+                    Bổ sung file
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

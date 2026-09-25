@@ -1,0 +1,798 @@
+﻿@model AdminUserManagementViewModel
+
+@{
+    ViewData["Title"] = "Quản lý người dùng";
+
+    bool dangTatCa =
+        string.IsNullOrWhiteSpace(Model.VaiTro)
+        && string.IsNullOrWhiteSpace(Model.TrangThai);
+
+    bool dangKhachHang =
+        Model.VaiTro == "Khách hàng";
+
+    bool dangNguoiChamSoc =
+        Model.VaiTro == "Người chăm sóc";
+
+    bool dangTamKhoa =
+        Model.TrangThai == "Tạm khóa";
+}
+
+<div class="users-page">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="users-alert success">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>@TempData["Success"]</span>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="users-alert error">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span>@TempData["Error"]</span>
+        </div>
+    }
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+    <section class="users-hero">
+
+        <div class="users-hero-left">
+
+            <span class="users-eyebrow">
+                <i class="bi bi-people"></i>
+                QUẢN TRỊ TÀI KHOẢN
+            </span>
+
+            <h1>
+                Quản lý người dùng
+            </h1>
+
+            <p>
+                Quản lý tài khoản khách hàng và người chăm sóc,
+                theo dõi trạng thái hoạt động và xử lý hồ sơ
+                trong CareConnect.
+            </p>
+
+        </div>
+
+        <div class="users-hero-actions">
+
+            <a asp-area="Admin"
+               asp-controller="Users"
+               asp-action="Create"
+               class="users-add-button">
+
+                <i class="bi bi-person-plus"></i>
+
+                <span>
+                    Thêm tài khoản
+                </span>
+
+            </a>
+
+        </div>
+
+    </section>
+    <!-- =====================================================
+     THỐNG KÊ
+====================================================== -->
+    <section class="users-stats-grid">
+
+
+        <!-- TẤT CẢ -->
+        <a asp-area="Admin"
+           asp-controller="Users"
+           asp-action="Index"
+           class="users-stat-card all @(dangTatCa ? "active" : "")">
+
+            <span class="users-stat-icon">
+
+                <i class="bi bi-people-fill"></i>
+
+            </span>
+
+
+            <div class="users-stat-content">
+
+                <small>
+                    Tất cả người dùng
+                </small>
+
+                <strong>
+                    @Model.TongNguoiDung
+                </strong>
+
+                <p>
+                    Toàn bộ tài khoản trong hệ thống
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- KHÁCH HÀNG -->
+        <a asp-area="Admin"
+           asp-controller="Users"
+           asp-action="Index"
+           asp-route-vaiTro="Khách hàng"
+           class="users-stat-card customer @(dangKhachHang ? "active" : "")">
+
+            <span class="users-stat-icon">
+
+                <i class="bi bi-house-heart-fill"></i>
+
+            </span>
+
+
+            <div class="users-stat-content">
+
+                <small>
+                    Khách hàng
+                </small>
+
+                <strong>
+                    @Model.TongKhachHang
+                </strong>
+
+                <p>
+                    Tài khoản gia đình
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- NGƯỜI CHĂM SÓC -->
+        <a asp-area="Admin"
+           asp-controller="Users"
+           asp-action="Index"
+           asp-route-vaiTro="Người chăm sóc"
+           class="users-stat-card caregiver @(dangNguoiChamSoc ? "active" : "")">
+
+            <span class="users-stat-icon">
+
+                <i class="bi bi-person-heart"></i>
+
+            </span>
+
+
+            <div class="users-stat-content">
+
+                <small>
+                    Người chăm sóc
+                </small>
+
+                <strong>
+                    @Model.TongNguoiChamSoc
+                </strong>
+
+                <p>
+                    @Model.SoNguoiChamSocChoDuyet hồ sơ đang chờ duyệt
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- TẠM KHÓA -->
+        <a asp-area="Admin"
+           asp-controller="Users"
+           asp-action="Index"
+           asp-route-trangThai="Tạm khóa"
+           class="users-stat-card locked @(dangTamKhoa ? "active" : "")">
+
+            <span class="users-stat-icon">
+
+                <i class="bi bi-person-lock"></i>
+
+            </span>
+
+
+            <div class="users-stat-content">
+
+                <small>
+                    Tài khoản tạm khóa
+                </small>
+
+                <strong>
+                    @Model.SoTaiKhoanBiKhoa
+                </strong>
+
+                <p>
+                    Không thể đăng nhập hệ thống
+                </p>
+
+            </div>
+
+        </a>
+
+    </section>
+
+    <!-- =====================================================
+         FILTER
+    ====================================================== -->
+    <section class="users-panel users-filter-panel">
+
+        <div class="users-panel-header">
+
+            <div class="users-panel-heading">
+
+                <span class="users-panel-icon">
+                    <i class="bi bi-funnel"></i>
+                </span>
+
+                <div>
+
+                    <small>
+                        BỘ LỌC DỮ LIỆU
+                    </small>
+
+                    <h2>
+                        Tìm kiếm người dùng
+                    </h2>
+
+                    <p>
+                        Lọc theo tên, email, vai trò hoặc trạng thái tài khoản.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            @if (Model.SoNguoiChamSocChoDuyet > 0)
+            {
+                <a asp-area="Admin"
+                   asp-controller="Caregivers"
+                   asp-action="Index"
+                   asp-route-trangThai="Chờ duyệt"
+                   class="users-pending-link">
+
+                    <i class="bi bi-hourglass-split"></i>
+
+                    @Model.SoNguoiChamSocChoDuyet hồ sơ chờ duyệt
+
+                </a>
+            }
+
+        </div>
+
+
+        <form asp-area="Admin"
+              asp-controller="Users"
+              asp-action="Index"
+              method="get"
+              class="users-filter-form">
+
+
+            <div class="users-search-box">
+
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       name="tuKhoa"
+                       value="@Model.TuKhoa"
+                       placeholder="Tìm theo tên, email hoặc tên đăng nhập..." />
+
+            </div>
+
+
+            <div class="users-select-box">
+
+                <i class="bi bi-people"></i>
+
+                <select name="vaiTro">
+
+                    <option value="">
+                        Tất cả vai trò
+                    </option>
+
+                    <option value="Khách hàng"
+                            selected="@(Model.VaiTro == "Khách hàng")">
+                        Khách hàng
+                    </option>
+
+                    <option value="Người chăm sóc"
+                            selected="@(Model.VaiTro == "Người chăm sóc")">
+                        Người chăm sóc
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="users-select-box">
+
+                <i class="bi bi-toggle-on"></i>
+
+                <select name="trangThai">
+
+                    <option value="">
+                        Tất cả trạng thái
+                    </option>
+
+                    <option value="Hoạt động"
+                            selected="@(Model.TrangThai == "Hoạt động")">
+                        Hoạt động
+                    </option>
+
+                    <option value="Chờ duyệt"
+                            selected="@(Model.TrangThai == "Chờ duyệt")">
+                        Chờ duyệt
+                    </option>
+
+                    <option value="Tạm khóa"
+                            selected="@(Model.TrangThai == "Tạm khóa")">
+                        Tạm khóa
+                    </option>
+
+                    <option value="Đã từ chối"
+                            selected="@(Model.TrangThai == "Đã từ chối")">
+                        Đã từ chối
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button type="submit"
+                    class="users-filter-button">
+
+                <i class="bi bi-funnel-fill"></i>
+
+                <span>
+                    Lọc
+                </span>
+
+            </button>
+
+
+            <a asp-area="Admin"
+               asp-controller="Users"
+               asp-action="Index"
+               class="users-clear-filter"
+               title="Xóa bộ lọc">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+
+            </a>
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         TABLE
+    ====================================================== -->
+    <section class="users-panel users-table-panel">
+
+        <div class="users-panel-header users-table-heading">
+
+            <div class="users-panel-heading">
+
+                <span class="users-panel-icon">
+                    <i class="bi bi-person-lines-fill"></i>
+                </span>
+
+                <div>
+
+                    <small>
+                        DANH SÁCH TÀI KHOẢN
+                    </small>
+
+                    <h2>
+                        Người dùng hệ thống
+                    </h2>
+
+                    <p>
+                        Theo dõi vai trò, trạng thái và thông tin tài khoản.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <span class="users-result-count">
+                @Model.DanhSachNguoiDung.Count kết quả
+            </span>
+
+        </div>
+
+
+        @if (Model.DanhSachNguoiDung.Count == 0)
+        {
+            <div class="users-empty">
+
+                <span>
+                    <i class="bi bi-person-x"></i>
+                </span>
+
+                <strong>
+                    Không tìm thấy người dùng
+                </strong>
+
+                <p>
+                    Hãy thử thay đổi từ khóa hoặc điều kiện lọc.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="users-table-wrapper">
+
+                <table class="users-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Người dùng</th>
+                            <th>Vai trò</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày tham gia</th>
+                            <th>Thông tin thêm</th>
+                            <th class="text-end">Thao tác</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var user in Model.DanhSachNguoiDung)
+                        {
+                            string hoTen =
+                                string.IsNullOrWhiteSpace(user.HoTen)
+                                    ? "Người dùng"
+                                    : user.HoTen;
+
+                            string chuCaiDau =
+                                hoTen.Substring(0, 1).ToUpper();
+
+
+                            <tr>
+
+                                <!-- =================================
+                                     USER
+                                ================================== -->
+                                <td>
+
+                                    <div class="users-person">
+
+                                        <span class="@(
+                                              user.TenVaiTro == "Người chăm sóc"
+                                                  ? "users-avatar caregiver"
+                                                  : "users-avatar customer")">
+
+                                            @chuCaiDau
+
+                                        </span>
+
+
+                                        <div>
+
+                                            <strong>
+                                                @hoTen
+                                            </strong>
+
+                                            <small>
+
+                                                <i class="bi bi-envelope"></i>
+
+                                                @user.Email
+
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- =================================
+                                     ROLE
+                                ================================== -->
+                                <td>
+
+                                    <span class="@(
+                                          user.TenVaiTro == "Người chăm sóc"
+                                              ? "role-badge caregiver"
+                                              : "role-badge customer")">
+
+                                        <i class="@(
+                                           user.TenVaiTro == "Người chăm sóc"
+                                               ? "bi bi-person-heart"
+                                               : "bi bi-house-heart")">
+                                        </i>
+
+                                        @user.TenVaiTro
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- =================================
+                                     STATUS
+                                ================================== -->
+                                <td>
+
+                                    <span class="@GetUserStatusClass(
+                                                                                user.TrangThaiHienThi)">
+
+                                        <i></i>
+
+                                        @user.TrangThaiHienThi
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- =================================
+                                     CREATED DATE
+                                ================================== -->
+                                <td>
+
+                                    <div class="users-date">
+
+                                        <strong>
+                                            @user.NgayTao.ToString("dd/MM/yyyy")
+                                        </strong>
+
+                                        <small>
+                                            Mã TK: @user.MaTaiKhoan
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- =================================
+                                     EXTRA
+                                ================================== -->
+                                <td>
+
+                                    @if (
+                                        user.TenVaiTro
+                                            == "Người chăm sóc")
+                                    {
+                                        <div class="caregiver-extra">
+
+                                            <span>
+
+                                                <i class="bi bi-briefcase"></i>
+
+                                                @user.KinhNghiem năm kinh nghiệm
+
+                                            </span>
+
+
+                                            <span title="@user.ChuyenMon">
+
+                                                <i class="bi bi-award"></i>
+
+                                                @(
+                                                    string.IsNullOrWhiteSpace(
+                                                        user.ChuyenMon)
+                                                        ? "Chưa cập nhật chuyên môn"
+                                                        : user.ChuyenMon
+                                                )
+
+                                            </span>
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="customer-label">
+
+                                            <i class="bi bi-person-check"></i>
+
+                                            Tài khoản gia đình
+
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- =================================
+                                     ACTIONS
+                                ================================== -->
+                                <td>
+
+                                    <div class="users-actions">
+
+
+                                        @if (
+                                            user.TenVaiTro
+                                                == "Người chăm sóc"
+                                            &&
+                                            user.TrangThaiHienThi
+                                                == "Chờ duyệt"
+                                            &&
+                                            user.MaNguoiChamSoc.HasValue)
+                                        {
+                                            <!-- APPROVE -->
+
+                                            <form asp-area="Admin"
+                                                  asp-controller="Users"
+                                                  asp-action="DuyetNguoiChamSoc"
+                                                  method="post">
+
+                                                @Html.AntiForgeryToken()
+
+
+                                                <input type="hidden"
+                                                       name="maNguoiChamSoc"
+                                                       value="@user.MaNguoiChamSoc" />
+
+
+                                                <button type="submit"
+                                                        class="user-action approve">
+
+                                                    <i class="bi bi-check2"></i>
+
+                                                    Duyệt
+
+                                                </button>
+
+                                            </form>
+
+
+                                            <!-- REJECT -->
+
+                                            <form asp-area="Admin"
+                                                  asp-controller="Users"
+                                                  asp-action="TuChoiNguoiChamSoc"
+                                                  method="post">
+
+                                                @Html.AntiForgeryToken()
+
+
+                                                <input type="hidden"
+                                                       name="maNguoiChamSoc"
+                                                       value="@user.MaNguoiChamSoc" />
+
+
+                                                <button type="submit"
+                                                        class="user-action reject">
+
+                                                    <i class="bi bi-x-lg"></i>
+
+                                                    Từ chối
+
+                                                </button>
+
+                                            </form>
+                                        }
+                                        else if (user.TaiKhoanHoatDong)
+                                        {
+                                            <!-- LOCK -->
+
+                                            <form asp-area="Admin"
+                                                  asp-controller="Users"
+                                                  asp-action="KhoaTaiKhoan"
+                                                  method="post">
+
+                                                @Html.AntiForgeryToken()
+
+
+                                                <input type="hidden"
+                                                       name="maTaiKhoan"
+                                                       value="@user.MaTaiKhoan" />
+
+
+                                                <button type="submit"
+                                                        class="user-action lock"
+                                                        onclick="return confirm('Bạn chắc chắn muốn khóa tài khoản này?')">
+
+                                                    <i class="bi bi-lock"></i>
+
+                                                    Khóa
+
+                                                </button>
+
+                                            </form>
+                                        }
+                                        else if (
+                                            user.TrangThaiHienThi
+                                                != "Chờ duyệt")
+                                        {
+                                            <!-- UNLOCK -->
+
+                                            <form asp-area="Admin"
+                                                  asp-controller="Users"
+                                                  asp-action="MoKhoaTaiKhoan"
+                                                  method="post">
+
+                                                @Html.AntiForgeryToken()
+
+
+                                                <input type="hidden"
+                                                       name="maTaiKhoan"
+                                                       value="@user.MaTaiKhoan" />
+
+
+                                                <button type="submit"
+                                                        class="user-action unlock">
+
+                                                    <i class="bi bi-unlock"></i>
+
+                                                    Mở khóa
+
+                                                </button>
+
+                                            </form>
+                                        }
+
+
+                                        <button type="button"
+                                                class="user-more-button"
+                                                title="Xem chi tiết">
+
+                                            <i class="bi bi-three-dots"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </section>
+
+</div>
+
+
+@functions {
+
+    private string GetUserStatusClass(
+        string status)
+    {
+        return status switch
+        {
+            "Hoạt động"
+                => "user-status active",
+
+            "Chờ duyệt"
+                => "user-status pending",
+
+            "Tạm khóa"
+                => "user-status locked",
+
+            "Đã từ chối"
+                => "user-status rejected",
+
+            _
+                => "user-status default"
+        };
+    }
+
+}

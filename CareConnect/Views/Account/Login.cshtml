@@ -1,0 +1,121 @@
+﻿@model CareConnect.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<section class="login-page">
+    <div class="login-heading">
+        <h1>Chào mừng trở lại</h1>
+
+        <p>
+            Đăng nhập để tiếp tục sử dụng dịch vụ CareConnect
+        </p>
+    </div>
+
+    <div class="login-card">
+        <form asp-controller="Account"
+              asp-action="Login"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input asp-for="ReturnUrl" type="hidden" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="login-validation">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TenDangNhap"></label>
+
+                <div class="input-wrapper">
+                    <i class="bi bi-envelope"></i>
+
+                    <input asp-for="TenDangNhap"
+                           placeholder="Nhập tên đăng nhập hoặc email"
+                           autocomplete="username" />
+                </div>
+
+                <span asp-validation-for="TenDangNhap"
+                      class="field-validation">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MatKhau"></label>
+
+                <div class="input-wrapper">
+                    <i class="bi bi-lock"></i>
+
+                    <input asp-for="MatKhau"
+                           id="passwordInput"
+                           placeholder="Nhập mật khẩu"
+                           autocomplete="current-password" />
+
+                    <button type="button"
+                            class="show-password-button"
+                            id="showPasswordButton"
+                            aria-label="Hiện mật khẩu">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+
+                <span asp-validation-for="MatKhau"
+                      class="field-validation">
+                </span>
+            </div>
+
+            <div class="login-options">
+                <label class="remember-option">
+                    <input asp-for="GhiNhoDangNhap" />
+                    <span>Ghi nhớ đăng nhập</span>
+                </label>
+
+                <a href="#" class="forgot-password">
+                    Quên mật khẩu?
+                </a>
+            </div>
+
+            <button type="submit"
+                    class="login-submit-button">
+                Đăng nhập
+            </button>
+
+            <div class="login-register">
+                Chưa có tài khoản?
+
+                <a asp-controller="Account"
+                   asp-action="Register">
+                    Đăng ký ngay
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const passwordInput =
+            document.getElementById("passwordInput");
+
+        const showPasswordButton =
+            document.getElementById("showPasswordButton");
+
+        showPasswordButton?.addEventListener(
+            "click",
+            function() {
+                const isPassword =
+                    passwordInput.type === "password";
+
+                passwordInput.type =
+                    isPassword ? "text" : "password";
+
+                this.innerHTML = isPassword
+                    ? '<i class="bi bi-eye-slash"></i>'
+                    : '<i class="bi bi-eye"></i>';
+            });
+    </script>
+}

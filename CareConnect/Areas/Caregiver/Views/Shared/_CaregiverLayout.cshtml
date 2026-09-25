@@ -1,0 +1,493 @@
+﻿@{
+    string currentController =
+        ViewContext.RouteData.Values["controller"]?
+            .ToString()
+        ?? string.Empty;
+
+    string currentAction =
+        ViewContext.RouteData.Values["action"]?
+            .ToString()
+        ?? string.Empty;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width,
+    initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - CareConnect</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet"
+          href="/css/caregiver-dashboard.css?v=8" />
+
+    <link rel="stylesheet"
+          href="/css/caregiver-profile.css?v=23" />
+
+    <link rel="stylesheet"
+          href="/css/caregiver-schedule.css?v=4" />
+
+    <link rel="stylesheet"
+          href="/css/caregiver-availability.css?v=1" />
+
+    <link rel="stylesheet"
+          href="/css/caregiver-review.css?v=2" />
+
+    <link rel="stylesheet"
+          href="/css/caregiver-care-journal.css?v=1" />
+
+    <link rel="stylesheet"
+          href="/css/caregiver-income.css?v=1" />
+    <link rel="stylesheet"
+          href="/css/caregiver-header.css?v=1" />
+
+    <link rel="stylesheet"
+          href="/css/caregiver-layout-fix.css?v=1" />
+</head>
+
+<body class="cg-body">
+
+    <aside class="cg-sidebar"
+           id="caregiverSidebar">
+
+        <a asp-area=""
+           asp-controller="Home"
+           asp-action="Index"
+           class="cg-brand">
+
+            <span class="cg-brand-icon">
+                <i class="bi bi-heart-pulse-fill"></i>
+            </span>
+
+            <div>
+                <strong>CareConnect</strong>
+                <small>Caregiver Portal</small>
+            </div>
+
+        </a>
+
+        <a asp-area=""
+           asp-controller="Home"
+           asp-action="Index"
+           class="cg-sidebar-home-link">
+
+            <i class="bi bi-house-door-fill"></i>
+            <span>Về trang chủ</span>
+        </a>
+
+        <div class="cg-menu-label">
+            NGƯỜI CHĂM SÓC
+        </div>
+
+        <nav class="cg-navigation">
+
+            <a asp-area="Caregiver"
+               asp-controller="Dashboard"
+               asp-action="Index"
+               class="@(
+               currentController == "Dashboard"
+                   ? "active"
+                   : ""
+                          )">
+                <i class="bi bi-grid-fill"></i>
+
+                <span>
+                    Tổng quan
+                </span>
+
+            </a>
+
+            <a asp-area="Caregiver"
+               asp-controller="Profile"
+               asp-action="Index"
+               class="@(ViewContext.RouteData.Values[
+                                                                 "controller"]?.ToString()
+                                                                 == "Profile"
+                                                                     ? "active"
+                                                                     : "")">
+
+                <i class="bi bi-person-vcard"></i>
+                <span>Hồ sơ cá nhân</span>
+            </a>
+            <a asp-area="Caregiver"
+               asp-controller="Certificates"
+               asp-action="Index"
+               class="@(
+               currentController == "Certificates"
+                   ? "active"
+                   : ""
+                                    )">
+
+                <i class="bi bi-patch-check"></i>
+
+                <span>
+                    Bằng cấp & chứng chỉ
+                </span>
+
+            </a>
+            <a asp-area="Caregiver"
+               asp-controller="LichLamViec"
+               asp-action="Index"
+               class="@(ViewContext.RouteData.Values[
+                                                                 "controller"]?.ToString()
+                                                                 == "LichLamViec"
+                                                                     ? "active"
+                                                                     : "")">
+
+                <i class="bi bi-calendar2-week"></i>
+                <span>Lịch chăm sóc</span>
+            </a>
+
+            <a asp-area="Caregiver"
+               asp-controller="LichKhaDung"
+               asp-action="Index"
+               class="@(ViewContext.RouteData.Values[
+                                                                 "controller"]?.ToString()
+                                                                 == "LichKhaDung"
+                                                                     ? "active"
+                                                                     : "")">
+
+                <i class="bi bi-calendar2-check"></i>
+                <span>Lịch khả dụng</span>
+            </a>
+
+            <a asp-area="Caregiver"
+               asp-controller="NhatKyChamSoc"
+               asp-action="Index"
+               class="@(ViewContext.RouteData.Values[
+                                                                 "controller"]?.ToString()
+                                                                 == "NhatKyChamSoc"
+                                                                     ? "active"
+                                                                     : "")">
+
+                <i class="bi bi-journal-medical"></i>
+                <span>Nhật ký chăm sóc</span>
+            </a>
+
+            <a asp-area="Caregiver"
+               asp-controller="LichSuDanhGia"
+               asp-action="Index"
+               class="@(ViewContext.RouteData.Values[
+                                                                 "controller"]?.ToString()
+                                                                 == "LichSuDanhGia"
+                                                                     ? "active"
+                                                                     : "")">
+
+                <i class="bi bi-clock-history"></i>
+                <span>Lịch sử & đánh giá</span>
+            </a>
+
+            <a asp-area="Caregiver"
+               asp-controller="ThuNhap"
+               asp-action="Index"
+               class="@(ViewContext.RouteData.Values[
+                                                                 "controller"]?.ToString()
+                                                                 == "ThuNhap"
+                                                                     ? "active"
+                                                                     : "")">
+
+                <i class="bi bi-wallet2"></i>
+                <span>Thu nhập</span>
+            </a>
+
+        </nav>
+
+        <button type="button"
+                class="cg-help-card"
+                id="caregiverSupportButton">
+
+            <span>
+                <i class="bi bi-headset"></i>
+            </span>
+
+            <div>
+                <strong>Cần hỗ trợ?</strong>
+                <small>Liên hệ quản trị viên</small>
+            </div>
+
+            <i class="bi bi-chevron-right"></i>
+        </button>
+
+    </aside>
+
+    <div class="cg-page">
+
+        <header class="cg-topbar">
+
+            <button type="button"
+                    class="cg-menu-button"
+                    id="caregiverMenuButton">
+
+                <i class="bi bi-list"></i>
+            </button>
+
+            <div class="cg-topbar-search">
+
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       placeholder="Tìm kiếm lịch, bệnh nhân..." />
+
+            </div>
+
+            <div class="cg-topbar-right">
+
+                <span class="cg-date">
+                    <i class="bi bi-calendar3"></i>
+                    @DateTime.Now.ToString("dd/MM/yyyy")
+                </span>
+
+                @await Component.InvokeAsync(
+                    "CaregiverHeader")
+
+            </div>
+
+        </header>
+
+        <main class="cg-content">
+            @RenderBody()
+        </main>
+
+    </div>
+
+    <!-- HỘP LIÊN HỆ QUẢN TRỊ VIÊN -->
+    <div class="cg-support-modal"
+         id="caregiverSupportModal"
+         aria-hidden="true">
+
+        <div class="cg-support-modal-overlay"
+             data-close-support>
+        </div>
+
+        <section class="cg-support-modal-card"
+                 role="dialog"
+                 aria-modal="true"
+                 aria-labelledby="supportModalTitle">
+
+            <div class="cg-support-modal-header">
+
+                <span>
+                    <i class="bi bi-headset"></i>
+                </span>
+
+                <div>
+                    <small>TRUNG TÂM HỖ TRỢ</small>
+
+                    <h2 id="supportModalTitle">
+                        Liên hệ quản trị viên
+                    </h2>
+
+                    <p>
+                        Liên hệ khi cần hỗ trợ về tài khoản,
+                        lịch chăm sóc hoặc thanh toán.
+                    </p>
+                </div>
+
+                <button type="button"
+                        data-close-support
+                        aria-label="Đóng">
+
+                    <i class="bi bi-x-lg"></i>
+                </button>
+
+            </div>
+
+            <div class="cg-support-modal-body">
+
+                <a href="tel:1900123456"
+                   class="cg-support-contact-item">
+
+                    <span>
+                        <i class="bi bi-telephone-fill"></i>
+                    </span>
+
+                    <div>
+                        <small>Hotline hỗ trợ</small>
+                        <strong>1900 1234 56</strong>
+                        <p>Thứ Hai – Chủ Nhật, 08:00–20:00</p>
+                    </div>
+
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+
+                <a href="mailto:support@careconnect.vn"
+                   class="cg-support-contact-item">
+
+                    <span class="is-blue">
+                        <i class="bi bi-envelope-fill"></i>
+                    </span>
+
+                    <div>
+                        <small>Email hỗ trợ</small>
+                        <strong>hotro@careconnect.vn</strong>
+                        <p>Phản hồi trong vòng 24 giờ làm việc</p>
+                    </div>
+
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+
+                <div class="cg-support-notice">
+
+                    <i class="bi bi-info-circle-fill"></i>
+
+                    <p>
+                        Khi liên hệ, hãy cung cấp tên tài khoản
+                        và mã lịch nếu vấn đề liên quan đến
+                        một buổi chăm sóc cụ thể.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <script>
+            const menuButton =
+                document.getElementById(
+                    "caregiverMenuButton");
+
+            const sidebar =
+                document.getElementById(
+                    "caregiverSidebar");
+
+            menuButton?.addEventListener(
+                "click",
+                function() {
+                    sidebar?.classList.toggle("open");
+                });
+
+            const notificationButton =
+                document.getElementById(
+                    "caregiverNotificationButton");
+
+            const notificationPanel =
+                document.getElementById(
+                    "caregiverNotificationPanel");
+
+            const accountButton =
+                document.getElementById(
+                    "caregiverAccountButton");
+
+            const accountPanel =
+                document.getElementById(
+                    "caregiverAccountPanel");
+
+            function closeHeaderDropdowns() {
+                notificationPanel?.classList.remove(
+                    "is-open");
+
+                accountPanel?.classList.remove(
+                    "is-open");
+            }
+
+            notificationButton?.addEventListener(
+                "click",
+                function(event) {
+                    event.stopPropagation();
+
+                    accountPanel?.classList.remove(
+                        "is-open");
+
+                    notificationPanel?.classList.toggle(
+                        "is-open");
+                });
+
+            accountButton?.addEventListener(
+                "click",
+                function(event) {
+                    event.stopPropagation();
+
+                    notificationPanel?.classList.remove(
+                        "is-open");
+
+                    accountPanel?.classList.toggle(
+                        "is-open");
+                });
+
+            document.addEventListener(
+                "click",
+                function(event) {
+                    const target =
+                        event.target;
+
+                    if (!(target instanceof Element)) {
+                        return;
+                    }
+
+                    if (!target.closest(
+                        ".cg-header-dropdown")) {
+                        closeHeaderDropdowns();
+                    }
+                });
+
+            const supportButton =
+                document.getElementById(
+                    "caregiverSupportButton");
+
+            const supportModal =
+                document.getElementById(
+                    "caregiverSupportModal");
+
+            const closeSupportButtons =
+                document.querySelectorAll(
+                    "[data-close-support]");
+
+            function openSupportModal() {
+                supportModal?.classList.add(
+                    "is-open");
+
+                supportModal?.setAttribute(
+                    "aria-hidden",
+                    "false");
+
+                document.body.classList.add(
+                    "cg-support-open");
+            }
+
+            function closeSupportModal() {
+                supportModal?.classList.remove(
+                    "is-open");
+
+                supportModal?.setAttribute(
+                    "aria-hidden",
+                    "true");
+
+                document.body.classList.remove(
+                    "cg-support-open");
+            }
+
+            supportButton?.addEventListener(
+                "click",
+                openSupportModal);
+
+            closeSupportButtons.forEach(
+                function(button) {
+                    button.addEventListener(
+                        "click",
+                        closeSupportModal);
+                });
+
+            document.addEventListener(
+                "keydown",
+                function(event) {
+                    if (event.key === "Escape") {
+                        closeSupportModal();
+                        closeHeaderDropdowns();
+                    }
+                });
+    </script>
+
+    @await RenderSectionAsync(
+        "Scripts",
+        required: false)
+
+</body>
+</html>

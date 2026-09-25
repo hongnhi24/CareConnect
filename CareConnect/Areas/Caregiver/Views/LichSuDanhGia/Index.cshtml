@@ -1,0 +1,523 @@
+﻿@model CaregiverReviewViewModel
+
+@{
+    ViewData["Title"] = "Lịch sử và đánh giá";
+
+    int LayPhanTram(int soLuong)
+    {
+        if (Model.TongDanhGia == 0)
+        {
+            return 0;
+        }
+
+        return (int)Math.Round(
+            soLuong * 100.0 / Model.TongDanhGia);
+    }
+
+    string LayChuCai(string hoTen)
+    {
+        if (string.IsNullOrWhiteSpace(hoTen))
+        {
+            return "K";
+        }
+
+        return string.Join(
+            "",
+            hoTen
+                .Split(
+                    ' ',
+                    StringSplitOptions.RemoveEmptyEntries)
+                .TakeLast(2)
+                .Select(x => x[0]))
+            .ToUpper();
+    }
+}
+
+<section class="cg-review-header">
+    <div>
+        <span class="cg-review-page-label">
+            PHẢN HỒI KHÁCH HÀNG
+        </span>
+
+        <h1>Lịch sử & đánh giá</h1>
+
+        <p>
+            Theo dõi phản hồi từ khách hàng và các buổi chăm sóc
+            bạn đã hoàn thành.
+        </p>
+    </div>
+
+    <div class="cg-review-header-score">
+        <span>
+            <i class="bi bi-star-fill"></i>
+        </span>
+
+        <div>
+            <small>Điểm đánh giá</small>
+
+            <strong>
+                @Model.DiemTrungBinh.ToString("0.0")
+            </strong>
+
+            <p>@Model.TongDanhGia lượt đánh giá</p>
+        </div>
+    </div>
+</section>
+
+<section class="cg-review-statistics">
+
+    <article class="cg-review-stat-card is-rating">
+        <span class="cg-review-stat-icon">
+            <i class="bi bi-star-fill"></i>
+        </span>
+
+        <div>
+            <small>ĐIỂM TRUNG BÌNH</small>
+
+            <strong>
+                @Model.DiemTrungBinh.ToString("0.0")
+            </strong>
+
+            <p>Trên thang điểm 5</p>
+        </div>
+    </article>
+
+    <article class="cg-review-stat-card is-total">
+        <span class="cg-review-stat-icon">
+            <i class="bi bi-chat-square-heart-fill"></i>
+        </span>
+
+        <div>
+            <small>TỔNG ĐÁNH GIÁ</small>
+            <strong>@Model.TongDanhGia</strong>
+            <p>Phản hồi từ khách hàng</p>
+        </div>
+    </article>
+
+    <article class="cg-review-stat-card is-five">
+        <span class="cg-review-stat-icon">
+            <i class="bi bi-award-fill"></i>
+        </span>
+
+        <div>
+            <small>TỶ LỆ 5 SAO</small>
+            <strong>@Model.TyLeNamSao%</strong>
+            <p>Đánh giá xuất sắc</p>
+        </div>
+    </article>
+
+    <article class="cg-review-stat-card is-completed">
+        <span class="cg-review-stat-icon">
+            <i class="bi bi-check2-circle"></i>
+        </span>
+
+        <div>
+            <small>BUỔI HOÀN THÀNH</small>
+            <strong>@Model.TongBuoiHoanThanh</strong>
+            <p>Lịch chăm sóc đã kết thúc</p>
+        </div>
+    </article>
+
+</section>
+
+<div class="cg-review-overview-layout">
+
+    <section class="cg-review-score-card">
+
+        <div class="cg-review-section-heading">
+            <div>
+                <span>TỔNG QUAN</span>
+                <h2>Phân bố đánh giá</h2>
+                <p>Mức độ hài lòng của khách hàng.</p>
+            </div>
+        </div>
+
+        <div class="cg-review-score-content">
+
+            <div class="cg-review-big-score">
+                <strong>
+                    @Model.DiemTrungBinh.ToString("0.0")
+                </strong>
+
+                <div class="cg-review-stars">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <i class="bi
+                            @(i <= Math.Round(Model.DiemTrungBinh)
+                               ? "bi-star-fill"
+                               : "bi-star")">
+                        </i>
+                    }
+                </div>
+
+                <p>
+                    Dựa trên @Model.TongDanhGia đánh giá
+                </p>
+            </div>
+
+            <div class="cg-review-bars">
+
+                @{
+                    var phanBoSao = new[]
+                    {
+                        new { Sao = 5, SoLuong = Model.NamSao },
+                        new { Sao = 4, SoLuong = Model.BonSao },
+                        new { Sao = 3, SoLuong = Model.BaSao },
+                        new { Sao = 2, SoLuong = Model.HaiSao },
+                        new { Sao = 1, SoLuong = Model.MotSao }
+                    };
+                }
+
+                @foreach (var item in phanBoSao)
+                {
+                    <div class="cg-review-bar-row">
+                        <span>
+                            @item.Sao
+                            <i class="bi bi-star-fill"></i>
+                        </span>
+
+                        <div class="cg-review-progress">
+                            <span style="width:
+                                @(LayPhanTram(item.SoLuong))%;">
+                            </span>
+                        </div>
+
+                        <strong>@item.SoLuong</strong>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="cg-review-highlight-card">
+        <span class="cg-review-highlight-icon">
+            <i class="bi bi-lightbulb-fill"></i>
+        </span>
+
+        <div>
+            <small>CHẤT LƯỢNG DỊCH VỤ</small>
+
+            <h2>
+                @(Model.DiemTrungBinh >= 4.5
+                    ? "Khách hàng đánh giá rất tích cực"
+                    : Model.DiemTrungBinh >= 4
+                        ? "Chất lượng chăm sóc đang tốt"
+                        : Model.TongDanhGia == 0
+                            ? "Chưa có đủ dữ liệu đánh giá"
+                            : "Bạn có thể tiếp tục cải thiện")
+            </h2>
+
+            <p>
+                Các phản hồi giúp bạn nhận biết điểm mạnh và cải thiện
+                trải nghiệm chăm sóc trong những buổi tiếp theo.
+            </p>
+        </div>
+    </section>
+
+</div>
+
+<section class="cg-review-filter-card">
+
+    <div class="cg-review-section-heading">
+        <div>
+            <span>BỘ LỌC</span>
+            <h2>Tìm kiếm đánh giá</h2>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.TuKhoa)
+             || Model.SoSao.HasValue
+             || Model.TuNgay.HasValue
+             || Model.DenNgay.HasValue)
+        {
+            <a asp-area="Caregiver"
+               asp-controller="LichSuDanhGia"
+               asp-action="Index"
+               class="cg-review-clear-filter">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+                Xóa bộ lọc
+            </a>
+        }
+    </div>
+
+    <form asp-area="Caregiver"
+          asp-controller="LichSuDanhGia"
+          asp-action="Index"
+          method="get"
+          class="cg-review-filter-form">
+
+        <div class="cg-review-filter-field is-search">
+            <label for="tuKhoa">Từ khóa</label>
+
+            <div>
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       id="tuKhoa"
+                       name="tuKhoa"
+                       value="@Model.TuKhoa"
+                       placeholder="Tên khách hàng, bệnh nhân, nội dung..." />
+            </div>
+        </div>
+
+        <div class="cg-review-filter-field">
+            <label for="soSao">Số sao</label>
+
+            <div>
+                <i class="bi bi-star"></i>
+
+                <select id="soSao"
+                        name="soSao">
+
+                    <option value="">Tất cả đánh giá</option>
+
+                    @for (int sao = 5; sao >= 1; sao--)
+                    {
+                        <option value="@sao"
+                                selected="@(Model.SoSao == sao)">
+                            @sao sao
+                        </option>
+                    }
+
+                </select>
+            </div>
+        </div>
+
+        <div class="cg-review-filter-field">
+            <label for="tuNgay">Từ ngày</label>
+
+            <div>
+                <i class="bi bi-calendar3"></i>
+
+                <input type="date"
+                       id="tuNgay"
+                       name="tuNgay"
+                       value="@Model.TuNgay?.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+
+        <div class="cg-review-filter-field">
+            <label for="denNgay">Đến ngày</label>
+
+            <div>
+                <i class="bi bi-calendar3"></i>
+
+                <input type="date"
+                       id="denNgay"
+                       name="denNgay"
+                       value="@Model.DenNgay?.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+
+        <button type="submit"
+                class="cg-review-filter-button">
+
+            <i class="bi bi-search"></i>
+            Tìm kiếm
+        </button>
+
+    </form>
+
+</section>
+
+<div class="cg-review-main-layout">
+
+    <section class="cg-review-list-card">
+
+        <div class="cg-review-section-heading">
+            <div>
+                <span>ĐÁNH GIÁ GẦN ĐÂY</span>
+
+                <h2>Phản hồi từ khách hàng</h2>
+
+                <p>
+                    Hiển thị @Model.DanhSachDanhGia.Count đánh giá.
+                </p>
+            </div>
+        </div>
+
+        @if (Model.DanhSachDanhGia.Count == 0)
+        {
+            <div class="cg-review-empty">
+                <span>
+                    <i class="bi bi-chat-square-heart"></i>
+                </span>
+
+                <h3>Chưa có đánh giá phù hợp</h3>
+
+                <p>
+                    Các phản hồi mới từ khách hàng sẽ được hiển thị
+                    tại đây.
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="cg-review-list">
+
+                @foreach (var danhGia in Model.DanhSachDanhGia)
+                {
+                    <article class="cg-review-item">
+
+                        <div class="cg-review-avatar">
+                            @LayChuCai(danhGia.TenKhachHang)
+                        </div>
+
+                        <div class="cg-review-item-content">
+
+                            <div class="cg-review-item-heading">
+                                <div>
+                                    <h3>@danhGia.TenKhachHang</h3>
+
+                                    <p>
+                                        Đánh giá cho lịch
+                                        #@danhGia.MaDatLich
+                                    </p>
+                                </div>
+
+                                <time>
+                                    @danhGia.NgayDanhGia.ToString(
+                                        "dd/MM/yyyy")
+                                </time>
+                            </div>
+
+                            <div class="cg-review-item-stars">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <i class="bi
+                                        @(i <= danhGia.SoSao
+                                           ? "bi-star-fill"
+                                           : "bi-star")">
+                                    </i>
+                                }
+
+                                <strong>
+                                    @danhGia.SoSao.0
+                                </strong>
+                            </div>
+
+                            <blockquote>
+                                @(string.IsNullOrWhiteSpace(
+                                    danhGia.NoiDung)
+                                    ? "Khách hàng không để lại nhận xét."
+                                    : danhGia.NoiDung)
+                            </blockquote>
+
+                            <div class="cg-review-item-meta">
+                                <span>
+                                    <i class="bi bi-person-heart"></i>
+                                    @danhGia.TenBenhNhan
+                                </span>
+
+                                <span>
+                                    <i class="bi bi-heart-pulse"></i>
+                                    @danhGia.TenDichVu
+                                </span>
+
+                                <span>
+                                    <i class="bi bi-calendar-check"></i>
+
+                                    Chăm sóc ngày
+                                    @danhGia.NgayChamSoc.ToString(
+                                        "dd/MM/yyyy")
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+        }
+
+    </section>
+
+    <aside class="cg-review-history-card">
+
+        <div class="cg-review-section-heading">
+            <div>
+                <span>LỊCH SỬ CHĂM SÓC</span>
+                <h2>Buổi hoàn thành gần đây</h2>
+            </div>
+        </div>
+
+        @if (Model.LichSuChamSoc.Count == 0)
+        {
+            <div class="cg-review-empty is-small">
+                <span>
+                    <i class="bi bi-clock-history"></i>
+                </span>
+
+                <h3>Chưa có lịch sử</h3>
+
+                <p>
+                    Các buổi hoàn thành sẽ xuất hiện tại đây.
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="cg-history-list">
+
+                @foreach (var lich in Model.LichSuChamSoc)
+                {
+                    <article class="cg-history-item">
+
+                        <div class="cg-history-date">
+                            <strong>
+                                @lich.NgayChamSoc.ToString("dd")
+                            </strong>
+
+                            <span>
+                                THÁNG
+                                @lich.NgayChamSoc.ToString("MM")
+                            </span>
+                        </div>
+
+                        <div class="cg-history-content">
+                            <h3>@lich.TenBenhNhan</h3>
+
+                            <p>@lich.TenDichVu</p>
+
+                            <div>
+                                <span>
+                                    <i class="bi bi-clock"></i>
+
+                                    @lich.GioBatDau.ToString(@"hh\:mm")
+                                    –
+                                    @lich.GioKetThuc.ToString(@"hh\:mm")
+                                </span>
+
+                                <strong>
+                                    @lich.TongTien.ToString("#,##0")đ
+                                </strong>
+                            </div>
+
+                            @if (lich.SoSao.HasValue)
+                            {
+                                <span class="cg-history-rating">
+                                    <i class="bi bi-star-fill"></i>
+                                    @lich.SoSao.Value.0
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="cg-history-no-rating">
+                                    Chưa được đánh giá
+                                </span>
+                            }
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+        }
+
+    </aside>
+
+</div>

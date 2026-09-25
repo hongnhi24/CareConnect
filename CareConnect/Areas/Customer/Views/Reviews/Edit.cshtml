@@ -1,0 +1,580 @@
+﻿@model CareConnect.ViewModels.CustomerReviewEditViewModel
+
+@{
+    ViewData["Title"] = "Chỉnh sửa đánh giá";
+}
+
+<section class="customer-review-detail-heading">
+
+    <a asp-area="Customer"
+       asp-controller="Reviews"
+       asp-action="Details"
+       asp-route-id="@Model.MaDanhGia">
+
+        <i class="bi bi-arrow-left"></i>
+    </a>
+
+    <div>
+        <span>PHẢN HỒI DỊCH VỤ</span>
+
+        <h1>Chỉnh sửa đánh giá</h1>
+
+        <p>
+            Cập nhật mức độ hài lòng và nội dung
+            phản hồi của bạn.
+        </p>
+    </div>
+
+</section>
+
+
+<div class="customer-review-create-layout">
+
+    <main class="customer-review-create-card">
+
+        <div class="customer-review-create-heading">
+
+            <span>
+                <i class="bi bi-pencil-square"></i>
+            </span>
+
+            <div>
+                <h2>Cập nhật đánh giá</h2>
+
+                <p>
+                    Bạn có thể thay đổi số sao
+                    và nội dung đã gửi.
+                </p>
+            </div>
+
+        </div>
+
+
+        <form asp-area="Customer"
+              asp-controller="Reviews"
+              asp-action="Edit"
+              method="post"
+              id="customerReviewEditForm">
+
+            @Html.AntiForgeryToken()
+
+
+            <input asp-for="MaDanhGia"
+                   type="hidden" />
+
+            <input asp-for="MaDatLich"
+                   type="hidden" />
+
+
+            <div asp-validation-summary="ModelOnly"
+                 class="customer-review-validation">
+            </div>
+
+
+            <!-- ===============================
+                 STAR
+            ================================ -->
+
+            <div class="customer-review-form-section">
+
+                <label class="customer-review-field-label">
+                    Mức độ hài lòng
+                    <span>*</span>
+                </label>
+
+                <div class="review-edit-rating">
+
+                    <div class="review-edit-stars"
+                         id="reviewEditStars">
+
+                        @for (int sao = 1; sao <= 5; sao++)
+                        {
+                            string inputId = $"reviewStar{sao}";
+
+                            <input type="radio"
+                                   name="SoSao"
+                                   id="@inputId"
+                                   value="@sao"
+                            @(Model.SoSao == sao ? "checked" : null) />
+
+                            <label for="@inputId"
+                                   class="review-edit-star"
+                                   data-value="@sao"
+                                   title="@($"{sao} sao")">
+
+                                <i class="bi bi-star-fill"></i>
+
+                            </label>
+                        }
+
+                    </div>
+
+                    <div class="review-edit-rating-text">
+
+                        <strong id="reviewRatingText">
+                            @{
+                                string noiDungSao = Model.SoSao switch
+                                {
+                                    1 => "Rất không hài lòng",
+                                    2 => "Chưa hài lòng",
+                                    3 => "Bình thường",
+                                    4 => "Hài lòng",
+                                    5 => "Rất hài lòng",
+                                    _ => "Hãy chọn mức độ hài lòng"
+                                };
+                            }
+
+                            @noiDungSao
+                        </strong>
+
+                        <span id="reviewRatingValue">
+                            @(Model.SoSao.HasValue
+                                ? $"{Model.SoSao}/5"
+                                : "")
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <span asp-validation-for="SoSao"
+                      class="customer-review-field-error">
+                </span>
+
+            </div>
+
+
+            <!-- ===============================
+                 CONTENT
+            ================================ -->
+
+            <div class="customer-review-form-section">
+
+                <label asp-for="NoiDung">
+
+                    Nội dung đánh giá
+                    <span>*</span>
+
+                </label>
+
+
+                <div class="customer-review-textarea">
+
+                    <i class="bi bi-chat-left-text"></i>
+
+                    <textarea asp-for="NoiDung"
+                              rows="6"
+                              maxlength="1000"
+                              placeholder="Nhập nội dung đánh giá..."></textarea>
+
+                </div>
+
+
+                <div class="customer-review-character-row">
+
+                    <span asp-validation-for="NoiDung"
+                          class="customer-review-field-error">
+                    </span>
+
+                    <small>
+                        <span id="reviewCharacterCount">
+                            0
+                        </span>/1000
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===============================
+                 BUTTON
+            ================================ -->
+
+            <div class="customer-review-form-actions">
+
+                <a asp-area="Customer"
+                   asp-controller="Reviews"
+                   asp-action="Details"
+                   asp-route-id="@Model.MaDanhGia">
+
+                    Hủy
+
+                </a>
+
+
+                <button type="submit">
+
+                    <i class="bi bi-check2-circle"></i>
+
+                    Lưu thay đổi
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+
+    <!-- =====================================
+         SUMMARY
+    ====================================== -->
+
+    <aside class="review-care-profile">
+
+        <div class="review-care-profile-cover"></div>
+
+
+        <div class="review-care-profile-avatar">
+
+            <div class="review-care-profile-avatar-inner">
+                <i class="bi bi-calendar2-heart"></i>
+            </div>
+
+            <span class="review-care-profile-check">
+                <i class="bi bi-check-lg"></i>
+            </span>
+
+        </div>
+
+
+        <div class="review-care-profile-main">
+
+            <h2>
+                Thông tin buổi chăm sóc
+            </h2>
+
+            <p>
+                @($"#DL{Model.MaDatLich}")
+            </p>
+
+            <span class="review-care-profile-status">
+
+                <i class="bi bi-patch-check-fill"></i>
+
+                Đã hoàn thành
+
+            </span>
+
+        </div>
+
+
+        <div class="review-care-profile-stats">
+
+            <div>
+
+                <strong>
+                    @Model.NgayChamSoc.ToString("dd/MM")
+                </strong>
+
+                <span>
+                    Ngày chăm sóc
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    @Model.GioBatDau.ToString(@"hh\:mm")
+                </strong>
+
+                <span>
+                    Giờ bắt đầu
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="review-care-profile-info">
+
+            <div class="review-care-profile-row">
+
+                <span class="review-care-profile-row-icon">
+                    <i class="bi bi-person-heart"></i>
+                </span>
+
+                <div>
+
+                    <small>
+                        Người được chăm sóc
+                    </small>
+
+                    <strong>
+                        @Model.TenBenhNhan
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="review-care-profile-row">
+
+                <span class="review-care-profile-row-icon">
+                    <i class="bi bi-person-badge"></i>
+                </span>
+
+                <div>
+
+                    <small>
+                        Người chăm sóc
+                    </small>
+
+                    <strong>
+                        @Model.TenNguoiChamSoc
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="review-care-profile-row">
+
+                <span class="review-care-profile-row-icon service">
+                    <i class="bi bi-heart-pulse"></i>
+                </span>
+
+                <div>
+
+                    <small>
+                        Dịch vụ
+                    </small>
+
+                    <strong>
+                        @Model.TenDichVu
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="review-care-profile-row">
+
+                <span class="review-care-profile-row-icon time">
+                    <i class="bi bi-clock"></i>
+                </span>
+
+                <div>
+
+                    <small>
+                        Khung giờ
+                    </small>
+
+                    <strong>
+                        @Model.GioBatDau.ToString(@"hh\:mm")
+                        -
+                        @Model.GioKetThuc.ToString(@"hh\:mm")
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="review-care-profile-footer">
+
+            <a asp-area="Customer"
+               asp-controller="Bookings"
+               asp-action="Details"
+               asp-route-id="@Model.MaDatLich">
+
+                <i class="bi bi-calendar2-check"></i>
+
+                Xem lịch chăm sóc liên quan
+
+                <i class="bi bi-chevron-right"></i>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                const ratingInputs =
+                    document.querySelectorAll(
+                        'input[name="SoSao"]'
+                    );
+
+                const ratingLabels =
+                    document.querySelectorAll(
+                        ".review-edit-star"
+                    );
+
+                const ratingText =
+                    document.getElementById(
+                        "reviewRatingText"
+                    );
+
+                const ratingValue =
+                    document.getElementById(
+                        "reviewRatingValue"
+                    );
+
+                const reviewText =
+                    document.getElementById(
+                        "NoiDung"
+                    );
+
+                const characterCount =
+                    document.getElementById(
+                        "reviewCharacterCount"
+                    );
+
+
+                const ratingMessages = {
+                    1: "Rất không hài lòng",
+                    2: "Chưa hài lòng",
+                    3: "Bình thường",
+                    4: "Hài lòng",
+                    5: "Rất hài lòng"
+                };
+
+
+                function paintStars(value) {
+
+                    const selected =
+                        Number(value || 0);
+
+                    ratingLabels.forEach(
+                        function(label) {
+
+                            const starValue =
+                                Number(
+                                    label.dataset.value
+                                );
+
+                            label.classList.toggle(
+                                "active",
+                                starValue <= selected
+                            );
+
+                        }
+                    );
+
+
+                    if (ratingText) {
+                        ratingText.textContent =
+                            selected > 0
+                                ? ratingMessages[selected]
+                                : "Hãy chọn mức độ hài lòng";
+                    }
+
+
+                    if (ratingValue) {
+                        ratingValue.textContent =
+                            selected > 0
+                                ? selected + "/5"
+                                : "";
+                    }
+                }
+
+
+                ratingInputs.forEach(
+                    function(input) {
+
+                        input.addEventListener(
+                            "change",
+                            function() {
+
+                                paintStars(
+                                    input.value
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                ratingLabels.forEach(
+                    function(label) {
+
+                        label.addEventListener(
+                            "mouseenter",
+                            function() {
+
+                                paintStars(
+                                    label.dataset.value
+                                );
+
+                            }
+                        );
+
+
+                        label.addEventListener(
+                            "mouseleave",
+                            function() {
+
+                                const checked =
+                                    document.querySelector(
+                                        'input[name="SoSao"]:checked'
+                                    );
+
+                                paintStars(
+                                    checked?.value || 0
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                function updateCharacterCount() {
+
+                    if (
+                        reviewText &&
+                        characterCount
+                    ) {
+                        characterCount.textContent =
+                            reviewText.value.length;
+                    }
+
+                }
+
+
+                reviewText?.addEventListener(
+                    "input",
+                    updateCharacterCount
+                );
+
+
+                const currentChecked =
+                    document.querySelector(
+                        'input[name="SoSao"]:checked'
+                    );
+
+                paintStars(
+                    currentChecked?.value || 0
+                );
+
+                updateCharacterCount();
+
+            }
+        );
+    </script>
+
+}

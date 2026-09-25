@@ -1,0 +1,444 @@
+﻿@model CareConnect.ViewModels.CustomerCareJournalDetailsViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết nhật ký sức khỏe";
+
+    string hoTen =
+        string.IsNullOrWhiteSpace(
+            Model.TenBenhNhan)
+            ? "Người được chăm sóc"
+            : Model.TenBenhNhan;
+
+    string chuCaiDau =
+        hoTen.Substring(0, 1).ToUpper();
+
+    string nguoiChamSoc =
+        string.IsNullOrWhiteSpace(
+            Model.TenNguoiChamSoc)
+            ? "Chưa cập nhật"
+            : Model.TenNguoiChamSoc;
+
+    string tinhTrang =
+        string.IsNullOrWhiteSpace(
+            Model.TinhTrangSucKhoe)
+            ? "Chưa cập nhật"
+            : Model.TinhTrangSucKhoe;
+
+    string tinhTrangAnUong =
+        string.IsNullOrWhiteSpace(
+            Model.TinhTrangAnUong)
+            ? "Chưa cập nhật"
+            : Model.TinhTrangAnUong;
+
+    string thuocDaUong =
+        string.IsNullOrWhiteSpace(
+            Model.ThuocDaUong)
+            ? "Chưa cập nhật"
+            : Model.ThuocDaUong;
+
+    string ghiChu =
+        string.IsNullOrWhiteSpace(
+            Model.GhiChu)
+            ? "Không có ghi chú bổ sung."
+            : Model.GhiChu;
+}
+
+<section class="customer-journal-detail-heading">
+
+    <a asp-area="Customer"
+       asp-controller="CareJournals"
+       asp-action="Index"
+       class="customer-journal-detail-back">
+
+        <i class="bi bi-arrow-left"></i>
+    </a>
+
+    <div>
+        <span>NHẬT KÝ SỨC KHỎE</span>
+
+        <h1>Chi tiết nhật ký chăm sóc</h1>
+
+        <p>
+            Xem thông tin sức khỏe và ghi chú được cập nhật
+            sau buổi chăm sóc.
+        </p>
+    </div>
+
+</section>
+
+<section class="customer-journal-detail-hero">
+
+    <div class="journal-detail-patient">
+
+        <span class="journal-detail-avatar">
+            @chuCaiDau
+        </span>
+
+        <div>
+            <span class="journal-detail-code">
+                #NK@Model.MaNhatKy
+            </span>
+
+            <h2>@hoTen</h2>
+
+            <div class="journal-detail-meta">
+
+                <span>
+                    <i class="bi bi-calendar3"></i>
+
+                    @Model.NgayChamSoc.ToString("dd/MM/yyyy")
+                </span>
+
+                <span>
+                    <i class="bi bi-clock"></i>
+
+                    @Model.GioBatDau.ToString(@"hh\:mm")
+                    -
+                    @Model.GioKetThuc.ToString(@"hh\:mm")
+                </span>
+
+                <span>
+                    <i class="bi bi-clipboard2-check"></i>
+
+                    #DL@Model.MaDatLich
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="journal-detail-service">
+
+        <span>
+            <i class="bi bi-heart-pulse-fill"></i>
+        </span>
+
+        <div>
+            <small>Dịch vụ chăm sóc</small>
+            <strong>@Model.TenDichVu</strong>
+        </div>
+
+    </div>
+
+</section>
+
+<div class="customer-journal-detail-layout">
+
+    <main class="customer-journal-detail-main">
+
+        <section class="journal-detail-card">
+
+            <div class="journal-detail-card-heading">
+
+                <span class="vital">
+                    <i class="bi bi-activity"></i>
+                </span>
+
+                <div>
+                    <h2>Chỉ số sức khỏe</h2>
+
+                    <p>
+                        Các chỉ số sinh tồn được ghi nhận
+                        trong buổi chăm sóc.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="journal-detail-vitals">
+
+                <article>
+
+                    <span class="pressure">
+                        <i class="bi bi-activity"></i>
+                    </span>
+
+                    <small>Huyết áp</small>
+
+                    <strong>
+                        @Model.HuyetAp
+                    </strong>
+
+                </article>
+
+                <article>
+
+                    <span class="heart">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                    </span>
+
+                    <small>Nhịp tim</small>
+
+                    <strong>
+                        @(Model.NhipTim.HasValue
+                            ? $"{Model.NhipTim} bpm"
+                            : "Chưa cập nhật")
+                    </strong>
+
+                </article>
+
+                <article>
+
+                    <span class="temperature">
+                        <i class="bi bi-thermometer-half"></i>
+                    </span>
+
+                    <small>Nhiệt độ</small>
+
+                    <strong>
+                        @(Model.NhietDo.HasValue
+                            ? $"{Model.NhietDo:0.0} °C"
+                            : "Chưa cập nhật")
+                    </strong>
+
+                </article>
+
+                <article>
+
+                    <span class="weight">
+                        <i class="bi bi-speedometer2"></i>
+                    </span>
+
+                    <small>Cân nặng</small>
+
+                    <strong>
+                        @(Model.CanNang.HasValue
+                            ? $"{Model.CanNang:0.##} kg"
+                            : "Chưa cập nhật")
+                    </strong>
+
+                </article>
+
+            </div>
+
+        </section>
+
+        <section class="journal-detail-card">
+
+            <div class="journal-detail-card-heading">
+
+                <span class="health">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                </span>
+
+                <div>
+                    <h2>Tình trạng sức khỏe</h2>
+
+                    <p>
+                        Đánh giá tình trạng của người được chăm sóc.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="journal-detail-health-content">
+
+                <i class="bi bi-quote"></i>
+
+                <p>@tinhTrang</p>
+
+            </div>
+
+        </section>
+
+        <section class="journal-detail-card">
+
+            <div class="journal-detail-card-heading">
+
+                <span class="health">
+                    <i class="bi bi-cup-hot-fill"></i>
+                </span>
+
+                <div>
+                    <h2>Tình trạng ăn uống</h2>
+
+                    <p>
+                        Thông tin ăn uống được ghi nhận
+                        trong buổi chăm sóc.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="journal-detail-health-content">
+
+                <i class="bi bi-quote"></i>
+
+                <p>@tinhTrangAnUong</p>
+
+            </div>
+
+        </section>
+
+        <section class="journal-detail-card">
+
+            <div class="journal-detail-card-heading">
+
+                <span class="health">
+                    <i class="bi bi-capsule-pill"></i>
+                </span>
+
+                <div>
+                    <h2>Thuốc đã uống</h2>
+
+                    <p>
+                        Thông tin thuốc được ghi nhận
+                        theo hướng dẫn chăm sóc.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="journal-detail-health-content">
+
+                <i class="bi bi-quote"></i>
+
+                <p>@thuocDaUong</p>
+
+            </div>
+
+        </section>
+
+        <section class="journal-detail-card">
+
+            <div class="journal-detail-card-heading">
+
+                <span class="note">
+                    <i class="bi bi-journal-text"></i>
+                </span>
+
+                <div>
+                    <h2>Ghi chú chăm sóc</h2>
+
+                    <p>
+                        Nội dung do người chăm sóc cập nhật
+                        sau buổi làm việc.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="journal-detail-note-content">
+
+                <i class="bi bi-info-circle-fill"></i>
+
+                <p>@ghiChu</p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <aside class="customer-journal-detail-sidebar">
+
+        <section class="journal-detail-summary-card">
+
+            <div class="journal-detail-summary-heading">
+
+                <span>
+                    <i class="bi bi-calendar2-check-fill"></i>
+                </span>
+
+                <div>
+                    <h2>Thông tin buổi chăm sóc</h2>
+
+                    <p>
+                        Thông tin liên quan đến lịch đặt.
+                    </p>
+                </div>
+
+            </div>
+
+            <dl>
+
+                <div>
+                    <dt>Người chăm sóc</dt>
+                    <dd>@nguoiChamSoc</dd>
+                </div>
+
+                <div>
+                    <dt>Dịch vụ</dt>
+                    <dd>@Model.TenDichVu</dd>
+                </div>
+
+                <div>
+                    <dt>Ngày chăm sóc</dt>
+
+                    <dd>
+                        @Model.NgayChamSoc.ToString("dd/MM/yyyy")
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Khung giờ</dt>
+
+                    <dd>
+                        @Model.GioBatDau.ToString(@"hh\:mm")
+                        -
+                        @Model.GioKetThuc.ToString(@"hh\:mm")
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Trạng thái lịch</dt>
+                    <dd>@Model.TrangThaiLich</dd>
+                </div>
+
+                <div>
+                    <dt>Địa chỉ chăm sóc</dt>
+                    <dd>@Model.DiaChiChamSoc</dd>
+                </div>
+
+                <div>
+                    <dt>Cập nhật lần cuối</dt>
+
+                    <dd>
+                        @(Model.NgayCapNhat.HasValue
+                            ? Model.NgayCapNhat.Value.ToString("dd/MM/yyyy HH:mm")
+                            : "Chưa xác định")
+                    </dd>
+                </div>
+
+            </dl>
+
+            <a asp-area="Customer"
+               asp-controller="Bookings"
+               asp-action="Details"
+               asp-route-id="@Model.MaDatLich">
+
+                <i class="bi bi-box-arrow-up-right"></i>
+                Xem lịch chăm sóc liên quan
+            </a>
+
+        </section>
+
+        <div class="journal-detail-security">
+
+            <i class="bi bi-shield-lock-fill"></i>
+
+            <div>
+                <strong>Dữ liệu sức khỏe được bảo vệ</strong>
+
+                <p>
+                    Chỉ tài khoản khách hàng quản lý hồ sơ
+                    mới có thể xem nhật ký này.
+                </p>
+            </div>
+
+        </div>
+
+        <a asp-area="Customer"
+           asp-controller="CareJournals"
+           asp-action="Index"
+           class="journal-detail-return">
+
+            <i class="bi bi-arrow-left"></i>
+            Quay lại danh sách nhật ký
+        </a>
+
+    </aside>
+
+</div>

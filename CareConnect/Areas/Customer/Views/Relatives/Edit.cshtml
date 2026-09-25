@@ -1,0 +1,540 @@
+﻿@model CareConnect.ViewModels.CustomerRelativeFormViewModel
+
+@{
+    ViewData["Title"] = "Chỉnh sửa hồ sơ người thân";
+}
+
+<section class="relative-edit-header-card">
+
+    <div class="relative-edit-heading">
+
+        <div class="relative-edit-heading-left">
+
+            <a asp-area="Customer"
+               asp-controller="Relatives"
+               asp-action="Details"
+               asp-route-id="@Model.MaBenhNhan"
+               class="relative-edit-back">
+
+                <i class="bi bi-arrow-left"></i>
+
+            </a>
+
+            <div class="relative-edit-heading-text">
+
+                <span class="relative-edit-eyebrow">
+                    HỒ SƠ NGƯỜI ĐƯỢC CHĂM SÓC
+                </span>
+
+                <h1>
+                    Chỉnh sửa hồ sơ người thân
+                </h1>
+
+                <p>
+                    Cập nhật thông tin cá nhân, tình trạng sức khỏe
+                    và thông tin liên hệ của người được chăm sóc.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="relative-edit-heading-actions">
+
+            <a asp-area="Customer"
+               asp-controller="Relatives"
+               asp-action="Details"
+               asp-route-id="@Model.MaBenhNhan"
+               class="relative-edit-cancel">
+
+                <i class="bi bi-x-lg"></i>
+                Hủy chỉnh sửa
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<div class="relative-form-layout">
+
+    <main class="relative-form-card">
+
+        <div class="relative-form-card-heading">
+
+            <span>
+                <i class="bi bi-pencil-square"></i>
+            </span>
+
+            <div>
+                <h2>Thông tin hồ sơ</h2>
+
+                <p>
+                    Mã hồ sơ:
+                    <strong>
+                        @(string.IsNullOrWhiteSpace(Model.MaBenhNhanCode)
+                            ? $"BN{Model.MaBenhNhan:D4}"
+                            : Model.MaBenhNhanCode)
+                    </strong>
+                </p>
+            </div>
+
+        </div>
+
+        <form asp-area="Customer"
+              asp-controller="Relatives"
+              asp-action="Edit"
+              method="post"
+              class="relative-profile-form">
+
+            @Html.AntiForgeryToken()
+
+            <input asp-for="MaBenhNhan"
+                   type="hidden" />
+
+            <input asp-for="MaBenhNhanCode"
+                   type="hidden" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="relative-validation-summary">
+            </div>
+
+            <section class="relative-form-section">
+
+                <div class="relative-form-section-title">
+
+                    <i class="bi bi-person-vcard"></i>
+
+                    <div>
+                        <h3>Thông tin cá nhân</h3>
+
+                        <p>
+                            Thông tin nhận diện người được chăm sóc.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="relative-form-grid">
+
+                    <div class="relative-form-group full">
+
+                        <label asp-for="HoTen">
+                            Họ và tên
+                            <span>*</span>
+                        </label>
+
+                        <div class="relative-input">
+
+                            <i class="bi bi-person"></i>
+
+                            <input asp-for="HoTen"
+                                   placeholder="Nhập họ và tên" />
+
+                        </div>
+
+                        <span asp-validation-for="HoTen"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                    <div class="relative-form-group">
+
+                        <label asp-for="GioiTinh"></label>
+
+                        <div class="relative-input">
+
+                            <i class="bi bi-gender-ambiguous"></i>
+
+                            <select asp-for="GioiTinh">
+
+                                <option value="">
+                                    -- Chọn giới tính --
+                                </option>
+
+                                <option value="Nam">Nam</option>
+
+                                <option value="Nữ">Nữ</option>
+
+                                <option value="Khác">Khác</option>
+
+                            </select>
+
+                        </div>
+
+                        <span asp-validation-for="GioiTinh"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                    <div class="relative-form-group">
+
+                        <label asp-for="NgaySinh"></label>
+
+                        <div class="relative-input">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            <input asp-for="NgaySinh"
+                                   type="date"
+                                   max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+
+                        </div>
+
+                        <span asp-validation-for="NgaySinh"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                    <div class="relative-form-group">
+
+                        <label asp-for="QuanHe"></label>
+
+                        <div class="relative-input">
+
+                            <i class="bi bi-people"></i>
+
+                            <select asp-for="QuanHe">
+
+                                <option value="">
+                                    -- Chọn quan hệ --
+                                </option>
+
+                                <option value="Cha">Cha</option>
+                                <option value="Mẹ">Mẹ</option>
+                                <option value="Ông">Ông</option>
+                                <option value="Bà">Bà</option>
+                                <option value="Vợ">Vợ</option>
+                                <option value="Chồng">Chồng</option>
+                                <option value="Con">Con</option>
+                                <option value="Anh">Anh</option>
+                                <option value="Chị">Chị</option>
+                                <option value="Em">Em</option>
+                                <option value="Người thân khác">
+                                    Người thân khác
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <span asp-validation-for="QuanHe"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                    <div class="relative-form-group">
+
+                        <label asp-for="SoDienThoai"></label>
+
+                        <div class="relative-input">
+
+                            <i class="bi bi-telephone"></i>
+
+                            <input asp-for="SoDienThoai"
+                                   placeholder="Ví dụ: 0901234567" />
+
+                        </div>
+
+                        <span asp-validation-for="SoDienThoai"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                    <div class="relative-form-group full">
+
+                        <label asp-for="DiaChi"></label>
+
+                        <div class="relative-input">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            <input asp-for="DiaChi"
+                                   placeholder="Nhập địa chỉ chăm sóc" />
+
+                        </div>
+
+                        <span asp-validation-for="DiaChi"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="relative-form-section">
+
+                <div class="relative-form-section-title">
+
+                    <i class="bi bi-heart-pulse-fill"></i>
+
+                    <div>
+                        <h3>Thông tin sức khỏe</h3>
+
+                        <p>
+                            Cập nhật tình trạng sức khỏe
+                            và các lưu ý y tế quan trọng.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="relative-form-grid">
+
+                    <div class="relative-form-group">
+
+                        <label asp-for="NhomMau"></label>
+
+                        <div class="relative-input">
+
+                            <i class="bi bi-droplet-fill"></i>
+
+                            <select asp-for="NhomMau">
+
+                                <option value="">
+                                    -- Chọn nhóm máu --
+                                </option>
+
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="Không rõ">
+                                    Không rõ
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <span asp-validation-for="NhomMau"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                    <div class="relative-form-group">
+
+                        <label asp-for="DiUngThuoc"></label>
+
+                        <div class="relative-input">
+
+                            <i class="bi bi-capsule"></i>
+
+                            <input asp-for="DiUngThuoc"
+                                   placeholder="Ví dụ: Dị ứng Penicillin" />
+
+                        </div>
+
+                        <span asp-validation-for="DiUngThuoc"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                    <div class="relative-form-group full">
+
+                        <label asp-for="TinhTrangSucKhoe"></label>
+
+                        <div class="relative-textarea">
+
+                            <i class="bi bi-activity"></i>
+
+                            <textarea asp-for="TinhTrangSucKhoe"
+                                      rows="4"
+                                      placeholder="Mô tả tình trạng sức khỏe hiện tại..."></textarea>
+
+                        </div>
+
+                        <span asp-validation-for="TinhTrangSucKhoe"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                    <div class="relative-form-group full">
+
+                        <label asp-for="TienSuBenh"></label>
+
+                        <div class="relative-textarea">
+
+                            <i class="bi bi-clipboard2-pulse"></i>
+
+                            <textarea asp-for="TienSuBenh"
+                                      rows="4"
+                                      placeholder="Các bệnh nền, tiền sử điều trị hoặc phẫu thuật..."></textarea>
+
+                        </div>
+
+                        <span asp-validation-for="TienSuBenh"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="relative-form-section">
+
+                <div class="relative-form-section-title">
+
+                    <i class="bi bi-telephone-forward-fill"></i>
+
+                    <div>
+                        <h3>Liên hệ khẩn cấp</h3>
+
+                        <p>
+                            Thông tin người có thể liên hệ
+                            khi xảy ra tình huống bất thường.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="relative-form-grid">
+
+                    <div class="relative-form-group">
+
+                        <label asp-for="NguoiLienHeKhanCap"></label>
+
+                        <div class="relative-input">
+
+                            <i class="bi bi-person-lines-fill"></i>
+
+                            <input asp-for="NguoiLienHeKhanCap"
+                                   placeholder="Họ tên người liên hệ" />
+
+                        </div>
+
+                        <span asp-validation-for="NguoiLienHeKhanCap"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                    <div class="relative-form-group">
+
+                        <label asp-for="SoDienThoaiKhanCap"></label>
+
+                        <div class="relative-input">
+
+                            <i class="bi bi-telephone-outbound"></i>
+
+                            <input asp-for="SoDienThoaiKhanCap"
+                                   placeholder="Số điện thoại khẩn cấp" />
+
+                        </div>
+
+                        <span asp-validation-for="SoDienThoaiKhanCap"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                    <div class="relative-form-group full">
+
+                        <label asp-for="GhiChu"></label>
+
+                        <div class="relative-textarea">
+
+                            <i class="bi bi-journal-text"></i>
+
+                            <textarea asp-for="GhiChu"
+                                      rows="4"
+                                      placeholder="Thông tin bổ sung dành cho người chăm sóc..."></textarea>
+
+                        </div>
+
+                        <span asp-validation-for="GhiChu"
+                              class="relative-field-error">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <div class="relative-form-actions">
+
+                <a asp-area="Customer"
+                   asp-controller="Relatives"
+                   asp-action="Details"
+                   asp-route-id="@Model.MaBenhNhan"
+                   class="relative-cancel-button">
+
+                    Hủy thay đổi
+                </a>
+
+                <button type="submit"
+                        class="relative-submit-button">
+
+                    <i class="bi bi-check2-circle"></i>
+                    Lưu thay đổi
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+    <aside class="relative-form-sidebar">
+
+        <div class="relative-form-note-icon">
+            <i class="bi bi-info-circle-fill"></i>
+        </div>
+
+        <h2>Lưu ý khi cập nhật</h2>
+
+        <ul>
+            <li>
+                Cập nhật tình trạng sức khỏe mới nhất.
+            </li>
+
+            <li>
+                Bổ sung dị ứng thuốc nếu có thay đổi.
+            </li>
+
+            <li>
+                Kiểm tra lại địa chỉ sử dụng khi đặt lịch.
+            </li>
+
+            <li>
+                Số điện thoại khẩn cấp cần còn hoạt động.
+            </li>
+        </ul>
+
+        <div class="relative-form-security">
+
+            <i class="bi bi-shield-lock-fill"></i>
+
+            <span>
+                Mọi thay đổi sẽ được lưu trực tiếp
+                vào hồ sơ người được chăm sóc.
+            </span>
+
+        </div>
+
+    </aside>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

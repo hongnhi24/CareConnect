@@ -1,0 +1,312 @@
+﻿/* Phông chữ và độ đậm theo giao diện chung */
+body.cg-body {
+    font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.cg-body button,
+.cg-body input,
+.cg-body select,
+.cg-body textarea {
+    font-family: inherit;
+}
+
+.cg-body h1 {
+    font-weight: 700;
+    letter-spacing: -.25px;
+}
+
+.cg-body h2 {
+    font-weight: 600;
+    letter-spacing: -.15px;
+}
+
+.cg-body h3,
+.cg-body h4,
+.cg-body h5,
+.cg-body h6,
+.cg-body strong {
+    font-weight: 600;
+}
+
+.cg-body p,
+.cg-body small {
+    font-weight: 400;
+}
+
+.cg-body button,
+.cg-body .cg-btn {
+    font-weight: 600;
+}
+
+.cg-body .cg-brand strong {
+    font-weight: 700;
+}
+
+.cg-body .cg-navigation a {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+    .cg-body .cg-navigation a.active {
+        font-weight: 600;
+    }
+
+.cg-body .cg-menu-label,
+.cg-body .cg-dashboard-eyebrow,
+.cg-body .cg-overview-label {
+    font-weight: 600;
+}
+
+.cg-body .cg-overview-value {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.cg-body .cg-dashboard-heading > div:first-child {
+    min-width: 0;
+}
+
+.cg-body .cg-dashboard-heading h1 {
+    overflow-wrap: anywhere;
+}
+
+/* Thẻ hồ sơ đã hoàn thiện */
+.cg-body .cg-profile-complete {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 24px;
+    padding: 22px 24px;
+    background: linear-gradient(110deg, #ffffff, #f2faf6);
+    border: 1px solid #dcece3;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(42, 58, 49, .04);
+}
+
+.cg-body .cg-profile-complete-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    color: #21835e;
+    background: var(--cg-green-soft, #e3f8ee);
+    border: 1px solid #d2eddf;
+    border-radius: 14px;
+    font-size: 23px;
+}
+
+.cg-body .cg-profile-complete-content {
+    min-width: 0;
+}
+
+.cg-body .cg-profile-complete-label {
+    display: block;
+    margin-bottom: 4px;
+    color: #557565;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .07em;
+}
+
+.cg-body .cg-profile-complete h2 {
+    margin: 0;
+    color: var(--cg-text, #25302b);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.cg-body .cg-profile-complete p {
+    margin: 6px 0 0;
+    color: #64756c;
+    font-size: 14px;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.cg-body .cg-profile-complete-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 42px;
+    padding: 10px 15px;
+    color: #237650;
+    background: #ffffff;
+    border: 1px solid #d3e6da;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: background .18s ease, border-color .18s ease;
+}
+
+    .cg-body .cg-profile-complete-link:hover {
+        color: #195c3d;
+        background: #eaf7ef;
+        border-color: #afd5bd;
+    }
+
+/* Thẻ hồ sơ chưa hoàn thiện */
+.cg-body .cg-profile-warning {
+    gap: 18px;
+    margin-bottom: 24px;
+    padding: 22px 24px;
+    background: #fff9ee;
+    border-color: #f0dfbd;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(42, 58, 49, .04);
+}
+
+.cg-body .cg-profile-warning-icon {
+    border-radius: 14px;
+}
+
+.cg-body .cg-profile-warning-label {
+    font-weight: 600;
+    letter-spacing: .07em;
+}
+
+.cg-body .cg-profile-warning-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+    .cg-body .cg-profile-warning-heading > div {
+        min-width: 0;
+    }
+
+.cg-body .cg-profile-warning h2 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.cg-body .cg-profile-warning p {
+    max-width: 760px;
+    font-size: 14px;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.cg-body .cg-profile-warning-percent {
+    flex: 0 0 auto;
+    padding: 7px 11px;
+    color: #986116;
+    background: #fff0d1;
+    border: 1px solid #efdcaf;
+    border-radius: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.3;
+}
+
+.cg-body .cg-profile-warning-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin-top: 12px;
+    color: #746344;
+    font-size: 13px;
+}
+
+    .cg-body .cg-profile-warning-summary > span {
+        display: inline-flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+.cg-body .cg-profile-warning-missing span {
+    max-width: 100%;
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.cg-body .cg-profile-warning-missing i {
+    flex-shrink: 0;
+}
+
+.cg-body .cg-profile-warning-button,
+.cg-body .cg-profile-warning-secondary {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+    .cg-body .cg-profile-complete-link:focus-visible,
+    .cg-body .cg-profile-warning-button:focus-visible,
+    .cg-body .cg-profile-warning-secondary:focus-visible {
+        outline: 3px solid var(--cg-orange, #e99a2b);
+        outline-offset: 3px;
+    }
+
+/* Bố cục màn hình nhỏ */
+@media (max-width: 680px) {
+    .cg-body .cg-profile-complete {
+        grid-template-columns: 40px minmax(0, 1fr);
+        gap: 14px;
+        padding: 18px;
+    }
+
+    .cg-body .cg-profile-complete-icon {
+        width: 40px;
+        height: 40px;
+        align-self: start;
+        border-radius: 12px;
+        font-size: 21px;
+    }
+
+    .cg-body .cg-profile-complete-link {
+        grid-column: 2;
+        justify-self: start;
+    }
+
+    .cg-body .cg-profile-warning {
+        gap: 12px;
+        padding: 18px;
+    }
+
+    .cg-body .cg-profile-warning-icon {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+    }
+
+    .cg-body .cg-profile-warning-heading {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .cg-body .cg-profile-warning-percent {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 440px) {
+    .cg-body .cg-profile-complete-link {
+        grid-column: 1 / -1;
+        justify-self: stretch;
+    }
+
+    .cg-body .cg-profile-warning {
+        flex-direction: column;
+    }
+
+    .cg-body .cg-profile-warning-content {
+        width: 100%;
+    }
+
+    .cg-body .cg-profile-warning-actions > a {
+        width: 100%;
+    }
+}

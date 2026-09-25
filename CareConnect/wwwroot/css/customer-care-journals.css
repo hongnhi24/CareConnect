@@ -1,0 +1,1270 @@
+﻿/* =========================================================
+   CARECONNECT - CUSTOMER CARE JOURNALS
+   Nhật ký sức khỏe khách hàng
+
+   Typography
+   - Tiêu đề trang: 30px
+   - Tiêu đề card: 18px
+   - Tiêu đề phần: 17px
+   - Label: 13px
+   - Nội dung: 14px
+   - Nút: 14px
+
+   Theme:
+   TRẮNG BÊN TRÁI -> XANH ĐẬM DẦN SANG PHẢI
+   ========================================================= */
+
+
+/* =========================================================
+   ALERT
+   ========================================================= */
+
+.customer-journal-alert {
+    margin-bottom: 16px;
+    padding: 13px 15px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border-radius: 11px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+    .customer-journal-alert.success {
+        color: #247d55;
+        background: #e9f7ef;
+        border: 1px solid #cce8d8;
+    }
+
+    .customer-journal-alert.error {
+        color: #a84b4b;
+        background: #fff1f1;
+        border: 1px solid #efcccc;
+    }
+
+
+/* =========================================================
+   INDEX HERO
+   Trắng trái -> xanh đậm dần sang phải
+   ========================================================= */
+
+.customer-journal-heading {
+    width: 100%;
+    min-height: 142px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    padding: 25px 28px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient( 105deg, #ffffff 0%, #f7fcfb 23%, #edf9f6 44%, #d7f1ec 68%, #a9dfd8 84%, #71cbc2 100% );
+    border: 1px solid #bfe0da;
+    border-radius: 19px;
+    box-shadow: 0 13px 32px rgba(30, 91, 80, 0.07);
+}
+
+
+    /* trang trí nhẹ phía phải */
+
+    .customer-journal-heading::after {
+        content: "";
+        position: absolute;
+        right: -80px;
+        top: -90px;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.11);
+        pointer-events: none;
+    }
+
+    .customer-journal-heading > div {
+        position: relative;
+        z-index: 1;
+        min-width: 0;
+    }
+
+        .customer-journal-heading > div > span {
+            display: inline-flex;
+            margin-bottom: 9px;
+            padding: 6px 11px;
+            color: #087c74;
+            background: rgba(218, 243, 238, 0.95);
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 850;
+            letter-spacing: 0.07em;
+        }
+
+    .customer-journal-heading h1 {
+        margin: 0;
+        color: #223d38;
+        font-size: 30px;
+        font-weight: 850;
+        line-height: 1.2;
+    }
+
+    .customer-journal-heading p {
+        max-width: 720px;
+        margin: 8px 0 0;
+        color: #6f817b;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+.customer-journal-stats {
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.customer-journal-stat-card {
+    position: relative;
+    min-width: 0;
+    min-height: 108px;
+    box-sizing: border-box;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: inherit;
+    background: #ffffff;
+    border: 1px solid #e0e9e6;
+    border-radius: 15px;
+    box-shadow: 0 8px 22px rgba(35, 63, 56, 0.045);
+    text-decoration: none;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+    .customer-journal-stat-card:hover {
+        color: inherit;
+        transform: translateY(-2px);
+        border-color: #b9dcd5;
+        box-shadow: 0 12px 27px rgba(35, 63, 56, 0.07);
+    }
+
+.journal-stat-icon {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-size: 18px;
+}
+
+    .journal-stat-icon.total {
+        color: #078f85;
+        background: #def3ee;
+    }
+
+    .journal-stat-icon.patient {
+        color: #3979c5;
+        background: #e8efff;
+    }
+
+    .journal-stat-icon.health {
+        color: #c75858;
+        background: #fde9e9;
+    }
+
+.customer-journal-stat-card strong {
+    display: block;
+    color: #304640;
+    font-size: 23px;
+    font-weight: 850;
+    line-height: 1;
+}
+
+.customer-journal-stat-card small {
+    display: block;
+    margin-top: 6px;
+    color: #7e8d88;
+    font-size: 13px;
+}
+
+.customer-journal-stat-link {
+    cursor: pointer;
+}
+
+.customer-journal-stat-arrow {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    color: #8ba19b;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   FILTER
+   ========================================================= */
+
+.customer-journal-filter-card {
+    margin-bottom: 18px;
+    padding: 14px;
+    background: #ffffff;
+    border: 1px solid #e0e8e5;
+    border-radius: 15px;
+    box-shadow: 0 8px 22px rgba(35, 63, 56, 0.04);
+}
+
+    .customer-journal-filter-card form {
+        display: grid;
+        grid-template-columns: minmax(260px, 1fr) minmax(200px, 0.55fr) auto 46px;
+        gap: 10px;
+    }
+
+.customer-journal-search,
+.customer-journal-select {
+    min-width: 0;
+    height: 46px;
+    box-sizing: border-box;
+    padding: 0 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8faf9;
+    border: 1px solid #dce5e2;
+    border-radius: 10px;
+}
+
+    .customer-journal-search i,
+    .customer-journal-select i {
+        color: #82928d;
+        font-size: 15px;
+    }
+
+    .customer-journal-search input,
+    .customer-journal-select select {
+        width: 100%;
+        min-width: 0;
+        height: 100%;
+        padding: 0;
+        color: #465853;
+        background: transparent;
+        border: 0;
+        font-family: inherit;
+        font-size: 14px;
+        outline: none;
+    }
+
+    .customer-journal-search:focus-within,
+    .customer-journal-select:focus-within {
+        background: #ffffff;
+        border-color: #67b9b0;
+        box-shadow: 0 0 0 3px rgba(16, 151, 141, 0.07);
+    }
+
+.customer-journal-filter-button,
+.customer-journal-reset {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.customer-journal-filter-button {
+    padding: 0 17px;
+    color: #ffffff;
+    background: #078f85;
+    border: 1px solid #078f85;
+    cursor: pointer;
+    box-shadow: 0 7px 16px rgba(7, 143, 133, 0.14);
+}
+
+    .customer-journal-filter-button:hover {
+        background: #067b73;
+    }
+
+.customer-journal-reset {
+    color: #61746e;
+    background: #ffffff;
+    border: 1px solid #dce5e2;
+    text-decoration: none;
+}
+
+    .customer-journal-reset:hover {
+        color: #087f76;
+        background: #f5f9f7;
+    }
+
+
+/* =========================================================
+   PANEL
+   ========================================================= */
+
+.customer-journal-panel {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e0e8e5;
+    border-radius: 18px;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, 0.05);
+}
+
+.customer-journal-panel-heading {
+    min-height: 82px;
+    box-sizing: border-box;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    background: linear-gradient( 100deg, #ffffff 0%, #f8fcfb 55%, #e4f5f1 100% );
+    border-bottom: 1px solid #e7eeeb;
+}
+
+    .customer-journal-panel-heading > div > span {
+        display: inline-flex;
+        padding: 5px 9px;
+        color: #087f76;
+        background: #dff3ee;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 850;
+        letter-spacing: 0.05em;
+    }
+
+    .customer-journal-panel-heading h2 {
+        margin: 6px 0 0;
+        color: #304640;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .customer-journal-panel-heading > strong {
+        padding: 6px 10px;
+        color: #087f76;
+        background: #e0f3ef;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+
+/* =========================================================
+   JOURNAL LIST
+   ========================================================= */
+
+.customer-journal-list {
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+
+/* =========================================================
+   JOURNAL CARD
+   ========================================================= */
+
+.customer-journal-card {
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 17px;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient( 135deg, #ffffff 0%, #ffffff 48%, #f4fbf9 72%, #e5f6f2 100% );
+    border: 1px solid #dfe8e5;
+    border-radius: 15px;
+    box-shadow: 0 7px 20px rgba(35, 63, 56, 0.04);
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+    .customer-journal-card:hover {
+        transform: translateY(-2px);
+        border-color: #acd8d0;
+        box-shadow: 0 12px 27px rgba(35, 63, 56, 0.075);
+    }
+
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.customer-journal-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.customer-journal-patient {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.customer-journal-avatar {
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    display: grid;
+    place-items: center;
+    color: #087f76;
+    background: linear-gradient( 135deg, #ddf3ee, #c9ebe4 );
+    border-radius: 13px;
+    font-size: 19px;
+    font-weight: 850;
+}
+
+.customer-journal-patient-info {
+    min-width: 0;
+}
+
+.customer-journal-code {
+    display: inline-flex !important;
+    padding: 4px 7px;
+    color: #078f85 !important;
+    background: #e7f6f2;
+    border-radius: 999px;
+    font-size: 10px !important;
+    font-weight: 850 !important;
+}
+
+.customer-journal-patient h3 {
+    margin: 6px 0 0;
+    overflow: hidden;
+    color: #304640;
+    font-size: 17px;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.customer-journal-patient p {
+    margin: 4px 0 0;
+    overflow: hidden;
+    color: #7e8d88;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.customer-journal-date-badge {
+    flex-shrink: 0;
+    padding: 7px 9px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #087f76;
+    background: rgba(255, 255, 255, 0.83);
+    border: 1px solid #cae3dd;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   CAREGIVER
+   ========================================================= */
+
+.customer-journal-caregiver-row {
+    margin-top: 13px;
+    padding: 11px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid #e4ebe8;
+    border-radius: 10px;
+}
+
+    .customer-journal-caregiver-row span {
+        color: #84918d;
+        font-size: 12px;
+    }
+
+        .customer-journal-caregiver-row span i {
+            margin-right: 5px;
+            color: #078f85;
+        }
+
+    .customer-journal-caregiver-row strong {
+        color: #455a55;
+        font-size: 13px;
+        font-weight: 750;
+        text-align: right;
+    }
+
+
+/* =========================================================
+   VITALS
+   ========================================================= */
+
+.customer-journal-vitals {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+    .customer-journal-vitals > div {
+        min-width: 0;
+        padding: 10px;
+        display: grid;
+        grid-template-columns: 36px minmax(0, 1fr);
+        align-items: center;
+        gap: 2px 9px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid #e5ece9;
+        border-radius: 10px;
+    }
+
+.vital-icon {
+    width: 36px;
+    height: 36px;
+    grid-row: 1 / 3;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    font-size: 15px;
+}
+
+    .vital-icon.pressure {
+        color: #078f85;
+        background: #def3ee;
+    }
+
+    .vital-icon.heart {
+        color: #c65454;
+        background: #fde7e7;
+    }
+
+    .vital-icon.temperature {
+        color: #c97c17;
+        background: #fff0d7;
+    }
+
+    .vital-icon.weight {
+        color: #5d6fc1;
+        background: #e9edff;
+    }
+
+.customer-journal-vitals > div > span:not(.vital-icon) {
+    color: #87938f;
+    font-size: 11px;
+}
+
+.customer-journal-vitals strong {
+    overflow: hidden;
+    color: #435650;
+    font-size: 13px;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   HEALTH BOX
+   ========================================================= */
+
+.customer-journal-health-box {
+    margin-top: 10px;
+    padding: 12px;
+    background: linear-gradient( 100deg, #ffffff 0%, #eef9f6 65%, #d8f1eb 100% );
+    border: 1px solid #d1e8e2;
+    border-radius: 10px;
+}
+
+    .customer-journal-health-box > div {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #087f76;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .customer-journal-health-box p {
+        margin: 7px 0 0;
+        color: #52645f;
+        font-size: 13px;
+        line-height: 1.6;
+        /* HIỆN ĐẦY ĐỦ */
+        overflow: visible;
+        display: block;
+    }
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.customer-journal-card-footer {
+    margin-top: auto;
+    padding-top: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-top: 1px solid #e6ece9;
+}
+
+    .customer-journal-card-footer small {
+        color: #87938f;
+        font-size: 11px;
+    }
+
+        .customer-journal-card-footer small i {
+            margin-right: 4px;
+            color: #879b95;
+        }
+
+    .customer-journal-card-footer a {
+        min-height: 38px;
+        padding: 0 13px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        color: #ffffff;
+        background: #078f85;
+        border-radius: 9px;
+        font-size: 13px;
+        font-weight: 750;
+        text-decoration: none;
+        white-space: nowrap;
+        box-shadow: 0 6px 14px rgba(7, 143, 133, 0.13);
+    }
+
+        .customer-journal-card-footer a:hover {
+            background: #067b73;
+        }
+
+
+/* =========================================================
+   EMPTY
+   ========================================================= */
+
+.customer-journal-empty {
+    min-height: 330px;
+    padding: 45px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    background: linear-gradient( 110deg, #ffffff, #f8fcfb, #edf8f5 );
+}
+
+    .customer-journal-empty > span {
+        width: 62px;
+        height: 62px;
+        display: grid;
+        place-items: center;
+        color: #078f85;
+        background: #dff3ee;
+        border-radius: 16px;
+        font-size: 24px;
+    }
+
+    .customer-journal-empty h3 {
+        margin: 14px 0 0;
+        color: #40534e;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .customer-journal-empty p {
+        max-width: 480px;
+        margin: 7px 0 0;
+        color: #87938f;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .customer-journal-empty a {
+        min-height: 42px;
+        margin-top: 15px;
+        padding: 0 15px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #ffffff;
+        background: #078f85;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 750;
+        text-decoration: none;
+    }
+
+
+/* =========================================================
+   DETAILS HERO HEADING
+   ========================================================= */
+
+.customer-journal-detail-heading {
+    width: 100%;
+    min-height: 142px;
+    box-sizing: border-box;
+    margin-bottom: 18px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient( 105deg, #ffffff 0%, #f7fcfb 24%, #ecf9f5 47%, #d2efe9 68%, #9bd8d0 85%, #67c5bb 100% );
+    border: 1px solid #bfe0da;
+    border-radius: 19px;
+    box-shadow: 0 13px 32px rgba(30, 91, 80, 0.07);
+}
+
+.customer-journal-detail-back {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: grid;
+    place-items: center;
+    color: #087f76;
+    background: rgba(255, 255, 255, 0.76);
+    border: 1px solid #c9e1dc;
+    border-radius: 9px;
+    box-shadow: none;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+    .customer-journal-detail-back:hover {
+        background: #ffffff;
+    }
+
+.customer-journal-detail-heading > div {
+    min-width: 0;
+}
+
+    .customer-journal-detail-heading > div > span {
+        display: inline-flex;
+        margin-bottom: 8px;
+        padding: 6px 10px;
+        color: #087c74;
+        background: rgba(224, 245, 240, 0.94);
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 850;
+        letter-spacing: 0.06em;
+    }
+
+.customer-journal-detail-heading h1 {
+    margin: 0;
+    color: #223d38;
+    font-size: 30px;
+    font-weight: 850;
+}
+
+.customer-journal-detail-heading p {
+    max-width: 720px;
+    margin: 7px 0 0;
+    color: #6f817b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   DETAIL PATIENT HERO
+   ========================================================= */
+
+.customer-journal-detail-hero {
+    min-height: 126px;
+    margin-bottom: 18px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, auto);
+    align-items: center;
+    gap: 18px;
+    background: linear-gradient( 110deg, #ffffff 0%, #ffffff 42%, #f0faf7 70%, #dcf3ee 100% );
+    border: 1px solid #dce8e4;
+    border-radius: 17px;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, 0.05);
+}
+
+.journal-detail-patient {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.journal-detail-avatar {
+    width: 70px;
+    height: 70px;
+    flex: 0 0 70px;
+    display: grid;
+    place-items: center;
+    color: #087f76;
+    background: #d8f1eb;
+    border-radius: 18px;
+    font-size: 26px;
+    font-weight: 850;
+}
+
+.journal-detail-code {
+    display: inline-flex;
+    padding: 5px 9px;
+    color: #087f76;
+    background: #e3f4ef;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.journal-detail-patient h2 {
+    margin: 7px 0 0;
+    color: #304640;
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.journal-detail-meta {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+    .journal-detail-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: #758680;
+        font-size: 13px;
+    }
+
+    .journal-detail-meta i {
+        color: #078f85;
+    }
+
+.journal-detail-service {
+    padding: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid #d4e8e2;
+    border-radius: 11px;
+}
+
+    .journal-detail-service > span {
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        display: grid;
+        place-items: center;
+        color: #078f85;
+        background: #dff3ee;
+        border-radius: 10px;
+        font-size: 17px;
+    }
+
+    .journal-detail-service small {
+        display: block;
+        color: #87938f;
+        font-size: 11px;
+    }
+
+    .journal-detail-service strong {
+        display: block;
+        margin-top: 4px;
+        color: #435650;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+
+/* =========================================================
+   DETAILS LAYOUT
+   ========================================================= */
+
+.customer-journal-detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.55fr);
+    align-items: start;
+    gap: 18px;
+}
+
+.customer-journal-detail-main {
+    min-width: 0;
+    display: grid;
+    gap: 16px;
+}
+
+.customer-journal-detail-sidebar {
+    position: sticky;
+    top: 90px;
+    min-width: 0;
+    display: grid;
+    gap: 14px;
+}
+
+
+/* =========================================================
+   DETAIL CARDS
+   ========================================================= */
+
+.journal-detail-card,
+.journal-detail-summary-card {
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #dfe8e5;
+    border-radius: 17px;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, 0.05);
+}
+
+.journal-detail-card-heading,
+.journal-detail-summary-heading {
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    border-bottom: 1px solid #e8eeeb;
+}
+
+    .journal-detail-card-heading > span,
+    .journal-detail-summary-heading > span {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        display: grid;
+        place-items: center;
+        border-radius: 11px;
+        font-size: 17px;
+    }
+
+        .journal-detail-card-heading > span.vital {
+            color: #078f85;
+            background: #dff3ee;
+        }
+
+        .journal-detail-card-heading > span.health {
+            color: #c65454;
+            background: #fde7e7;
+        }
+
+        .journal-detail-card-heading > span.note {
+            color: #c27c19;
+            background: #fff0d7;
+        }
+
+    .journal-detail-summary-heading > span {
+        color: #397ac5;
+        background: #e8efff;
+    }
+
+    .journal-detail-card-heading h2,
+    .journal-detail-summary-heading h2 {
+        margin: 0;
+        color: #304640;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .journal-detail-card-heading p,
+    .journal-detail-summary-heading p {
+        margin: 4px 0 0;
+        color: #87938f;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+
+/* =========================================================
+   DETAIL VITALS
+   ========================================================= */
+
+.journal-detail-vitals {
+    padding-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+
+    .journal-detail-vitals article {
+        min-width: 0;
+        padding: 14px;
+        background: linear-gradient( 135deg, #ffffff, #f7fbf9 );
+        border: 1px solid #e3ebe8;
+        border-radius: 11px;
+    }
+
+        .journal-detail-vitals article > span {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            border-radius: 9px;
+            font-size: 16px;
+        }
+
+            .journal-detail-vitals article > span.pressure {
+                color: #078f85;
+                background: #dff3ee;
+            }
+
+            .journal-detail-vitals article > span.heart {
+                color: #c65454;
+                background: #fde7e7;
+            }
+
+            .journal-detail-vitals article > span.temperature {
+                color: #c47b18;
+                background: #fff0d7;
+            }
+
+            .journal-detail-vitals article > span.weight {
+                color: #5c6fc1;
+                background: #e8ecff;
+            }
+
+    .journal-detail-vitals small {
+        display: block;
+        margin-top: 9px;
+        color: #87938f;
+        font-size: 11px;
+    }
+
+    .journal-detail-vitals strong {
+        display: block;
+        margin-top: 4px;
+        overflow: hidden;
+        color: #435650;
+        font-size: 14px;
+        font-weight: 800;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+/* =========================================================
+   HEALTH / NOTE
+   ========================================================= */
+
+.journal-detail-health-content,
+.journal-detail-note-content {
+    margin-top: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 11px;
+}
+
+.journal-detail-health-content {
+    color: #4b625a;
+    background: linear-gradient( 100deg, #ffffff 0%, #edf9f6 62%, #d7f1eb 100% );
+    border: 1px solid #d4e9e3;
+}
+
+.journal-detail-note-content {
+    color: #665b47;
+    background: linear-gradient( 100deg, #ffffff, #fffaf0, #fff1d8 );
+    border: 1px solid #efdfbb;
+}
+
+    .journal-detail-health-content i,
+    .journal-detail-note-content i {
+        margin-top: 2px;
+        font-size: 17px;
+    }
+
+.journal-detail-health-content i {
+    color: #078f85;
+}
+
+.journal-detail-note-content i {
+    color: #c88418;
+}
+
+.journal-detail-health-content p,
+.journal-detail-note-content p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   DETAIL SUMMARY
+   ========================================================= */
+
+.journal-detail-summary-card dl {
+    margin: 0;
+}
+
+    .journal-detail-summary-card dl > div {
+        padding: 11px 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        border-bottom: 1px solid #edf1ef;
+    }
+
+        .journal-detail-summary-card dl > div:last-child {
+            border-bottom: 0;
+        }
+
+.journal-detail-summary-card dt {
+    color: #87938f;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.journal-detail-summary-card dd {
+    max-width: 58%;
+    margin: 0;
+    color: #435650;
+    font-size: 13px;
+    font-weight: 750;
+    line-height: 1.45;
+    text-align: right;
+}
+
+.journal-detail-summary-card > a {
+    min-height: 43px;
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: #ffffff;
+    background: #078f85;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   SECURITY
+   ========================================================= */
+
+.journal-detail-security {
+    padding: 13px;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    color: #24775a;
+    background: linear-gradient( 100deg, #ffffff, #edf8f3, #dff3e9 );
+    border: 1px solid #cce6d7;
+    border-radius: 11px;
+}
+
+    .journal-detail-security > i {
+        margin-top: 2px;
+        font-size: 16px;
+    }
+
+    .journal-detail-security strong {
+        display: block;
+        font-size: 13px;
+    }
+
+    .journal-detail-security p {
+        margin: 4px 0 0;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .journal-detail-vitals {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 950px) {
+
+    .customer-journal-detail-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .customer-journal-detail-sidebar {
+        position: static;
+    }
+}
+
+
+@media (max-width: 850px) {
+
+    .customer-journal-filter-card form {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .customer-journal-filter-button,
+    .customer-journal-reset {
+        width: 100%;
+    }
+
+    .customer-journal-detail-hero {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 760px) {
+
+    .customer-journal-list {
+        grid-template-columns: 1fr;
+    }
+
+    .customer-journal-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 620px) {
+
+    .customer-journal-heading,
+    .customer-journal-detail-heading {
+        padding: 20px 18px;
+    }
+
+        .customer-journal-heading h1,
+        .customer-journal-detail-heading h1 {
+            font-size: 26px;
+        }
+
+    .customer-journal-filter-card form {
+        grid-template-columns: 1fr;
+    }
+
+    .customer-journal-card-top,
+    .customer-journal-card-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .customer-journal-date-badge {
+        margin-left: 63px;
+    }
+
+    .customer-journal-vitals,
+    .journal-detail-vitals {
+        grid-template-columns: 1fr;
+    }
+}

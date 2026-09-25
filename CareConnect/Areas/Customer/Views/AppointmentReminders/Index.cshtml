@@ -1,0 +1,469 @@
+﻿@model CustomerAppointmentReminderPageViewModel
+
+@{
+    ViewData["Title"] = "Nhắc tái khám";
+
+    string MoTaNhac(int phut)
+    {
+        return phut switch
+        {
+            30 => "30 phút trước",
+            60 => "1 giờ trước",
+            120 => "2 giờ trước",
+            360 => "6 giờ trước",
+            720 => "12 giờ trước",
+            1440 => "1 ngày trước",
+            2880 => "2 ngày trước",
+            _ => $"{phut} phút trước"
+        };
+    }
+}
+
+<style>
+    .appointment-page {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding-bottom: 32px;
+    }
+
+    .appointment-hero {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: center;
+        padding: 24px 26px;
+        border: 1px solid #dce9e5;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #f5fbf9 0%, #ffffff 100%);
+        margin-bottom: 18px;
+    }
+
+    .appointment-hero h1 {
+        margin: 7px 0 6px;
+        font-size: 29px;
+        color: #2f4741;
+    }
+
+    .appointment-hero p {
+        margin: 0;
+        color: #71817d;
+        line-height: 1.55;
+    }
+
+    .appointment-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        color: #087f76;
+        background: #ddf3ee;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .appointment-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(320px, .65fr);
+        gap: 18px;
+        align-items: start;
+    }
+
+    .appointment-card {
+        padding: 20px;
+        border: 1px solid #e0e8e5;
+        border-radius: 16px;
+        background: white;
+        box-shadow: 0 8px 24px rgba(30, 70, 60, .04);
+    }
+
+    .appointment-card h2 {
+        margin: 0 0 4px;
+        color: #344b45;
+        font-size: 18px;
+    }
+
+    .appointment-card > p {
+        margin: 0 0 18px;
+        color: #84918e;
+        font-size: 13px;
+    }
+
+    .appointment-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    .appointment-group.full {
+        grid-column: 1 / -1;
+    }
+
+    .appointment-group label {
+        display: block;
+        margin-bottom: 6px;
+        color: #4a5f5a;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .appointment-group input,
+    .appointment-group select,
+    .appointment-group textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px 11px;
+        border: 1px solid #d7e1de;
+        border-radius: 9px;
+        font-family: inherit;
+        outline: none;
+    }
+
+    .appointment-group textarea {
+        min-height: 86px;
+        resize: vertical;
+    }
+
+    .appointment-error {
+        display: block;
+        margin-top: 4px;
+        color: #c34b4b;
+        font-size: 12px;
+    }
+
+    .appointment-submit {
+        width: 100%;
+        margin-top: 16px;
+        padding: 11px 14px;
+        border: 0;
+        border-radius: 10px;
+        background: #0b8b81;
+        color: white;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .appointment-list {
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+        max-height: 720px;
+        overflow-y: auto;
+    }
+
+    .appointment-item {
+        padding: 14px;
+        border: 1px solid #e1e9e6;
+        border-radius: 12px;
+        background: #fbfdfc;
+    }
+
+    .appointment-item.inactive {
+        opacity: .62;
+        background: #f5f6f6;
+    }
+
+    .appointment-item h3 {
+        margin: 0;
+        color: #344b45;
+        font-size: 14px;
+    }
+
+    .appointment-meta {
+        display: grid;
+        gap: 6px;
+        margin-top: 9px;
+        color: #6f807b;
+        font-size: 12px;
+        line-height: 1.45;
+    }
+
+    .appointment-meta i {
+        width: 18px;
+        color: #0b8b81;
+    }
+
+    .appointment-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+        margin-top: 11px;
+        padding-top: 10px;
+        border-top: 1px solid #e9efed;
+    }
+
+    .appointment-actions button {
+        width: 100%;
+        padding: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+    .appointment-toggle {
+        border: 1px solid #c8e3dc;
+        color: #087f76;
+        background: #eff9f6;
+    }
+
+    .appointment-delete {
+        border: 1px solid #efd0d0;
+        color: #b84b4b;
+        background: #fff7f7;
+    }
+
+    .appointment-alert {
+        margin-bottom: 16px;
+        padding: 12px 14px;
+        border: 1px solid #bfe1d8;
+        border-radius: 10px;
+        color: #08766e;
+        background: #ecf8f5;
+    }
+
+    .appointment-empty {
+        padding: 28px 10px;
+        color: #87938f;
+        text-align: center;
+    }
+
+    @@media (max-width: 900px) {
+        .appointment-layout,
+        .appointment-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .appointment-group.full {
+            grid-column: auto;
+        }
+    }
+</style>
+
+<div class="appointment-page">
+    <section class="appointment-hero">
+        <div>
+            <span class="appointment-badge">
+                <i class="bi bi-calendar2-heart"></i>
+                NHẮC TÁI KHÁM
+            </span>
+
+            <h1>Lịch nhắc tái khám</h1>
+            <p>
+                Thiết lập lịch tái khám cho người thân. CareConnect sẽ tạo thông báo
+                và gửi real-time đến tài khoản khách hàng khi đến thời điểm cần nhắc.
+            </p>
+        </div>
+
+        <div style="font-size:42px;color:#58a89f;">
+            <i class="bi bi-calendar2-check"></i>
+        </div>
+    </section>
+
+    @if (TempData["Success"] is string success)
+    {
+        <div class="appointment-alert">
+            <i class="bi bi-check-circle-fill"></i>
+            @success
+        </div>
+    }
+
+    <div class="appointment-layout">
+        <section class="appointment-card">
+            <h2>Tạo lịch tái khám</h2>
+            <p>Nhập thông tin lịch hẹn và thời điểm muốn nhận thông báo.</p>
+
+            @if (Model.NguoiThan.Count == 0)
+            {
+                <div class="appointment-empty">
+                    <i class="bi bi-person-plus" style="font-size:30px;"></i>
+                    <div>Chưa có hồ sơ người thân để tạo lịch tái khám.</div>
+                </div>
+            }
+            else
+            {
+                <form asp-area="Customer"
+                      asp-controller="AppointmentReminders"
+                      asp-action="Create"
+                      method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="appointment-error"></div>
+
+                    <div class="appointment-grid">
+                        <div class="appointment-group full">
+                            <label asp-for="Form.MaBenhNhan"></label>
+                            <select asp-for="Form.MaBenhNhan">
+                                <option value="">-- Chọn người thân --</option>
+                                @foreach (var person in Model.NguoiThan)
+                                {
+                                    <option value="@person.MaBenhNhan">
+                                        @person.HoTen - @person.QuanHe
+                                    </option>
+                                }
+                            </select>
+                            <span asp-validation-for="Form.MaBenhNhan"
+                                  class="appointment-error"></span>
+                        </div>
+
+                        <div class="appointment-group">
+                            <label asp-for="Form.NgayTaiKham"></label>
+                            <input asp-for="Form.NgayTaiKham" type="date" />
+                            <span asp-validation-for="Form.NgayTaiKham"
+                                  class="appointment-error"></span>
+                        </div>
+
+                        <div class="appointment-group">
+                            <label asp-for="Form.GioTaiKham"></label>
+                            <input asp-for="Form.GioTaiKham" type="time" />
+                            <span asp-validation-for="Form.GioTaiKham"
+                                  class="appointment-error"></span>
+                        </div>
+
+                        <div class="appointment-group full">
+                            <label asp-for="Form.NoiDung"></label>
+                            <input asp-for="Form.NoiDung"
+                                   placeholder="Ví dụ: Tái khám tim mạch" />
+                            <span asp-validation-for="Form.NoiDung"
+                                  class="appointment-error"></span>
+                        </div>
+
+                        <div class="appointment-group full">
+                            <label asp-for="Form.DiaDiem"></label>
+                            <input asp-for="Form.DiaDiem"
+                                   placeholder="Ví dụ: Bệnh viện Nhân dân 115" />
+                            <span asp-validation-for="Form.DiaDiem"
+                                  class="appointment-error"></span>
+                        </div>
+
+                        <div class="appointment-group full">
+                            <label asp-for="Form.SoPhutNhacTruoc"></label>
+                            <select asp-for="Form.SoPhutNhacTruoc">
+                                <option value="30">30 phút trước</option>
+                                <option value="60">1 giờ trước</option>
+                                <option value="120">2 giờ trước</option>
+                                <option value="360">6 giờ trước</option>
+                                <option value="720">12 giờ trước</option>
+                                <option value="1440">1 ngày trước</option>
+                                <option value="2880">2 ngày trước</option>
+                            </select>
+                            <span asp-validation-for="Form.SoPhutNhacTruoc"
+                                  class="appointment-error"></span>
+                        </div>
+
+                        <div class="appointment-group full">
+                            <label asp-for="Form.GhiChu"></label>
+                            <textarea asp-for="Form.GhiChu"
+                                      placeholder="Thông tin cần chuẩn bị, giấy tờ, xét nghiệm..."></textarea>
+                            <span asp-validation-for="Form.GhiChu"
+                                  class="appointment-error"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="appointment-submit">
+                        <i class="bi bi-bell-fill"></i>
+                        Tạo lịch nhắc tái khám
+                    </button>
+                </form>
+            }
+        </section>
+
+        <aside class="appointment-card">
+            <h2>Lịch đã tạo</h2>
+            <p>@Model.LichNhac.Count lịch tái khám trong danh sách.</p>
+
+            @if (Model.LichNhac.Count == 0)
+            {
+                <div class="appointment-empty">
+                    <i class="bi bi-calendar2-x" style="font-size:30px;"></i>
+                    <div>Chưa có lịch nhắc tái khám.</div>
+                </div>
+            }
+            else
+            {
+                <div class="appointment-list">
+                    @foreach (var item in Model.LichNhac)
+                    {
+                        <article class="appointment-item @(item.TrangThai ? "" : "inactive")">
+                            <h3>@item.NoiDung</h3>
+
+                            <div class="appointment-meta">
+                                <div>
+                                    <i class="bi bi-person-heart"></i>
+                                    @item.TenBenhNhan
+                                </div>
+                                <div>
+                                    <i class="bi bi-calendar-event"></i>
+                                    @item.NgayTaiKham.ToString("dd/MM/yyyy")
+                                    - @item.GioTaiKham.ToString(@"hh\:mm")
+                                </div>
+                                <div>
+                                    <i class="bi bi-bell"></i>
+                                    Nhắc @MoTaNhac(item.SoPhutNhacTruoc)
+                                </div>
+
+                                @if (!string.IsNullOrWhiteSpace(item.DiaDiem))
+                                {
+                                    <div>
+                                        <i class="bi bi-geo-alt"></i>
+                                        @item.DiaDiem
+                                    </div>
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(item.GhiChu))
+                                {
+                                    <div>
+                                        <i class="bi bi-journal-text"></i>
+                                        @item.GhiChu
+                                    </div>
+                                }
+
+                                @if (item.LanNhacGanNhat.HasValue)
+                                {
+                                    <div>
+                                        <i class="bi bi-check2-circle"></i>
+                                        Đã nhắc: @item.LanNhacGanNhat.Value.ToString("HH:mm dd/MM/yyyy")
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="appointment-actions">
+                                <form asp-area="Customer"
+                                      asp-controller="AppointmentReminders"
+                                      asp-action="Toggle"
+                                      method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id"
+                                           value="@item.MaLichNhacTaiKham" />
+                                    <button class="appointment-toggle" type="submit">
+                                        <i class="bi @(item.TrangThai ? "bi-pause-circle" : "bi-play-circle")"></i>
+                                        @(item.TrangThai ? "Tạm dừng" : "Bật lại")
+                                    </button>
+                                </form>
+
+                                <form asp-area="Customer"
+                                      asp-controller="AppointmentReminders"
+                                      asp-action="Delete"
+                                      method="post"
+                                      onsubmit="return confirm('Bạn có chắc muốn xóa lịch tái khám này?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id"
+                                           value="@item.MaLichNhacTaiKham" />
+                                    <button class="appointment-delete" type="submit">
+                                        <i class="bi bi-trash3"></i>
+                                        Xóa
+                                    </button>
+                                </form>
+                            </div>
+                        </article>
+                    }
+                </div>
+            }
+        </aside>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

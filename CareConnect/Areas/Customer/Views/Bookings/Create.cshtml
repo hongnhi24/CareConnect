@@ -1,0 +1,2298 @@
+﻿@model CareConnect.ViewModels.CustomerBookingCreateViewModel
+
+@{
+    ViewData["Title"] = "Đặt lịch chăm sóc";
+}
+
+<div class="booking-create-page">
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+    <section class="customer-booking-create-heading">
+
+        <div class="booking-create-heading-content">
+
+            <div class="booking-create-heading-top">
+
+                <a asp-area="Customer"
+                   asp-controller="Bookings"
+                   asp-action="Index"
+                   class="booking-create-back"
+                   title="Quay lại lịch chăm sóc">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                </a>
+
+                <span class="booking-create-badge">
+                    ĐẶT LỊCH DỊCH VỤ
+                </span>
+
+            </div>
+
+            <h1 class="booking-create-main-title">
+                Đặt lịch chăm sóc
+            </h1>
+
+            <p>
+                Chọn người cần chăm sóc, dịch vụ và thời gian phù hợp.
+                Hệ thống sẽ tiếp nhận yêu cầu và phân công người chăm sóc.
+            </p>
+
+        </div>
+
+
+        <div class="booking-create-today">
+
+            <span class="booking-create-today-icon">
+                <i class="bi bi-calendar2-check"></i>
+            </span>
+
+            <div>
+
+                <small>
+                    Hôm nay
+                </small>
+
+                <strong>
+                    @DateTime.Today.ToString("dd/MM/yyyy")
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         LAYOUT
+    ====================================================== -->
+    <div class="booking-create-layout">
+
+
+        <!-- =================================================
+             CỘT TRÁI - FORM ĐẶT LỊCH
+        ================================================== -->
+        <main class="booking-create-card">
+
+
+            <!-- =============================================
+                 TIÊU ĐỀ CARD
+            ============================================== -->
+            <div class="booking-create-card-heading">
+
+                <span>
+                    <i class="bi bi-calendar2-plus-fill"></i>
+                </span>
+
+                <div>
+
+                    <h2>
+                        Thông tin lịch chăm sóc
+                    </h2>
+
+                    <p>
+                        Các trường có dấu
+                        <strong class="booking-required">*</strong>
+                        là thông tin bắt buộc.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 FORM
+            ============================================== -->
+            <form asp-area="Customer"
+                  asp-controller="Bookings"
+                  asp-action="Create"
+                  method="post"
+                  class="booking-create-form"
+                  id="customerBookingCreateForm">
+
+                @Html.AntiForgeryToken()
+
+
+                <!-- VALIDATION SUMMARY -->
+                <div asp-validation-summary="ModelOnly"
+                     class="booking-create-validation">
+                </div>
+
+
+                <!-- =================================================
+                     1. NGƯỜI CẦN CHĂM SÓC
+                ================================================== -->
+                <section class="booking-create-section">
+
+                    <div class="booking-create-section-title">
+
+                        <i class="bi bi-person-heart"></i>
+
+                        <div>
+
+                            <h3>
+                                Người cần chăm sóc
+                            </h3>
+
+                            <p>
+                                Chọn hồ sơ thành viên trong gia đình
+                                sẽ sử dụng dịch vụ.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="booking-create-grid">
+
+                        <div class="booking-create-group full">
+
+                            <label asp-for="MaBenhNhan">
+
+                                Người cần chăm sóc
+                                <span>*</span>
+
+                            </label>
+
+
+                            <div class="booking-create-input">
+
+                                <i class="bi bi-person-vcard"></i>
+
+                                <select asp-for="MaBenhNhan"
+                                        asp-items="Model.DanhSachBenhNhan"
+                                        id="bookingPatientSelect">
+
+                                    <option value="">
+                                        -- Chọn người cần chăm sóc --
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <span asp-validation-for="MaBenhNhan"
+                                  class="booking-create-error">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     2. DỊCH VỤ CHĂM SÓC
+                ================================================== -->
+                <section class="booking-create-section">
+
+                    <div class="booking-create-section-title">
+
+                        <i class="bi bi-heart-pulse-fill"></i>
+
+                        <div>
+
+                            <h3>
+                                Dịch vụ chăm sóc
+                            </h3>
+
+                            <p>
+                                Chọn một dịch vụ phù hợp với nhu cầu
+                                của người được chăm sóc.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!--
+                        CSS sẽ chia khu vực này thành 2 cột.
+                        Không đổi class booking-service-grid.
+                    -->
+                    <div class="booking-service-grid">
+
+                        @foreach (var dichVu in Model.DanhSachDichVu)
+                        {
+                            <label class="booking-service-option">
+
+                                <!-- RADIO -->
+                                <input asp-for="MaDichVu"
+                                       type="radio"
+                                       value="@dichVu.MaDichVu"
+                                       data-name="@dichVu.TenDichVu"
+                                       data-price="@dichVu.Gia.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                       data-duration="@dichVu.ThoiLuong" />
+
+
+                                <!-- CHECK -->
+                                <span class="booking-service-check">
+
+                                    <i class="bi bi-check-lg"></i>
+
+                                </span>
+
+
+                                <!-- ICON -->
+                                <span class="booking-service-icon">
+
+                                    <i class="bi bi-heart-pulse-fill"></i>
+
+                                </span>
+
+
+                                <!-- CONTENT -->
+                                <span class="booking-service-content">
+
+                                    <span class="booking-service-code">
+                                        @dichVu.MaDichVuCode
+                                    </span>
+
+
+                                    <strong>
+                                        @dichVu.TenDichVu
+                                    </strong>
+
+
+                                    <small>
+                                        @(string.IsNullOrWhiteSpace(dichVu.MoTa)
+                                            ? "Dịch vụ chăm sóc tại nhà."
+                                            : dichVu.MoTa)
+                                    </small>
+
+
+                                    <span class="booking-service-meta">
+
+                                        <span>
+
+                                            <i class="bi bi-clock"></i>
+
+                                            @dichVu.ThoiLuong phút
+
+                                        </span>
+
+
+                                        <span>
+
+                                            <i class="bi bi-cash-coin"></i>
+
+                                            @dichVu.Gia.ToString("#,##0")đ
+
+                                        </span>
+
+                                    </span>
+
+                                </span>
+
+                            </label>
+                        }
+
+                    </div>
+
+
+                    <span asp-validation-for="MaDichVu"
+                          class="booking-create-error">
+                    </span>
+
+                </section>
+
+
+                <!-- =================================================
+                     3. THỜI GIAN
+                ================================================== -->
+                <section class="booking-create-section">
+
+                    <div class="booking-create-section-title">
+
+                        <i class="bi bi-calendar3"></i>
+
+                        <div>
+
+                            <h3>
+                                Thời gian chăm sóc
+                            </h3>
+
+                            <p>
+                                Chọn ngày và giờ bắt đầu mong muốn.
+                                Giờ kết thúc được tính theo thời lượng dịch vụ.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="booking-create-grid">
+
+
+                        <!-- NGÀY -->
+                        <div class="booking-create-group">
+
+                            <label asp-for="NgayChamSoc">
+
+                                Ngày chăm sóc
+                                <span>*</span>
+
+                            </label>
+
+
+                            <div class="booking-create-input">
+
+                                <i class="bi bi-calendar3"></i>
+
+                                <input asp-for="NgayChamSoc"
+                                       type="date"
+                                       min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                       id="bookingCareDate" />
+
+                            </div>
+
+
+                            <span asp-validation-for="NgayChamSoc"
+                                  class="booking-create-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- GIỜ -->
+                        <div class="booking-create-group">
+
+                            <label asp-for="GioBatDau">
+
+                                Giờ bắt đầu
+                                <span>*</span>
+
+                            </label>
+
+
+                            <div class="booking-create-input">
+
+                                <i class="bi bi-clock"></i>
+
+                                <input asp-for="GioBatDau"
+                                       type="time"
+                                       step="1800"
+                                       id="bookingStartTime" />
+
+                            </div>
+
+
+                            <span asp-validation-for="GioBatDau"
+                                  class="booking-create-error">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     4. ĐỊA ĐIỂM & GHI CHÚ
+                ================================================== -->
+                <section class="booking-create-section">
+
+                    <div class="booking-create-section-title">
+
+                        <i class="bi bi-geo-alt-fill"></i>
+
+                        <div>
+
+                            <h3>
+                                Địa điểm và ghi chú
+                            </h3>
+
+                            <p>
+                                Cung cấp địa chỉ chính xác và những thông tin
+                                cần thiết cho buổi chăm sóc.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="booking-create-grid">
+
+
+                        <!-- ĐỊA CHỈ -->
+                        <div class="booking-create-group full">
+
+                            <label asp-for="DiaChiChamSoc">
+
+                                Địa chỉ chăm sóc
+                                <span>*</span>
+
+                            </label>
+
+
+                            <div class="booking-create-input">
+
+                                <i class="bi bi-geo-alt"></i>
+
+                                <input asp-for="DiaChiChamSoc"
+                                       placeholder="Nhập số nhà, đường, phường/xã, quận/huyện..." />
+
+                            </div>
+
+
+                            <span asp-validation-for="DiaChiChamSoc"
+                                  class="booking-create-error">
+                            </span>
+
+                        </div>
+
+
+                        <!-- GHI CHÚ -->
+                        <div class="booking-create-group full">
+
+                            <label asp-for="GhiChu">
+                                Ghi chú chăm sóc
+                            </label>
+
+
+                            <div class="booking-create-textarea">
+
+                                <i class="bi bi-journal-text"></i>
+
+                                <textarea asp-for="GhiChu"
+                                          rows="4"
+                                          placeholder="Ví dụ: Người bệnh đi lại khó khăn, cần hỗ trợ uống thuốc..."></textarea>
+
+                            </div>
+
+
+                            <span asp-validation-for="GhiChu"
+                                  class="booking-create-error">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- =================================================
+     5. THANH TOÁN
+================================================== -->
+                <section class="booking-create-section">
+
+                    <div class="booking-create-section-title">
+
+                        <i class="bi bi-credit-card-fill"></i>
+
+                        <div>
+
+                            <h3>
+                                Thanh toán
+                            </h3>
+
+                            <p>
+                                Chọn đặt cọc để giữ lịch hoặc
+                                thanh toán toàn bộ chi phí dịch vụ.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- HÌNH THỨC THANH TOÁN -->
+                    <div class="booking-service-grid">
+
+                        <!-- ĐẶT CỌC -->
+                        <label class="booking-service-option">
+
+                            <input asp-for="LoaiThanhToan"
+                                   type="radio"
+                                   value="Đặt cọc"
+                                   class="booking-payment-type" />
+
+                            <span class="booking-service-check">
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+
+                            <span class="booking-service-icon">
+                                <i class="bi bi-piggy-bank-fill"></i>
+                            </span>
+
+                            <span class="booking-service-content">
+
+                                <span class="booking-service-code">
+                                    ĐẶT CỌC
+                                </span>
+
+                                <strong>
+                                    Đặt cọc
+                                    @Model.TyLeDatCoc.ToString("0")%
+                                </strong>
+
+                                <small>
+                                    Thanh toán trước một phần chi phí
+                                    để xác nhận yêu cầu đặt lịch.
+                                </small>
+
+                                <span class="booking-service-meta">
+
+                                    <span>
+                                        <i class="bi bi-shield-check"></i>
+                                        Giữ lịch
+                                    </span>
+
+                                    <span id="bookingDepositAmount">
+                                        0đ
+                                    </span>
+
+                                </span>
+
+                            </span>
+
+                        </label>
+
+
+                        <!-- THANH TOÁN 100% -->
+                        <label class="booking-service-option">
+
+                            <input asp-for="LoaiThanhToan"
+                                   type="radio"
+                                   value="Thanh toán toàn bộ"
+                                   class="booking-payment-type" />
+
+                            <span class="booking-service-check">
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+
+                            <span class="booking-service-icon">
+                                <i class="bi bi-credit-card-2-front-fill"></i>
+                            </span>
+
+                            <span class="booking-service-content">
+
+                                <span class="booking-service-code">
+                                    THANH TOÁN 100%
+                                </span>
+
+                                <strong>
+                                    Thanh toán toàn bộ
+                                </strong>
+
+                                <small>
+                                    Thanh toán toàn bộ chi phí
+                                    ngay khi gửi yêu cầu đặt lịch.
+                                </small>
+
+                                <span class="booking-service-meta">
+
+                                    <span>
+                                        <i class="bi bi-check-circle"></i>
+                                        Hoàn tất thanh toán
+                                    </span>
+
+                                    <span id="bookingFullAmount">
+                                        0đ
+                                    </span>
+
+                                </span>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                    <span asp-validation-for="LoaiThanhToan"
+                          class="booking-create-error">
+                    </span>
+
+
+                    <!-- PHƯƠNG THỨC THANH TOÁN -->
+                    <div class="booking-create-grid"
+                         style="margin-top: 18px;">
+
+                        <div class="booking-create-group full">
+
+                            <label asp-for="PhuongThucThanhToan">
+
+                                Phương thức thanh toán
+                                <span>*</span>
+
+                            </label>
+
+                            <div class="booking-create-input">
+
+                                <i class="bi bi-wallet2"></i>
+
+                                <select asp-for="PhuongThucThanhToan">
+
+                                    <option value="">
+                                        -- Chọn phương thức thanh toán --
+                                    </option>
+
+                                    <option value="Chuyển khoản">
+                                        Chuyển khoản ngân hàng
+                                    </option>
+
+                                    <option value="VNPay">
+                                        VNPay
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <span asp-validation-for="PhuongThucThanhToan"
+                                  class="booking-create-error">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- =================================================
+     5. NGƯỜI CHĂM SÓC
+================================================== -->
+                <section class="booking-create-section">
+
+                    <div class="booking-create-section-title">
+
+                        <i class="bi bi-person-check-fill"></i>
+
+                        <div>
+
+                            <h3>
+                                Chọn người chăm sóc
+                            </h3>
+
+                            <p>
+                                Bạn có thể để CareConnect tự động chọn
+                                người phù hợp nhất hoặc tự lựa chọn
+                                từ danh sách đang rảnh.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =============================================
+         HÌNH THỨC PHÂN CÔNG
+    ============================================== -->
+                    <div class="booking-service-grid">
+
+                        <!-- TỰ ĐỘNG -->
+                        <label class="booking-service-option">
+
+                            <input asp-for="HinhThucPhanCong"
+                                   type="radio"
+                                   value="Tự động"
+                                   class="booking-assignment-type" />
+
+                            <span class="booking-service-check">
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+
+                            <span class="booking-service-icon">
+                                <i class="bi bi-stars"></i>
+                            </span>
+
+                            <span class="booking-service-content">
+
+                                <span class="booking-service-code">
+                                    ĐỀ XUẤT
+                                </span>
+
+                                <strong>
+                                    Hệ thống tự động chọn
+                                </strong>
+
+                                <small>
+                                    CareConnect sẽ kiểm tra lịch trống,
+                                    chuyên môn, kinh nghiệm, đánh giá,
+                                    khu vực và mức giá để chọn người
+                                    phù hợp nhất.
+                                </small>
+
+                                <span class="booking-service-meta">
+
+                                    <span>
+                                        <i class="bi bi-lightning-charge"></i>
+                                        Tự động 24/7
+                                    </span>
+
+                                    <span>
+                                        Không cần quản trị viên
+                                    </span>
+
+                                </span>
+
+                            </span>
+
+                        </label>
+
+
+                        <!-- KHÁCH TỰ CHỌN -->
+                        <label class="booking-service-option">
+
+                            <input asp-for="HinhThucPhanCong"
+                                   type="radio"
+                                   value="Khách hàng chọn"
+                                   class="booking-assignment-type" />
+
+                            <span class="booking-service-check">
+                                <i class="bi bi-check-lg"></i>
+                            </span>
+
+                            <span class="booking-service-icon">
+                                <i class="bi bi-person-heart"></i>
+                            </span>
+
+                            <span class="booking-service-content">
+
+                                <span class="booking-service-code">
+                                    TÙY CHỌN
+                                </span>
+
+                                <strong>
+                                    Tôi muốn tự chọn
+                                </strong>
+
+                                <small>
+                                    Hệ thống chỉ hiển thị những
+                                    người chăm sóc đang hoạt động,
+                                    không trùng lịch và phù hợp
+                                    với yêu cầu.
+                                </small>
+
+                                <span class="booking-service-meta">
+
+                                    <span>
+                                        <i class="bi bi-list-stars"></i>
+                                        Xếp hạng phù hợp
+                                    </span>
+
+                                    <span>
+                                        Chủ động lựa chọn
+                                    </span>
+
+                                </span>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <span asp-validation-for="HinhThucPhanCong"
+                          class="booking-create-error">
+                    </span>
+
+
+                    <!-- ID CAREGIVER KHÁCH ĐÃ CHỌN -->
+                    <input asp-for="MaNguoiChamSoc"
+                           type="hidden"
+                           id="selectedCaregiverId" />
+
+
+                    <!-- =============================================
+         DANH SÁCH CAREGIVER
+    ============================================== -->
+                    <div id="caregiverPickerPanel"
+                         class="caregiver-picker-panel"
+                         style="display:none;">
+
+                        <div class="caregiver-picker-heading">
+
+                            <div>
+
+                                <strong>
+                                    Người chăm sóc phù hợp
+                                </strong>
+
+                                <small>
+                                    Danh sách được cập nhật theo
+                                    dịch vụ, thời gian và địa điểm
+                                    bạn đã chọn.
+                                </small>
+
+                            </div>
+
+                            <button type="button"
+                                    id="reloadCaregivers"
+                                    class="caregiver-reload-btn">
+
+                                <i class="bi bi-arrow-clockwise"></i>
+
+                                Tải lại
+
+                            </button>
+
+                        </div>
+
+
+                        <div id="caregiverLoading"
+                             class="caregiver-search-state"
+                             style="display:none;">
+
+                            <i class="bi bi-arrow-repeat"></i>
+
+                            Đang tìm người chăm sóc phù hợp...
+
+                        </div>
+
+
+                        <div id="caregiverEmpty"
+                             class="caregiver-search-state"
+                             style="display:none;">
+
+                            <i class="bi bi-person-x"></i>
+
+                            Hiện chưa có người chăm sóc phù hợp
+                            với khung giờ này.
+
+                        </div>
+
+
+                        <div id="caregiverRequirement"
+                             class="caregiver-search-state">
+
+                            <i class="bi bi-info-circle"></i>
+
+                            Hãy chọn người cần chăm sóc,
+                            dịch vụ, ngày và giờ trước.
+
+                        </div>
+
+
+                        <div id="caregiverList"
+                             class="caregiver-match-grid">
+                        </div>
+
+                    </div>
+
+
+                    <span asp-validation-for="MaNguoiChamSoc"
+                          class="booking-create-error">
+                    </span>
+
+                </section>
+                <!-- =================================================
+                     ACTION
+                ================================================== -->
+                <div class="booking-create-actions">
+
+                    <a asp-area="Customer"
+                       asp-controller="Bookings"
+                       asp-action="Index"
+                       class="booking-create-cancel">
+
+                        <i class="bi bi-x-lg"></i>
+
+                        Hủy
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="booking-create-submit">
+
+                        <i class="bi bi-credit-card-fill"></i>
+
+                        Đặt lịch và thanh toán
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </main>
+
+
+        <!-- =================================================
+             CỘT PHẢI - SUMMARY
+        ================================================== -->
+        <aside class="booking-create-sidebar">
+
+
+            <!-- =============================================
+                 THÔNG TIN KHÁCH HÀNG
+            ============================================== -->
+            <section class="booking-customer-summary">
+
+                <div class="booking-summary-heading">
+
+                    <span>
+                        <i class="bi bi-person-check-fill"></i>
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Thông tin khách hàng
+                        </h2>
+
+                        <p>
+                            Người thực hiện đặt lịch
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <dl>
+
+                    <div>
+
+                        <dt>
+                            Họ và tên
+                        </dt>
+
+                        <dd>
+                            @(string.IsNullOrWhiteSpace(Model.TenKhachHang)
+                                ? "Chưa cập nhật"
+                                : Model.TenKhachHang)
+                        </dd>
+
+                    </div>
+
+
+                    <div>
+
+                        <dt>
+                            Số điện thoại
+                        </dt>
+
+                        <dd>
+                            @(string.IsNullOrWhiteSpace(Model.SoDienThoaiKhachHang)
+                                ? "Chưa cập nhật"
+                                : Model.SoDienThoaiKhachHang)
+                        </dd>
+
+                    </div>
+
+                </dl>
+
+            </section>
+
+
+            <!-- =============================================
+                 TÓM TẮT DỊCH VỤ
+            ============================================== -->
+            <section class="booking-price-summary">
+
+                <div class="booking-summary-heading">
+
+                    <span class="price">
+                        <i class="bi bi-receipt"></i>
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Tóm tắt dịch vụ
+                        </h2>
+
+                        <p>
+                            Tự động cập nhật theo lựa chọn
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <dl>
+
+                    <div>
+
+                        <dt>
+                            Dịch vụ
+                        </dt>
+
+                        <dd id="selectedServiceName">
+                            Chưa chọn
+                        </dd>
+
+                    </div>
+
+
+                    <div>
+
+                        <dt>
+                            Thời lượng
+                        </dt>
+
+                        <dd id="selectedDuration">
+                            0 phút
+                        </dd>
+
+                    </div>
+
+
+                    <div>
+
+                        <dt>
+                            Ngày chăm sóc
+                        </dt>
+
+                        <dd id="selectedCareDate">
+                            --/--/----
+                        </dd>
+
+                    </div>
+
+
+                    <div>
+
+                        <dt>
+                            Giờ bắt đầu
+                        </dt>
+
+                        <dd id="selectedStartTime">
+                            --:--
+                        </dd>
+
+                    </div>
+
+
+                    <div>
+
+                        <dt>
+                            Giờ kết thúc
+                        </dt>
+
+                        <dd id="selectedEndTime">
+                            --:--
+                        </dd>
+
+                    </div>
+                    <div>
+
+                        <dt>
+                            Hình thức thanh toán
+                        </dt>
+
+                        <dd id="selectedPaymentType">
+                            Chưa chọn
+                        </dd>
+
+                    </div>
+
+
+                    <div>
+
+                        <dt>
+                            Thanh toán ngay
+                        </dt>
+
+                        <dd id="selectedPaymentAmount">
+                            0đ
+                        </dd>
+
+                    </div>
+
+                    <div class="total">
+
+                        <dt>
+                            Tổng chi phí
+                        </dt>
+
+                        <dd id="selectedTotalPrice">
+                            0đ
+                        </dd>
+
+                    </div>
+
+                </dl>
+
+            </section>
+
+
+            <!-- =============================================
+                 QUY TRÌNH
+            ============================================== -->
+            <div class="booking-create-note">
+
+                <i class="bi bi-info-circle-fill"></i>
+
+                <div>
+
+                    <strong>
+                        Quy trình xử lý
+                    </strong>
+
+                    <p>
+                        Khi đặt lịch, hệ thống sẽ tự động phân công
+                        người chăm sóc phù hợp hoặc sử dụng người
+                        bạn đã lựa chọn. Sau đó người chăm sóc sẽ
+                        xác nhận nhận lịch trước khi bắt đầu dịch vụ.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                const serviceInputs =
+                    document.querySelectorAll(
+                        'input[name="MaDichVu"]');
+
+                const serviceOptions =
+                    document.querySelectorAll(
+                        ".booking-service-option");
+
+                const startTimeInput =
+                    document.getElementById(
+                        "bookingStartTime");
+
+                const careDateInput =
+                    document.getElementById(
+                        "bookingCareDate");
+
+
+                const serviceName =
+                    document.getElementById(
+                        "selectedServiceName");
+
+                const durationText =
+                    document.getElementById(
+                        "selectedDuration");
+
+                const careDateText =
+                    document.getElementById(
+                        "selectedCareDate");
+
+                const startTimeText =
+                    document.getElementById(
+                        "selectedStartTime");
+
+                const endTimeText =
+                    document.getElementById(
+                        "selectedEndTime");
+
+                const totalPriceText =
+                    document.getElementById(
+                        "selectedTotalPrice");
+                const depositAmountText =
+                    document.getElementById(
+                        "bookingDepositAmount");
+
+                const fullAmountText =
+                    document.getElementById(
+                        "bookingFullAmount");
+
+                const paymentTypeInputs =
+                    document.querySelectorAll(
+                        'input[name="LoaiThanhToan"]');
+
+                const selectedPaymentTypeText =
+                    document.getElementById(
+                        "selectedPaymentType");
+
+                const selectedPaymentAmountText =
+                    document.getElementById(
+                        "selectedPaymentAmount");
+                const patientSelect =
+                    document.getElementById(
+                        "bookingPatientSelect");
+
+                const addressInput =
+                    document.getElementById(
+                        "DiaChiChamSoc");
+
+                const noteInput =
+                    document.getElementById(
+                        "GhiChu");
+
+                const assignmentInputs =
+                    document.querySelectorAll(
+                        'input[name="HinhThucPhanCong"]');
+
+                const selectedCaregiverId =
+                    document.getElementById(
+                        "selectedCaregiverId");
+
+                const caregiverPickerPanel =
+                    document.getElementById(
+                        "caregiverPickerPanel");
+
+                const caregiverList =
+                    document.getElementById(
+                        "caregiverList");
+
+                const caregiverLoading =
+                    document.getElementById(
+                        "caregiverLoading");
+
+                const caregiverEmpty =
+                    document.getElementById(
+                        "caregiverEmpty");
+
+                const caregiverRequirement =
+                    document.getElementById(
+                        "caregiverRequirement");
+
+                const reloadCaregivers =
+                    document.getElementById(
+                        "reloadCaregivers");
+
+
+                const caregiverSearchUrl =
+                    '@Url.Action(
+                    "TimNguoiChamSoc",
+                    "Bookings",
+                            new { area = "Customer" })';
+
+                const depositPercent =
+            @Model.TyLeDatCoc.ToString(
+                    System.Globalization.CultureInfo.InvariantCulture);
+
+
+                /* ==========================================
+                   FORMAT MONEY
+                ========================================== */
+
+                function formatMoney(value) {
+
+                    const number =
+                        Number(value) || 0;
+
+                    return new Intl.NumberFormat(
+                        "vi-VN"
+                    ).format(number) + "đ";
+                }
+
+
+                /* ==========================================
+                   FORMAT DATE
+                ========================================== */
+
+                function formatDate(value) {
+
+                    if (!value) {
+                        return "--/--/----";
+                    }
+
+                    const parts =
+                        value.split("-");
+
+                    if (parts.length !== 3) {
+                        return value;
+                    }
+
+                    return (
+                        parts[2]
+                        + "/"
+                        + parts[1]
+                        + "/"
+                        + parts[0]
+                    );
+                }
+
+
+                /* ==========================================
+                   END TIME
+                ========================================== */
+
+                function calculateEndTime(
+                    startTime,
+                    duration) {
+
+                    if (!startTime) {
+                        return "--:--";
+                    }
+
+                    const parts =
+                        startTime.split(":");
+
+                    if (parts.length < 2) {
+                        return "--:--";
+                    }
+
+                    const date =
+                        new Date();
+
+                    date.setHours(
+                        Number(parts[0]),
+                        Number(parts[1]),
+                        0,
+                        0
+                    );
+
+                    date.setMinutes(
+                        date.getMinutes()
+                        + Number(duration || 0)
+                    );
+
+
+                    const hours =
+                        String(
+                            date.getHours()
+                        ).padStart(
+                            2,
+                            "0"
+                        );
+
+                    const minutes =
+                        String(
+                            date.getMinutes()
+                        ).padStart(
+                            2,
+                            "0"
+                        );
+
+
+                    return hours + ":" + minutes;
+                }
+
+
+                /* ==========================================
+                   UPDATE SELECTED STYLE
+                ========================================== */
+
+                function updateSelectedCard() {
+
+                    serviceOptions.forEach(
+                        function(option) {
+
+                            const input =
+                                option.querySelector(
+                                    'input[name="MaDichVu"]'
+                                );
+
+                            option.classList.toggle(
+                                "is-selected",
+                                input?.checked === true
+                            );
+
+                        }
+                    );
+                }
+
+
+                /* ==========================================
+                   UPDATE SUMMARY
+                ========================================== */
+
+                function updateSummary() {
+
+                    const selectedService =
+                        document.querySelector(
+                            'input[name="MaDichVu"]:checked'
+                        );
+
+                    const startTime =
+                        startTimeInput?.value
+                        ?? "";
+
+                    const careDate =
+                        careDateInput?.value
+                        ?? "";
+
+
+                    if (careDateText) {
+
+                        careDateText.textContent =
+                            formatDate(careDate);
+
+                    }
+
+
+                    if (startTimeText) {
+
+                        startTimeText.textContent =
+                            startTime || "--:--";
+
+                    }
+
+
+                    if (!selectedService) {
+
+                        if (serviceName) {
+                            serviceName.textContent =
+                                "Chưa chọn";
+                        }
+
+                        if (durationText) {
+                            durationText.textContent =
+                                "0 phút";
+                        }
+
+                        if (endTimeText) {
+                            endTimeText.textContent =
+                                "--:--";
+                        }
+
+                        if (totalPriceText) {
+                            totalPriceText.textContent =
+                                "0đ";
+                        }
+
+                        updateSelectedCard();
+
+                        return;
+                    }
+
+
+                    const name =
+                        selectedService.dataset.name
+                        ?? "Chưa chọn";
+
+                    const duration =
+                        Number(
+                            selectedService.dataset.duration
+                            ?? 0
+                        );
+
+                    const price =
+                        Number(
+                            selectedService.dataset.price
+                            ?? 0
+                        );
+                    const depositAmount =
+                        Math.round(
+                            price
+                            * depositPercent
+                            / 100
+                        );
+
+                    if (depositAmountText) {
+                        depositAmountText.textContent =
+                            formatMoney(depositAmount);
+                    }
+
+                    if (fullAmountText) {
+                        fullAmountText.textContent =
+                            formatMoney(price);
+                    }
+                    const selectedPaymentType =
+                        document.querySelector(
+                            'input[name="LoaiThanhToan"]:checked'
+                        );
+
+                    if (selectedPaymentTypeText) {
+
+                        selectedPaymentTypeText.textContent =
+                            selectedPaymentType
+                                ? selectedPaymentType.value
+                                : "Chưa chọn";
+                    }
+
+                    if (selectedPaymentAmountText) {
+
+                        if (!selectedPaymentType) {
+
+                            selectedPaymentAmountText.textContent =
+                                "0đ";
+
+                        }
+                        else if (
+                            selectedPaymentType.value === "Đặt cọc"
+                        ) {
+
+                            selectedPaymentAmountText.textContent =
+                                formatMoney(depositAmount);
+
+                        }
+                        else {
+
+                            selectedPaymentAmountText.textContent =
+                                formatMoney(price);
+                        }
+                    }
+
+
+                    if (serviceName) {
+
+                        serviceName.textContent =
+                            name;
+
+                    }
+
+
+                    if (durationText) {
+
+                        durationText.textContent =
+                            duration + " phút";
+
+                    }
+
+
+                    if (totalPriceText) {
+
+                        totalPriceText.textContent =
+                            formatMoney(price);
+
+                    }
+
+
+                    if (endTimeText) {
+
+                        endTimeText.textContent =
+                            calculateEndTime(
+                                startTime,
+                                duration
+                            );
+
+                    }
+
+
+                    updateSelectedCard();
+                }
+                /* ==========================================
+        CAREGIVER - HÌNH THỨC PHÂN CÔNG
+        ========================================== */
+
+                function getAssignmentType() {
+
+                    const selected =
+                        document.querySelector(
+                            'input[name="HinhThucPhanCong"]:checked'
+                        );
+
+                    return selected?.value ?? "Tự động";
+                }
+
+
+                /* ==========================================
+                   RESET CAREGIVER
+                ========================================== */
+
+                function resetCaregiverSelection() {
+
+                    if (selectedCaregiverId) {
+                        selectedCaregiverId.value = "";
+                    }
+
+                    if (caregiverList) {
+                        caregiverList.innerHTML = "";
+                    }
+                }
+
+
+                /* ==========================================
+                   ESCAPE HTML
+                ========================================== */
+
+                function escapeHtml(value) {
+
+                    const div =
+                        document.createElement("div");
+
+                    div.textContent =
+                        value ?? "";
+
+                    return div.innerHTML;
+                }
+
+
+                /* ==========================================
+                   RENDER CAREGIVER
+                ========================================== */
+
+                function renderCaregivers(items) {
+
+                    if (!caregiverList) {
+                        return;
+                    }
+
+                    caregiverList.innerHTML = "";
+
+                    items.forEach(function(item, index) {
+
+                        const card =
+                            document.createElement("article");
+
+                        card.className =
+                            "caregiver-match-card";
+
+                        card.dataset.id =
+                            String(item.maNguoiChamSoc);
+
+
+                        const score =
+                            Number(
+                                item.diemPhuHop ?? 0
+                            ).toFixed(1);
+
+                        const rating =
+                            Number(
+                                item.danhGia ?? 0
+                            ).toFixed(1);
+
+                        const price =
+                            formatMoney(
+                                item.giaTheoGio ?? 0
+                            );
+
+                        /*
+                         * Chỉ người đầu tiên mới hiện
+                         * nhãn phù hợp nhất.
+                         */
+                        const bestBadge =
+                            index === 0
+                                ? `
+                            <span class="caregiver-best-badge">
+                                <i class="bi bi-stars"></i>
+                                Phù hợp nhất
+                            </span>
+                          `
+                                : "";
+
+
+                        card.innerHTML = `
+
+                    <div class="caregiver-card-header">
+
+                        <div class="caregiver-avatar">
+                            <i class="bi bi-person-heart"></i>
+                        </div>
+
+                        <div class="caregiver-main-info">
+
+                            <div class="caregiver-name-row">
+
+                                <strong>
+                                    ${escapeHtml(item.hoTen)}
+                                </strong>
+
+                                ${bestBadge}
+
+                            </div>
+
+                            <div class="caregiver-rating">
+
+                                <i class="bi bi-star-fill"></i>
+
+                                <span>
+                                    ${rating}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="caregiver-specialty">
+
+                        <i class="bi bi-heart-pulse"></i>
+
+                        <span>
+                            ${escapeHtml(
+                            item.chuyenMon
+                            || "Chưa cập nhật chuyên môn"
+                        )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="caregiver-meta-grid">
+
+                        <div>
+
+                            <i class="bi bi-briefcase"></i>
+
+                            <span>
+                                ${Number(
+                            item.kinhNghiem ?? 0
+                        )} năm
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            <span>
+                                ${escapeHtml(
+                            item.khuVuc
+                            || "Chưa cập nhật"
+                        )}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <i class="bi bi-cash-coin"></i>
+
+                            <span>
+                                ${price}/giờ
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="caregiver-score-section">
+
+                        <div class="caregiver-score-title">
+
+                            <span>
+                                Mức độ phù hợp
+                            </span>
+
+                            <strong>
+                                ${score}%
+                            </strong>
+
+                        </div>
+
+                        <div class="caregiver-score-bar">
+
+                            <span style="width:${score}%"></span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="caregiver-match-reason">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        <span>
+                            ${escapeHtml(
+                            item.lyDoGoiY
+                            || "Phù hợp theo nhiều tiêu chí"
+                        )}
+                        </span>
+
+                    </div>
+
+
+                    <button type="button"
+                            class="caregiver-select-btn">
+
+                        <i class="bi bi-person-check"></i>
+
+                        <span>
+                            Chọn người chăm sóc
+                        </span>
+
+                    </button>
+                `;
+
+
+                        const button =
+                            card.querySelector(
+                                ".caregiver-select-btn"
+                            );
+
+
+                        button?.addEventListener(
+                            "click",
+                            function() {
+
+                                document
+                                    .querySelectorAll(
+                                        ".caregiver-match-card"
+                                    )
+                                    .forEach(
+                                        function(otherCard) {
+
+                                            otherCard.classList
+                                                .remove(
+                                                    "is-selected"
+                                                );
+
+                                            const otherButton =
+                                                otherCard.querySelector(
+                                                    ".caregiver-select-btn"
+                                                );
+
+                                            if (otherButton) {
+
+                                                otherButton.innerHTML = `
+                                            <i class="bi bi-person-check"></i>
+                                            <span>
+                                                Chọn người chăm sóc
+                                            </span>
+                                        `;
+                                            }
+                                        }
+                                    );
+
+
+                                card.classList.add(
+                                    "is-selected"
+                                );
+
+
+                                if (selectedCaregiverId) {
+
+                                    selectedCaregiverId.value =
+                                        String(
+                                            item.maNguoiChamSoc
+                                        );
+                                }
+
+
+                                button.innerHTML = `
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>
+                                Đã chọn
+                            </span>
+                        `;
+                            }
+                        );
+
+
+                        if (
+                            selectedCaregiverId?.value
+                            ===
+                            String(item.maNguoiChamSoc)
+                        ) {
+
+                            card.classList.add(
+                                "is-selected"
+                            );
+
+                            if (button) {
+
+                                button.innerHTML = `
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>
+                                Đã chọn
+                            </span>
+                        `;
+                            }
+                        }
+
+
+                        caregiverList.appendChild(
+                            card
+                        );
+
+                    });
+                }
+                /* ==========================================
+        LOAD CAREGIVER PHÙ HỢP
+        ========================================== */
+
+                async function loadCaregivers() {
+
+                    /*
+                     * Chỉ tải danh sách khi khách chọn
+                     * "Tôi muốn tự chọn".
+                     */
+                    if (
+                        getAssignmentType()
+                        !== "Khách hàng chọn"
+                    ) {
+
+                        if (caregiverPickerPanel) {
+                            caregiverPickerPanel.style.display =
+                                "none";
+                        }
+
+                        resetCaregiverSelection();
+
+                        return;
+                    }
+
+
+                    if (caregiverPickerPanel) {
+                        caregiverPickerPanel.style.display =
+                            "block";
+                    }
+
+
+                    const selectedService =
+                        document.querySelector(
+                            'input[name="MaDichVu"]:checked'
+                        );
+
+
+                    const maBenhNhan =
+                        patientSelect?.value ?? "";
+
+                    const maDichVu =
+                        selectedService?.value ?? "";
+
+                    const ngayChamSoc =
+                        careDateInput?.value ?? "";
+
+                    const gioBatDau =
+                        startTimeInput?.value ?? "";
+
+
+                    /*
+                     * Chưa đủ thông tin thì chưa gọi API.
+                     */
+                    if (
+                        !maBenhNhan
+                        ||
+                        !maDichVu
+                        ||
+                        !ngayChamSoc
+                        ||
+                        !gioBatDau
+                    ) {
+
+                        resetCaregiverSelection();
+
+                        if (caregiverRequirement) {
+                            caregiverRequirement.style.display =
+                                "block";
+                        }
+
+                        if (caregiverLoading) {
+                            caregiverLoading.style.display =
+                                "none";
+                        }
+
+                        if (caregiverEmpty) {
+                            caregiverEmpty.style.display =
+                                "none";
+                        }
+
+                        return;
+                    }
+
+
+                    resetCaregiverSelection();
+
+
+                    if (caregiverRequirement) {
+                        caregiverRequirement.style.display =
+                            "none";
+                    }
+
+                    if (caregiverEmpty) {
+                        caregiverEmpty.style.display =
+                            "none";
+                    }
+
+                    if (caregiverLoading) {
+                        caregiverLoading.style.display =
+                            "block";
+                    }
+
+
+                    try {
+
+                        const params =
+                            new URLSearchParams();
+
+                        params.set(
+                            "maBenhNhan",
+                            maBenhNhan
+                        );
+
+                        params.set(
+                            "maDichVu",
+                            maDichVu
+                        );
+
+                        params.set(
+                            "ngayChamSoc",
+                            ngayChamSoc
+                        );
+
+                        params.set(
+                            "gioBatDau",
+                            gioBatDau
+                        );
+
+                        params.set(
+                            "diaChiChamSoc",
+                            addressInput?.value ?? ""
+                        );
+
+                        params.set(
+                            "ghiChu",
+                            noteInput?.value ?? ""
+                        );
+
+
+                        const response =
+                            await fetch(
+                                caregiverSearchUrl
+                                + "?"
+                                + params.toString(),
+                                {
+                                    method: "GET",
+                                    headers: {
+                                        "X-Requested-With":
+                                            "XMLHttpRequest"
+                                    }
+                                }
+                            );
+
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "Không thể tải danh sách người chăm sóc."
+                            );
+                        }
+
+
+                        const result =
+                            await response.json();
+
+
+                        if (caregiverLoading) {
+                            caregiverLoading.style.display =
+                                "none";
+                        }
+
+
+                        if (
+                            !result.thanhCong
+                            ||
+                            !Array.isArray(
+                                result.danhSach
+                            )
+                            ||
+                            result.danhSach.length === 0
+                        ) {
+
+                            if (caregiverEmpty) {
+
+                                caregiverEmpty.style.display =
+                                    "block";
+
+                                caregiverEmpty.textContent =
+                                    result.thongBao
+                                    ||
+                                    "Hiện chưa có người chăm sóc phù hợp.";
+                            }
+
+                            return;
+                        }
+
+
+                        renderCaregivers(
+                            result.danhSach
+                        );
+
+                    }
+                    catch (error) {
+
+                        console.error(error);
+
+
+                        if (caregiverLoading) {
+                            caregiverLoading.style.display =
+                                "none";
+                        }
+
+
+                        if (caregiverEmpty) {
+
+                            caregiverEmpty.style.display =
+                                "block";
+
+                            caregiverEmpty.textContent =
+                                "Không thể tải danh sách người chăm sóc. "
+                                + "Vui lòng thử lại.";
+                        }
+                    }
+                }
+                /* ==========================================
+                   SERVICE EVENTS
+                ========================================== */
+
+                serviceInputs.forEach(
+                    function(input) {
+
+                        input.addEventListener(
+                            "change",
+                            updateSummary
+                        );
+
+                    }
+                );
+                paymentTypeInputs.forEach(
+                    function(input) {
+
+                        input.addEventListener(
+                            "change",
+                            updateSummary
+                        );
+
+                    }
+                );
+
+
+                /* ==========================================
+                   TIME
+                ========================================== */
+
+                startTimeInput?.addEventListener(
+                    "input",
+                    updateSummary
+                );
+
+
+                startTimeInput?.addEventListener(
+                    "change",
+                    updateSummary
+                );
+
+
+                /* ==========================================
+                   DATE
+                ========================================== */
+
+                careDateInput?.addEventListener(
+                    "input",
+                    updateSummary
+                );
+
+
+                careDateInput?.addEventListener(
+                    "change",
+                    updateSummary
+                );
+
+                /* ==========================================
+        ASSIGNMENT EVENTS
+        ========================================== */
+
+                assignmentInputs.forEach(
+                    function(input) {
+
+                        input.addEventListener(
+                            "change",
+                            function() {
+
+                                resetCaregiverSelection();
+
+                                loadCaregivers();
+                            }
+                        );
+                    }
+                );
+
+
+                patientSelect?.addEventListener(
+                    "change",
+                    loadCaregivers
+                );
+
+
+                reloadCaregivers?.addEventListener(
+                    "click",
+                    loadCaregivers
+                );
+
+
+                /*
+                 * Khi dịch vụ thay đổi,
+                 * caregiver cũ không còn chắc chắn phù hợp.
+                 */
+                serviceInputs.forEach(
+                    function(input) {
+
+                        input.addEventListener(
+                            "change",
+                            loadCaregivers
+                        );
+                    }
+                );
+
+
+                careDateInput?.addEventListener(
+                    "change",
+                    loadCaregivers
+                );
+
+
+                startTimeInput?.addEventListener(
+                    "change",
+                    loadCaregivers
+                );
+
+
+                /*
+                 * Địa chỉ ảnh hưởng trực tiếp đến điểm khu vực.
+                 */
+                let caregiverReloadTimer = null;
+
+
+                addressInput?.addEventListener(
+                    "input",
+                    function() {
+
+                        clearTimeout(
+                            caregiverReloadTimer
+                        );
+
+                        caregiverReloadTimer =
+                            setTimeout(
+                                loadCaregivers,
+                                500
+                            );
+                    }
+                );
+
+
+                /*
+                 * Ghi chú có thể ảnh hưởng điểm chuyên môn.
+                 */
+                noteInput?.addEventListener(
+                    "input",
+                    function() {
+
+                        clearTimeout(
+                            caregiverReloadTimer
+                        );
+
+                        caregiverReloadTimer =
+                            setTimeout(
+                                loadCaregivers,
+                                500
+                            );
+                    }
+                );
+                /* ==========================================
+                   INITIAL VALUE
+                ========================================== */
+
+                updateSummary();
+                loadCaregivers();
+
+            }
+        );
+
+    </script>
+
+}

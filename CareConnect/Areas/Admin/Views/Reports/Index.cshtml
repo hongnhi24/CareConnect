@@ -1,0 +1,1829 @@
+﻿@using System.Text.Json
+@using System.Globalization
+@model CareConnect.ViewModels.AdminReportViewModel
+
+@{
+    ViewData["Title"] = "Báo cáo & thống kê";
+
+    string monthlyLabelsJson =
+        JsonSerializer.Serialize(
+            Model.BaoCaoTheoThang
+                .Select(x => x.NhanThang));
+
+    string monthlyRevenueJson =
+        JsonSerializer.Serialize(
+            Model.BaoCaoTheoThang
+                .Select(x => x.GiaTriHoanThanh));
+
+    string monthlyBookingsJson =
+        JsonSerializer.Serialize(
+            Model.BaoCaoTheoThang
+                .Select(x => x.SoLich));
+
+    string phamViText =
+        Model.PhamVi switch
+        {
+            "3" => "3 tháng gần nhất",
+            "6" => "6 tháng gần nhất",
+            _ => $"Toàn bộ năm {Model.NamDangChon}"
+        };
+}
+
+
+<div class="report-admin-page">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="report-hero">
+
+
+        <div class="report-hero-left">
+
+
+            <span class="report-eyebrow">
+
+                <i class="bi bi-bar-chart-line"></i>
+
+                PHÂN TÍCH HỆ THỐNG
+
+            </span>
+
+
+            <h1>
+                Báo cáo &amp; thống kê
+            </h1>
+
+
+            <p>
+                Theo dõi lượt đặt, doanh thu, người dùng mới
+                và chất lượng dịch vụ để đánh giá hiệu quả
+                vận hành của CareConnect.
+            </p>
+
+
+            <span class="report-scope-note">
+
+                <i class="bi bi-calendar-range"></i>
+
+                Đang xem:
+                <strong>@phamViText</strong>
+
+            </span>
+
+        </div>
+
+
+
+        <!-- FILTER -->
+
+        <div class="report-filter-group">
+
+
+            <form asp-area="Admin"
+                  asp-controller="Reports"
+                  asp-action="Index"
+                  method="get"
+                  class="report-year-filter">
+
+
+                <input type="hidden"
+                       name="phamVi"
+                       value="@Model.PhamVi" />
+
+
+                <i class="bi bi-calendar3"></i>
+
+
+                <select name="nam"
+                        aria-label="Chọn năm báo cáo"
+                        onchange="this.form.submit()">
+
+                    @foreach (int nam in Model.DanhSachNam)
+                    {
+                        <option value="@nam"
+                                selected="@(nam == Model.NamDangChon)">
+
+                            Năm @nam
+
+                        </option>
+                    }
+
+                </select>
+
+            </form>
+
+
+
+            <nav class="report-period-tabs"
+                 aria-label="Phạm vi báo cáo">
+
+
+                <a asp-area="Admin"
+                   asp-controller="Reports"
+                   asp-action="Index"
+                   asp-route-nam="@Model.NamDangChon"
+                   asp-route-phamVi="all"
+                   class="@(Model.PhamVi == "all" ? "active" : "")">
+
+                    Tất cả
+
+                </a>
+
+
+                <a asp-area="Admin"
+                   asp-controller="Reports"
+                   asp-action="Index"
+                   asp-route-nam="@Model.NamDangChon"
+                   asp-route-phamVi="6"
+                   class="@(Model.PhamVi == "6" ? "active" : "")">
+
+                    6 tháng
+
+                </a>
+
+
+                <a asp-area="Admin"
+                   asp-controller="Reports"
+                   asp-action="Index"
+                   asp-route-nam="@Model.NamDangChon"
+                   asp-route-phamVi="3"
+                   class="@(Model.PhamVi == "3" ? "active" : "")">
+
+                    3 tháng
+
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <span class="report-hero-decoration decoration-one"></span>
+
+        <span class="report-hero-decoration decoration-two"></span>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         KPI
+    ====================================================== -->
+
+    <section class="report-summary-grid">
+
+
+        <!-- BOOKINGS -->
+
+        <article class="report-summary-card bookings">
+
+
+            <span class="report-summary-icon">
+
+                <i class="bi bi-calendar2-check"></i>
+
+            </span>
+
+
+            <div class="report-summary-content">
+
+                <small>
+                    Tổng lượt đặt
+                </small>
+
+
+                <strong>
+                    @Model.TongLuotDatTrongKy
+                </strong>
+
+
+                <p>
+                    Lịch đặt trong phạm vi đang chọn
+                </p>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- REVENUE -->
+
+        <article class="report-summary-card revenue">
+
+
+            <span class="report-summary-icon">
+
+                <i class="bi bi-cash-stack"></i>
+
+            </span>
+
+
+            <div class="report-summary-content">
+
+                <small>
+                    Tổng doanh thu
+                </small>
+
+
+                <strong>
+                    @FormatCompactMoney(
+                        Model.TongDoanhThuTrongKy)
+                </strong>
+
+
+                <p>
+                    Giá trị từ các lịch đã hoàn thành
+                </p>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- USERS -->
+
+        <article class="report-summary-card users">
+
+
+            <span class="report-summary-icon">
+
+                <i class="bi bi-person-plus"></i>
+
+            </span>
+
+
+            <div class="report-summary-content">
+
+                <small>
+                    Người dùng mới
+                </small>
+
+
+                <strong>
+                    @Model.NguoiDungMoiTrongKy
+                </strong>
+
+
+                <p>
+                    Tài khoản được tạo mới trong kỳ
+                </p>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- GROWTH -->
+
+        <article class="report-summary-card growth">
+
+
+            <span class="report-summary-icon">
+
+                <i class="bi bi-graph-up-arrow"></i>
+
+            </span>
+
+
+            <div class="report-summary-content">
+
+                <small>
+                    Tăng trưởng trung bình
+                </small>
+
+
+                <strong class="report-summary-growth @(
+                        Model.TangTruongTrungBinh >= 0
+                            ? "positive"
+                            : "negative")">
+
+                    @(Model.TangTruongTrungBinh > 0
+                        ? "+"
+                        : "")@Model.TangTruongTrungBinh.ToString("0.#")%
+
+                </strong>
+
+
+                <p>
+                    So sánh với tháng liền trước
+                </p>
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MONTHLY CHART
+    ====================================================== -->
+
+    <section class="report-panel report-monthly-panel">
+
+
+        <div class="report-panel-heading">
+
+
+            <div class="report-panel-heading-left">
+
+
+                <span class="report-panel-icon">
+
+                    <i class="bi bi-graph-up"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        PHÂN TÍCH THEO THÁNG
+                    </small>
+
+                    <h2>
+                        Doanh thu &amp; lượt đặt
+                    </h2>
+
+                    <p>
+                        So sánh giá trị doanh thu và số lượng
+                        lịch đặt qua từng tháng.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="report-chart-legend">
+
+
+                <span>
+
+                    <i class="revenue"></i>
+
+                    Doanh thu
+
+                </span>
+
+
+                <span>
+
+                    <i class="bookings"></i>
+
+                    Lượt đặt
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        @if (Model.BaoCaoTheoThang.Count == 0)
+        {
+            <div class="report-empty">
+
+                <span>
+
+                    <i class="bi bi-bar-chart"></i>
+
+                </span>
+
+
+                <strong>
+                    Chưa có dữ liệu theo tháng
+                </strong>
+
+
+                <p>
+                    Chưa có dữ liệu phù hợp với
+                    năm và phạm vi đang chọn.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="report-chart-container">
+
+                <canvas id="monthlyReportChart"></canvas>
+
+            </div>
+        }
+
+    </section>
+
+
+
+    <!-- =====================================================
+         AREA + SERVICE
+    ====================================================== -->
+
+    <section class="report-analysis-grid">
+
+
+        <!-- =================================================
+             AREA
+        ================================================== -->
+
+        <article class="report-panel">
+
+
+            <div class="report-panel-heading">
+
+
+                <div class="report-panel-heading-left">
+
+
+                    <span class="report-panel-icon area">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            PHÂN TÍCH KHU VỰC
+                        </small>
+
+                        <h2>
+                            Doanh thu theo khu vực
+                        </h2>
+
+                        <p>
+                            So sánh hiệu quả hoạt động
+                            giữa các khu vực chăm sóc.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            @if (Model.BaoCaoKhuVuc.Count == 0)
+            {
+                <div class="report-empty compact">
+
+
+                    <span>
+
+                        <i class="bi bi-geo-alt"></i>
+
+                    </span>
+
+
+                    <strong>
+                        Chưa có dữ liệu khu vực
+                    </strong>
+
+
+                    <p>
+                        Chưa có lịch phù hợp trong phạm vi đã chọn.
+                    </p>
+
+                </div>
+            }
+            else
+            {
+                decimal maxAreaRevenue =
+                    Math.Max(
+                        1m,
+                        Model.BaoCaoKhuVuc
+                            .Max(x => x.TongGiaTri));
+
+                int maxAreaBookings =
+                    Math.Max(
+                        1,
+                        Model.BaoCaoKhuVuc
+                            .Max(x => x.SoLich));
+
+
+                <div class="report-ranking-list area">
+
+
+                    @{
+                        int areaRank = 0;
+                    }
+
+
+                    @foreach (var item in Model.BaoCaoKhuVuc)
+                    {
+                        areaRank++;
+
+
+                        double width =
+                            item.TongGiaTri > 0
+                                ? (double)(
+                                    item.TongGiaTri
+                                    / maxAreaRevenue
+                                    * 100m)
+                                : item.SoLich
+                                    * 100.0
+                                    / maxAreaBookings;
+
+
+                        <div class="report-ranking-item">
+
+
+                            <span class="report-ranking-position">
+
+                                @areaRank
+
+                            </span>
+
+
+                            <div class="report-ranking-content">
+
+
+                                <div class="report-ranking-label">
+
+
+                                    <strong title="@item.KhuVuc">
+
+                                        @item.KhuVuc
+
+                                    </strong>
+
+
+                                    <span>
+
+                                        @item.SoLich lịch
+
+                                    </span>
+
+                                </div>
+
+
+
+                                <div class="report-ranking-bar">
+
+                                    <span style="width: @(width.ToString(
+                                                                                CultureInfo.InvariantCulture))%">
+                                    </span>
+
+                                </div>
+
+
+
+                                <div class="report-ranking-meta">
+
+
+                                    <small>
+
+                                        @item.SoLichHoanThanh hoàn thành
+
+                                    </small>
+
+
+                                    <strong>
+
+                                        @FormatCompactMoney(
+                                            item.TongGiaTri)
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+            }
+
+        </article>
+
+
+
+        <!-- =================================================
+             SERVICE
+        ================================================== -->
+
+        <article class="report-panel">
+
+
+            <div class="report-panel-heading">
+
+
+                <div class="report-panel-heading-left">
+
+
+                    <span class="report-panel-icon service">
+
+                        <i class="bi bi-heart-pulse"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            PHÂN TÍCH DỊCH VỤ
+                        </small>
+
+                        <h2>
+                            Doanh thu theo dịch vụ
+                        </h2>
+
+                        <p>
+                            Theo dõi lượt đặt và doanh thu
+                            của từng loại dịch vụ.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            @if (Model.BaoCaoDichVu.Count == 0)
+            {
+                <div class="report-empty compact">
+
+
+                    <span>
+
+                        <i class="bi bi-heart-pulse"></i>
+
+                    </span>
+
+
+                    <strong>
+                        Chưa có dữ liệu dịch vụ
+                    </strong>
+
+
+                    <p>
+                        Chưa có lượt đặt dịch vụ
+                        trong phạm vi đã chọn.
+                    </p>
+
+                </div>
+            }
+            else
+            {
+                int maxServiceBookings =
+                    Math.Max(
+                        1,
+                        Model.BaoCaoDichVu
+                            .Max(x => x.SoLuotDat));
+
+
+                <div class="report-ranking-list service">
+
+
+                    @{
+                        int serviceRank = 0;
+                    }
+
+
+                    @foreach (var item in Model.BaoCaoDichVu)
+                    {
+                        serviceRank++;
+
+
+                        double width =
+                            item.TongDoanhThu > 0
+                                ? item.TyLe
+                                : item.SoLuotDat
+                                    * 100.0
+                                    / maxServiceBookings;
+
+
+                        <div class="report-ranking-item">
+
+
+                            <span class="report-ranking-position">
+
+                                @serviceRank
+
+                            </span>
+
+
+                            <div class="report-ranking-content">
+
+
+                                <div class="report-ranking-label">
+
+
+                                    <strong title="@item.TenDichVu">
+
+                                        @item.TenDichVu
+
+                                    </strong>
+
+
+                                    <span>
+
+                                        @item.SoLuotDat lượt
+
+                                    </span>
+
+                                </div>
+
+
+
+                                <div class="report-ranking-bar">
+
+                                    <span style="width: @(width.ToString(
+                                                                                CultureInfo.InvariantCulture))%">
+                                    </span>
+
+                                </div>
+
+
+
+                                <div class="report-ranking-meta">
+
+
+                                    <small>
+                                        Doanh thu
+                                    </small>
+
+
+                                    <strong>
+
+                                        @FormatCompactMoney(
+                                            item.TongDoanhThu)
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+            }
+
+        </article>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CUSTOMER REVIEW + TOP CAREGIVER
+    ====================================================== -->
+
+    <section class="report-review-grid">
+
+
+        <!-- =================================================
+             CUSTOMER REVIEW
+        ================================================== -->
+
+        <article class="report-panel report-review-overview">
+
+
+            <div class="report-panel-heading">
+
+
+                <div class="report-panel-heading-left">
+
+
+                    <span class="report-panel-icon review">
+
+                        <i class="bi bi-star"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            CHẤT LƯỢNG DỊCH VỤ
+                        </small>
+
+                        <h2>
+                            Đánh giá khách hàng
+                        </h2>
+
+                        <p>
+                            Tổng hợp mức độ hài lòng
+                            từ phản hồi của khách hàng.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <a asp-area="Admin"
+                   asp-controller="Reviews"
+                   asp-action="Index"
+                   class="report-view-link">
+
+                    Xem chi tiết
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+
+
+            <div class="report-review-summary">
+
+
+                <!-- SCORE -->
+
+                <div class="report-review-score">
+
+
+                    <span class="report-review-score-icon">
+
+                        <i class="bi bi-star-fill"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            Điểm trung bình
+                        </small>
+
+
+                        <strong>
+
+                            @Model.DiemDanhGiaTrungBinh.ToString("0.0")
+
+                            <em>/5</em>
+
+                        </strong>
+
+
+                        <p>
+                            @Model.TongDanhGia lượt đánh giá
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- POSITIVE -->
+
+                <div class="report-review-stat positive">
+
+
+                    <span>
+
+                        <i class="bi bi-hand-thumbs-up"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            Tích cực
+                        </small>
+
+
+                        <strong>
+                            @Model.DanhGiaTichCuc
+                        </strong>
+
+
+                        <p>
+                            Từ 4 đến 5 sao
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- WARNING -->
+
+                <div class="report-review-stat warning">
+
+
+                    <span>
+
+                        <i class="bi bi-exclamation-triangle"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            Cần chú ý
+                        </small>
+
+
+                        <strong>
+                            @Model.DanhGiaCanChuY
+                        </strong>
+
+
+                        <p>
+                            Phản hồi cần rà soát
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STAR DISTRIBUTION -->
+
+            <div class="report-review-distribution">
+
+
+                @foreach (var item in Model.PhanBoDanhGia)
+                {
+                    <div class="report-review-star-row">
+
+
+                        <span>
+
+                            @item.SoSao
+
+                            <i class="bi bi-star-fill"></i>
+
+                        </span>
+
+
+                        <div class="report-review-progress">
+
+                            <span style="width: @(item.TyLe.ToString(
+                                                                CultureInfo.InvariantCulture))%">
+                            </span>
+
+                        </div>
+
+
+                        <strong>
+
+                            @item.SoLuong
+
+                        </strong>
+
+
+                        <small>
+
+                            @item.TyLe.ToString("0.#")%
+
+                        </small>
+
+                    </div>
+                }
+
+            </div>
+
+        </article>
+
+
+
+        <!-- =================================================
+             TOP CAREGIVER
+        ================================================== -->
+
+        <article class="report-panel">
+
+
+            <div class="report-panel-heading">
+
+
+                <div class="report-panel-heading-left">
+
+
+                    <span class="report-panel-icon caregiver">
+
+                        <i class="bi bi-award"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            XẾP HẠNG CHẤT LƯỢNG
+                        </small>
+
+                        <h2>
+                            Người chăm sóc nổi bật
+                        </h2>
+
+                        <p>
+                            Xếp hạng dựa trên điểm
+                            đánh giá trung bình.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            @if (Model.TopNguoiChamSoc.Count == 0)
+            {
+                <div class="report-empty compact">
+
+
+                    <span>
+
+                        <i class="bi bi-star"></i>
+
+                    </span>
+
+
+                    <strong>
+                        Chưa có dữ liệu đánh giá
+                    </strong>
+
+
+                    <p>
+                        Chưa thể xếp hạng người chăm sóc.
+                    </p>
+
+                </div>
+            }
+            else
+            {
+                <div class="report-caregiver-ranking">
+
+
+                    @for (
+                        int index = 0;
+                        index < Model.TopNguoiChamSoc.Count;
+                        index++)
+                    {
+                        var item =
+                            Model.TopNguoiChamSoc[index];
+
+
+                        string initial =
+                            string.IsNullOrWhiteSpace(item.HoTen)
+                                ? "N"
+                                : item.HoTen
+                                    .Trim()
+                                    .Substring(0, 1)
+                                    .ToUpper();
+
+
+                        <div class="report-caregiver-rank-item">
+
+
+                            <span class="report-caregiver-position">
+
+                                @(index + 1)
+
+                            </span>
+
+
+                            <span class="report-caregiver-avatar">
+
+                                @initial
+
+                            </span>
+
+
+                            <div class="report-caregiver-info">
+
+
+                                <strong>
+
+                                    @item.HoTen
+
+                                </strong>
+
+
+                                <span>
+
+                                    @item.SoLuotDanhGia lượt đánh giá
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="report-caregiver-score">
+
+
+                                <i class="bi bi-star-fill"></i>
+
+
+                                <strong>
+
+                                    @item.DiemTrungBinh.ToString("0.0")
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+            }
+
+        </article>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MONTH DETAIL
+    ====================================================== -->
+
+    <section class="report-panel report-month-detail-panel">
+
+
+        <div class="report-panel-heading">
+
+
+            <div class="report-panel-heading-left">
+
+
+                <span class="report-panel-icon table">
+
+                    <i class="bi bi-table"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        CHI TIẾT DỮ LIỆU
+                    </small>
+
+                    <h2>
+                        Thống kê theo tháng
+                    </h2>
+
+                    <p>
+                        Dữ liệu chi tiết phục vụ
+                        đối chiếu và theo dõi tăng trưởng.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <strong class="report-result-count">
+
+                @Model.BaoCaoTheoThang.Count tháng
+
+            </strong>
+
+        </div>
+
+
+
+        @if (Model.BaoCaoTheoThang.Count == 0)
+        {
+            <div class="report-empty">
+
+
+                <span>
+
+                    <i class="bi bi-table"></i>
+
+                </span>
+
+
+                <strong>
+                    Chưa có dữ liệu thống kê
+                </strong>
+
+
+                <p>
+                    Hãy thử chọn năm hoặc phạm vi khác.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="report-month-table-scroll">
+
+
+                <table class="report-month-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Tháng</th>
+
+                            <th>Lượt đặt</th>
+
+                            <th>Hoàn thành</th>
+
+                            <th>Doanh thu</th>
+
+                            <th>Người dùng mới</th>
+
+                            <th>TB / lượt</th>
+
+                            <th>Tăng trưởng</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        @foreach (var item in Model.BaoCaoTheoThang)
+                        {
+                            string growthClass =
+                                item.TangTruong > 0
+                                    ? "positive"
+                                    : item.TangTruong < 0
+                                        ? "negative"
+                                        : "neutral";
+
+
+                            string growthPrefix =
+                                item.TangTruong > 0
+                                    ? "+"
+                                    : "";
+
+
+                            <tr>
+
+
+                                <td>
+
+                                    <strong class="report-month-name">
+
+                                        @item.NhanThang
+
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    @item.SoLich
+
+                                </td>
+
+
+                                <td>
+
+                                    @item.SoLichHoanThanh
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong class="report-money-value">
+
+                                        @FormatCompactMoney(
+                                            item.GiaTriHoanThanh)
+
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    @item.NguoiDungMoi
+
+                                </td>
+
+
+                                <td>
+
+                                    @item.TrungBinhMoiLuot.ToString("#,##0")đ
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="report-growth @growthClass">
+
+                                        @growthPrefix@item.TangTruong.ToString("0.#")%
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </section>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        const monthlyLabels =
+                    @Html.Raw(monthlyLabelsJson);
+
+        const monthlyRevenue =
+                    @Html.Raw(monthlyRevenueJson);
+
+        const monthlyBookings =
+                    @Html.Raw(monthlyBookingsJson);
+
+
+
+        function formatCompactMoney(value) {
+
+            if (value >= 1000000000) {
+                return `${(value / 1000000000).toFixed(1)}B`;
+            }
+
+            if (value >= 1000000) {
+                return `${(value / 1000000).toFixed(1)}M`;
+            }
+
+            if (value >= 1000) {
+                return `${(value / 1000).toFixed(1)}K`;
+            }
+
+            return `${value}`;
+        }
+
+
+
+        function drawMonthlyChart() {
+
+            const canvas =
+                document.getElementById(
+                    "monthlyReportChart");
+
+            if (!canvas) {
+                return;
+            }
+
+
+            const container =
+                canvas.parentElement;
+
+
+            const width =
+                Math.max(
+                    container.clientWidth,
+                    320);
+
+
+            const height =
+                Math.max(
+                    container.clientHeight,
+                    280);
+
+
+            const ratio =
+                window.devicePixelRatio || 1;
+
+
+            canvas.width =
+                width * ratio;
+
+
+            canvas.height =
+                height * ratio;
+
+
+            canvas.style.width =
+                `${width}px`;
+
+
+            canvas.style.height =
+                `${height}px`;
+
+
+            const context =
+                canvas.getContext("2d");
+
+
+            context.setTransform(
+                ratio,
+                0,
+                0,
+                ratio,
+                0,
+                0);
+
+
+            context.clearRect(
+                0,
+                0,
+                width,
+                height);
+
+
+            if (!monthlyLabels.length) {
+                return;
+            }
+
+
+            const padding = {
+                top: 38,
+                right: 32,
+                bottom: 45,
+                left: 38
+            };
+
+
+            const chartWidth =
+                width
+                - padding.left
+                - padding.right;
+
+
+            const chartHeight =
+                height
+                - padding.top
+                - padding.bottom;
+
+
+            const maxRevenue =
+                Math.max(
+                    ...monthlyRevenue,
+                    1);
+
+
+            const maxBookings =
+                Math.max(
+                    ...monthlyBookings,
+                    1);
+
+
+            const segmentWidth =
+                chartWidth
+                / Math.max(
+                    monthlyLabels.length,
+                    1);
+
+
+
+            /* GRID */
+
+            context.strokeStyle =
+                "#edf1ef";
+
+            context.lineWidth = 1;
+
+
+            for (
+                let line = 0;
+                line <= 4;
+                line++) {
+
+                const y =
+                    padding.top
+                    + chartHeight
+                    * line / 4;
+
+
+                context.beginPath();
+
+
+                context.moveTo(
+                    padding.left,
+                    y);
+
+
+                context.lineTo(
+                    width - padding.right,
+                    y);
+
+
+                context.stroke();
+            }
+
+
+
+            /* REVENUE BARS */
+
+            monthlyLabels.forEach(
+                function(label, index) {
+
+                    const centerX =
+                        padding.left
+                        + segmentWidth * index
+                        + segmentWidth / 2;
+
+
+                    const barWidth =
+                        Math.min(
+                            48,
+                            segmentWidth * .46);
+
+
+                    const value =
+                        Number(
+                            monthlyRevenue[index] ?? 0);
+
+
+                    const barHeight =
+                        value
+                        / maxRevenue
+                        * chartHeight
+                        * .86;
+
+
+                    const x =
+                        centerX
+                        - barWidth / 2;
+
+
+                    const y =
+                        padding.top
+                        + chartHeight
+                        - barHeight;
+
+
+                    const gradient =
+                        context.createLinearGradient(
+                            0,
+                            y,
+                            0,
+                            y + barHeight);
+
+
+                    gradient.addColorStop(
+                        0,
+                        "#59bdb7");
+
+
+                    gradient.addColorStop(
+                        1,
+                        "#92dad5");
+
+
+                    context.fillStyle =
+                        gradient;
+
+
+                    context.beginPath();
+
+
+                    context.roundRect(
+                        x,
+                        y,
+                        barWidth,
+                        Math.max(
+                            barHeight,
+                            2),
+                        7);
+
+
+                    context.fill();
+
+
+                    context.fillStyle =
+                        "#74827c";
+
+
+                    context.font =
+                        "10px Arial";
+
+
+                    context.textAlign =
+                        "center";
+
+
+                    context.fillText(
+                        label,
+                        centerX,
+                        height - 16);
+                });
+
+
+
+            /* BOOKING LINE */
+
+            context.strokeStyle =
+                "#e89a18";
+
+            context.lineWidth = 2.5;
+
+            context.lineJoin =
+                "round";
+
+            context.lineCap =
+                "round";
+
+
+            context.beginPath();
+
+
+            monthlyBookings.forEach(
+                function(value, index) {
+
+                    const centerX =
+                        padding.left
+                        + segmentWidth * index
+                        + segmentWidth / 2;
+
+
+                    const y =
+                        padding.top
+                        + chartHeight
+                        - (
+                            Number(value ?? 0)
+                            / maxBookings
+                            * chartHeight
+                            * .82
+                        );
+
+
+                    if (index === 0) {
+
+                        context.moveTo(
+                            centerX,
+                            y);
+
+                    }
+                    else {
+
+                        context.lineTo(
+                            centerX,
+                            y);
+
+                    }
+                });
+
+
+            context.stroke();
+
+
+
+            /* BOOKING DOTS */
+
+            monthlyBookings.forEach(
+                function(value, index) {
+
+                    const centerX =
+                        padding.left
+                        + segmentWidth * index
+                        + segmentWidth / 2;
+
+
+                    const y =
+                        padding.top
+                        + chartHeight
+                        - (
+                            Number(value ?? 0)
+                            / maxBookings
+                            * chartHeight
+                            * .82
+                        );
+
+
+                    context.beginPath();
+
+
+                    context.arc(
+                        centerX,
+                        y,
+                        4,
+                        0,
+                        Math.PI * 2);
+
+
+                    context.fillStyle =
+                        "#ffffff";
+
+
+                    context.fill();
+
+
+                    context.lineWidth =
+                        2.5;
+
+
+                    context.strokeStyle =
+                        "#e89a18";
+
+
+                    context.stroke();
+
+
+
+                    context.fillStyle =
+                        "#9a6511";
+
+
+                    context.font =
+                        "600 9px Arial";
+
+
+                    context.textAlign =
+                        "center";
+
+
+                    context.fillText(
+                        value,
+                        centerX,
+                        Math.max(
+                            y - 10,
+                            12));
+                });
+        }
+
+
+
+        window.addEventListener(
+            "load",
+            drawMonthlyChart);
+
+
+        window.addEventListener(
+            "resize",
+            function() {
+
+                clearTimeout(
+                    window.reportResizeTimer);
+
+
+                window.reportResizeTimer =
+                    setTimeout(
+                        drawMonthlyChart,
+                        150);
+            });
+
+    </script>
+
+}
+
+
+@functions {
+
+    private string FormatCompactMoney(
+        decimal value)
+    {
+        if (value >= 1_000_000_000m)
+        {
+            return
+                $"{value / 1_000_000_000m:0.#}B";
+        }
+
+
+        if (value >= 1_000_000m)
+        {
+            return
+                $"{value / 1_000_000m:0.#}M";
+        }
+
+
+        if (value >= 1_000m)
+        {
+            return
+                $"{value / 1_000m:0.#}K";
+        }
+
+
+        return $"{value:#,##0}đ";
+    }
+
+}

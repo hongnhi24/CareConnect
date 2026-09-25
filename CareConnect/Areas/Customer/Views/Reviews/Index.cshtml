@@ -1,0 +1,283 @@
+﻿@model CareConnect.ViewModels.CustomerReviewListViewModel
+
+@{
+    ViewData["Title"] = "Đánh giá dịch vụ";
+}
+@if (TempData["Success"] != null)
+{
+    <div class="customer-review-alert success">
+
+        <i class="bi bi-check-circle-fill"></i>
+
+        <span>
+            @TempData["Success"]
+        </span>
+
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="customer-review-alert error">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+    </div>
+}
+
+<section class="customer-review-heading">
+
+    <div>
+        <span>PHẢN HỒI DỊCH VỤ</span>
+
+        <h1>Đánh giá dịch vụ</h1>
+
+        <p>
+            Chia sẻ trải nghiệm sau mỗi buổi chăm sóc
+            để CareConnect nâng cao chất lượng phục vụ.
+        </p>
+    </div>
+
+</section>
+
+<section class="customer-review-stats">
+
+    <article>
+        <span class="all">
+            <i class="bi bi-calendar2-check"></i>
+        </span>
+
+        <div>
+            <strong>@Model.TongLichCoTheDanhGia</strong>
+            <small>Lịch đã hoàn thành</small>
+        </div>
+    </article>
+
+    <article>
+        <span class="pending">
+            <i class="bi bi-hourglass-split"></i>
+        </span>
+
+        <div>
+            <strong>@Model.ChuaDanhGia</strong>
+            <small>Chưa đánh giá</small>
+        </div>
+    </article>
+
+    <article>
+        <span class="reviewed">
+            <i class="bi bi-chat-square-heart"></i>
+        </span>
+
+        <div>
+            <strong>@Model.DaDanhGia</strong>
+            <small>Đã đánh giá</small>
+        </div>
+    </article>
+
+    <article>
+        <span class="rating">
+            <i class="bi bi-star-fill"></i>
+        </span>
+
+        <div>
+            <strong>
+                @Model.DiemTrungBinh.ToString("0.0")
+            </strong>
+
+            <small>Điểm trung bình</small>
+        </div>
+    </article>
+
+</section>
+
+<section class="customer-review-filter">
+
+    <form method="get">
+
+        <select name="trangThai">
+
+            <option value="">
+                Tất cả trạng thái
+            </option>
+
+            <option value="Chưa đánh giá"
+                    selected="@(Model.TrangThai == "Chưa đánh giá")">
+                Chưa đánh giá
+            </option>
+
+            <option value="Đã đánh giá"
+                    selected="@(Model.TrangThai == "Đã đánh giá")">
+                Đã đánh giá
+            </option>
+
+        </select>
+
+        <button type="submit">
+            <i class="bi bi-funnel-fill"></i>
+            Lọc
+        </button>
+
+        <a asp-area="Customer"
+           asp-controller="Reviews"
+           asp-action="Index">
+
+            <i class="bi bi-arrow-counterclockwise"></i>
+        </a>
+
+    </form>
+
+</section>
+
+<section class="customer-review-panel">
+
+    <div class="customer-review-panel-heading">
+
+        <div>
+            <span>DANH SÁCH ĐÁNH GIÁ</span>
+            <h2>Lịch chăm sóc đã hoàn thành</h2>
+        </div>
+
+        <strong>
+            @Model.DanhSach.Count kết quả
+        </strong>
+
+    </div>
+
+    @if (Model.DanhSach.Count == 0)
+    {
+        <div class="customer-review-empty">
+
+            <span>
+                <i class="bi bi-chat-square-heart"></i>
+            </span>
+
+            <h3>Chưa có lịch cần đánh giá</h3>
+
+            <p>
+                Các lịch đã hoàn thành sẽ xuất hiện tại đây.
+            </p>
+
+        </div>
+    }
+    else
+    {
+        <div class="customer-review-list">
+
+            @foreach (var item in Model.DanhSach)
+            {
+                <article class="customer-review-card">
+
+                    <div class="customer-review-card-top">
+
+                        <div>
+                            <span>@($"#DL{item.MaDatLich}")</span>
+                            <h3>@item.TenDichVu</h3>
+                            <p>@item.TenBenhNhan</p>
+                        </div>
+
+                        <span class="@(item.DaDanhGia
+                                                        ? "review-status reviewed"
+                                                        : "review-status pending")">
+
+                            @(item.DaDanhGia
+                                ? "Đã đánh giá"
+                                : "Chưa đánh giá")
+                        </span>
+
+                    </div>
+
+                    <div class="customer-review-caregiver">
+
+                        <span>
+                            <i class="bi bi-person-check-fill"></i>
+                            Người chăm sóc
+                        </span>
+
+                        <strong>
+                            @item.TenNguoiChamSoc
+                        </strong>
+
+                    </div>
+
+                    <div class="customer-review-info">
+
+                        <div>
+                            <span>Ngày chăm sóc</span>
+
+                            <strong>
+                                @(item.NgayChamSoc.ToString(
+                                    "dd/MM/yyyy"))
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Khung giờ</span>
+
+                            <strong>
+                                @item.GioBatDau.ToString(@"hh\:mm")
+                                -
+                                @item.GioKetThuc.ToString(@"hh\:mm")
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    @if (item.DaDanhGia)
+                    {
+                        <div class="customer-review-result">
+
+                            <div class="customer-review-stars">
+
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <i class="bi @(i <= item.SoSao
+                                                                               ? "bi-star-fill"
+                                                                               : "bi-star")">
+                            </i>
+                        }
+
+                        <strong>
+                            @item.SoSao/5
+                        </strong>
+
+                    </div>
+
+                    <p>@item.NoiDung</p>
+
+                </div>
+            }
+
+            <div class="customer-review-actions">
+
+                @if (item.CoTheDanhGia)
+                {
+                    <a asp-area="Customer"
+                       asp-controller="Reviews"
+                       asp-action="Create"
+                       asp-route-id="@item.MaDatLich"
+                       class="write">
+
+                        <i class="bi bi-star-fill"></i>
+                        Viết đánh giá
+                    </a>
+                }
+                else if (item.MaDanhGia.HasValue)
+                {
+                    <a asp-area="Customer"
+                       asp-controller="Reviews"
+                       asp-action="Details"
+                       asp-route-id="@item.MaDanhGia">
+
+                        <i class="bi bi-eye"></i>
+                        Xem đánh giá
+                    </a>
+                }
+
+            </div>
+
+        </article>
+    }
+
+</div>
+    }
+
+</section>

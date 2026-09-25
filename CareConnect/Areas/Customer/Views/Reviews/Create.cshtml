@@ -1,0 +1,273 @@
+﻿@model CareConnect.ViewModels.CustomerReviewCreateViewModel
+
+@{
+    ViewData["Title"] = "Viết đánh giá";
+}
+
+<section class="customer-review-detail-heading">
+
+    <a asp-area="Customer"
+       asp-controller="Reviews"
+       asp-action="Index">
+
+        <i class="bi bi-arrow-left"></i>
+    </a>
+
+    <div>
+        <span>PHẢN HỒI DỊCH VỤ</span>
+        <h1>Viết đánh giá</h1>
+
+        <p>
+            Chia sẻ mức độ hài lòng và trải nghiệm
+            của bạn sau buổi chăm sóc.
+        </p>
+    </div>
+
+</section>
+
+<div class="customer-review-create-layout">
+
+    <main class="customer-review-create-card">
+
+        <div class="customer-review-create-heading">
+
+            <span>
+                <i class="bi bi-chat-square-heart-fill"></i>
+            </span>
+
+            <div>
+                <h2>Đánh giá trải nghiệm</h2>
+                <p>Chọn số sao và nhập nội dung phản hồi.</p>
+            </div>
+
+        </div>
+
+        <form asp-area="Customer"
+              asp-controller="Reviews"
+              asp-action="Create"
+              method="post"
+              id="customerReviewForm">
+
+            @Html.AntiForgeryToken()
+
+            <input asp-for="MaDatLich"
+                   type="hidden" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="customer-review-validation">
+            </div>
+
+            <div class="customer-review-form-section">
+
+                <label>
+                    Mức độ hài lòng
+                    <span>*</span>
+                </label>
+
+                <div class="customer-review-star-input">
+
+                    @for (int sao = 5; sao >= 1; sao--)
+                    {
+                        <input asp-for="SoSao"
+                               type="radio"
+                               value="@sao"
+                               id="reviewStar@sao" />
+
+                        <label for="reviewStar@sao"
+                               title="@sao sao">
+
+                            <i class="bi bi-star-fill"></i>
+                        </label>
+                    }
+
+                </div>
+
+                <p class="customer-review-star-text"
+                   id="reviewStarText">
+
+                    Hãy chọn mức độ hài lòng
+                </p>
+
+                <span asp-validation-for="SoSao"
+                      class="customer-review-field-error">
+                </span>
+
+            </div>
+
+            <div class="customer-review-form-section">
+
+                <label asp-for="NoiDung">
+                    Nội dung đánh giá
+                    <span>*</span>
+                </label>
+
+                <div class="customer-review-textarea">
+
+                    <i class="bi bi-chat-left-text"></i>
+
+                    <textarea asp-for="NoiDung"
+                              rows="6"
+                              maxlength="1000"
+                              placeholder="Ví dụ: Người chăm sóc đúng giờ, tận tâm và hỗ trợ người thân rất chu đáo..."></textarea>
+
+                </div>
+
+                <div class="customer-review-character-row">
+
+                    <span asp-validation-for="NoiDung"
+                          class="customer-review-field-error">
+                    </span>
+
+                    <small>
+                        <span id="reviewCharacterCount">0</span>/1000
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="customer-review-form-actions">
+
+                <a asp-area="Customer"
+                   asp-controller="Reviews"
+                   asp-action="Index">
+
+                    Hủy
+                </a>
+
+                <button type="submit">
+
+                    <i class="bi bi-send-check-fill"></i>
+                    Gửi đánh giá
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+    <aside class="customer-review-summary">
+
+        <h2>Thông tin buổi chăm sóc</h2>
+
+        <dl>
+
+            <div>
+                <dt>Mã lịch</dt>
+                <dd>@($"#DL{Model.MaDatLich}")</dd>
+            </div>
+
+            <div>
+                <dt>Người được chăm sóc</dt>
+                <dd>@Model.TenBenhNhan</dd>
+            </div>
+
+            <div>
+                <dt>Người chăm sóc</dt>
+                <dd>@Model.TenNguoiChamSoc</dd>
+            </div>
+
+            <div>
+                <dt>Dịch vụ</dt>
+                <dd>@Model.TenDichVu</dd>
+            </div>
+
+            <div>
+                <dt>Ngày chăm sóc</dt>
+
+                <dd>
+                    @(Model.NgayChamSoc.ToString(
+                        "dd/MM/yyyy"))
+                </dd>
+            </div>
+
+            <div>
+                <dt>Khung giờ</dt>
+
+                <dd>
+                    @Model.GioBatDau.ToString(@"hh\:mm")
+                    -
+                    @Model.GioKetThuc.ToString(@"hh\:mm")
+                </dd>
+            </div>
+
+        </dl>
+
+        <div class="customer-review-note">
+
+            <i class="bi bi-shield-check"></i>
+
+            <span>
+                Đánh giá của bạn sẽ giúp CareConnect
+                cải thiện chất lượng dịch vụ.
+            </span>
+
+        </div>
+
+    </aside>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+                const starInputs =
+                    document.querySelectorAll(
+                        'input[name="SoSao"]');
+
+                const starText =
+                    document.getElementById(
+                        "reviewStarText");
+
+                const reviewText =
+                    document.getElementById(
+                        "NoiDung");
+
+                const characterCount =
+                    document.getElementById(
+                        "reviewCharacterCount");
+
+                const messages = {
+                    "1": "Rất không hài lòng",
+                    "2": "Chưa hài lòng",
+                    "3": "Bình thường",
+                    "4": "Hài lòng",
+                    "5": "Rất hài lòng"
+                };
+
+                function updateStars() {
+                    const selected =
+                        document.querySelector(
+                            'input[name="SoSao"]:checked');
+
+                    starText.textContent =
+                        selected
+                            ? messages[selected.value]
+                            : "Hãy chọn mức độ hài lòng";
+                }
+
+                function updateCharacterCount() {
+                    characterCount.textContent =
+                        reviewText?.value.length || 0;
+                }
+
+                starInputs.forEach(input => {
+                    input.addEventListener(
+                        "change",
+                        updateStars);
+                });
+
+                reviewText?.addEventListener(
+                    "input",
+                    updateCharacterCount);
+
+                updateStars();
+                updateCharacterCount();
+            });
+    </script>
+}

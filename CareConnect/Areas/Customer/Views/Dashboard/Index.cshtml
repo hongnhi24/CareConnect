@@ -1,0 +1,862 @@
+﻿@model CareConnect.ViewModels.CustomerDashboardViewModel
+
+@{
+    ViewData["Title"] = "Tổng quan";
+}
+
+
+<div class="customer-dashboard">
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="dashboard-hero">
+
+        <div class="dashboard-hero-content">
+
+            <span class="dashboard-eyebrow">
+                TỔNG QUAN GIA ĐÌNH
+            </span>
+
+            <h1>
+                Xin chào,
+                <span>@Model.HoTenKhachHang</span>
+                <span class="dashboard-wave">👋</span>
+            </h1>
+
+            <p>
+                Chăm sóc người thân của bạn một cách chu đáo,
+                thuận tiện và an tâm hơn cùng CareConnect.
+            </p>
+
+        </div>
+
+
+        <a asp-area="Customer"
+           asp-controller="Bookings"
+           asp-action="Create"
+           class="dashboard-hero-button">
+
+            <span>
+                <i class="bi bi-calendar2-plus"></i>
+            </span>
+
+            <div>
+                <strong>Đặt lịch mới</strong>
+                <small>Tạo lịch chăm sóc</small>
+            </div>
+
+            <i class="bi bi-arrow-right"></i>
+
+        </a>
+
+    </section>
+
+
+    <!-- =====================================================
+         THỐNG KÊ
+    ====================================================== -->
+
+    <section class="dashboard-stat-grid">
+
+        <!-- BUỔI SẮP TỚI -->
+
+        <a asp-area="Customer"
+           asp-controller="Bookings"
+           asp-action="Index"
+           class="dashboard-stat-card">
+
+            <span class="dashboard-stat-icon is-teal">
+                <i class="bi bi-calendar2-check"></i>
+            </span>
+
+            <div class="dashboard-stat-content">
+
+                <small>
+                    Buổi sắp tới
+                </small>
+
+                <strong>
+                    @Model.SoBuoiSapToi
+                    <span>buổi</span>
+                </strong>
+
+            </div>
+
+            <span class="dashboard-stat-count is-teal">
+                @Model.SoBuoiSapToi
+            </span>
+
+            <span class="dashboard-stat-go">
+                <i class="bi bi-arrow-right"></i>
+            </span>
+
+        </a>
+
+
+        <!-- HỒ SƠ NGƯỜI THÂN -->
+
+        <a asp-area="Customer"
+           asp-controller="Relatives"
+           asp-action="Index"
+           class="dashboard-stat-card">
+
+            <span class="dashboard-stat-icon is-orange">
+                <i class="bi bi-people"></i>
+            </span>
+
+            <div class="dashboard-stat-content">
+
+                <small>
+                    Hồ sơ đang quản lý
+                </small>
+
+                <strong>
+                    @Model.SoHoSoDangQuanLy
+                    <span>người</span>
+                </strong>
+
+            </div>
+
+            <span class="dashboard-stat-count is-orange">
+                @Model.SoHoSoDangQuanLy
+            </span>
+
+            <span class="dashboard-stat-go">
+                <i class="bi bi-arrow-right"></i>
+            </span>
+
+        </a>
+
+
+        <!-- ĐÃ HOÀN THÀNH -->
+
+        <a asp-area="Customer"
+           asp-controller="Bookings"
+           asp-action="Index"
+           asp-route-trangThai="Đã hoàn thành"
+           class="dashboard-stat-card">
+
+            <span class="dashboard-stat-icon is-green">
+                <i class="bi bi-check2-all"></i>
+            </span>
+
+            <div class="dashboard-stat-content">
+
+                <small>
+                    Hoàn thành tháng này
+                </small>
+
+                <strong>
+                    @Model.SoBuoiHoanThanhThangNay
+                    <span>buổi</span>
+                </strong>
+
+            </div>
+
+            <span class="dashboard-stat-count is-green">
+                @Model.SoBuoiHoanThanhThangNay
+            </span>
+
+            <span class="dashboard-stat-go">
+                <i class="bi bi-arrow-right"></i>
+            </span>
+
+        </a>
+
+
+        <!-- THÔNG BÁO -->
+
+        <button type="button"
+                class="dashboard-stat-card dashboard-stat-button"
+                id="openDashboardNotifications">
+
+            <span class="dashboard-stat-icon is-yellow">
+                <i class="bi bi-bell"></i>
+            </span>
+
+            <span class="dashboard-stat-content">
+
+                <small>
+                    Thông báo mới
+                </small>
+
+                <strong>
+                    @Model.SoThongBaoMoi
+                    <span>thông báo</span>
+                </strong>
+
+            </span>
+
+            <span class="dashboard-stat-count is-yellow">
+                @Model.SoThongBaoMoi
+            </span>
+
+            <span class="dashboard-stat-go">
+                <i class="bi bi-arrow-right"></i>
+            </span>
+
+        </button>
+
+    </section>
+
+
+    <!-- =====================================================
+         MAIN GRID
+    ====================================================== -->
+
+    <div class="dashboard-main-grid">
+
+        <!-- =================================================
+             CỘT TRÁI - LỊCH CHĂM SÓC
+        ================================================== -->
+
+        <section class="dashboard-booking-section">
+
+            <div class="dashboard-section-heading">
+
+                <div class="dashboard-section-title">
+
+                    <span class="dashboard-section-icon">
+                        <i class="bi bi-calendar2-heart"></i>
+                    </span>
+
+                    <div>
+
+                        <span class="dashboard-section-label">
+                            LỊCH CHĂM SÓC
+                        </span>
+
+                        <h2>
+                            Buổi chăm sóc sắp tới
+                        </h2>
+
+                        <p>
+                            Các lịch đã đặt và đang chờ
+                            được thực hiện.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <a asp-area="Customer"
+                   asp-controller="Bookings"
+                   asp-action="Index"
+                   class="dashboard-view-all">
+
+                    Xem tất cả
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+
+            @if (Model.LichSapToi == null ||
+                 Model.LichSapToi.Count == 0)
+            {
+                <div class="dashboard-empty">
+
+                    <span class="dashboard-empty-icon">
+                        <i class="bi bi-calendar2-x"></i>
+                    </span>
+
+                    <h3>
+                        Chưa có lịch chăm sóc
+                    </h3>
+
+                    <p>
+                        Hiện tại bạn chưa có buổi chăm sóc
+                        sắp tới. Hãy đặt lịch khi người thân
+                        cần được hỗ trợ.
+                    </p>
+
+                    <a asp-area="Customer"
+                       asp-controller="Bookings"
+                       asp-action="Create"
+                       class="dashboard-primary-button">
+
+                        <i class="bi bi-calendar2-plus"></i>
+
+                        Đặt lịch mới
+
+                    </a>
+
+                </div>
+            }
+            else
+            {
+                <div class="dashboard-booking-list">
+
+                    @foreach (var item in Model.LichSapToi)
+                    {
+                        string trangThaiClass =
+                            item.TrangThai == "Đã xác nhận"
+                                ? "is-confirmed"
+                                : item.TrangThai == "Đã hoàn thành"
+                                    ? "is-completed"
+                                    : "is-pending";
+
+
+                        <article class="dashboard-booking-card">
+
+                            <div class="dashboard-booking-top">
+
+                                <div class="dashboard-booking-person">
+
+                                    <span class="dashboard-booking-avatar">
+                                        <i class="bi bi-person-heart"></i>
+                                    </span>
+
+                                    <div>
+
+                                        <small>
+                                            NGƯỜI ĐƯỢC CHĂM SÓC
+                                        </small>
+
+                                        <h3>
+                                            @item.TenBenhNhan
+                                        </h3>
+
+                                    </div>
+
+                                </div>
+
+
+                                <span class="dashboard-booking-status @trangThaiClass">
+                                    @item.TrangThai
+                                </span>
+
+                            </div>
+
+
+                            <div class="dashboard-booking-service">
+
+                                <span>
+                                    <i class="bi bi-person-badge"></i>
+                                </span>
+
+                                <div>
+
+                                    <small>
+                                        Người chăm sóc
+                                    </small>
+
+                                    <strong>
+                                        @item.TenNguoiChamSoc
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="dashboard-booking-info">
+
+                                <div>
+
+                                    <span class="dashboard-info-icon">
+                                        <i class="bi bi-calendar3"></i>
+                                    </span>
+
+                                    <div>
+
+                                        <small>
+                                            Ngày chăm sóc
+                                        </small>
+
+                                        <strong>
+                                            @(item.NgayChamSoc.HasValue
+                                                ? item.NgayChamSoc.Value
+                                                    .ToString("dd/MM/yyyy")
+                                                : "Chưa cập nhật")
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="dashboard-info-icon">
+                                        <i class="bi bi-clock"></i>
+                                    </span>
+
+                                    <div>
+
+                                        <small>
+                                            Khung giờ
+                                        </small>
+
+                                        <strong>
+                                            @(item.GioBatDau.HasValue
+                                                ? item.GioBatDau.Value
+                                                    .ToString(@"hh\:mm")
+                                                : "--:--")
+
+                                            -
+
+                                            @(item.GioKetThuc.HasValue
+                                                ? item.GioKetThuc.Value
+                                                    .ToString(@"hh\:mm")
+                                                : "--:--")
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="dashboard-info-icon money">
+                                        <i class="bi bi-cash-stack"></i>
+                                    </span>
+
+                                    <div>
+
+                                        <small>
+                                            Chi phí
+                                        </small>
+
+                                        <strong class="dashboard-money">
+                                            @(item.TongTien.HasValue
+                                                ? item.TongTien.Value
+                                                    .ToString("#,##0") + "đ"
+                                                : "Chưa cập nhật")
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="dashboard-booking-actions">
+
+                                <a asp-area="Customer"
+                                   asp-controller="Bookings"
+                                   asp-action="Index"
+                                   asp-route-tuKhoa="@item.MaDatLich"
+                                   class="dashboard-detail-button">
+
+                                    <i class="bi bi-eye"></i>
+
+                                    Xem chi tiết
+
+                                    <i class="bi bi-arrow-right"></i>
+
+                                </a>
+
+                            </div>
+
+                        </article>
+                    }
+
+                </div>
+
+
+                <div class="dashboard-booking-footer">
+
+                    <a asp-area="Customer"
+                       asp-controller="Bookings"
+                       asp-action="Create"
+                       class="dashboard-primary-button">
+
+                        <i class="bi bi-calendar2-plus"></i>
+                        Đặt lịch mới
+
+                    </a>
+
+                    <a asp-area="Customer"
+                       asp-controller="Bookings"
+                       asp-action="Index"
+                       class="dashboard-secondary-button">
+
+                        Xem toàn bộ lịch
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+            }
+
+        </section>
+
+
+        <!-- =================================================
+             CỘT PHẢI
+        ================================================== -->
+
+        <aside class="dashboard-side-column">
+
+            <!-- =============================================
+                 THÔNG BÁO
+            ============================================== -->
+
+            <section class="dashboard-notification-section">
+
+                <div class="dashboard-side-heading">
+
+                    <div>
+
+                        <span class="dashboard-section-label">
+                            THÔNG BÁO
+                        </span>
+
+                        <h2>
+                            Thông báo gần đây
+                        </h2>
+
+                    </div>
+
+
+                    @if (Model.SoThongBaoMoi > 0)
+                    {
+                        <form asp-area="Customer"
+                              asp-controller="Notifications"
+                              asp-action="MarkAllAsRead"
+                              method="post"
+                              class="dashboard-read-all-form">
+
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit"
+                                    class="dashboard-read-all-button">
+
+                                <i class="bi bi-check2-all"></i>
+
+                                Đã đọc
+
+                            </button>
+
+                        </form>
+                    }
+
+                </div>
+
+
+                <div class="dashboard-notification-list">
+
+                    @if (Model.ThongBaoGanDay == null ||
+                         Model.ThongBaoGanDay.Count == 0)
+                    {
+                        <div class="dashboard-small-empty">
+
+                            <span>
+                                <i class="bi bi-bell-slash"></i>
+                            </span>
+
+                            <strong>
+                                Chưa có thông báo
+                            </strong>
+
+                            <p>
+                                Các cập nhật mới từ hệ thống
+                                sẽ xuất hiện tại đây.
+                            </p>
+
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var thongBao in Model.ThongBaoGanDay)
+                        {
+                            <form asp-area="Customer"
+                                  asp-controller="Notifications"
+                                  asp-action="Open"
+                                  method="post"
+                                  class="dashboard-notification-form">
+
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden"
+                                       name="maThongBao"
+                                       value="@thongBao.MaThongBao" />
+
+
+                                <button type="submit"
+                                        class="dashboard-notification-card
+                                    @(!thongBao.DaDoc
+                                        ? "is-unread"
+                                        : "")">
+
+                                    <span class="dashboard-notification-icon">
+                                        <i class="bi bi-bell"></i>
+                                    </span>
+
+
+                                    <span class="dashboard-notification-content">
+
+                                        <strong>
+                                            @thongBao.TieuDe
+                                        </strong>
+
+                                        <span>
+                                            @thongBao.NoiDung
+                                        </span>
+
+                                        <small>
+
+                                            <i class="bi bi-clock"></i>
+
+                                            @thongBao.NgayGui.ToString("dd/MM/yyyy HH:mm")
+
+                                        </small>
+
+                                    </span>
+
+
+                                    @if (!thongBao.DaDoc)
+                                    {
+                                        <span class="dashboard-unread-dot"></span>
+                                    }
+
+
+                                    <span class="dashboard-notification-arrow">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </span>
+
+                                </button>
+
+                            </form>
+                        }
+                    }
+
+                </div>
+
+
+                <button type="button"
+                        class="dashboard-notification-center"
+                        id="openDashboardNotificationList">
+
+                    <i class="bi bi-bell"></i>
+
+                    Mở trung tâm thông báo
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </button>
+
+            </section>
+
+
+            <!-- =============================================
+                 QUICK ACTIONS
+            ============================================== -->
+
+            <section class="dashboard-quick-section">
+
+                <div class="dashboard-side-heading">
+
+                    <div>
+
+                        <span class="dashboard-section-label">
+                            TRUY CẬP NHANH
+                        </span>
+
+                        <h2>
+                            Thao tác nhanh
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-quick-list">
+
+                    <!-- ĐẶT LỊCH -->
+
+                    <a asp-area="Customer"
+                       asp-controller="Bookings"
+                       asp-action="Create"
+                       class="dashboard-quick-item is-primary">
+
+                        <span class="dashboard-quick-icon is-teal">
+                            <i class="bi bi-calendar2-plus"></i>
+                        </span>
+
+                        <span class="dashboard-quick-content">
+
+                            <strong>
+                                Đặt lịch mới
+                            </strong>
+
+                            <small>
+                                Tạo lịch chăm sóc cho người thân
+                            </small>
+
+                        </span>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </a>
+
+
+                    <!-- HỒ SƠ -->
+
+                    <a asp-area="Customer"
+                       asp-controller="Relatives"
+                       asp-action="Index"
+                       class="dashboard-quick-item">
+
+                        <span class="dashboard-quick-icon is-orange">
+                            <i class="bi bi-people"></i>
+                        </span>
+
+                        <span class="dashboard-quick-content">
+
+                            <strong>
+                                Hồ sơ người thân
+                            </strong>
+
+                            <small>
+                                Xem và cập nhật thông tin sức khỏe
+                            </small>
+
+                        </span>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </a>
+
+
+                    <!-- JOURNAL -->
+
+                    <a asp-area="Customer"
+                       asp-controller="CareJournals"
+                       asp-action="Index"
+                       class="dashboard-quick-item">
+
+                        <span class="dashboard-quick-icon is-purple">
+                            <i class="bi bi-heart-pulse"></i>
+                        </span>
+
+                        <span class="dashboard-quick-content">
+
+                            <strong>
+                                Nhật ký sức khỏe
+                            </strong>
+
+                            <small>
+                                Theo dõi chỉ số và tình trạng sức khỏe
+                            </small>
+
+                        </span>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </a>
+
+
+                    <!-- PAYMENT -->
+
+                    <a asp-area="Customer"
+                       asp-controller="Payments"
+                       asp-action="Index"
+                       class="dashboard-quick-item">
+
+                        <span class="dashboard-quick-icon is-blue">
+                            <i class="bi bi-credit-card"></i>
+                        </span>
+
+                        <span class="dashboard-quick-content">
+
+                            <strong>
+                                Thanh toán
+                            </strong>
+
+                            <small>
+                                Kiểm tra và thanh toán lịch chăm sóc
+                            </small>
+
+                        </span>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </a>
+
+
+                    <!-- REVIEW -->
+
+                    <a asp-area="Customer"
+                       asp-controller="Reviews"
+                       asp-action="Index"
+                       class="dashboard-quick-item">
+
+                        <span class="dashboard-quick-icon is-yellow">
+                            <i class="bi bi-star"></i>
+                        </span>
+
+                        <span class="dashboard-quick-content">
+
+                            <strong>
+                                Đánh giá dịch vụ
+                            </strong>
+
+                            <small>
+                                Gửi nhận xét cho người chăm sóc
+                            </small>
+
+                        </span>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+        </aside>
+
+    </div>
+
+</div>
+
+
+@section Scripts
+{
+    <script>
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                const dashboardNotificationTriggers =
+                    document.querySelectorAll(
+                        "#openDashboardNotifications, " +
+                        "#openDashboardNotificationList"
+                    );
+
+                const headerNotificationButton =
+                    document.getElementById(
+                        "customerNotificationButton"
+                    );
+
+                dashboardNotificationTriggers.forEach(
+                    function(button) {
+
+                        button.addEventListener(
+                            "click",
+                            function() {
+
+                                headerNotificationButton?.click();
+
+                            }
+                        );
+
+                    }
+                );
+
+            }
+        );
+    </script>
+}

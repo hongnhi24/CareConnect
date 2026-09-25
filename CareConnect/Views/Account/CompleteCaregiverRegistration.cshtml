@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "Đăng ký thành công";
+}
+
+<section class="register-success-page">
+
+    <div class="success-card">
+
+        <div class="success-icon">
+            <i class="bi bi-check-circle-fill"></i>
+        </div>
+
+        <h1>Gửi hồ sơ thành công!</h1>
+
+        <p class="success-text">
+            Hồ sơ đăng ký Người chăm sóc của bạn đã được gửi đến
+            hệ thống CareConnect.
+        </p>
+
+        <div class="success-status">
+
+            <div class="status-item completed">
+                <div class="status-icon">
+                    <i class="bi bi-person-check-fill"></i>
+                </div>
+
+                <div>
+                    <strong>Đã tiếp nhận hồ sơ</strong>
+                    <p>Hệ thống đã ghi nhận thông tin đăng ký.</p>
+                </div>
+            </div>
+
+            <div class="status-item">
+                <div class="status-icon waiting">
+                    <i class="bi bi-search"></i>
+                </div>
+
+                <div>
+                    <strong>Đang xét duyệt</strong>
+                    <p>Dự kiến hoàn tất trong 24–48 giờ.</p>
+                </div>
+            </div>
+
+            <div class="status-item">
+                <div class="status-icon">
+                    <i class="bi bi-envelope-check"></i>
+                </div>
+
+                <div>
+                    <strong>Thông báo kết quả</strong>
+                    <p>Email sẽ được gửi khi hồ sơ được duyệt.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="success-note">
+
+            <i class="bi bi-lightbulb-fill"></i>
+
+            <div>
+                <strong>Lưu ý</strong>
+
+                <p>
+                    Trong thời gian chờ xét duyệt,
+                    bạn có thể đăng nhập để theo dõi trạng thái hồ sơ.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="success-buttons">
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="btn-home">
+
+                <i class="bi bi-house-door-fill"></i>
+
+                Trang chủ
+
+            </a>
+
+            <a asp-controller="Account"
+               asp-action="Login"
+               class="btn-login">
+
+                <i class="bi bi-box-arrow-in-right"></i>
+
+                Đăng nhập
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>

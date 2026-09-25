@@ -1,0 +1,221 @@
+﻿@model CaregiverHeaderViewModel
+
+<div class="cg-header-tools">
+
+    <!-- THÔNG BÁO -->
+    <div class="cg-header-dropdown"
+         id="caregiverNotificationDropdown">
+
+        <button type="button"
+                class="cg-header-notification-button"
+                id="caregiverNotificationButton"
+                aria-label="Thông báo hệ thống">
+
+            <i class="bi bi-bell"></i>
+
+            @if (Model.SoThongBaoChuaDoc > 0)
+            {
+                <span class="cg-header-notification-count">
+                    @(Model.SoThongBaoChuaDoc > 99
+                        ? "99+"
+                        : Model.SoThongBaoChuaDoc)
+                </span>
+            }
+
+        </button>
+
+        <div class="cg-header-dropdown-panel
+            cg-notification-panel"
+             id="caregiverNotificationPanel">
+
+            <div class="cg-notification-panel-header">
+
+                <div>
+                    <span>THÔNG BÁO HỆ THỐNG</span>
+                    <h3>Thông báo gần đây</h3>
+                </div>
+
+                @if (Model.SoThongBaoChuaDoc > 0)
+                {
+                    <form asp-area="Caregiver"
+                          asp-controller="ThongBao"
+                          asp-action="DanhDauTatCaDaDoc"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit">
+                            Đánh dấu đã đọc
+                        </button>
+                    </form>
+                }
+
+            </div>
+
+            @if (Model.ThongBaoGanDay.Count == 0)
+            {
+                <div class="cg-notification-empty">
+
+                    <span>
+                        <i class="bi bi-bell-slash"></i>
+                    </span>
+
+                    <strong>Chưa có thông báo</strong>
+
+                    <p>
+                        Thông báo từ hệ thống sẽ xuất hiện tại đây.
+                    </p>
+
+                </div>
+            }
+            else
+            {
+                <div class="cg-notification-dropdown-list">
+
+                    @foreach (var thongBao in
+                        Model.ThongBaoGanDay)
+                    {
+                        <form asp-area="Caregiver"
+                              asp-controller="ThongBao"
+                              asp-action="MoThongBao"
+                              method="post"
+                              class="cg-notification-dropdown-form">
+
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden"
+                                   name="maThongBao"
+                                   value="@thongBao.MaThongBao" />
+
+                            <button type="submit"
+                                    class="cg-notification-dropdown-item
+                                @(!thongBao.DaDoc
+                                    ? "is-unread"
+                                    : "")">
+
+                                <span class="cg-notification-dropdown-icon">
+                                    <i class="bi bi-bell-fill"></i>
+                                </span>
+
+                                <span class="cg-notification-dropdown-content">
+
+                                    <strong>
+                                        @thongBao.TieuDe
+                                    </strong>
+
+                                    <span>
+                                        @thongBao.NoiDung
+                                    </span>
+
+                                    <small>
+                                        <i class="bi bi-clock"></i>
+
+                                        @thongBao.NgayGui.ToString(
+                                            "dd/MM/yyyy HH:mm")
+                                    </small>
+
+                                </span>
+
+                                @if (!thongBao.DaDoc)
+                                {
+                                    <span class="cg-notification-unread-dot">
+                                    </span>
+                                }
+
+                            </button>
+
+                        </form>
+                    }
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+    <!-- TÀI KHOẢN -->
+    <div class="cg-header-dropdown"
+         id="caregiverAccountDropdown">
+
+        <button type="button"
+                class="cg-header-account-button"
+                id="caregiverAccountButton">
+
+            <span class="cg-header-account-avatar">
+                @Model.VietTat
+            </span>
+
+            <span class="cg-header-account-text">
+                <strong>@Model.HoTen</strong>
+                <small>Người chăm sóc</small>
+            </span>
+
+            <i class="bi bi-chevron-down"></i>
+        </button>
+
+        <div class="cg-header-dropdown-panel
+            cg-account-dropdown-panel"
+             id="caregiverAccountPanel">
+
+            <div class="cg-account-dropdown-user">
+
+                <span>
+                    @Model.VietTat
+                </span>
+
+                <div>
+                    <strong>@Model.HoTen</strong>
+                    <small>Người chăm sóc</small>
+                </div>
+
+            </div>
+
+            <div class="cg-account-dropdown-menu">
+
+                <a asp-area="Caregiver"
+                   asp-controller="Profile"
+                   asp-action="Index">
+
+                    <i class="bi bi-person-vcard"></i>
+
+                    <span>
+                        <strong>Hồ sơ cá nhân</strong>
+                        <small>Xem và cập nhật hồ sơ</small>
+                    </span>
+                </a>
+
+                <a asp-area=""
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    <i class="bi bi-house-door"></i>
+
+                    <span>
+                        <strong>Về trang chủ</strong>
+                        <small>Trở lại website CareConnect</small>
+                    </span>
+                </a>
+
+            </div>
+
+            <form asp-area=""
+                  asp-controller="Account"
+                  asp-action="Logout"
+                  method="post"
+                  class="cg-account-dropdown-logout">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit">
+                    <i class="bi bi-box-arrow-left"></i>
+                    Đăng xuất
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,213 @@
+﻿@model CareConnect.ViewModels.RegisterCaregiverStep3ViewModel
+
+@{
+    ViewData["Title"] = "Đăng ký người chăm sóc - Bước 3";
+}
+
+<section class="caregiver-register-page caregiver-step3-page">
+
+    <!-- PHẦN TIÊU ĐỀ -->
+    <div class="caregiver-register-heading">
+
+        <div class="caregiver-heading-icon">
+            <i class="bi bi-person-plus"></i>
+        </div>
+
+        <h1>Tạo tài khoản CareConnect</h1>
+
+        <p>
+            Bắt đầu hành trình chăm sóc người thân yêu cùng chúng tôi
+        </p>
+
+    </div>
+
+    <!-- FORM BƯỚC 3 -->
+    <div class="caregiver-register-card caregiver-step3-card">
+
+        <div class="caregiver-register-title">
+
+            <a asp-controller="Account"
+               asp-action="RegisterCaregiverStep2"
+               class="caregiver-back-button"
+               aria-label="Quay lại bước 2">
+
+                <i class="bi bi-arrow-left"></i>
+            </a>
+
+            <div>
+                <h2>Đăng ký Người chăm sóc</h2>
+                <p>Bước 3/3 - Khu vực và mức giá</p>
+            </div>
+
+        </div>
+
+        <!-- THANH TIẾN TRÌNH -->
+        <div class="caregiver-progress">
+            <span class="active"></span>
+            <span class="active"></span>
+            <span class="active"></span>
+        </div>
+
+        <form asp-controller="Account"
+              asp-action="RegisterCaregiverStep3"
+              method="post"
+              class="caregiver-register-form">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="register-validation-summary">
+            </div>
+
+            <!-- KHU VỰC HOẠT ĐỘNG -->
+            <div class="caregiver-form-group">
+
+                <label asp-for="KhuVucHoatDong"></label>
+
+                <div class="step3-input-wrapper">
+
+                    <i class="bi bi-geo-alt"></i>
+
+                    <input asp-for="KhuVucHoatDong"
+                           placeholder="VD: Quận 1, Quận 3, Bình Thạnh"
+                           autocomplete="address-level2" />
+
+                </div>
+
+                <span asp-validation-for="KhuVucHoatDong"
+                      class="field-validation">
+                </span>
+
+                <small class="step3-field-note">
+                    Nhập những khu vực mà bạn có thể nhận lịch chăm sóc.
+                </small>
+
+            </div>
+
+            <!-- GIÁ MỖI GIỜ -->
+            <div class="caregiver-form-group">
+
+                <label asp-for="GiaMoiGio">
+                    Giá mỗi giờ (VNĐ)
+                </label>
+
+                <div class="step3-input-wrapper">
+
+                    <i class="bi bi-cash-coin"></i>
+
+                    <input asp-for="GiaMoiGio"
+                           type="number"
+                           min="50000"
+                           max="1000000"
+                           step="10000"
+                           placeholder="VD: 120000"
+                           inputmode="numeric" />
+
+                    <span class="currency-suffix">đ/giờ</span>
+
+                </div>
+
+                <span asp-validation-for="GiaMoiGio"
+                      class="field-validation">
+                </span>
+
+                <small class="step3-field-note">
+                    Mức giá cho phép từ 50.000đ đến 1.000.000đ mỗi giờ.
+                </small>
+
+            </div>
+
+            <!-- GIỚI THIỆU -->
+            <div class="caregiver-form-group">
+
+                <label asp-for="GioiThieu"></label>
+
+                <div class="step3-textarea-wrapper">
+
+                    <textarea asp-for="GioiThieu"
+                              id="gioiThieuCaregiver"
+                              rows="5"
+                              maxlength="500"
+                              placeholder="Mô tả ngắn về kinh nghiệm, kỹ năng và phong cách chăm sóc của bạn"></textarea>
+
+                    <div class="character-counter">
+                        <span id="gioiThieuLength">0</span>/500
+                    </div>
+
+                </div>
+
+                <span asp-validation-for="GioiThieu"
+                      class="field-validation">
+                </span>
+
+                <small class="step3-field-note">
+                    Nội dung giới thiệu phải có ít nhất 20 ký tự.
+                </small>
+
+            </div>
+
+            <!-- NÚT -->
+            <div class="caregiver-step-actions step3-actions">
+
+                <a asp-controller="Account"
+                   asp-action="RegisterCaregiverStep2"
+                   class="caregiver-secondary-button">
+
+                    <i class="bi bi-arrow-left"></i>
+                    Quay lại
+                </a>
+
+                <button type="submit"
+                        class="caregiver-next-button step3-submit-button">
+
+                    Gửi đăng ký
+                    <i class="bi bi-send"></i>
+                </button>
+
+            </div>
+
+            <!-- THÔNG BÁO DUYỆT -->
+            <div class="step3-approval-note">
+
+                <i class="bi bi-shield-check"></i>
+
+                <p>
+                    Hồ sơ của bạn sẽ được quản trị viên xem xét và
+                    phê duyệt trong vòng <strong>24–48 giờ</strong>.
+                </p>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const gioiThieuInput =
+            document.getElementById("gioiThieuCaregiver");
+
+        const gioiThieuLength =
+            document.getElementById("gioiThieuLength");
+
+        function capNhatSoKyTu() {
+            if (!gioiThieuInput || !gioiThieuLength) {
+                return;
+            }
+
+            gioiThieuLength.textContent =
+                gioiThieuInput.value.length;
+        }
+
+        gioiThieuInput?.addEventListener(
+            "input",
+            capNhatSoKyTu);
+
+        capNhatSoKyTu();
+    </script>
+}

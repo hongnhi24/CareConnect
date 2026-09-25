@@ -1,0 +1,128 @@
+﻿@model CareConnect.ViewModels.AdminReviewItemViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết đánh giá";
+}
+
+<section class="review-detail-heading">
+
+    <a asp-area="Admin"
+       asp-controller="Reviews"
+       asp-action="Index"
+       class="review-back-button">
+
+        <i class="bi bi-arrow-left"></i>
+    </a>
+
+    <div>
+        <span>PHẢN HỒI KHÁCH HÀNG</span>
+        <h1>Chi tiết đánh giá</h1>
+
+        <p>
+            Kiểm tra nội dung phản hồi và thông tin lịch chăm sóc liên quan.
+        </p>
+    </div>
+
+</section>
+
+<section class="review-detail-layout">
+
+    <article class="review-detail-main">
+
+        <div class="review-detail-customer">
+
+            <span class="review-customer-avatar large">
+                @(string.IsNullOrWhiteSpace(Model.TenKhachHang)
+                    ? "K"
+                    : Model.TenKhachHang.Trim().Substring(0, 1).ToUpper())
+            </span>
+
+            <div>
+                <strong>@Model.TenKhachHang</strong>
+
+                <span>
+                    Đánh giá ngày
+                    @Model.NgayDanhGia.ToString("dd/MM/yyyy HH:mm")
+                </span>
+            </div>
+
+        </div>
+
+        <div class="review-detail-stars">
+
+            <div>
+                @for (int sao = 1;
+                      sao <= 5;
+                      sao++)
+                {
+                    <i class="bi @(sao <= Model.SoSao
+                                               ? "bi-star-fill"
+                                               : "bi-star")">
+            </i>
+        }
+    </div>
+
+    <strong>@Model.SoSao.0 / 5</strong>
+
+</div>
+
+<blockquote>
+    “@Model.NoiDung”
+</blockquote>
+
+</article>
+
+<aside class="review-detail-side">
+
+    <div class="review-detail-side-heading">
+
+        <span>
+            <i class="bi bi-calendar2-check-fill"></i>
+        </span>
+
+        <div>
+            <strong>Thông tin lịch đặt</strong>
+            <small>@($"#DL{Model.MaDatLich}")</small>
+        </div>
+
+    </div>
+
+    <dl>
+        <div>
+            <dt>Người chăm sóc</dt>
+            <dd>@Model.TenNguoiChamSoc</dd>
+        </div>
+
+        <div>
+            <dt>Người được chăm sóc</dt>
+            <dd>@Model.TenBenhNhan</dd>
+        </div>
+
+        <div>
+            <dt>Dịch vụ</dt>
+            <dd>@Model.TenDichVu</dd>
+        </div>
+
+        <div>
+            <dt>Ngày chăm sóc</dt>
+            <dd>@Model.NgayChamSoc.ToString("dd/MM/yyyy")</dd>
+        </div>
+
+        <div>
+            <dt>Trạng thái lịch</dt>
+            <dd>@Model.TrangThaiLich</dd>
+        </div>
+    </dl>
+
+    <a asp-area="Admin"
+       asp-controller="Bookings"
+       asp-action="Index"
+       asp-route-tuKhoa="@Model.MaDatLich">
+
+        <i class="bi bi-box-arrow-up-right"></i>
+        Xem lịch đặt liên quan
+    </a>
+
+</aside>
+
+</section>

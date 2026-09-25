@@ -1,0 +1,493 @@
+﻿@model CareConnect.ViewModels.CustomerCancelBookingViewModel
+
+@{
+    ViewData["Title"] = "Hủy lịch chăm sóc";
+}
+
+
+<div class="customer-cancel-page">
+
+
+    <section class="customer-cancel-hero">
+
+        <span class="customer-cancel-eyebrow">
+
+            <i class="bi bi-calendar-x"></i>
+
+            XỬ LÝ LỊCH ĐẶT
+
+        </span>
+
+
+        <h1>
+            Hủy lịch chăm sóc
+        </h1>
+
+
+        <p>
+            Kiểm tra chính sách hoàn phí trước khi
+            xác nhận hủy lịch.
+        </p>
+
+    </section>
+
+
+
+    <div class="customer-cancel-layout">
+
+
+        <section class="customer-cancel-main">
+
+
+            <article class="customer-cancel-card">
+
+
+                <div class="customer-cancel-card-heading">
+
+                    <span>
+
+                        <i class="bi bi-calendar2-week"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            LỊCH #@Model.MaDatLich
+                        </small>
+
+                        <h2>
+                            @Model.TenDichVu
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="customer-cancel-info-grid">
+
+
+                    <div>
+
+                        <small>
+                            Người được chăm sóc
+                        </small>
+
+                        <strong>
+                            @Model.TenBenhNhan
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Ngày chăm sóc
+                        </small>
+
+                        <strong>
+                            @Model.NgayChamSoc.ToString("dd/MM/yyyy")
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Khung giờ
+                        </small>
+
+                        <strong>
+                            @Model.GioBatDau.ToString(@"hh\:mm")
+                            -
+                            @Model.GioKetThuc.ToString(@"hh\:mm")
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Trạng thái hiện tại
+                        </small>
+
+                        <strong>
+                            @Model.TrangThai
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <article class="customer-cancel-card">
+
+
+                <div class="customer-cancel-card-heading">
+
+                    <span class="danger">
+
+                        <i class="bi bi-exclamation-triangle"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            XÁC NHẬN HỦY
+                        </small>
+
+                        <h2>
+                            Lý do hủy lịch
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <form asp-area="Customer"
+                      asp-controller="Bookings"
+                      asp-action="HuyLich"
+                      method="post"
+                      id="cancelBookingForm">
+
+
+                    @Html.AntiForgeryToken()
+
+
+                    <input asp-for="MaDatLich"
+                           type="hidden" />
+
+
+                    <div class="customer-cancel-field">
+
+                        <label asp-for="LyDo">
+
+                            Lý do hủy
+
+                            <span>*</span>
+
+                        </label>
+
+
+                        <select asp-for="LyDo"
+                                required
+                                id="cancelReason">
+
+                            <option value="">
+                                -- Chọn lý do hủy --
+                            </option>
+
+                            <option value="Thay đổi kế hoạch cá nhân">
+                                Thay đổi kế hoạch cá nhân
+                            </option>
+
+                            <option value="Không còn nhu cầu chăm sóc">
+                                Không còn nhu cầu chăm sóc
+                            </option>
+
+                            <option value="Thay đổi ngày hoặc giờ chăm sóc">
+                                Thay đổi ngày hoặc giờ chăm sóc
+                            </option>
+
+                            <option value="Đã tìm được phương án chăm sóc khác">
+                                Đã tìm được phương án chăm sóc khác
+                            </option>
+
+                            <option value="Người được chăm sóc nhập viện">
+                                Người được chăm sóc nhập viện
+                            </option>
+
+                            <option value="Không hài lòng với việc phân công">
+                                Không hài lòng với việc phân công
+                            </option>
+
+                            <option value="Lý do khác">
+                                Lý do khác
+                            </option>
+
+                        </select>
+
+
+                        <span asp-validation-for="LyDo"
+                              class="customer-cancel-validation">
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="customer-cancel-field">
+
+                        <label asp-for="GhiChu">
+                            Ghi chú
+                        </label>
+
+
+                        <textarea asp-for="GhiChu"
+                                  id="cancelNote"
+                                  maxlength="500"
+                                  rows="4"
+                                  placeholder="Nhập thêm thông tin nếu cần...">
+                        </textarea>
+
+
+                        <small id="cancelNoteHint">
+                            Không bắt buộc, trừ khi chọn “Lý do khác”.
+                        </small>
+
+
+                        <span asp-validation-for="GhiChu"
+                              class="customer-cancel-validation">
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="customer-cancel-actions">
+
+                        <a asp-area="Customer"
+                           asp-controller="Bookings"
+                           asp-action="Index"
+                           class="customer-cancel-back">
+
+                            <i class="bi bi-arrow-left"></i>
+
+                            Quay lại
+
+                        </a>
+
+
+                        <button type="submit"
+                                class="customer-cancel-submit">
+
+                            <i class="bi bi-x-circle"></i>
+
+                            Xác nhận hủy lịch
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </article>
+
+        </section>
+
+
+
+        <aside class="customer-cancel-side">
+
+
+            <article class="customer-refund-card">
+
+
+                <span class="customer-refund-label">
+                    CHÍNH SÁCH ÁP DỤNG
+                </span>
+
+
+                <div class="customer-refund-percent">
+
+                    @Model.TyLeHoanDuKien.ToString("0")%
+
+                </div>
+
+
+                <small>
+                    Tỷ lệ hoàn dự kiến
+                </small>
+
+
+
+                <div class="customer-refund-row">
+
+                    <span>
+                        Tổng giá trị lịch
+                    </span>
+
+                    <strong>
+                        @Model.TongTien.ToString("#,##0")đ
+                    </strong>
+
+                </div>
+
+
+                <div class="customer-refund-row">
+
+                    <span>
+                        Đã thanh toán
+                    </span>
+
+                    <strong>
+                        @Model.SoTienDaThanhToan.ToString("#,##0")đ
+                    </strong>
+
+                </div>
+
+
+                <div class="customer-refund-row highlight">
+
+                    <span>
+                        Dự kiến hoàn
+                    </span>
+
+                    <strong>
+                        @Model.SoTienHoanDuKien.ToString("#,##0")đ
+                    </strong>
+
+                </div>
+
+
+
+                <div class="customer-refund-policy">
+
+                    <i class="bi bi-info-circle"></i>
+
+                    <p>
+                        @Model.ChinhSachApDung
+                    </p>
+
+                </div>
+
+                @if (Model.SoTienDaThanhToan <= 0)
+                {
+                    <div class="customer-refund-warning">
+
+                        <i class="bi bi-info-circle-fill"></i>
+
+                        <p>
+                            Hệ thống chưa ghi nhận khoản thanh toán
+                            nào cho lịch này, vì vậy không phát sinh
+                            số tiền cần hoàn.
+                        </p>
+
+                    </div>
+                }
+                @if (Model.HuyGiuaChung)
+                {
+                    <div class="customer-refund-warning">
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                        <p>
+                            Dịch vụ đang được thực hiện.
+                            Hủy lúc này sẽ dừng buổi chăm sóc
+                            và không được hoàn phí.
+                        </p>
+
+                    </div>
+                }
+
+            </article>
+
+        </aside>
+
+    </div>
+
+</div>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        const cancelForm =
+            document.getElementById(
+                "cancelBookingForm");
+
+
+        const cancelReason =
+            document.getElementById(
+                "cancelReason");
+
+
+        const cancelNote =
+            document.getElementById(
+                "cancelNote");
+
+
+        const cancelNoteHint =
+            document.getElementById(
+                "cancelNoteHint");
+
+
+        function updateCancelValidation() {
+
+            const isOther =
+                cancelReason.value
+                === "Lý do khác";
+
+
+            cancelNote.required =
+                isOther;
+
+
+            cancelNoteHint.textContent =
+                isOther
+                    ? "Vui lòng nhập ghi chú khi chọn “Lý do khác”."
+                    : "Không bắt buộc, trừ khi chọn “Lý do khác”.";
+
+
+            cancelNoteHint.classList.toggle(
+                "is-required",
+                isOther);
+        }
+
+
+        cancelReason.addEventListener(
+            "change",
+            updateCancelValidation);
+
+
+        cancelForm.addEventListener(
+            "submit",
+            function(event) {
+
+                updateCancelValidation();
+
+
+                if (!cancelForm.checkValidity()) {
+
+                    event.preventDefault();
+
+                    cancelForm.reportValidity();
+
+                    return;
+                }
+
+
+                const confirmed =
+                    confirm(
+                        "Bạn chắc chắn muốn hủy lịch này? "
+                        + "Chính sách hoàn phí sẽ được hệ thống "
+                        + "tính lại tại thời điểm xác nhận.");
+
+
+                if (!confirmed) {
+
+                    event.preventDefault();
+                }
+            });
+
+
+        updateCancelValidation();
+
+    </script>
+}

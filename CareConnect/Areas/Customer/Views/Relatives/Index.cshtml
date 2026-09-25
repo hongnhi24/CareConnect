@@ -1,0 +1,673 @@
+﻿@model CareConnect.ViewModels.CustomerRelativeListViewModel
+
+@{
+    ViewData["Title"] = "Hồ sơ người thân";
+}
+
+<div class="relative-profile-page">
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+    <section class="relative-profile-hero">
+
+        <div class="relative-profile-hero-content">
+
+            <span class="relative-profile-badge">
+                QUẢN LÝ HỒ SƠ
+            </span>
+
+            <h1>Hồ sơ người thân</h1>
+
+            <p>
+                Quản lý thông tin cá nhân, sức khỏe và nhu cầu
+                chăm sóc của các thành viên trong gia đình.
+            </p>
+
+        </div>
+
+
+        <div class="relative-profile-hero-actions">
+
+            <div class="relative-profile-total">
+
+                <span class="relative-profile-total-icon">
+                    <i class="bi bi-people"></i>
+                </span>
+
+                <div>
+                    <small>Đang quản lý</small>
+
+                    <strong>
+                        @Model.TongHoSo hồ sơ
+                    </strong>
+
+                    <span>
+                        Thành viên gia đình
+                    </span>
+                </div>
+
+            </div>
+
+
+            <a asp-area="Customer"
+               asp-controller="Relatives"
+               asp-action="Create"
+               class="relative-profile-create">
+
+                <i class="bi bi-person-plus"></i>
+                Thêm hồ sơ
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         THÔNG BÁO
+    ====================================================== -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="relative-profile-alert success">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <span>
+                @TempData["Success"]
+            </span>
+
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="relative-profile-alert error">
+
+            <i class="bi bi-exclamation-circle-fill"></i>
+
+            <span>
+                @TempData["Error"]
+            </span>
+
+        </div>
+    }
+
+
+    <!-- =====================================================
+         THANH TÌM KIẾM
+    ====================================================== -->
+    <section class="relative-profile-toolbar">
+
+        <div class="relative-toolbar-heading">
+
+            <span class="relative-toolbar-icon">
+                <i class="bi bi-person-heart"></i>
+            </span>
+
+            <div>
+
+                <small>
+                    DANH SÁCH HỒ SƠ
+                </small>
+
+                <h2>
+                    Người được chăm sóc
+                </h2>
+
+                <p>
+                    @Model.DanhSachNguoiThan.Count hồ sơ phù hợp
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form asp-area="Customer"
+              asp-controller="Relatives"
+              asp-action="Index"
+              method="get"
+              class="relative-profile-search">
+
+            <div class="relative-profile-search-box">
+
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       name="tuKhoa"
+                       value="@Model.TuKhoa"
+                       placeholder="Tìm tên, mã hồ sơ, số điện thoại..." />
+
+            </div>
+
+
+            <button type="submit"
+                    class="relative-search-button">
+
+                <i class="bi bi-search"></i>
+                Tìm kiếm
+
+            </button>
+
+
+            @if (!string.IsNullOrWhiteSpace(Model.TuKhoa))
+            {
+                <a asp-area="Customer"
+                   asp-controller="Relatives"
+                   asp-action="Index"
+                   class="relative-reset-button"
+                   title="Xóa bộ lọc">
+
+                    <i class="bi bi-arrow-counterclockwise"></i>
+
+                </a>
+            }
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         DANH SÁCH
+    ====================================================== -->
+    @if (Model.DanhSachNguoiThan == null ||
+         Model.DanhSachNguoiThan.Count == 0)
+    {
+        <section class="relative-profile-empty">
+
+            <span>
+                <i class="bi bi-person-vcard"></i>
+            </span>
+
+            <h2>
+                Chưa có hồ sơ người thân
+            </h2>
+
+            <p>
+                Thêm hồ sơ người thân để đặt lịch và theo dõi
+                quá trình chăm sóc trên CareConnect.
+            </p>
+
+            <a asp-area="Customer"
+               asp-controller="Relatives"
+               asp-action="Create">
+
+                <i class="bi bi-person-plus"></i>
+                Thêm hồ sơ đầu tiên
+
+            </a>
+
+        </section>
+    }
+    else
+    {
+        <div class="relative-profile-grid">
+
+            @foreach (var item in Model.DanhSachNguoiThan)
+            {
+                string hoTen =
+                    string.IsNullOrWhiteSpace(item.HoTen)
+                        ? "Người thân"
+                        : item.HoTen;
+
+                string chuCaiDau =
+                    hoTen.Trim()
+                        .Substring(0, 1)
+                        .ToUpper();
+
+                <article class="relative-family-card">
+
+                    <!-- COVER -->
+                    <div class="relative-family-cover">
+
+                        <span class="relative-family-code">
+                            @item.MaBenhNhanCode
+                        </span>
+
+                    </div>
+
+
+                    <!-- AVATAR -->
+                    <div class="relative-family-avatar">
+
+                        @chuCaiDau
+
+                        <span class="relative-family-active">
+                            <i class="bi bi-check"></i>
+                        </span>
+
+                    </div>
+
+
+                    <!-- PROFILE -->
+                    <div class="relative-family-main">
+
+                        <span class="relative-family-relation">
+                            @item.QuanHe
+                        </span>
+
+                        <h2>
+                            @hoTen
+                        </h2>
+
+                        <p>
+
+                            @item.GioiTinh
+
+                            @if (item.Tuoi > 0)
+                            {
+                                <text>
+                                    · @item.Tuoi tuổi
+                                </text>
+                            }
+
+                        </p>
+
+                        <span class="relative-family-status">
+
+                            <i class="bi bi-patch-check-fill"></i>
+
+                            Hồ sơ đang hoạt động
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- THỐNG KÊ NHANH -->
+                    <div class="relative-family-stats">
+
+                        <div>
+
+                            <strong>
+                                @item.NhomMau
+                            </strong>
+
+                            <span>
+                                Nhóm máu
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                @(item.Tuoi > 0
+                                    ? item.Tuoi.ToString()
+                                    : "--")
+                            </strong>
+
+                            <span>
+                                Tuổi
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- THÔNG TIN LIÊN HỆ -->
+                    <div class="relative-family-info">
+
+                        <div>
+
+                            <span class="relative-family-info-icon">
+
+                                <i class="bi bi-telephone"></i>
+
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Số điện thoại
+                                </small>
+
+                                <strong title="@item.SoDienThoai">
+                                    @item.SoDienThoai
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="relative-family-info-icon">
+
+                                <i class="bi bi-geo-alt"></i>
+
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Địa chỉ
+                                </small>
+
+                                <strong title="@item.DiaChi">
+                                    @item.DiaChi
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SỨC KHỎE -->
+                    <div class="relative-family-health">
+
+                        <div class="relative-family-health-title">
+
+                            <span>
+                                <i class="bi bi-heart-pulse"></i>
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    TÌNH TRẠNG SỨC KHỎE
+                                </small>
+
+                                <strong>
+                                    Thông tin hiện tại
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <p title="@item.TinhTrangSucKhoe">
+                            @item.TinhTrangSucKhoe
+                        </p>
+
+                    </div>
+
+
+                    <!-- TIỀN SỬ -->
+                    <div class="relative-family-medical">
+
+                        <div>
+
+                            <small>
+                                Tiền sử bệnh
+                            </small>
+
+                            <p title="@item.TienSuBenh">
+                                @item.TienSuBenh
+                            </p>
+
+                        </div>
+
+
+                        <div class="relative-family-medical-tags">
+
+                            <span>
+
+                                <i class="bi bi-droplet"></i>
+
+                                @item.NhomMau
+
+                            </span>
+
+                            <span title="@item.DiUngThuoc">
+
+                                <i class="bi bi-capsule"></i>
+
+                                @item.DiUngThuoc
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTION -->
+                    <div class="relative-family-actions">
+
+                        <a asp-area="Customer"
+                           asp-controller="Relatives"
+                           asp-action="Details"
+                           asp-route-id="@item.MaBenhNhan"
+                           class="relative-family-view">
+
+                            <i class="bi bi-eye"></i>
+                            Xem hồ sơ
+
+                        </a>
+
+
+                        <a asp-area="Customer"
+                           asp-controller="Relatives"
+                           asp-action="Edit"
+                           asp-route-id="@item.MaBenhNhan"
+                           class="relative-family-edit">
+
+                            <i class="bi bi-pencil-square"></i>
+                            Chỉnh sửa
+
+                        </a>
+
+
+                        <button type="button"
+                                class="relative-family-delete"
+                                onclick="openDeleteRelativeModal(
+                            @item.MaBenhNhan,
+                            '@Html.Raw(
+                                                                    System.Text.Encodings.Web.JavaScriptEncoder
+                                                                        .Default.Encode(hoTen)
+                                                                )'
+                            )">
+
+                            <i class="bi bi-trash3"></i>
+                            Xóa
+
+                        </button>
+
+                    </div>
+
+                </article>
+            }
+
+        </div>
+    }
+
+</div>
+
+
+<!-- =========================================================
+     MODAL XÓA HỒ SƠ
+========================================================= -->
+<div class="relative-delete-modal"
+     id="relativeDeleteModal"
+     aria-hidden="true">
+
+    <div class="relative-delete-modal-backdrop"
+         onclick="closeDeleteRelativeModal()">
+    </div>
+
+
+    <div class="relative-delete-modal-dialog">
+
+        <button type="button"
+                class="relative-delete-modal-close"
+                onclick="closeDeleteRelativeModal()">
+
+            <i class="bi bi-x-lg"></i>
+
+        </button>
+
+
+        <div class="relative-delete-modal-icon">
+
+            <i class="bi bi-person-x"></i>
+
+        </div>
+
+
+        <span class="relative-delete-modal-label">
+            XÓA HỒ SƠ
+        </span>
+
+
+        <h3>
+            Xóa hồ sơ người thân?
+        </h3>
+
+
+        <p>
+            Bạn đang chuẩn bị xóa hồ sơ của
+
+            <strong id="relativeDeleteName">
+                người thân
+            </strong>.
+        </p>
+
+
+        <div class="relative-delete-warning">
+
+            <i class="bi bi-exclamation-triangle"></i>
+
+            <div>
+
+                <strong>
+                    Sau khi xóa hồ sơ
+                </strong>
+
+                <span>
+                    Các lịch chưa hoàn thành liên quan sẽ
+                    được hủy. Những lịch đã hoàn thành vẫn
+                    được giữ lại trong lịch sử.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="relative-delete-modal-actions">
+
+            <button type="button"
+                    class="relative-delete-cancel"
+                    onclick="closeDeleteRelativeModal()">
+
+                Giữ lại hồ sơ
+
+            </button>
+
+
+            <form asp-area="Customer"
+                  asp-controller="Relatives"
+                  asp-action="Delete"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       name="id"
+                       id="relativeDeleteId" />
+
+
+                <button type="submit"
+                        class="relative-delete-confirm">
+
+                    <i class="bi bi-trash3"></i>
+                    Xóa hồ sơ
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        function openDeleteRelativeModal(
+            maBenhNhan,
+            hoTen) {
+
+            const modal =
+                document.getElementById(
+                    "relativeDeleteModal");
+
+            const idInput =
+                document.getElementById(
+                    "relativeDeleteId");
+
+            const nameElement =
+                document.getElementById(
+                    "relativeDeleteName");
+
+            if (!modal ||
+                !idInput ||
+                !nameElement) {
+                return;
+            }
+
+            idInput.value =
+                maBenhNhan;
+
+            nameElement.textContent =
+                hoTen;
+
+            modal.classList.add("show");
+
+            modal.setAttribute(
+                "aria-hidden",
+                "false");
+
+            document.body.classList.add(
+                "modal-open");
+        }
+
+
+        function closeDeleteRelativeModal() {
+
+            const modal =
+                document.getElementById(
+                    "relativeDeleteModal");
+
+            if (!modal) {
+                return;
+            }
+
+            modal.classList.remove("show");
+
+            modal.setAttribute(
+                "aria-hidden",
+                "true");
+
+            document.body.classList.remove(
+                "modal-open");
+        }
+
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Escape") {
+                    closeDeleteRelativeModal();
+                }
+
+            });
+
+    </script>
+
+}

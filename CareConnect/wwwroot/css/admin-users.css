@@ -1,0 +1,1398 @@
+﻿/* =========================================================
+   CARECONNECT ADMIN USERS
+   wwwroot/css/admin-users.css
+========================================================= */
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.users-page {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0 0 36px;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   ALERT
+========================================================= */
+
+.users-alert {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 16px;
+    padding: 12px 15px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+
+    .users-alert.success {
+        color: #28705e;
+        background: #ebf8f3;
+        border: 1px solid #cee9df;
+    }
+
+
+    .users-alert.error {
+        color: #a54d49;
+        background: #fff0ef;
+        border: 1px solid #efd0ce;
+    }
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.users-hero {
+    position: relative;
+    width: 100%;
+    min-height: 205px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    padding: 28px 34px;
+    background: linear-gradient( 110deg, #fffaf2 0%, #fff7eb 100% );
+    border: 1px solid #efd5a7;
+    border-radius: 22px;
+    box-shadow: 0 9px 26px rgba(43, 60, 54, 0.04);
+}
+
+
+/* =========================================================
+   HERO LEFT
+========================================================= */
+
+.users-hero-left {
+    width: calc(100% - 240px);
+    max-width: 850px;
+    min-width: 0;
+}
+
+
+.users-eyebrow {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 18px;
+    padding: 7px 13px;
+    color: #ad6806;
+    background: #fdebc8;
+    border-radius: 999px;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.15px;
+}
+
+
+    .users-eyebrow i {
+        font-size: 13px;
+    }
+
+
+.users-hero h1 {
+    margin: 0 0 12px;
+    color: #203e38;
+    font-size: 30px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.25px;
+}
+
+
+.users-hero-left > p {
+    max-width: 820px;
+    margin: 0;
+    color: #70817b;
+    font-size: 14px;
+    line-height: 1.75;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   HERO ACTION
+   NÚT NẰM GÓC PHẢI PHÍA TRÊN
+========================================================= */
+
+.users-hero-actions {
+    position: absolute;
+    top: 38px;
+    right: 38px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/*
+   Hỗ trợ nếu HTML cũ vẫn đang dùng users-hero-right
+   nhưng chỉ chứa nút Thêm tài khoản.
+*/
+
+.users-hero-right {
+    position: absolute;
+    top: 38px;
+    right: 38px;
+    z-index: 2;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   ADD USER BUTTON
+========================================================= */
+
+.users-add-button {
+    min-width: 185px;
+    min-height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 0 21px;
+    color: #ffffff;
+    background: #e88908;
+    border: 0;
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba(226, 137, 13, 0.17);
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+
+    .users-add-button i {
+        font-size: 15px;
+    }
+
+
+    .users-add-button:hover {
+        color: #ffffff;
+        background: #cf7905;
+        transform: translateY(-1px);
+        box-shadow: 0 12px 28px rgba(226, 137, 13, 0.22);
+    }
+
+
+/* =========================================================
+   STATISTICS
+   4 CARD RIÊNG
+========================================================= */
+
+.users-stats-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   STAT CARD
+========================================================= */
+
+.users-stat-card {
+    position: relative;
+    min-width: 0;
+    min-height: 130px;
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 18px;
+    overflow: hidden;
+    color: inherit;
+    background: #ffffff;
+    border: 1px solid #e4e9e7;
+    border-radius: 17px;
+    box-shadow: 0 7px 20px rgba(43, 60, 54, 0.035);
+    text-decoration: none;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+
+    .users-stat-card:hover {
+        color: inherit;
+        transform: translateY(-2px);
+        border-color: #dfd5c4;
+        box-shadow: 0 10px 24px rgba(43, 60, 54, 0.06);
+    }
+
+
+    .users-stat-card.active {
+        border-color: #e5c484;
+    }
+
+
+    /* =========================================================
+   DECORATIVE CIRCLE
+========================================================= */
+
+    .users-stat-card::after {
+        content: "";
+        position: absolute;
+        right: -35px;
+        bottom: -48px;
+        width: 115px;
+        height: 115px;
+        border-radius: 50%;
+        opacity: 0.42;
+        pointer-events: none;
+    }
+
+
+/* =========================================================
+   STAT ICON
+========================================================= */
+
+.users-stat-icon {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   STAT CONTENT
+========================================================= */
+
+.users-stat-content {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    flex: 1;
+}
+
+
+    .users-stat-content small {
+        display: block;
+        margin-bottom: 4px;
+        color: #7e8d87;
+        font-size: 11px;
+        line-height: 1.35;
+        font-weight: 500;
+    }
+
+
+    .users-stat-content strong {
+        display: block;
+        margin-bottom: 8px;
+        color: #203e38;
+        font-size: 26px;
+        line-height: 1;
+        font-weight: 700;
+    }
+
+
+    .users-stat-content p {
+        margin: 0;
+        color: #899690;
+        font-size: 10px;
+        line-height: 1.45;
+        font-weight: 400;
+    }
+
+
+/* =========================================================
+   STAT COLORS
+========================================================= */
+
+/* TẤT CẢ */
+
+.users-stat-card.all .users-stat-icon {
+    color: #527dc9;
+    background: #e7effd;
+}
+
+
+.users-stat-card.all::after {
+    background: #e7effd;
+}
+
+
+/* KHÁCH HÀNG */
+
+.users-stat-card.customer .users-stat-icon {
+    color: #258c84;
+    background: #dff3f1;
+}
+
+
+.users-stat-card.customer::after {
+    background: #dff3f1;
+}
+
+
+/* NGƯỜI CHĂM SÓC */
+
+.users-stat-card.caregiver .users-stat-icon {
+    color: #bd790c;
+    background: #fff0d5;
+}
+
+
+.users-stat-card.caregiver::after {
+    background: #fff0d5;
+}
+
+
+/* KHÓA */
+
+.users-stat-card.locked .users-stat-icon {
+    color: #ca5652;
+    background: #fde8e7;
+}
+
+
+.users-stat-card.locked::after {
+    background: #fde8e7;
+}
+
+
+/* =========================================================
+   SHARED PANEL
+========================================================= */
+
+.users-panel {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e4e9e7;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(43, 60, 54, 0.035);
+}
+
+
+.users-filter-panel {
+    margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   PANEL HEADER
+========================================================= */
+
+.users-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 20px 22px;
+    border-bottom: 1px solid #edf0ef;
+}
+
+
+.users-panel-heading {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+.users-panel-icon {
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    color: #d17a00;
+    background: #fff0d8;
+    border-radius: 12px;
+    font-size: 17px;
+}
+
+
+.users-panel-heading small {
+    display: block;
+    margin-bottom: 3px;
+    color: #c17105;
+    font-size: 11px;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: 0.15px;
+}
+
+
+.users-panel-heading h2 {
+    margin: 0;
+    color: #243f39;
+    font-size: 18px;
+    line-height: 1.35;
+    font-weight: 700;
+}
+
+
+.users-panel-heading p {
+    margin: 4px 0 0;
+    color: #83908c;
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   PENDING / RESULT COUNT
+========================================================= */
+
+.users-pending-link,
+.users-result-count {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 11px;
+    color: #8b621d;
+    background: #fff2d8;
+    border-radius: 999px;
+    font-size: 11px;
+    line-height: 1.3;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+
+    .users-pending-link:hover {
+        color: #79530f;
+        background: #ffe9bb;
+    }
+
+
+/* =========================================================
+   FILTER FORM
+========================================================= */
+
+.users-filter-form {
+    display: grid;
+    grid-template-columns: minmax(290px, 1fr) 190px 190px auto 43px;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 18px 18px;
+}
+
+
+/* =========================================================
+   INPUT / SELECT WRAPPER
+========================================================= */
+
+.users-search-box,
+.users-select-box {
+    position: relative;
+    min-width: 0;
+}
+
+
+    .users-search-box > i,
+    .users-select-box > i {
+        position: absolute;
+        top: 50%;
+        left: 13px;
+        z-index: 1;
+        color: #99a49f;
+        font-size: 14px;
+        pointer-events: none;
+        transform: translateY(-50%);
+    }
+
+
+    /* =========================================================
+   INPUT / SELECT
+========================================================= */
+
+    .users-search-box input,
+    .users-select-box select {
+        width: 100%;
+        height: 43px;
+        box-sizing: border-box;
+        color: #4e615a;
+        background: #f8faf9;
+        border: 1px solid #dce4e0;
+        border-radius: 10px;
+        outline: none;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 400;
+        transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+
+    .users-search-box input {
+        padding: 0 13px 0 40px;
+    }
+
+
+    .users-select-box select {
+        padding: 0 32px 0 38px;
+        cursor: pointer;
+    }
+
+
+        .users-search-box input:focus,
+        .users-select-box select:focus {
+            background: #ffffff;
+            border-color: #e0ad58;
+            box-shadow: 0 0 0 3px rgba(224, 173, 88, 0.10);
+        }
+
+
+    .users-search-box input::placeholder {
+        color: #9ea9a5;
+    }
+
+
+/* =========================================================
+   FILTER BUTTON
+========================================================= */
+
+.users-filter-button,
+.users-clear-filter {
+    height: 43px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.18s ease;
+}
+
+
+.users-filter-button {
+    padding: 0 16px;
+    color: #ffffff;
+    background: #142541;
+    border: 1px solid #142541;
+}
+
+
+    .users-filter-button:hover {
+        background: #1d3153;
+    }
+
+
+.users-clear-filter {
+    width: 43px;
+    color: #71817b;
+    background: #ffffff;
+    border: 1px solid #dce4e0;
+    text-decoration: none;
+}
+
+
+    .users-clear-filter:hover {
+        color: #c37608;
+        background: #fff8ec;
+        border-color: #e8c98f;
+    }
+
+
+/* =========================================================
+   TABLE PANEL
+========================================================= */
+
+.users-table-panel {
+    position: relative;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.users-table-wrapper {
+    position: relative;
+    width: 100%;
+    max-height: min( 610px, calc(100vh - 230px) );
+    overflow: auto;
+    scrollbar-gutter: stable;
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.users-table {
+    width: 100%;
+    min-width: 1120px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+
+    /* =========================================================
+   TABLE HEADER
+========================================================= */
+
+    .users-table thead {
+        position: sticky;
+        top: 0;
+        z-index: 12;
+    }
+
+
+    .users-table th {
+        position: sticky;
+        top: 0;
+        z-index: 12;
+        padding: 13px 18px;
+        color: #87948f;
+        background: #f8faf9;
+        border-bottom: 1px solid #e4e9e7;
+        text-align: left;
+        font-size: 10px;
+        line-height: 1.3;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+
+        .users-table th.text-end {
+            text-align: right;
+        }
+
+
+    /* =========================================================
+   TABLE BODY
+========================================================= */
+
+    .users-table td {
+        padding: 15px 18px;
+        color: #586a64;
+        border-bottom: 1px solid #edf0ef;
+        vertical-align: middle;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+
+    .users-table tbody tr {
+        transition: background 0.16s ease;
+    }
+
+
+        .users-table tbody tr:hover {
+            background: #fcfdfc;
+        }
+
+
+        .users-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+
+/* =========================================================
+   USER CELL
+========================================================= */
+
+.users-person {
+    min-width: 215px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+
+    .users-person > div {
+        min-width: 0;
+    }
+
+
+/* =========================================================
+   USER AVATAR
+========================================================= */
+
+.users-avatar {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 700;
+}
+
+
+    .users-avatar.customer {
+        color: #257d78;
+        background: #e0f3f1;
+    }
+
+
+    .users-avatar.caregiver {
+        color: #a96d10;
+        background: #ffedcf;
+    }
+
+
+/* =========================================================
+   USER NAME / EMAIL
+========================================================= */
+
+.users-person strong,
+.users-person small {
+    display: block;
+}
+
+
+.users-person strong {
+    max-width: 190px;
+    overflow: hidden;
+    color: #3f534c;
+    font-size: 13px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.users-person small {
+    max-width: 215px;
+    margin-top: 4px;
+    overflow: hidden;
+    color: #8b9893;
+    font-size: 10px;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+    .users-person small i {
+        margin-right: 4px;
+        color: #9da7a3;
+    }
+
+
+/* =========================================================
+   ROLE / STATUS BADGES
+========================================================= */
+
+.role-badge,
+.user-status,
+.customer-label {
+    min-height: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    line-height: 1.2;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+
+    /* ROLE CUSTOMER */
+
+    .role-badge.customer {
+        color: #247b76;
+        background: #e2f4f2;
+    }
+
+
+    /* ROLE CAREGIVER */
+
+    .role-badge.caregiver {
+        color: #98620e;
+        background: #fff0d5;
+    }
+
+
+    /* =========================================================
+   USER STATUS DOT
+========================================================= */
+
+    .user-status > i {
+        width: 6px;
+        height: 6px;
+        flex-shrink: 0;
+        border-radius: 50%;
+    }
+
+
+    /* ACTIVE */
+
+    .user-status.active {
+        color: #247c54;
+        background: #e3f6eb;
+    }
+
+
+        .user-status.active > i {
+            background: #34ad76;
+        }
+
+
+    /* PENDING */
+
+    .user-status.pending {
+        color: #93600f;
+        background: #fff0d2;
+    }
+
+
+        .user-status.pending > i {
+            background: #e8a21f;
+        }
+
+
+    /* LOCKED */
+
+    .user-status.locked,
+    .user-status.rejected {
+        color: #b04747;
+        background: #fde8e8;
+    }
+
+
+        .user-status.locked > i,
+        .user-status.rejected > i {
+            background: #d85c5c;
+        }
+
+
+    /* DEFAULT */
+
+    .user-status.default {
+        color: #65706a;
+        background: #edf0ed;
+    }
+
+
+        .user-status.default > i {
+            background: #87918c;
+        }
+
+
+/* =========================================================
+   CUSTOMER LABEL
+========================================================= */
+
+.customer-label {
+    color: #61706a;
+    background: #f1f4f2;
+}
+
+
+    .customer-label i {
+        color: #3c9a70;
+    }
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.users-date {
+    min-width: 110px;
+}
+
+
+    .users-date strong,
+    .users-date small {
+        display: block;
+    }
+
+
+    .users-date strong {
+        color: #4b6059;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+
+    .users-date small {
+        margin-top: 3px;
+        color: #929d98;
+        font-size: 9px;
+        font-weight: 400;
+    }
+
+
+/* =========================================================
+   CAREGIVER EXTRA
+========================================================= */
+
+.caregiver-extra {
+    min-width: 190px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+
+    .caregiver-extra span {
+        max-width: 220px;
+        overflow: hidden;
+        color: #74837d;
+        font-size: 10px;
+        font-weight: 400;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+    .caregiver-extra i {
+        width: 15px;
+        margin-right: 4px;
+        color: #d88a14;
+    }
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.users-actions {
+    min-width: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+
+    .users-actions form {
+        display: inline-flex;
+        margin: 0;
+    }
+
+
+/* =========================================================
+   ACTION BUTTON
+========================================================= */
+
+.user-action {
+    min-height: 33px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 10px;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.16s ease, background 0.16s ease;
+}
+
+
+    .user-action:hover {
+        transform: translateY(-1px);
+    }
+
+
+    /* APPROVE */
+
+    .user-action.approve {
+        color: #247d55;
+        background: #e4f6ec;
+        border: 1px solid #caead8;
+    }
+
+
+    /* REJECT */
+
+    .user-action.reject {
+        color: #b45151;
+        background: #fff0f0;
+        border: 1px solid #f0d2d2;
+    }
+
+
+    /* LOCK */
+
+    .user-action.lock {
+        color: #b45151;
+        background: #fff0f0;
+        border: 1px solid #f0d2d2;
+    }
+
+
+    /* UNLOCK */
+
+    .user-action.unlock {
+        color: #287e59;
+        background: #e4f6ec;
+        border: 1px solid #cce8d8;
+    }
+
+
+/* =========================================================
+   MORE BUTTON
+========================================================= */
+
+.user-more-button {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    color: #7e8c86;
+    background: #f8faf9;
+    border: 1px solid #dfe6e2;
+    border-radius: 9px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.16s ease;
+}
+
+
+    .user-more-button:hover {
+        color: #ca7807;
+        background: #fff6e8;
+        border-color: #e7cc9d;
+    }
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.users-empty {
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 52px 20px;
+    color: #87948f;
+    text-align: center;
+}
+
+
+    .users-empty > span {
+        width: 58px;
+        height: 58px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 13px;
+        color: #d17a00;
+        background: #fff0d8;
+        border-radius: 16px;
+        font-size: 22px;
+    }
+
+
+    .users-empty strong {
+        color: #425750;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+
+    .users-empty p {
+        margin: 6px 0 0;
+        color: #8b9893;
+        font-size: 11px;
+    }
+
+
+/* =========================================================
+   TABLE SCROLLBAR
+========================================================= */
+
+.users-table-wrapper::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+
+.users-table-wrapper::-webkit-scrollbar-track {
+    background: #f0f3f1;
+}
+
+
+.users-table-wrapper::-webkit-scrollbar-thumb {
+    background: #bcc6c1;
+    border: 2px solid #f0f3f1;
+    border-radius: 999px;
+}
+
+
+    .users-table-wrapper::-webkit-scrollbar-thumb:hover {
+        background: #9eaaa4;
+    }
+
+
+.users-table-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: #bcc6c1 #f0f3f1;
+}
+
+
+/* =========================================================
+   CREATE USER PAGE
+   Giữ tương thích nếu Create đang dùng các class này
+========================================================= */
+
+.create-user-heading h1 {
+    margin: 10px 0 14px;
+    color: #22312c;
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+
+.create-user-heading p {
+    max-width: 760px;
+    margin: 0;
+    color: #6f7c78;
+    font-size: 14px;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+
+.admin-eyebrow {
+    color: #c17105;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+
+.create-user-card-header h2 {
+    color: #243f39;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+
+.create-user-card-header p {
+    color: #83908c;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+
+.create-form-group label {
+    color: #52645e;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+.create-input input,
+.create-input select {
+    color: #465a54;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+
+    .create-input input::placeholder {
+        color: #a3acab;
+        font-size: 13px;
+    }
+
+
+.field-validation-error {
+    color: #c55350;
+    font-size: 11px;
+}
+
+
+.create-status-option strong {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.create-status-option small {
+    color: #7d8784;
+    font-size: 11px;
+}
+
+
+.create-submit-button,
+.create-cancel-button {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.create-user-note h2 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+
+.create-user-note li {
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+
+.create-security-note span {
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE - LARGE
+========================================================= */
+
+@media (max-width: 1250px) {
+
+    .users-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+
+    .users-filter-form {
+        grid-template-columns: minmax(260px, 1fr) 180px 180px;
+    }
+
+
+    .users-filter-button,
+    .users-clear-filter {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .users-hero {
+        min-height: auto;
+        padding: 24px 22px;
+    }
+
+
+    .users-hero-left {
+        width: 100%;
+        padding-right: 0;
+        padding-bottom: 72px;
+    }
+
+
+    .users-hero h1 {
+        font-size: 26px;
+    }
+
+
+    .users-hero-actions,
+    .users-hero-right {
+        top: auto;
+        right: auto;
+        left: 22px;
+        bottom: 20px;
+    }
+
+
+    .users-add-button {
+        min-width: 170px;
+        min-height: 46px;
+    }
+
+
+    .users-panel-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+
+    .users-filter-form {
+        grid-template-columns: 1fr;
+    }
+
+
+    .users-pending-link,
+    .users-result-count {
+        align-self: flex-start;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 620px) {
+
+    .users-hero {
+        border-radius: 18px;
+    }
+
+
+    .users-eyebrow {
+        margin-bottom: 14px;
+    }
+
+
+    .users-hero h1 {
+        font-size: 24px;
+    }
+
+
+    .users-hero-left > p {
+        font-size: 13px;
+    }
+
+
+    .users-stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+
+    .users-stat-card {
+        min-height: 112px;
+        padding: 16px;
+    }
+
+
+    .users-panel {
+        border-radius: 17px;
+    }
+
+
+    .users-panel-header {
+        padding: 17px;
+    }
+
+
+    .users-filter-form {
+        padding: 14px;
+    }
+}

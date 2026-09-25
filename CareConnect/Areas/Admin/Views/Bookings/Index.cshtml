@@ -1,0 +1,1342 @@
+﻿@model CareConnect.ViewModels.AdminBookingViewModel
+
+@{
+    ViewData["Title"] = "Quản lý lịch đặt";
+
+    bool dangTatCa =
+        string.IsNullOrWhiteSpace(Model.TrangThai);
+
+    bool dangChoXacNhan =
+        Model.TrangThai == "Chờ xác nhận";
+
+    bool dangDaXacNhan =
+        Model.TrangThai == "Đã xác nhận";
+
+    bool dangDangThucHien =
+        Model.TrangThai == "Đang thực hiện";
+
+    bool dangDaHoanThanh =
+        Model.TrangThai == "Đã hoàn thành";
+
+    bool dangDaHuy =
+        Model.TrangThai == "Đã hủy";
+}
+
+
+<div class="booking-admin-page">
+
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="booking-alert success">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <span>
+                @TempData["Success"]
+            </span>
+
+        </div>
+    }
+
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="booking-alert error">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            <span>
+                @TempData["Error"]
+            </span>
+
+        </div>
+    }
+
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="booking-hero">
+
+
+        <div class="booking-hero-left">
+
+
+            <span class="booking-eyebrow">
+
+                <i class="bi bi-calendar2-check"></i>
+
+                QUẢN LÝ VẬN HÀNH
+
+            </span>
+
+
+            <h1>
+                Quản lý lịch đặt
+            </h1>
+
+
+            <p>
+                Theo dõi toàn bộ lịch chăm sóc, trạng thái xử lý,
+                phân công người chăm sóc và tiến độ thực hiện
+                trong hệ thống CareConnect.
+            </p>
+
+        </div>
+
+
+        <div class="booking-hero-action">
+
+
+            <a asp-area="Admin"
+               asp-controller="Dashboard"
+               asp-action="Index"
+               class="booking-dashboard-button">
+
+                <i class="bi bi-grid-1x2"></i>
+
+                <span>
+                    Về trang tổng quan
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <span class="booking-hero-decoration decoration-one"></span>
+        <span class="booking-hero-decoration decoration-two"></span>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SUMMARY
+    ====================================================== -->
+
+    <section class="booking-summary-grid">
+
+
+        <!-- TẤT CẢ -->
+
+        <a asp-area="Admin"
+           asp-controller="Bookings"
+           asp-action="Index"
+           class="booking-summary-card all @(dangTatCa ? "active" : "")">
+
+
+            <span class="booking-summary-icon">
+
+                <i class="bi bi-calendar3"></i>
+
+            </span>
+
+
+            <div class="booking-summary-content">
+
+                <small>
+                    Tổng lịch đặt
+                </small>
+
+                <strong>
+                    @Model.TongLich
+                </strong>
+
+                <p>
+                    Toàn bộ lịch trong hệ thống
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- CHỜ XÁC NHẬN -->
+
+        <a asp-area="Admin"
+           asp-controller="Bookings"
+           asp-action="Index"
+           asp-route-trangThai="Chờ xác nhận"
+           class="booking-summary-card pending @(dangChoXacNhan ? "active" : "")">
+
+
+            <span class="booking-summary-icon">
+
+                <i class="bi bi-hourglass-split"></i>
+
+            </span>
+
+
+            <div class="booking-summary-content">
+
+                <small>
+                    Chờ xác nhận
+                </small>
+
+                <strong>
+                    @Model.ChoXacNhan
+                </strong>
+
+                <p>
+                    Lịch đang chờ quản trị viên xử lý
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- ĐÃ XÁC NHẬN -->
+
+        <a asp-area="Admin"
+           asp-controller="Bookings"
+           asp-action="Index"
+           asp-route-trangThai="Đã xác nhận"
+           class="booking-summary-card confirmed @(dangDaXacNhan ? "active" : "")">
+
+
+            <span class="booking-summary-icon">
+
+                <i class="bi bi-calendar-check"></i>
+
+            </span>
+
+
+            <div class="booking-summary-content">
+
+                <small>
+                    Đã xác nhận
+                </small>
+
+                <strong>
+                    @Model.DaXacNhan
+                </strong>
+
+                <p>
+                    Đã xác nhận và sẵn sàng thực hiện
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- ĐANG THỰC HIỆN -->
+
+        <a asp-area="Admin"
+           asp-controller="Bookings"
+           asp-action="Index"
+           asp-route-trangThai="Đang thực hiện"
+           class="booking-summary-card processing @(dangDangThucHien ? "active" : "")">
+
+
+            <span class="booking-summary-icon">
+
+                <i class="bi bi-activity"></i>
+
+            </span>
+
+
+            <div class="booking-summary-content">
+
+                <small>
+                    Đang thực hiện
+                </small>
+
+                <strong>
+                    @Model.DangThucHien
+                </strong>
+
+                <p>
+                    Lịch chăm sóc đang diễn ra
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- ĐÃ HOÀN THÀNH -->
+
+        <a asp-area="Admin"
+           asp-controller="Bookings"
+           asp-action="Index"
+           asp-route-trangThai="Đã hoàn thành"
+           class="booking-summary-card completed @(dangDaHoanThanh ? "active" : "")">
+
+
+            <span class="booking-summary-icon">
+
+                <i class="bi bi-check2-circle"></i>
+
+            </span>
+
+
+            <div class="booking-summary-content">
+
+                <small>
+                    Đã hoàn thành
+                </small>
+
+                <strong>
+                    @Model.DaHoanThanh
+                </strong>
+
+                <p>
+                    Lịch đã chăm sóc hoàn tất
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- ĐÃ HỦY -->
+
+        <a asp-area="Admin"
+           asp-controller="Bookings"
+           asp-action="Index"
+           asp-route-trangThai="Đã hủy"
+           class="booking-summary-card cancelled @(dangDaHuy ? "active" : "")">
+
+
+            <span class="booking-summary-icon">
+
+                <i class="bi bi-calendar-x"></i>
+
+            </span>
+
+
+            <div class="booking-summary-content">
+
+                <small>
+                    Đã hủy
+                </small>
+
+                <strong>
+                    @Model.DaHuy
+                </strong>
+
+                <p>
+                    Lịch không tiếp tục thực hiện
+                </p>
+
+            </div>
+
+        </a>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FILTER
+    ====================================================== -->
+
+    <section class="booking-filter-panel">
+
+
+        <div class="booking-filter-heading">
+
+
+            <div class="booking-panel-heading">
+
+
+                <span class="booking-panel-icon">
+
+                    <i class="bi bi-funnel"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        BỘ LỌC DỮ LIỆU
+                    </small>
+
+                    <h2>
+                        Tìm kiếm lịch đặt
+                    </h2>
+
+                    <p>
+                        Lọc theo khách hàng, trạng thái,
+                        khu vực hoặc thời gian chăm sóc.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <form asp-area="Admin"
+              asp-controller="Bookings"
+              asp-action="Index"
+              method="get"
+              class="booking-filter-form">
+
+
+            <!-- SEARCH -->
+
+            <div class="booking-search-field booking-filter-wide">
+
+
+                <label for="bookingKeyword">
+                    Từ khóa
+                </label>
+
+
+                <div class="booking-input-wrapper">
+
+                    <i class="bi bi-search"></i>
+
+                    <input id="bookingKeyword"
+                           type="text"
+                           name="tuKhoa"
+                           value="@Model.TuKhoa"
+                           placeholder="Tên khách hàng, người chăm sóc hoặc mã lịch..." />
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <div class="booking-filter-field">
+
+
+                <label for="bookingStatus">
+                    Trạng thái
+                </label>
+
+
+                <div class="booking-select-wrapper">
+
+                    <i class="bi bi-list-check"></i>
+
+                    <select id="bookingStatus"
+                            name="trangThai">
+
+                        <option value="">
+                            Tất cả trạng thái
+                        </option>
+
+                        <option value="Chờ xác nhận"
+                                selected="@(Model.TrangThai == "Chờ xác nhận")">
+                            Chờ xác nhận
+                        </option>
+
+                        <option value="Đã xác nhận"
+                                selected="@(Model.TrangThai == "Đã xác nhận")">
+                            Đã xác nhận
+                        </option>
+
+                        <option value="Đang thực hiện"
+                                selected="@(Model.TrangThai == "Đang thực hiện")">
+                            Đang thực hiện
+                        </option>
+
+                        <option value="Đã hoàn thành"
+                                selected="@(Model.TrangThai == "Đã hoàn thành")">
+                            Đã hoàn thành
+                        </option>
+
+                        <option value="Đã hủy"
+                                selected="@(Model.TrangThai == "Đã hủy")">
+                            Đã hủy
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- AREA -->
+
+            <div class="booking-filter-field">
+
+
+                <label for="bookingArea">
+                    Khu vực
+                </label>
+
+
+                <div class="booking-select-wrapper">
+
+                    <i class="bi bi-geo-alt"></i>
+
+                    <select id="bookingArea"
+                            name="khuVuc">
+
+                        <option value="">
+                            Tất cả khu vực
+                        </option>
+
+                        @foreach (var khuVuc in Model.DanhSachKhuVuc)
+                        {
+                            <option value="@khuVuc"
+                                    selected="@(Model.KhuVuc == khuVuc)">
+
+                                @khuVuc
+
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FROM -->
+
+            <div class="booking-filter-field">
+
+
+                <label for="bookingFromDate">
+                    Từ ngày
+                </label>
+
+
+                <div class="booking-date-wrapper">
+
+                    <i class="bi bi-calendar3"></i>
+
+                    <input id="bookingFromDate"
+                           type="date"
+                           name="tuNgay"
+                           value="@(Model.TuNgay?.ToString("yyyy-MM-dd"))" />
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TO -->
+
+            <div class="booking-filter-field">
+
+
+                <label for="bookingToDate">
+                    Đến ngày
+                </label>
+
+
+                <div class="booking-date-wrapper">
+
+                    <i class="bi bi-calendar3"></i>
+
+                    <input id="bookingToDate"
+                           type="date"
+                           name="denNgay"
+                           value="@(Model.DenNgay?.ToString("yyyy-MM-dd"))" />
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACTION -->
+
+            <div class="booking-filter-actions">
+
+
+                <button type="submit"
+                        class="booking-filter-submit">
+
+                    <i class="bi bi-funnel-fill"></i>
+
+                    Áp dụng bộ lọc
+
+                </button>
+
+
+                <a asp-area="Admin"
+                   asp-controller="Bookings"
+                   asp-action="Index"
+                   class="booking-filter-reset"
+                   title="Xóa bộ lọc">
+
+                    <i class="bi bi-arrow-counterclockwise"></i>
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         DATA
+    ====================================================== -->
+
+    <section class="booking-data-panel">
+
+
+        <div class="booking-data-heading">
+
+
+            <div class="booking-panel-heading">
+
+
+                <span class="booking-panel-icon">
+
+                    <i class="bi bi-calendar2-week"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        DANH SÁCH LỊCH ĐẶT
+                    </small>
+
+                    <h2>
+                        Lịch chăm sóc trong hệ thống
+                    </h2>
+
+                    <p>
+                        Theo dõi lịch, phân công và cập nhật
+                        tiến độ chăm sóc tại đây.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <strong class="booking-result-count">
+
+                @Model.DanhSachLich.Count kết quả
+
+            </strong>
+
+        </div>
+
+
+
+        @if (Model.DanhSachLich.Count == 0)
+        {
+            <div class="booking-empty-state">
+
+
+                <span>
+
+                    <i class="bi bi-calendar2-x"></i>
+
+                </span>
+
+
+                <h3>
+                    Không tìm thấy lịch đặt
+                </h3>
+
+
+                <p>
+                    Chưa có lịch phù hợp với
+                    điều kiện tìm kiếm hiện tại.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="booking-table-scroll">
+
+
+                <table class="booking-data-table"
+                       id="bookingDataTable">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Mã lịch</th>
+
+                            <th>Khách hàng</th>
+
+                            <th>Người được chăm sóc</th>
+
+                            <th>Người chăm sóc</th>
+
+                            <th>Khu vực</th>
+
+                            <th>Ngày và giờ</th>
+
+                            <th>Chi phí</th>
+
+                            <th>Trạng thái</th>
+
+                            <th></th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        @foreach (var item in Model.DanhSachLich)
+                        {
+                            string tenKhachHang =
+                                string.IsNullOrWhiteSpace(
+                                    item.TenKhachHang)
+                                    ? "Khách hàng"
+                                    : item.TenKhachHang;
+
+
+                            string chuCaiDau =
+                                tenKhachHang
+                                    .Substring(0, 1)
+                                    .ToUpper();
+
+
+                            <tr>
+
+
+                                <!-- ID -->
+
+                                <td>
+
+                                    <span class="booking-id-badge">
+
+                                        #DL@(item.MaDatLich)
+
+                                    </span>
+
+                                </td>
+
+
+
+                                <!-- CUSTOMER -->
+
+                                <td>
+
+                                    <div class="booking-customer-cell">
+
+
+                                        <span class="booking-customer-avatar">
+
+                                            @chuCaiDau
+
+                                        </span>
+
+
+                                        <div>
+
+                                            <small>
+                                                Khách hàng
+                                            </small>
+
+                                            <strong>
+                                                @tenKhachHang
+                                            </strong>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- PATIENT -->
+
+                                <td>
+
+                                    <div class="booking-patient-cell">
+
+
+                                        <span>
+
+                                            <i class="bi bi-person-heart"></i>
+
+                                        </span>
+
+
+                                        <div>
+
+                                            <small>
+                                                Người được chăm sóc
+                                            </small>
+
+                                            <strong>
+                                                @item.TenBenhNhan
+                                            </strong>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- CAREGIVER -->
+
+                                <td>
+
+                                    <div class="booking-caregiver-cell @(item.DaPhanCong ? "assigned" : "unassigned")">
+
+
+                                        <span>
+
+                                            <i class="@(item.DaPhanCong
+                                                                                               ? "bi bi-person-check"
+                                                                                               : "bi bi-person-dash")">
+                                            </i>
+
+                                        </span>
+
+
+                                        <div>
+
+                                            <small>
+                                                @(item.DaPhanCong
+                                                    ? "Đã phân công"
+                                                    : "Chưa phân công")
+                                            </small>
+
+                                            <strong>
+                                                @item.TenNguoiChamSoc
+                                            </strong>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- LOCATION -->
+
+                                <td>
+
+                                    <div class="booking-location-cell"
+                                         title="@item.KhuVuc">
+
+
+                                        <i class="bi bi-geo-alt"></i>
+
+
+                                        <span>
+                                            @item.KhuVuc
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- DATE -->
+
+                                <td>
+
+                                    <div class="booking-date-cell">
+
+
+                                        <strong>
+
+                                            @item.NgayChamSoc.ToString(
+                                                "dd/MM/yyyy")
+
+                                        </strong>
+
+
+                                        <span>
+
+                                            <i class="bi bi-clock"></i>
+
+                                            @item.GioBatDau.ToString(@"hh\:mm")
+                                            -
+                                            @item.GioKetThuc.ToString(@"hh\:mm")
+
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- PRICE -->
+
+                                <td>
+
+                                    <strong class="booking-price-cell">
+
+                                        @item.TongTien.ToString("#,##0")đ
+
+                                    </strong>
+
+                                </td>
+
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    <span class="@GetBookingStatusClass(
+                                                                                item.TrangThai)">
+
+                                        @item.TrangThai
+
+                                    </span>
+
+                                </td>
+
+
+
+                                <!-- ACTION -->
+
+                                <td>
+
+                                    <div class="booking-row-actions">
+
+
+                                        <button type="button"
+                                                class="booking-more-button"
+                                                title="Mở thao tác"
+                                                onclick="toggleBookingMenu(@item.MaDatLich)">
+
+                                            <i class="bi bi-three-dots"></i>
+
+                                        </button>
+
+
+                                        <div class="booking-row-menu"
+                                             id="bookingMenu-@item.MaDatLich">
+
+
+                                            @if (item.TrangThai == "Chờ xác nhận")
+                                            {
+                                                @if (!item.DaPhanCong)
+                                                {
+                                                    <a asp-area="Admin"
+                                                       asp-controller="Bookings"
+                                                       asp-action="Assign"
+                                                       asp-route-id="@item.MaDatLich"
+                                                       class="booking-assign-action">
+
+                                                        <i class="bi bi-person-plus-fill"></i>
+
+                                                        <span>
+                                                            Phân công người chăm sóc
+                                                        </span>
+
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <form asp-area="Admin"
+                                                          asp-controller="Bookings"
+                                                          asp-action="UpdateStatus"
+                                                          method="post">
+
+                                                        @Html.AntiForgeryToken()
+
+
+                                                        <input type="hidden"
+                                                               name="MaDatLich"
+                                                               value="@item.MaDatLich" />
+
+
+                                                        <input type="hidden"
+                                                               name="TrangThai"
+                                                               value="Đã xác nhận" />
+
+
+                                                        <button type="submit"
+                                                                class="booking-menu-confirm"
+                                                                onclick="return confirm('Bạn chắc chắn muốn xác nhận lịch này?')">
+
+                                                            <i class="bi bi-check2-circle"></i>
+
+                                                            <span>
+                                                                Xác nhận lịch
+                                                            </span>
+
+                                                        </button>
+
+                                                    </form>
+                                                }
+                                            }
+
+
+
+                                            @if (item.TrangThai == "Đã xác nhận")
+                                            {
+                                                <form asp-area="Admin"
+                                                      asp-controller="Bookings"
+                                                      asp-action="UpdateStatus"
+                                                      method="post">
+
+                                                    @Html.AntiForgeryToken()
+
+
+                                                    <input type="hidden"
+                                                           name="MaDatLich"
+                                                           value="@item.MaDatLich" />
+
+
+                                                    <input type="hidden"
+                                                           name="TrangThai"
+                                                           value="Đang thực hiện" />
+
+
+                                                    <button type="submit">
+
+                                                        <i class="bi bi-play-circle"></i>
+
+                                                        <span>
+                                                            Bắt đầu chăm sóc
+                                                        </span>
+
+                                                    </button>
+
+                                                </form>
+                                            }
+
+
+
+                                            @if (item.TrangThai == "Đang thực hiện")
+                                            {
+                                                <form asp-area="Admin"
+                                                      asp-controller="Bookings"
+                                                      asp-action="UpdateStatus"
+                                                      method="post">
+
+                                                    @Html.AntiForgeryToken()
+
+
+                                                    <input type="hidden"
+                                                           name="MaDatLich"
+                                                           value="@item.MaDatLich" />
+
+
+                                                    <input type="hidden"
+                                                           name="TrangThai"
+                                                           value="Đã hoàn thành" />
+
+
+                                                    <button type="submit">
+
+                                                        <i class="bi bi-check-all"></i>
+
+                                                        <span>
+                                                            Hoàn thành lịch
+                                                        </span>
+
+                                                    </button>
+
+                                                </form>
+                                            }
+
+
+
+                                            @if (
+                                                item.TrangThai != "Đã hoàn thành"
+                                                &&
+                                                item.TrangThai != "Đã hủy")
+                                            {
+                                                <button type="button"
+                                                        class="booking-cancel-action"
+                                                        onclick="openCancelBookingForm(@item.MaDatLich)">
+
+                                                    <i class="bi bi-x-circle"></i>
+
+                                                    <span>
+                                                        Hủy lịch
+                                                    </span>
+
+                                                </button>
+
+
+                                                <form asp-area="Admin"
+                                                      asp-controller="Bookings"
+                                                      asp-action="Cancel"
+                                                      method="post"
+                                                      class="booking-cancel-form"
+                                                      id="cancelBookingForm-@item.MaDatLich">
+
+                                                    @Html.AntiForgeryToken()
+
+
+                                                    <input type="hidden"
+                                                           name="maDatLich"
+                                                           value="@item.MaDatLich" />
+
+
+                                                    <label for="cancelReason-@item.MaDatLich">
+
+                                                        Chọn lý do hủy lịch
+
+                                                    </label>
+
+
+                                                    <select id="cancelReason-@item.MaDatLich"
+                                                            name="lyDoHuy"
+                                                            required>
+
+                                                        <option value="">
+                                                            -- Chọn lý do --
+                                                        </option>
+
+                                                        <option value="Không thể bố trí người chăm sóc phù hợp.">
+                                                            Không thể bố trí người chăm sóc phù hợp
+                                                        </option>
+
+                                                        <option value="Người chăm sóc được phân công không còn khả dụng.">
+                                                            Người chăm sóc được phân công không còn khả dụng
+                                                        </option>
+
+                                                        <option value="Thông tin lịch đặt chưa đầy đủ hoặc không hợp lệ.">
+                                                            Thông tin lịch đặt chưa đầy đủ hoặc không hợp lệ
+                                                        </option>
+
+                                                        <option value="Lịch bị trùng thời gian với lịch khác.">
+                                                            Lịch bị trùng thời gian với lịch khác
+                                                        </option>
+
+                                                        <option value="Dịch vụ hiện tạm ngưng cung cấp.">
+                                                            Dịch vụ hiện tạm ngưng cung cấp
+                                                        </option>
+
+                                                        <option value="Khách hàng yêu cầu hủy qua điện thoại.">
+                                                            Khách hàng yêu cầu hủy qua điện thoại
+                                                        </option>
+
+                                                    </select>
+
+
+                                                    <div class="booking-cancel-form-actions">
+
+
+                                                        <button type="button"
+                                                                class="booking-cancel-close"
+                                                                onclick="closeCancelBookingForm(@item.MaDatLich)">
+
+                                                            Không hủy
+
+                                                        </button>
+
+
+                                                        <button type="submit"
+                                                                class="booking-cancel-confirm"
+                                                                onclick="return validateCancelReason(@item.MaDatLich)">
+
+                                                            <i class="bi bi-x-circle"></i>
+
+                                                            Xác nhận hủy
+
+                                                        </button>
+
+                                                    </div>
+
+                                                </form>
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </section>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        function toggleBookingMenu(id) {
+
+            const menu =
+                document.getElementById(
+                    `bookingMenu-${id}`
+                );
+
+
+            document
+                .querySelectorAll(
+                    ".booking-row-menu.show"
+                )
+                .forEach(function(item) {
+
+                    if (item !== menu) {
+
+                        item.classList.remove(
+                            "show"
+                        );
+
+                    }
+
+                });
+
+
+            menu?.classList.toggle(
+                "show"
+            );
+        }
+
+
+
+        function openCancelBookingForm(id) {
+
+            const form =
+                document.getElementById(
+                    `cancelBookingForm-${id}`
+                );
+
+
+            form?.classList.add(
+                "show"
+            );
+        }
+
+
+
+        function closeCancelBookingForm(id) {
+
+            const form =
+                document.getElementById(
+                    `cancelBookingForm-${id}`
+                );
+
+
+            form?.classList.remove(
+                "show"
+            );
+        }
+
+
+
+        function validateCancelReason(id) {
+
+            const select =
+                document.getElementById(
+                    `cancelReason-${id}`
+                );
+
+
+            if (!select || !select.value) {
+
+                alert(
+                    "Vui lòng chọn lý do hủy lịch."
+                );
+
+                select?.focus();
+
+                return false;
+            }
+
+
+            return confirm(
+                "Bạn chắc chắn muốn hủy lịch này?"
+            );
+        }
+
+
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    !event.target.closest(
+                        ".booking-row-actions"
+                    )
+                ) {
+
+                    document
+                        .querySelectorAll(
+                            ".booking-row-menu.show"
+                        )
+                        .forEach(function(menu) {
+
+                            menu.classList.remove(
+                                "show"
+                            );
+
+                        });
+
+                }
+
+            }
+        );
+
+    </script>
+
+}
+
+
+@functions {
+
+    private string GetBookingStatusClass(
+        string status)
+    {
+        return status switch
+        {
+            "Chờ xác nhận"
+                => "booking-status-badge pending",
+
+            "Đã xác nhận"
+                => "booking-status-badge confirmed",
+
+            "Đang thực hiện"
+                => "booking-status-badge processing",
+
+            "Đã hoàn thành"
+                => "booking-status-badge completed",
+
+            "Đã hủy"
+                => "booking-status-badge cancelled",
+
+            _
+                => "booking-status-badge default"
+        };
+    }
+
+}

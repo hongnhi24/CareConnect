@@ -1,0 +1,1414 @@
+﻿@{
+    string currentController =
+        ViewContext.RouteData.Values["controller"]?
+            .ToString()
+        ?? string.Empty;
+
+    string currentAction =
+        ViewContext.RouteData.Values["action"]?
+            .ToString()
+        ?? string.Empty;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - CareConnect</title>
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+
+    <!-- =====================================================
+     CSS DÙNG CHUNG
+====================================================== -->
+
+    <link rel="stylesheet"
+          href="~/css/customer-dashboard.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/customer-header.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/customer-theme.css"
+          asp-append-version="true" />
+
+
+    <!-- =====================================================
+     CSS TỪNG CHỨC NĂNG
+====================================================== -->
+
+    <link rel="stylesheet"
+          href="~/css/customer-bookings.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/customer-booking-create.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/customer-booking-details.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/customer-relatives.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/customer-relative-details.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/customer-care-journals.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/customer-reviews.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/css/customer-profile.css"
+          asp-append-version="true" />
+    <link rel="stylesheet"
+          href="~/css/customer-cancel-booking.css"
+          asp-append-version="true" />
+
+
+
+    <!-- =====================================================
+     PAYMENT LOAD SAU CÙNG
+     để không bị CSS khác ghi đè
+====================================================== -->
+
+    <link rel="stylesheet"
+          href="~/css/customer-payments.css"
+          asp-append-version="true" />
+</head>
+
+
+<body class="customer-body">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+    <aside class="customer-sidebar"
+           id="customerSidebar">
+
+
+        <!-- =================================================
+             LOGO
+        ================================================== -->
+        <a asp-area=""
+           asp-controller="Home"
+           asp-action="Index"
+           class="customer-logo">
+
+            <span class="customer-logo-icon">
+                <i class="bi bi-heart-pulse"></i>
+            </span>
+
+            <strong>
+                CareConnect
+            </strong>
+
+        </a>
+
+
+      
+
+        <div class="sidebar-label">
+            MENU
+        </div>
+
+
+        <!-- =================================================
+             MENU ĐIỀU HƯỚNG
+        ================================================== -->
+        <nav class="customer-navigation">
+
+            <a asp-area="Customer"
+               asp-controller="Dashboard"
+               asp-action="Index"
+               class="@(
+               currentController == "Dashboard"
+                   ? "active"
+                   : ""
+                         )">
+
+                <i class="bi bi-grid"></i>
+
+                <span>
+                    Tổng quan
+                </span>
+
+            </a>
+            <!-- =============================================
+                 HỒ SƠ TÀI KHOẢN
+                 Bấm kh003 → Customer/Profile
+            ============================================== -->
+            <a asp-area="Customer"
+               asp-controller="Profile"
+               asp-action="Index"
+               class="customer-user @(currentController == "Profile" ? "active" : "")">
+
+                <i class="bi bi-person-circle"></i>
+
+                <span>
+                    Hồ sơ cá nhân
+                </span>
+
+            </a>
+            <!-- =============================================
+                 HỒ SƠ NGƯỜI THÂN
+            ============================================== -->
+            <a asp-area="Customer"
+               asp-controller="Relatives"
+               asp-action="Index"
+               class="@(
+               currentController == "Relatives"
+                   ? "active"
+                   : ""
+                                                )">
+
+                <i class="bi bi-person-heart"></i>
+
+                <span>
+                    Hồ sơ người thân
+                </span>
+
+            </a>
+
+
+            <!-- =============================================
+                 LỊCH CHĂM SÓC
+            ============================================== -->
+            <a asp-area="Customer"
+               asp-controller="Bookings"
+               asp-action="Index"
+               class="@(
+               currentController == "Bookings"
+               &&
+               currentAction != "Create"
+                   ? "active"
+                   : ""
+                                     )">
+
+                <i class="bi bi-calendar2-check-fill"></i>
+
+                <span>
+                    Lịch chăm sóc
+                </span>
+
+            </a>
+
+
+           
+
+            <!-- =============================================
+                 ĐẶT LỊCH
+            ============================================== -->
+            <a asp-area="Customer"
+               asp-controller="Bookings"
+               asp-action="Create"
+               class="@(
+               currentController == "Bookings"
+               &&
+               currentAction == "Create"
+                   ? "active"
+                   : ""
+                                     )">
+
+                <i class="bi bi-calendar-plus"></i>
+
+                <span>
+                    Đặt lịch
+                </span>
+
+            </a>
+
+
+            <!-- =============================================
+                 NHẬT KÝ SỨC KHỎE
+            ============================================== -->
+            <a asp-area="Customer"
+               asp-controller="CareJournals"
+               asp-action="Index"
+               class="@(
+               currentController == "CareJournals"
+                   ? "active"
+                   : ""
+                                     )">
+
+                <i class="bi bi-heart-pulse"></i>
+
+                <span>
+                    Nhật ký sức khỏe
+                </span>
+
+            </a>
+            <!-- =============================================
+              NHẮC UỐNG THUỐC
+            ============================================== -->
+
+            <a asp-area="Customer"
+               asp-controller="MedicationReminders"
+               asp-action="Index"
+               class="@(
+               currentController == "MedicationReminders"
+                   ? "active"
+                   : ""
+                         )">
+
+                <i class="bi bi-capsule-pill"></i>
+
+                <span>
+                    Nhắc uống thuốc
+                </span>
+
+            </a>
+
+            <!-- ==============================================
+              NHẮC TÁI KHÁM
+            ============================================== -->
+
+            <a asp-area="Customer"
+               asp-controller="AppointmentReminders"
+               asp-action="Index"
+               class="@(
+               currentController == "AppointmentReminders"
+                   ? "active"
+                   : ""
+                         )">
+
+                <i class="bi bi-calendar2-heart"></i>
+
+                <span>
+                    Nhắc tái khám
+                </span>
+
+            </a>
+
+            <!-- =============================================
+                 THANH TOÁN
+            ============================================== -->
+            <a asp-area="Customer"
+               asp-controller="Payments"
+               asp-action="Index"
+               class="@(
+               currentController == "Payments"
+                   ? "active"
+                   : ""
+                                     )">
+
+                <i class="bi bi-credit-card"></i>
+
+                <span>
+                    Thanh toán
+                </span>
+
+            </a>
+
+
+            <!-- =============================================
+                 ĐÁNH GIÁ
+            ============================================== -->
+            <a asp-area="Customer"
+               asp-controller="Reviews"
+               asp-action="Index"
+               class="@(
+               currentController == "Reviews"
+                   ? "active"
+                   : ""
+                                     )">
+
+                <i class="bi bi-star"></i>
+
+                <span>
+                    Đánh giá
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- =================================================
+             HỖ TRỢ QUẢN TRỊ VIÊN
+        ================================================== -->
+        <button type="button"
+                class="customer-support-card"
+                id="customerSupportButton">
+
+            <span class="customer-support-icon">
+
+                <i class="bi bi-headset"></i>
+
+            </span>
+
+            <span class="customer-support-content">
+
+                <strong>
+                    Cần hỗ trợ?
+                </strong>
+
+                <small>
+                    Liên hệ quản trị viên
+                </small>
+
+            </span>
+
+            <i class="bi bi-chevron-right"></i>
+
+        </button>
+
+    </aside>
+
+
+    <!-- =====================================================
+         PHẦN NỘI DUNG CHÍNH
+    ====================================================== -->
+    <div class="customer-page">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+        <header class="customer-topbar">
+
+            <!-- Mobile menu -->
+            <button type="button"
+                    class="sidebar-toggle"
+                    id="sidebarToggle"
+                    aria-label="Mở menu">
+
+                <i class="bi bi-list"></i>
+
+            </button>
+
+
+            <div class="customer-topbar-space">
+            </div>
+
+
+            <!--
+                Component này đang chịu trách nhiệm hiển thị:
+                - Chuông thông báo
+                - Số thông báo chưa đọc
+                - Avatar
+                - Tài khoản góc phải
+                - Dropdown tài khoản
+            -->
+            @await Component.InvokeAsync(
+                "CustomerHeader")
+
+        </header>
+
+
+        <!-- =================================================
+             NỘI DUNG CỦA TỪNG VIEW
+        ================================================== -->
+        <main class="customer-content">
+
+            @RenderBody()
+
+        </main>
+
+    </div>
+
+
+    <!-- =====================================================
+         MODAL LIÊN HỆ QUẢN TRỊ VIÊN
+    ====================================================== -->
+    <div class="customer-support-modal"
+         id="customerSupportModal"
+         aria-hidden="true">
+
+        <div class="customer-support-overlay"
+             data-close-customer-support>
+        </div>
+
+
+        <section class="customer-support-modal-card"
+                 role="dialog"
+                 aria-modal="true"
+                 aria-labelledby="customerSupportTitle">
+
+
+            <!-- =============================================
+                 HEADER MODAL
+            ============================================== -->
+            <div class="customer-support-modal-header">
+
+                <span class="customer-support-modal-symbol">
+
+                    <i class="bi bi-headset"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        TRUNG TÂM HỖ TRỢ
+                    </small>
+
+                    <h2 id="customerSupportTitle">
+                        Liên hệ quản trị viên
+                    </h2>
+
+                    <p>
+                        Liên hệ khi cần hỗ trợ về tài khoản,
+                        lịch chăm sóc, thanh toán hoặc hồ sơ
+                        người thân.
+                    </p>
+
+                </div>
+
+
+                <button type="button"
+                        class="customer-support-close"
+                        data-close-customer-support
+                        aria-label="Đóng">
+
+                    <i class="bi bi-x-lg"></i>
+
+                </button>
+
+            </div>
+
+
+            <!-- =============================================
+                 BODY MODAL
+            ============================================== -->
+            <div class="customer-support-modal-body">
+
+
+                <!-- HOTLINE -->
+                <a href="tel:1900123456"
+                   class="customer-support-contact">
+
+                    <span>
+
+                        <i class="bi bi-telephone-fill"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            Hotline hỗ trợ
+                        </small>
+
+                        <strong>
+                            1900 1234 56
+                        </strong>
+
+                        <p>
+                            Thứ Hai – Chủ Nhật,
+                            08:00–20:00
+                        </p>
+
+                    </div>
+
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </a>
+
+
+                <!-- EMAIL -->
+                <a href="mailto:hotro@careconnect.vn"
+                   class="customer-support-contact">
+
+                    <span class="is-email">
+
+                        <i class="bi bi-envelope-fill"></i>
+
+                    </span>
+
+
+                    <div>
+
+                        <small>
+                            Email hỗ trợ
+                        </small>
+
+                        <strong>
+                            hotro@careconnect.vn
+                        </strong>
+
+                        <p>
+                            Phản hồi trong vòng
+                            24 giờ làm việc
+                        </p>
+
+                    </div>
+
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </a>
+
+
+                <!-- GHI CHÚ -->
+                <div class="customer-support-note">
+
+                    <i class="bi bi-info-circle-fill"></i>
+
+                    <p>
+                        Khi liên hệ, bạn nên cung cấp
+                        tên tài khoản và mã lịch nếu
+                        vấn đề liên quan đến một lịch
+                        chăm sóc cụ thể.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+    <script>
+
+            /* =====================================================
+               SIDEBAR MOBILE
+            ====================================================== */
+
+            const sidebarToggle =
+                document.getElementById(
+                    "sidebarToggle");
+
+            const customerSidebar =
+                document.getElementById(
+                    "customerSidebar");
+
+
+            sidebarToggle?.addEventListener(
+                "click",
+                function() {
+
+                    customerSidebar
+                        ?.classList.toggle(
+                            "open");
+
+                });
+
+
+            /* =====================================================
+               DROPDOWN THÔNG BÁO
+            ====================================================== */
+
+            const customerNotificationButton =
+                document.getElementById(
+                    "customerNotificationButton");
+
+            const customerNotificationPanel =
+                document.getElementById(
+                    "customerNotificationPanel");
+
+
+            /* =====================================================
+               DROPDOWN TÀI KHOẢN
+            ====================================================== */
+
+            const customerAccountButton =
+                document.getElementById(
+                    "customerAccountButton");
+
+            const customerAccountPanel =
+                document.getElementById(
+                    "customerAccountPanel");
+
+
+            function closeCustomerDropdowns() {
+
+                customerNotificationPanel
+                    ?.classList.remove(
+                        "is-open");
+
+                customerAccountPanel
+                    ?.classList.remove(
+                        "is-open");
+
+            }
+
+
+            customerNotificationButton
+                ?.addEventListener(
+                    "click",
+                    function(event) {
+
+                        event.stopPropagation();
+
+                        customerAccountPanel
+                            ?.classList.remove(
+                                "is-open");
+
+                        customerNotificationPanel
+                            ?.classList.toggle(
+                                "is-open");
+
+                    });
+
+
+            customerAccountButton
+                ?.addEventListener(
+                    "click",
+                    function(event) {
+
+                        event.stopPropagation();
+
+                        customerNotificationPanel
+                            ?.classList.remove(
+                                "is-open");
+
+                        customerAccountPanel
+                            ?.classList.toggle(
+                                "is-open");
+
+                    });
+
+
+            /*
+             * Click ra ngoài dropdown
+             * thì đóng dropdown.
+             */
+            document.addEventListener(
+                "click",
+                function(event) {
+
+                    const target =
+                        event.target;
+
+                    if (!(target instanceof Element)) {
+                        return;
+                    }
+
+                    if (!target.closest(
+                        ".customer-header-dropdown")) {
+
+                        closeCustomerDropdowns();
+
+                    }
+
+                });
+
+
+            /* =====================================================
+               MODAL LIÊN HỆ QUẢN TRỊ VIÊN
+            ====================================================== */
+
+            const customerSupportButton =
+                document.getElementById(
+                    "customerSupportButton");
+
+            const customerSupportModal =
+                document.getElementById(
+                    "customerSupportModal");
+
+            const closeCustomerSupportButtons =
+                document.querySelectorAll(
+                    "[data-close-customer-support]");
+
+
+            function openCustomerSupportModal() {
+
+                customerSupportModal
+                    ?.classList.add(
+                        "is-open");
+
+                customerSupportModal
+                    ?.setAttribute(
+                        "aria-hidden",
+                        "false");
+
+                document.body
+                    .classList.add(
+                        "customer-support-open");
+
+            }
+
+
+            function closeCustomerSupportModal() {
+
+                customerSupportModal
+                    ?.classList.remove(
+                        "is-open");
+
+                customerSupportModal
+                    ?.setAttribute(
+                        "aria-hidden",
+                        "true");
+
+                document.body
+                    .classList.remove(
+                        "customer-support-open");
+
+            }
+
+
+            customerSupportButton
+                ?.addEventListener(
+                    "click",
+                    openCustomerSupportModal);
+
+
+            closeCustomerSupportButtons
+                .forEach(
+                    function(button) {
+
+                        button.addEventListener(
+                            "click",
+                            closeCustomerSupportModal);
+
+                    });
+
+
+            /* =====================================================
+               PHÍM ESC
+            ====================================================== */
+
+            document.addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (event.key === "Escape") {
+
+                        closeCustomerDropdowns();
+
+                        closeCustomerSupportModal();
+
+                    }
+
+                });
+
+    </script>
+
+
+    <!-- JS riêng của từng trang -->
+    @await RenderSectionAsync(
+        "Scripts",
+        required: false)
+    <script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
+    <style>
+            #realtimeNotificationContainer {
+                position: fixed;
+                top: 95px;
+                right: 28px;
+                width: 360px;
+                max-width: calc(100vw - 40px);
+                z-index: 99999;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .realtime-notification {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                padding: 16px;
+                background: #ffffff;
+                border: 1px solid #d6ebe7;
+                border-radius: 14px;
+                box-shadow: 0 14px 35px rgba(36, 70, 63, 0.15);
+                animation: realtimeNotificationIn .25s ease;
+                cursor: pointer;
+            }
+
+            .realtime-notification-icon {
+                width: 42px;
+                height: 42px;
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 12px;
+                background: #def4ef;
+                color: #009688;
+                font-size: 20px;
+            }
+
+            .realtime-notification-content {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .realtime-notification-title {
+                margin: 0 0 4px;
+                color: #25443f;
+                font-size: 14px;
+                font-weight: 700;
+            }
+
+            .realtime-notification-message {
+                margin: 0;
+                color: #667b76;
+                font-size: 13px;
+                line-height: 1.5;
+            }
+
+            .realtime-notification-close {
+                padding: 0;
+                border: none;
+                background: transparent;
+                color: #9ba9a6;
+                cursor: pointer;
+            }
+
+            @@keyframes realtimeNotificationIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(25px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+    </style>
+    <div id="realtimeNotificationContainer">
+    </div>
+    <script>
+            document.addEventListener(
+                "DOMContentLoaded",
+                function() {
+
+                    const connection =
+                        new signalR.HubConnectionBuilder()
+                            .withUrl(
+                                "/hubs/notifications")
+                            .withAutomaticReconnect()
+                            .build();
+
+
+                    // ============================================
+                    // NHẬN THÔNG BÁO TỪ SERVER
+                    // ============================================
+
+                    connection.on(
+                        "ReceiveNotification",
+                        function(data) {
+
+                            console.log(
+                                "Có thông báo realtime:",
+                                data);
+
+
+                            tangSoLuongThongBao();
+
+
+                            hienThiPopupThongBao(
+                                data);
+
+
+                            themThongBaoVaoDanhSach(
+                                data);
+                        });
+
+
+                    // ============================================
+                    // KẾT NỐI SIGNALR
+                    // ============================================
+
+                    async function startSignalR() {
+
+                        try {
+
+                            await connection.start();
+
+                            console.log(
+                                "SignalR connected.");
+
+                        }
+                        catch (err) {
+
+                            console.error(
+                                "SignalR connection error:",
+                                err);
+
+                            setTimeout(
+                                startSignalR,
+                                5000);
+                        }
+                    }
+
+
+                    startSignalR();
+
+
+
+                    // ============================================
+                    // TĂNG BADGE CHUÔNG
+                    // ============================================
+
+                    function tangSoLuongThongBao() {
+
+                        const badge =
+                            document.getElementById(
+                                "notificationBadge");
+
+
+                        if (!badge) {
+                            return;
+                        }
+
+
+                        let soLuong =
+                            parseInt(
+                                badge.dataset.count || "0"
+                            ) || 0;
+
+
+                        soLuong++;
+
+
+                        badge.dataset.count =
+                            soLuong.toString();
+
+
+                        badge.textContent =
+                            soLuong > 99
+                                ? "99+"
+                                : soLuong.toString();
+
+
+                        badge.style.display =
+                            "flex";
+
+
+                        const markAllForm =
+                            document.getElementById(
+                                "markAllNotificationsForm");
+
+
+                        if (markAllForm) {
+                            markAllForm.style.display =
+                                "";
+                        }
+                    }
+
+                    function moThongBao(
+                        maThongBao) {
+
+                        const token =
+                            document.querySelector(
+                                "#realtimeNotificationTokenForm " +
+                                'input[name="__RequestVerificationToken"]'
+                            );
+
+
+                        if (!token) {
+
+                            console.error(
+                                "Không tìm thấy AntiForgeryToken.");
+
+                            return;
+                        }
+
+
+                        const form =
+                            document.createElement(
+                                "form");
+
+
+                        form.method =
+                            "post";
+
+                        form.action =
+                            "/Customer/Notifications/Open";
+
+                        form.style.display =
+                            "none";
+
+
+                        // MaThongBao
+                        const idInput =
+                            document.createElement(
+                                "input");
+
+                        idInput.type =
+                            "hidden";
+
+                        idInput.name =
+                            "maThongBao";
+
+                        idInput.value =
+                            maThongBao;
+
+
+                        // AntiForgeryToken
+                        const tokenInput =
+                            document.createElement(
+                                "input");
+
+                        tokenInput.type =
+                            "hidden";
+
+                        tokenInput.name =
+                            "__RequestVerificationToken";
+
+                        tokenInput.value =
+                            token.value;
+
+
+                        form.appendChild(
+                            idInput);
+
+                        form.appendChild(
+                            tokenInput);
+
+
+                        document.body.appendChild(
+                            form);
+
+
+                        form.submit();
+                    }
+
+                    // ============================================
+                    // HIỆN POPUP
+                    // ============================================
+
+                    function hienThiPopupThongBao(
+                        data) {
+
+                        const container =
+                            document.getElementById(
+                                "realtimeNotificationContainer");
+
+
+                        if (!container) {
+                            return;
+                        }
+
+
+                        const popup =
+                            document.createElement(
+                                "div");
+
+
+                        popup.className =
+                            "realtime-notification";
+
+
+                        const icon =
+                            document.createElement(
+                                "div");
+
+                        icon.className =
+                            "realtime-notification-icon";
+
+                        icon.innerHTML =
+                            '<i class="bi bi-capsule-pill"></i>';
+
+
+
+                        const content =
+                            document.createElement(
+                                "div");
+
+                        content.className =
+                            "realtime-notification-content";
+
+
+
+                        const title =
+                            document.createElement(
+                                "h4");
+
+                        title.className =
+                            "realtime-notification-title";
+
+                        title.textContent =
+                            data.tieuDe;
+
+
+
+                        const message =
+                            document.createElement(
+                                "p");
+
+                        message.className =
+                            "realtime-notification-message";
+
+                        message.textContent =
+                            data.noiDung;
+
+
+
+                        const close =
+                            document.createElement(
+                                "button");
+
+                        close.type =
+                            "button";
+
+                        close.className =
+                            "realtime-notification-close";
+
+                        close.innerHTML =
+                            '<i class="bi bi-x-lg"></i>';
+
+
+
+                        content.appendChild(
+                            title);
+
+                        content.appendChild(
+                            message);
+
+
+                        popup.appendChild(
+                            icon);
+
+                        popup.appendChild(
+                            content);
+
+                        popup.appendChild(
+                            close);
+
+
+
+                        // Bấm popup
+                        // -> mở Notifications/Open
+                        popup.addEventListener(
+                            "click",
+                            function() {
+
+                                moThongBao(
+                                    data.maThongBao);
+                            });
+
+
+
+                        // Bấm X không mở thông báo
+                        close.addEventListener(
+                            "click",
+                            function(event) {
+
+                                event.stopPropagation();
+
+                                popup.remove();
+                            });
+
+
+
+                        container.prepend(
+                            popup);
+
+
+
+                        // Tự biến mất sau 8 giây
+                        setTimeout(
+                            function() {
+
+                                popup.remove();
+
+                            },
+                            8000);
+                    }
+
+
+
+                    // ============================================
+                    // THÊM VÀO DROPDOWN CHUÔNG
+                    // ============================================
+
+                    function themThongBaoVaoDanhSach(
+                        data) {
+
+                        const list =
+                            document.getElementById(
+                                "notificationList");
+
+
+                        if (!list) {
+                            return;
+                        }
+
+
+                        // ============================================
+                        // ẨN "CHƯA CÓ THÔNG BÁO"
+                        // ============================================
+
+                        const empty =
+                            document.getElementById(
+                                "notificationEmpty");
+
+
+                        if (empty) {
+
+                            empty.style.display =
+                                "none";
+                        }
+
+
+                        // ============================================
+                        // TẠO FORM
+                        // ============================================
+
+                        const form =
+                            document.createElement(
+                                "form");
+
+
+                        form.className =
+                            "customer-notification-form";
+
+
+                        form.addEventListener(
+                            "submit",
+                            function(event) {
+
+                                event.preventDefault();
+
+                                moThongBao(
+                                    data.maThongBao);
+                            });
+
+
+                        // ============================================
+                        // BUTTON
+                        // ============================================
+
+                        const button =
+                            document.createElement(
+                                "button");
+
+
+                        button.type =
+                            "submit";
+
+                        button.className =
+                            "customer-notification-item is-unread";
+
+
+                        // ============================================
+                        // ICON
+                        // ============================================
+
+                        const icon =
+                            document.createElement(
+                                "span");
+
+
+                        icon.className =
+                            "customer-notification-icon";
+
+
+                        icon.innerHTML =
+                            '<i class="bi bi-capsule-pill"></i>';
+
+
+                        // ============================================
+                        // CONTENT
+                        // ============================================
+
+                        const content =
+                            document.createElement(
+                                "span");
+
+
+                        content.className =
+                            "customer-notification-content";
+
+
+                        const title =
+                            document.createElement(
+                                "strong");
+
+
+                        title.textContent =
+                            data.tieuDe;
+
+
+                        const message =
+                            document.createElement(
+                                "span");
+
+
+                        message.textContent =
+                            data.noiDung;
+
+
+                        const time =
+                            document.createElement(
+                                "small");
+
+
+                        time.innerHTML =
+                            '<i class="bi bi-clock"></i> Vừa xong';
+
+
+                        content.appendChild(
+                            title);
+
+                        content.appendChild(
+                            message);
+
+                        content.appendChild(
+                            time);
+
+
+                        // ============================================
+                        // CHẤM CHƯA ĐỌC
+                        // ============================================
+
+                        const unreadDot =
+                            document.createElement(
+                                "span");
+
+
+                        unreadDot.className =
+                            "customer-unread-dot";
+
+
+                        // ============================================
+                        // GHÉP LẠI
+                        // ============================================
+
+                        button.appendChild(
+                            icon);
+
+                        button.appendChild(
+                            content);
+
+                        button.appendChild(
+                            unreadDot);
+
+
+                        form.appendChild(
+                            button);
+
+
+                        // Thêm lên đầu danh sách
+                        list.prepend(
+                            form);
+                    }
+
+                });
+    </script>
+
+</body>
+
+</html>

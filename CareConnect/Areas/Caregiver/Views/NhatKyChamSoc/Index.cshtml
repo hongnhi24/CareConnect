@@ -1,0 +1,944 @@
+﻿@model CaregiverCareJournalViewModel
+
+@{
+    ViewData["Title"] = "Nhật ký chăm sóc";
+
+    string LayTrangThaiLichClass(string trangThai)
+    {
+        return trangThai switch
+        {
+            "Đang thực hiện" => "is-progress",
+            "Đã hoàn thành" => "is-completed",
+            _ => "is-default"
+        };
+    }
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="cg-journal-toast"
+         id="journalToast"
+         role="status">
+
+        <span class="cg-journal-toast-icon">
+            <i class="bi bi-check-lg"></i>
+        </span>
+
+        <div>
+            <strong>Cập nhật thành công</strong>
+            <p>@TempData["Success"]</p>
+        </div>
+
+        <button type="button"
+                id="closeJournalToast"
+                aria-label="Đóng thông báo">
+
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="cg-journal-toast is-error"
+         id="journalToast"
+         role="alert">
+
+        <span class="cg-journal-toast-icon">
+            <i class="bi bi-exclamation-lg"></i>
+        </span>
+
+        <div>
+            <strong>Chưa thể cập nhật</strong>
+            <p>@TempData["Error"]</p>
+        </div>
+
+        <button type="button"
+                id="closeJournalToast"
+                aria-label="Đóng thông báo">
+
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+}
+
+<section class="cg-journal-header">
+
+    <div>
+        <span class="cg-journal-page-label">
+            THEO DÕI SỨC KHỎE
+        </span>
+
+        <h1>Nhật ký chăm sóc</h1>
+
+        <p>
+            Ghi nhận tình trạng sức khỏe và các chỉ số theo dõi
+            trong từng buổi chăm sóc.
+        </p>
+    </div>
+
+    <div class="cg-journal-header-info">
+
+        <span>
+            <i class="bi bi-journal-medical"></i>
+        </span>
+
+        <div>
+            <small>Có thể ghi nhật ký</small>
+            <strong>@Model.TongLichCoTheGhi lịch</strong>
+            <p>Đang thực hiện hoặc đã hoàn thành</p>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="cg-journal-statistics">
+
+    <article class="cg-journal-stat-card is-total">
+        <span class="cg-journal-stat-icon">
+            <i class="bi bi-calendar2-check-fill"></i>
+        </span>
+
+        <div>
+            <small>TỔNG LỊCH</small>
+            <strong>@Model.TongLichCoTheGhi</strong>
+            <p>Có thể ghi nhật ký</p>
+        </div>
+    </article>
+
+    <article class="cg-journal-stat-card is-written">
+        <span class="cg-journal-stat-icon">
+            <i class="bi bi-journal-check"></i>
+        </span>
+
+        <div>
+            <small>ĐÃ GHI NHẬT KÝ</small>
+            <strong>@Model.DaGhiNhatKy</strong>
+            <p>Đã có thông tin theo dõi</p>
+        </div>
+    </article>
+
+    <article class="cg-journal-stat-card is-missing">
+        <span class="cg-journal-stat-icon">
+            <i class="bi bi-journal-x"></i>
+        </span>
+
+        <div>
+            <small>CHƯA GHI</small>
+            <strong>@Model.ChuaGhiNhatKy</strong>
+            <p>Cần bổ sung nhật ký</p>
+        </div>
+    </article>
+
+    <article class="cg-journal-stat-card is-today">
+        <span class="cg-journal-stat-icon">
+            <i class="bi bi-clock-history"></i>
+        </span>
+
+        <div>
+            <small>CẬP NHẬT HÔM NAY</small>
+            <strong>@Model.CapNhatHomNay</strong>
+            <p>Nhật ký vừa cập nhật</p>
+        </div>
+    </article>
+
+</section>
+
+<section class="cg-journal-filter-card">
+
+    <div class="cg-journal-section-heading">
+
+        <div>
+            <span>BỘ LỌC</span>
+            <h2>Tìm kiếm lịch chăm sóc</h2>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.TuKhoa)
+             || !string.IsNullOrWhiteSpace(Model.TrangThaiNhatKy)
+             || Model.TuNgay.HasValue
+             || Model.DenNgay.HasValue)
+        {
+            <a asp-area="Caregiver"
+               asp-controller="NhatKyChamSoc"
+               asp-action="Index"
+               class="cg-journal-clear-filter">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+                Xóa bộ lọc
+            </a>
+        }
+
+    </div>
+
+    <form asp-area="Caregiver"
+          asp-controller="NhatKyChamSoc"
+          asp-action="Index"
+          method="get"
+          class="cg-journal-filter-form">
+
+        <div class="cg-journal-filter-field is-search">
+            <label for="tuKhoa">Từ khóa</label>
+
+            <div>
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       id="tuKhoa"
+                       name="tuKhoa"
+                       value="@Model.TuKhoa"
+                       placeholder="Tên bệnh nhân, khách hàng, mã lịch..." />
+            </div>
+        </div>
+
+        <div class="cg-journal-filter-field">
+            <label for="trangThaiNhatKy">
+                Trạng thái nhật ký
+            </label>
+
+            <div>
+                <i class="bi bi-funnel"></i>
+
+                <select id="trangThaiNhatKy"
+                        name="trangThaiNhatKy">
+
+                    <option value="">
+                        Tất cả trạng thái
+                    </option>
+
+                    <option value="da-ghi"
+                            selected="@(Model.TrangThaiNhatKy == "da-ghi")">
+                        Đã ghi nhật ký
+                    </option>
+
+                    <option value="chua-ghi"
+                            selected="@(Model.TrangThaiNhatKy == "chua-ghi")">
+                        Chưa ghi nhật ký
+                    </option>
+
+                </select>
+            </div>
+        </div>
+
+        <div class="cg-journal-filter-field">
+            <label for="tuNgay">Từ ngày</label>
+
+            <div>
+                <i class="bi bi-calendar3"></i>
+
+                <input type="date"
+                       id="tuNgay"
+                       name="tuNgay"
+                       value="@Model.TuNgay?.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+
+        <div class="cg-journal-filter-field">
+            <label for="denNgay">Đến ngày</label>
+
+            <div>
+                <i class="bi bi-calendar3"></i>
+
+                <input type="date"
+                       id="denNgay"
+                       name="denNgay"
+                       value="@Model.DenNgay?.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+
+        <button type="submit"
+                class="cg-journal-filter-button">
+
+            <i class="bi bi-search"></i>
+            Tìm kiếm
+        </button>
+
+    </form>
+
+</section>
+
+<section class="cg-journal-list-card">
+
+    <div class="cg-journal-section-heading">
+
+        <div>
+            <span>DANH SÁCH NHẬT KÝ</span>
+            <h2>Lịch chăm sóc gần đây</h2>
+
+            <p>
+                Hiển thị @Model.DanhSach.Count lịch phù hợp.
+            </p>
+        </div>
+
+    </div>
+
+    @if (Model.DanhSach.Count == 0)
+    {
+        <div class="cg-journal-empty">
+
+            <span>
+                <i class="bi bi-journal-x"></i>
+            </span>
+
+            <h3>Không tìm thấy lịch phù hợp</h3>
+
+            <p>
+                Hiện chưa có lịch đang thực hiện hoặc đã hoàn thành
+                phù hợp với bộ lọc.
+            </p>
+
+        </div>
+    }
+    else
+    {
+        <div class="cg-journal-list">
+
+            @foreach (var item in Model.DanhSach)
+            {
+                <article class="cg-journal-item">
+
+                    <div class="cg-journal-date">
+
+                        <strong>
+                            @item.NgayChamSoc.ToString("dd")
+                        </strong>
+
+                        <span>
+                            THÁNG @item.NgayChamSoc.ToString("MM")
+                        </span>
+
+                        <small>
+                            @item.NgayChamSoc.ToString("yyyy")
+                        </small>
+
+                    </div>
+
+                    <div class="cg-journal-main">
+
+                        <div class="cg-journal-item-heading">
+
+                            <div>
+                                <span class="cg-journal-code">
+                                    LỊCH #@item.MaDatLich
+                                </span>
+
+                                <h3>@item.TenBenhNhan</h3>
+                            </div>
+
+                            <div class="cg-journal-badges">
+
+                                <span class="cg-journal-status
+                                    @LayTrangThaiLichClass(
+                                        item.TrangThaiLich)">
+
+                                    @item.TrangThaiLich
+                                </span>
+
+                                <span class="cg-journal-entry-status
+                                    @(item.DaCoNhatKy
+                                        ? "is-written"
+                                        : "is-missing")">
+
+                                    <i class="bi
+                                        @(item.DaCoNhatKy
+                                          ? "bi-check-circle-fill"
+                                          : "bi-exclamation-circle-fill")">
+                                    </i>
+
+                                    @(item.DaCoNhatKy
+                                        ? "Đã ghi nhật ký"
+                                        : "Chưa ghi nhật ký")
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="cg-journal-service">
+
+                            <span>
+                                <i class="bi bi-heart-pulse-fill"></i>
+                            </span>
+
+                            <div>
+                                <small>Dịch vụ chăm sóc</small>
+                                <strong>@item.TenDichVu</strong>
+                            </div>
+
+                        </div>
+
+                        <div class="cg-journal-information">
+
+                            <div>
+                                <i class="bi bi-clock"></i>
+
+                                <span>
+                                    <small>Thời gian</small>
+
+                                    <strong>
+                                        @item.GioBatDau.ToString(@"hh\:mm")
+                                        –
+                                        @item.GioKetThuc.ToString(@"hh\:mm")
+                                    </strong>
+                                </span>
+                            </div>
+
+                            <div>
+                                <i class="bi bi-person"></i>
+
+                                <span>
+                                    <small>Người liên hệ</small>
+                                    <strong>@item.TenKhachHang</strong>
+                                </span>
+                            </div>
+
+                            <div>
+                                <i class="bi bi-geo-alt"></i>
+
+                                <span>
+                                    <small>Địa chỉ chăm sóc</small>
+                                    <strong>@item.DiaChiChamSoc</strong>
+                                </span>
+                            </div>
+
+                        </div>
+
+                        @if (item.DaCoNhatKy)
+                        {
+                            <div class="cg-journal-summary">
+
+                                <div>
+                                    <small>Huyết áp</small>
+                                    <strong>
+                                        @(string.IsNullOrWhiteSpace(item.HuyetAp)
+                                            ? "--"
+                                            : item.HuyetAp)
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <small>Nhịp tim</small>
+                                    <strong>
+                                        @(item.NhipTim.HasValue
+                                            ? item.NhipTim + " lần/phút"
+                                            : "--")
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <small>Nhiệt độ</small>
+                                    <strong>
+                                        @(item.NhietDo.HasValue
+                                            ? item.NhietDo.Value.ToString("0.0") + "°C"
+                                            : "--")
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <small>Cân nặng</small>
+                                    <strong>
+                                        @(item.CanNang.HasValue
+                                            ? item.CanNang.Value.ToString("0.##") + " kg"
+                                            : "--")
+                                    </strong>
+                                </div>
+
+                            </div>
+
+                            @if (!string.IsNullOrWhiteSpace(
+                                    item.TinhTrangSucKhoe))
+                            {
+                                <div class="cg-journal-health-note">
+
+                                    <i class="bi bi-clipboard2-pulse"></i>
+
+                                    <div>
+                                        <small>Tình trạng sức khỏe</small>
+                                        <p>@item.TinhTrangSucKhoe</p>
+                                    </div>
+
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(
+                                    item.TinhTrangAnUong))
+                            {
+                                <div class="cg-journal-health-note">
+
+                                    <i class="bi bi-cup-hot"></i>
+
+                                    <div>
+                                        <small>Tình trạng ăn uống</small>
+                                        <p>@item.TinhTrangAnUong</p>
+                                    </div>
+
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(
+                                    item.ThuocDaUong))
+                            {
+                                <div class="cg-journal-health-note">
+
+                                    <i class="bi bi-capsule-pill"></i>
+
+                                    <div>
+                                        <small>Thuốc đã uống</small>
+                                        <p>@item.ThuocDaUong</p>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+
+                    </div>
+
+                    <div class="cg-journal-side">
+
+                        @if (item.NgayCapNhat.HasValue)
+                        {
+                            <div class="cg-journal-updated">
+
+                                <small>Cập nhật gần nhất</small>
+
+                                <strong>
+                                    @item.NgayCapNhat.Value.ToString(
+                                        "dd/MM/yyyy HH:mm")
+                                </strong>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="cg-journal-updated is-empty">
+
+                                <small>Trạng thái</small>
+                                <strong>Chưa có dữ liệu</strong>
+
+                            </div>
+                        }
+
+                        <button type="button"
+                                class="cg-journal-edit-button"
+                                data-journal-button
+                                data-booking-id="@item.MaDatLich"
+                                data-journal-id="@item.MaNhatKy"
+                                data-patient="@item.TenBenhNhan"
+                                data-service="@item.TenDichVu"
+                                data-date="@item.NgayChamSoc.ToString("dd/MM/yyyy")"
+                                data-time="@($"{item.GioBatDau:hh\\:mm} - {item.GioKetThuc:hh\\:mm}")"
+                                data-health="@item.TinhTrangSucKhoe"
+                                data-blood-pressure="@item.HuyetAp"
+                                data-heart-rate="@item.NhipTim"
+                                data-temperature="@item.NhietDo"
+                                data-weight="@item.CanNang"
+                                data-eating="@item.TinhTrangAnUong"
+                                data-medication="@item.ThuocDaUong"
+                                data-note="@item.GhiChu">
+
+                            <i class="bi
+                                @(item.DaCoNhatKy
+                                  ? "bi-pencil-square"
+                                  : "bi-plus-circle")">
+                            </i>
+
+                            @(item.DaCoNhatKy
+                                ? "Chỉnh sửa nhật ký"
+                                : "Tạo nhật ký")
+                        </button>
+
+                    </div>
+
+                </article>
+            }
+
+        </div>
+    }
+
+</section>
+
+<div class="cg-journal-modal"
+     id="journalModal"
+     aria-hidden="true">
+
+    <div class="cg-journal-modal-overlay"
+         data-close-journal-modal>
+    </div>
+
+    <section class="cg-journal-modal-card"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="journalModalTitle">
+
+        <div class="cg-journal-modal-header">
+
+            <div>
+                <span id="journalModalCode">
+                    NHẬT KÝ CHĂM SÓC
+                </span>
+
+                <h2 id="journalModalTitle">
+                    Cập nhật nhật ký
+                </h2>
+
+                <p id="journalModalDescription"></p>
+            </div>
+
+            <button type="button"
+                    data-close-journal-modal
+                    aria-label="Đóng">
+
+                <i class="bi bi-x-lg"></i>
+            </button>
+
+        </div>
+
+        <form asp-area="Caregiver"
+              asp-controller="NhatKyChamSoc"
+              asp-action="Luu"
+              method="post"
+              class="cg-journal-modal-form">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   id="modalMaDatLich"
+                   name="MaDatLich" />
+
+            <input type="hidden"
+                   id="modalMaNhatKy"
+                   name="MaNhatKy" />
+
+            <div class="cg-journal-modal-body">
+
+                <div class="cg-journal-modal-patient">
+
+                    <span>
+                        <i class="bi bi-person-heart"></i>
+                    </span>
+
+                    <div>
+                        <small>Người được chăm sóc</small>
+                        <strong id="modalTenBenhNhan"></strong>
+                        <p id="modalThongTinLich"></p>
+                    </div>
+
+                </div>
+
+                <div class="cg-journal-form-field is-full">
+
+                    <label for="modalTinhTrangSucKhoe">
+                        Tình trạng sức khỏe
+                    </label>
+
+                    <textarea id="modalTinhTrangSucKhoe"
+                              name="TinhTrangSucKhoe"
+                              maxlength="1500"
+                              rows="4"
+                              placeholder="Mô tả tình trạng sức khỏe, biểu hiện và diễn biến của bệnh nhân...">
+                    </textarea>
+
+                </div>
+
+                <div class="cg-journal-vital-grid">
+
+                    <div class="cg-journal-form-field">
+                        <label for="modalHuyetAp">
+                            Huyết áp
+                        </label>
+
+                        <div class="cg-journal-input-icon">
+                            <i class="bi bi-activity"></i>
+
+                            <input type="text"
+                                   id="modalHuyetAp"
+                                   name="HuyetAp"
+                                   maxlength="30"
+                                   placeholder="Ví dụ: 120/80 mmHg" />
+                        </div>
+                    </div>
+
+                    <div class="cg-journal-form-field">
+                        <label for="modalNhipTim">
+                            Nhịp tim
+                        </label>
+
+                        <div class="cg-journal-input-icon">
+                            <i class="bi bi-heart-pulse"></i>
+
+                            <input type="number"
+                                   id="modalNhipTim"
+                                   name="NhipTim"
+                                   min="20"
+                                   max="250"
+                                   placeholder="Lần/phút" />
+                        </div>
+                    </div>
+
+                    <div class="cg-journal-form-field">
+                        <label for="modalNhietDo">
+                            Nhiệt độ
+                        </label>
+
+                        <div class="cg-journal-input-icon">
+                            <i class="bi bi-thermometer-half"></i>
+
+                            <input type="number"
+                                   id="modalNhietDo"
+                                   name="NhietDo"
+                                   min="30"
+                                   max="45"
+                                   step="0.1"
+                                   placeholder="°C" />
+                        </div>
+                    </div>
+
+                    <div class="cg-journal-form-field">
+                        <label for="modalCanNang">
+                            Cân nặng
+                        </label>
+
+                        <div class="cg-journal-input-icon">
+                            <i class="bi bi-speedometer2"></i>
+
+                            <input type="number"
+                                   id="modalCanNang"
+                                   name="CanNang"
+                                   min="1"
+                                   max="500"
+                                   step="0.01"
+                                   placeholder="kg" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="cg-journal-form-field is-full">
+
+                    <label for="modalTinhTrangAnUong">
+                        Tình trạng ăn uống
+                    </label>
+
+                    <textarea id="modalTinhTrangAnUong"
+                              name="TinhTrangAnUong"
+                              maxlength="500"
+                              rows="3"
+                              placeholder="Ví dụ: Ăn được khoảng 2/3 suất, uống đủ nước, không buồn nôn...">
+                    </textarea>
+
+                </div>
+
+                <div class="cg-journal-form-field is-full">
+
+                    <label for="modalThuocDaUong">
+                        Thuốc đã uống
+                    </label>
+
+                    <textarea id="modalThuocDaUong"
+                              name="ThuocDaUong"
+                              maxlength="500"
+                              rows="3"
+                              placeholder="Ghi tên thuốc, liều dùng hoặc tình trạng đã uống theo hướng dẫn của gia đình/bác sĩ...">
+                    </textarea>
+
+                </div>
+
+                <div class="cg-journal-form-field is-full">
+
+                    <label for="modalGhiChu">
+                        Ghi chú chăm sóc
+                    </label>
+
+                    <textarea id="modalGhiChu"
+                              name="GhiChu"
+                              maxlength="1500"
+                              rows="4"
+                              placeholder="Ghi lại lưu ý, phản ứng của bệnh nhân hoặc đề xuất cho lần chăm sóc tiếp theo...">
+                    </textarea>
+
+                </div>
+
+            </div>
+
+            <div class="cg-journal-modal-footer">
+
+                <button type="button"
+                        class="cg-journal-cancel-button"
+                        data-close-journal-modal>
+
+                    Hủy
+                </button>
+
+                <button type="submit"
+                        class="cg-journal-save-button">
+
+                    <i class="bi bi-check2-circle"></i>
+                    Lưu nhật ký
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const journalModal =
+            document.getElementById("journalModal");
+
+        const journalButtons =
+            document.querySelectorAll("[data-journal-button]");
+
+        const closeJournalButtons =
+            document.querySelectorAll(
+                "[data-close-journal-modal]");
+
+        function setInputValue(id, value) {
+            const input =
+                document.getElementById(id);
+
+            if (!input) {
+                return;
+            }
+
+            input.value =
+                value && value !== "null"
+                    ? value
+                    : "";
+        }
+
+        function openJournalModal(button) {
+            setInputValue(
+                "modalMaDatLich",
+                button.dataset.bookingId);
+
+            setInputValue(
+                "modalMaNhatKy",
+                button.dataset.journalId);
+
+            setInputValue(
+                "modalTinhTrangSucKhoe",
+                button.dataset.health);
+
+            setInputValue(
+                "modalHuyetAp",
+                button.dataset.bloodPressure);
+
+            setInputValue(
+                "modalNhipTim",
+                button.dataset.heartRate);
+
+            setInputValue(
+                "modalNhietDo",
+                button.dataset.temperature);
+
+            setInputValue(
+                "modalCanNang",
+                button.dataset.weight);
+
+            setInputValue(
+                "modalTinhTrangAnUong",
+                button.dataset.eating);
+
+            setInputValue(
+                "modalThuocDaUong",
+                button.dataset.medication);
+
+            setInputValue(
+                "modalGhiChu",
+                button.dataset.note);
+
+            document.getElementById(
+                "journalModalCode").textContent =
+                `LỊCH #${button.dataset.bookingId}`;
+
+            document.getElementById(
+                "modalTenBenhNhan").textContent =
+                button.dataset.patient || "Chưa cập nhật";
+
+            document.getElementById(
+                "journalModalDescription").textContent =
+                button.dataset.service || "";
+
+            document.getElementById(
+                "modalThongTinLich").textContent =
+                `${button.dataset.date} • ${button.dataset.time}`;
+
+            journalModal?.classList.add("is-open");
+
+            journalModal?.setAttribute(
+                "aria-hidden",
+                "false");
+
+            document.body.classList.add(
+                "cg-journal-modal-open");
+        }
+
+        function closeJournalModal() {
+            journalModal?.classList.remove("is-open");
+
+            journalModal?.setAttribute(
+                "aria-hidden",
+                "true");
+
+            document.body.classList.remove(
+                "cg-journal-modal-open");
+        }
+
+        journalButtons.forEach(function(button) {
+            button.addEventListener(
+                "click",
+                function() {
+                    openJournalModal(button);
+                });
+        });
+
+        closeJournalButtons.forEach(function(button) {
+            button.addEventListener(
+                "click",
+                closeJournalModal);
+        });
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+                if (event.key === "Escape") {
+                    closeJournalModal();
+                }
+            });
+
+        const journalToast =
+            document.getElementById("journalToast");
+
+        const closeJournalToast =
+            document.getElementById(
+                "closeJournalToast");
+
+        function hideJournalToast() {
+            if (!journalToast) {
+                return;
+            }
+
+            journalToast.classList.add("is-hiding");
+
+            setTimeout(function() {
+                journalToast.remove();
+            }, 250);
+        }
+
+        closeJournalToast?.addEventListener(
+            "click",
+            hideJournalToast);
+
+        if (journalToast) {
+            setTimeout(
+                hideJournalToast,
+                4500);
+        }
+    </script>
+}

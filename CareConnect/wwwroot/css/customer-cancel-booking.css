@@ -1,0 +1,800 @@
+﻿/* =========================================================
+   CARECONNECT
+   CUSTOMER - HỦY LỊCH CHĂM SÓC
+========================================================= */
+
+
+/* =========================================================
+   COLOR SYSTEM
+========================================================= */
+
+:root {
+    --cc-customer-primary: #16a7a0;
+    --cc-customer-primary-dark: #0e817c;
+    --cc-customer-primary-deep: #12635f;
+    --cc-customer-soft: #e8f8f6;
+    --cc-customer-soft-2: #dff4f1;
+    --cc-customer-soft-3: #f5fbfa;
+    --cc-customer-border: #cbe8e5;
+    --cc-customer-line: #e3ecea;
+    --cc-customer-title: #173f3c;
+    --cc-customer-text: #4e625f;
+    --cc-customer-muted: #879895;
+    --cc-danger: #c95752;
+    --cc-danger-dark: #ad4541;
+    --cc-danger-soft: #fff2f1;
+    --cc-danger-border: #efcecb;
+    --cc-warning: #9c711e;
+    --cc-warning-soft: #fff8e9;
+    --cc-warning-border: #eeddb6;
+    --cc-white: #ffffff;
+    --cc-shadow: 0 12px 34px rgba(25, 84, 80, .06);
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.customer-cancel-page {
+    width: 100%;
+    padding-bottom: 38px;
+    color: var(--cc-customer-text);
+}
+
+
+    .customer-cancel-page * {
+        box-sizing: border-box;
+    }
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.customer-cancel-hero {
+    position: relative;
+    width: 100%;
+    margin-bottom: 24px;
+    padding: 34px 40px;
+    overflow: hidden;
+    background: radial-gradient( circle at 88% 18%, rgba(255, 255, 255, .75), transparent 31% ), linear-gradient( 120deg, #effaf9 0%, #e6f7f5 50%, #dff3f1 100% );
+    border: 1px solid var(--cc-customer-border);
+    border-radius: 22px;
+    box-shadow: var(--cc-shadow);
+}
+
+
+    .customer-cancel-hero::after {
+        content: "";
+        position: absolute;
+        width: 190px;
+        height: 190px;
+        right: -55px;
+        bottom: -105px;
+        background: rgba(22, 167, 160, .06);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+
+/* =========================================================
+   HERO EYEBROW
+========================================================= */
+
+.customer-cancel-eyebrow {
+    position: relative;
+    z-index: 2;
+    width: fit-content;
+    min-height: 34px;
+    padding: 0 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--cc-customer-primary-dark);
+    background: var(--cc-customer-soft-2);
+    border: 1px solid #c8e9e5;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .03em;
+}
+
+
+    .customer-cancel-eyebrow i {
+        font-size: 14px;
+    }
+
+
+.customer-cancel-hero h1 {
+    position: relative;
+    z-index: 2;
+    margin: 17px 0 0;
+    color: var(--cc-customer-title);
+    font-size: 32px;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+
+.customer-cancel-hero p {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    margin: 10px 0 0;
+    color: #69817e;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.customer-cancel-layout {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(310px, .65fr);
+    align-items: start;
+    gap: 22px;
+}
+
+
+.customer-cancel-main {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.customer-cancel-side {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.customer-cancel-card,
+.customer-refund-card {
+    width: 100%;
+    background: var(--cc-white);
+    border: 1px solid var(--cc-customer-line);
+    border-radius: 20px;
+    box-shadow: var(--cc-shadow);
+}
+
+
+.customer-cancel-card {
+    padding: 25px;
+}
+
+
+/* =========================================================
+   CARD HEADING
+========================================================= */
+
+.customer-cancel-card-heading {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+
+    .customer-cancel-card-heading > span {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        display: grid;
+        place-items: center;
+        color: var(--cc-customer-primary-dark);
+        background: var(--cc-customer-soft);
+        border: 1px solid #d2edeb;
+        border-radius: 13px;
+        font-size: 17px;
+    }
+
+
+        .customer-cancel-card-heading > span.danger {
+            color: var(--cc-danger);
+            background: #fdeceb;
+            border-color: #f3d9d7;
+        }
+
+
+    .customer-cancel-card-heading > div {
+        min-width: 0;
+    }
+
+
+    .customer-cancel-card-heading small {
+        display: block;
+        color: var(--cc-customer-primary-dark);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .035em;
+    }
+
+
+    .customer-cancel-card-heading h2 {
+        margin: 4px 0 0;
+        color: var(--cc-customer-title);
+        font-size: 20px;
+        line-height: 1.4;
+        font-weight: 700;
+    }
+
+
+/* =========================================================
+   BOOKING INFORMATION
+========================================================= */
+
+.customer-cancel-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+}
+
+
+    .customer-cancel-info-grid > div {
+        min-width: 0;
+        min-height: 92px;
+        padding: 16px 17px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: #f8fbfa;
+        border: 1px solid #e1ebe9;
+        border-radius: 13px;
+    }
+
+
+    .customer-cancel-info-grid small {
+        display: block;
+        color: var(--cc-customer-muted);
+        font-size: 12px;
+    }
+
+
+    .customer-cancel-info-grid strong {
+        display: block;
+        margin-top: 7px;
+        color: #3f5551;
+        font-size: 14px;
+        line-height: 1.5;
+        font-weight: 700;
+    }
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.customer-cancel-card form {
+    width: 100%;
+    margin: 0;
+}
+
+
+.customer-cancel-field {
+    width: 100%;
+    margin-bottom: 17px;
+}
+
+
+    .customer-cancel-field label {
+        display: block;
+        margin-bottom: 8px;
+        color: #465c58;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+
+        .customer-cancel-field label span {
+            color: var(--cc-danger);
+        }
+
+
+    /* =========================================================
+   INPUT
+========================================================= */
+
+    .customer-cancel-field select,
+    .customer-cancel-field textarea {
+        width: 100%;
+        box-sizing: border-box;
+        color: #425854;
+        background: var(--cc-white);
+        border: 1px solid #d7e5e2;
+        border-radius: 12px;
+        outline: none;
+        font-family: inherit;
+        font-size: 13px;
+        transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+
+    .customer-cancel-field select {
+        height: 50px;
+        padding: 0 14px;
+    }
+
+
+    .customer-cancel-field textarea {
+        min-height: 120px;
+        padding: 13px 14px;
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+
+        .customer-cancel-field select:focus,
+        .customer-cancel-field textarea:focus {
+            background: #ffffff;
+            border-color: var(--cc-customer-primary);
+            box-shadow: 0 0 0 3px rgba(22, 167, 160, .10);
+        }
+
+
+    .customer-cancel-field small {
+        display: block;
+        margin-top: 7px;
+        color: var(--cc-customer-muted);
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+
+        .customer-cancel-field small.is-required {
+            color: var(--cc-danger);
+        }
+
+
+/* =========================================================
+   VALIDATION
+========================================================= */
+
+.customer-cancel-validation {
+    display: block;
+    margin-top: 6px;
+    color: var(--cc-danger);
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.customer-cancel-actions {
+    width: 100%;
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+    gap: 11px;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.customer-cancel-back {
+    min-height: 50px;
+    padding: 0 17px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #526864;
+    background: #ffffff;
+    border: 1px solid #d7e5e2;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+
+    .customer-cancel-back:hover {
+        color: var(--cc-customer-primary-dark);
+        background: #f6fcfb;
+        border-color: #b9dfdc;
+        transform: translateY(-1px);
+    }
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.customer-cancel-submit {
+    min-height: 50px;
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #ffffff;
+    background: linear-gradient( 135deg, var(--cc-danger), var(--cc-danger-dark) );
+    border: 1px solid var(--cc-danger);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 9px 20px rgba(201, 87, 82, .16);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+
+    .customer-cancel-submit:hover {
+        background: linear-gradient( 135deg, #c64f4a, #a93f3b );
+        transform: translateY(-1px);
+        box-shadow: 0 12px 24px rgba(201, 87, 82, .21);
+    }
+
+
+/* =========================================================
+   REFUND CARD
+========================================================= */
+
+.customer-refund-card {
+    position: sticky;
+    top: 90px;
+    padding: 26px;
+}
+
+
+/* =========================================================
+   REFUND LABEL
+========================================================= */
+
+.customer-refund-label {
+    width: fit-content;
+    min-height: 31px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    color: var(--cc-customer-primary-dark);
+    background: var(--cc-customer-soft);
+    border: 1px solid #d0ebe8;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .035em;
+}
+
+
+/* =========================================================
+   REFUND PERCENT
+========================================================= */
+
+.customer-refund-percent {
+    margin-top: 20px;
+    color: var(--cc-customer-title);
+    font-size: 46px;
+    line-height: 1;
+    font-weight: 700;
+}
+
+
+.customer-refund-card > small {
+    display: block;
+    margin-top: 8px;
+    color: var(--cc-customer-muted);
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   REFUND ROWS
+========================================================= */
+
+.customer-refund-row {
+    min-height: 59px;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-bottom: 1px solid var(--cc-customer-line);
+}
+
+
+    .customer-refund-row:first-of-type {
+        margin-top: 18px;
+        border-top: 1px solid var(--cc-customer-line);
+    }
+
+
+    .customer-refund-row span {
+        color: #758884;
+        font-size: 12px;
+    }
+
+
+    .customer-refund-row strong {
+        flex: 0 0 auto;
+        color: #455b56;
+        font-size: 14px;
+        font-weight: 700;
+        text-align: right;
+    }
+
+
+    /* =========================================================
+   MONEY TO REFUND
+========================================================= */
+
+    .customer-refund-row.highlight {
+        margin-top: 5px;
+        padding: 13px 14px;
+        background: var(--cc-customer-soft);
+        border: 1px solid var(--cc-customer-border);
+        border-radius: 12px;
+    }
+
+
+        .customer-refund-row.highlight span {
+            color: #52736e;
+            font-weight: 600;
+        }
+
+
+        .customer-refund-row.highlight strong {
+            color: var(--cc-customer-primary-dark);
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+
+/* =========================================================
+   POLICY INFO
+========================================================= */
+
+.customer-refund-policy {
+    margin-top: 18px;
+    padding: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #316d68;
+    background: var(--cc-customer-soft);
+    border: 1px solid var(--cc-customer-border);
+    border-radius: 12px;
+}
+
+
+    .customer-refund-policy > i {
+        margin-top: 2px;
+        flex: 0 0 auto;
+        color: var(--cc-customer-primary-dark);
+        font-size: 14px;
+    }
+
+
+    .customer-refund-policy p {
+        margin: 0;
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+
+/* =========================================================
+   WARNING
+========================================================= */
+
+.customer-refund-warning {
+    margin-top: 12px;
+    padding: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #98641c;
+    background: var(--cc-warning-soft);
+    border: 1px solid var(--cc-warning-border);
+    border-radius: 12px;
+}
+
+
+    .customer-refund-warning > i {
+        margin-top: 2px;
+        flex: 0 0 auto;
+        color: #b17a1c;
+        font-size: 14px;
+    }
+
+
+    .customer-refund-warning p {
+        margin: 0;
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+
+    /* =========================================================
+   ZERO PAYMENT WARNING
+========================================================= */
+
+    .customer-refund-warning.is-empty-payment {
+        color: #496f6a;
+        background: #f1faf9;
+        border-color: #d3eae7;
+    }
+
+
+        .customer-refund-warning.is-empty-payment > i {
+            color: var(--cc-customer-primary-dark);
+        }
+
+
+/* =========================================================
+   ERROR / SUCCESS FROM VALIDATION
+========================================================= */
+
+.customer-cancel-page .text-danger {
+    color: var(--cc-danger) !important;
+}
+
+
+/* =========================================================
+   SELECT OPTION
+========================================================= */
+
+.customer-cancel-field option {
+    color: #405652;
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVE - 1200
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .customer-cancel-layout {
+        grid-template-columns: 1fr;
+    }
+
+
+    .customer-refund-card {
+        position: static;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - 760
+========================================================= */
+
+@media (max-width: 760px) {
+
+    .customer-cancel-hero {
+        padding: 27px 24px;
+        border-radius: 18px;
+    }
+
+
+        .customer-cancel-hero h1 {
+            font-size: 27px;
+        }
+
+
+    .customer-cancel-layout {
+        gap: 16px;
+    }
+
+
+    .customer-cancel-card,
+    .customer-refund-card {
+        border-radius: 16px;
+    }
+
+
+    .customer-cancel-card,
+    .customer-refund-card {
+        padding: 20px;
+    }
+
+
+    .customer-cancel-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .customer-cancel-actions {
+        grid-template-columns: 1fr;
+    }
+
+
+    .customer-refund-percent {
+        font-size: 40px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - 520
+========================================================= */
+
+@media (max-width: 520px) {
+
+    .customer-cancel-hero {
+        padding: 22px 18px;
+    }
+
+
+    .customer-cancel-eyebrow {
+        font-size: 10px;
+    }
+
+
+    .customer-cancel-hero h1 {
+        font-size: 24px;
+    }
+
+
+    .customer-cancel-hero p {
+        font-size: 12px;
+    }
+
+
+    .customer-cancel-card-heading {
+        align-items: flex-start;
+    }
+
+
+        .customer-cancel-card-heading > span {
+            width: 44px;
+            height: 44px;
+            flex-basis: 44px;
+        }
+
+
+        .customer-cancel-card-heading h2 {
+            font-size: 17px;
+        }
+
+
+    .customer-cancel-info-grid > div {
+        min-height: 82px;
+    }
+
+
+    .customer-cancel-back,
+    .customer-cancel-submit {
+        width: 100%;
+    }
+
+
+    .customer-refund-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+
+        .customer-refund-row strong {
+            text-align: left;
+        }
+
+
+        .customer-refund-row.highlight {
+            flex-direction: row;
+            align-items: center;
+        }
+
+
+            .customer-refund-row.highlight strong {
+                text-align: right;
+            }
+}

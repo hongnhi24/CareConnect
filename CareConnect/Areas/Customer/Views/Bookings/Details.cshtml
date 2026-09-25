@@ -1,0 +1,472 @@
+﻿@model CareConnect.ViewModels.CustomerBookingDetailsViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết lịch chăm sóc";
+}
+@if (TempData["Success"] != null)
+{
+    <div id="bookingSuccessToast"
+         class="booking-success-toast">
+
+        <div class="booking-success-toast__icon">
+            <i class="bi bi-check2"></i>
+        </div>
+
+        <div class="booking-success-toast__body">
+
+            <div class="booking-success-toast__top">
+                <div class="booking-success-toast__title-wrap">
+
+                    <strong class="booking-success-toast__title">
+                        Đặt lịch thành công
+                    </strong>
+
+                    <span class="booking-success-toast__subtitle">
+                        Yêu cầu của bạn đã được ghi nhận
+                    </span>
+
+                </div>
+
+                <button type="button"
+                        id="closeBookingSuccess"
+                        class="booking-success-toast__close"
+                        aria-label="Đóng thông báo">
+
+                    <i class="bi bi-x-lg"></i>
+
+                </button>
+            </div>
+
+            <div class="booking-success-toast__message">
+                @TempData["Success"]
+            </div>
+
+            <div class="booking-success-toast__progress">
+                <span id="bookingSuccessToastProgress"></span>
+            </div>
+
+        </div>
+    </div>
+}
+<section class="customer-booking-detail-heading">
+
+    <a asp-area="Customer"
+       asp-controller="Bookings"
+       asp-action="Index"
+       class="customer-detail-back">
+
+        <i class="bi bi-arrow-left"></i>
+    </a>
+
+    <div>
+        <span>THÔNG TIN LỊCH CHĂM SÓC</span>
+
+        <h1>Chi tiết lịch #DL@(Model.MaDatLich)</h1>
+
+        <p>
+            Theo dõi dịch vụ, thời gian, địa điểm và
+            người chăm sóc được phân công.
+        </p>
+    </div>
+
+</section>
+
+<div class="customer-booking-detail-layout">
+
+    <main class="customer-booking-detail-main">
+
+        <section class="customer-detail-overview">
+
+            <div class="customer-detail-overview-top">
+
+                <div>
+                    <span class="customer-detail-code">
+                        #DL@(Model.MaDatLich)
+                    </span>
+
+                    <h2>@Model.TenDichVu</h2>
+
+                    <p>
+                        Lịch chăm sóc dành cho
+                        <strong>@Model.TenBenhNhan</strong>
+                    </p>
+                </div>
+
+                <span class="@GetCustomerStatusClass(Model.TrangThai)">
+                    @Model.TrangThai
+                </span>
+
+            </div>
+
+            <div class="customer-detail-overview-grid">
+
+                <div>
+                    <i class="bi bi-calendar3"></i>
+
+                    <span>Ngày chăm sóc</span>
+
+                    <strong>
+                        @Model.NgayChamSoc.ToString("dd/MM/yyyy")
+                    </strong>
+                </div>
+
+                <div>
+                    <i class="bi bi-clock-fill"></i>
+
+                    <span>Khung giờ</span>
+
+                    <strong>
+                        @Model.GioBatDau.ToString(@"hh\:mm")
+                        -
+                        @Model.GioKetThuc.ToString(@"hh\:mm")
+                    </strong>
+                </div>
+
+                <div>
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    <span>Địa điểm chăm sóc</span>
+
+                    <strong title="@Model.KhuVuc">
+                        @Model.KhuVuc
+                    </strong>
+                </div>
+
+                <div>
+                    <i class="bi bi-cash-coin"></i>
+
+                    <span>Chi phí</span>
+
+                    <strong class="customer-detail-price">
+                        @Model.TongTien.ToString("#,##0")đ
+                    </strong>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="customer-detail-section">
+
+            <div class="customer-detail-section-heading">
+
+                <span>
+                    <i class="bi bi-person-heart"></i>
+                </span>
+
+                <div>
+                    <h2>Thông tin người được chăm sóc</h2>
+
+                    <p>
+                        Hồ sơ liên quan đến lịch chăm sóc này.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="customer-detail-information-grid">
+
+                <div>
+                    <span>Họ và tên</span>
+                    <strong>@Model.TenBenhNhan</strong>
+                </div>
+
+                <div>
+                    <span>Khách hàng đặt lịch</span>
+                    <strong>@Model.TenKhachHang</strong>
+                </div>
+
+                <div class="full">
+                    <span>Địa chỉ chăm sóc</span>
+                    <strong>@Model.KhuVuc</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="customer-detail-section">
+
+            <div class="customer-detail-section-heading">
+
+                <span class="service">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                </span>
+
+                <div>
+                    <h2>Thông tin dịch vụ</h2>
+
+                    <p>
+                        Chi tiết dịch vụ đã được lựa chọn.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="customer-detail-service-card">
+
+                <div>
+                    <span>Tên dịch vụ</span>
+                    <strong>@Model.TenDichVu</strong>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.MoTaDichVu))
+                {
+                    <div class="full">
+                        <span>Mô tả dịch vụ</span>
+                        <p>@Model.MoTaDichVu</p>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.GhiChu))
+                {
+                    <div class="full">
+                        <span>Ghi chú khi đặt lịch</span>
+                        <p>@Model.GhiChu</p>
+                    </div>
+                }
+
+            </div>
+
+        </section>
+
+        @if (Model.TrangThai == "Đã hủy"
+             && !string.IsNullOrWhiteSpace(Model.LyDoHuy))
+        {
+            <section class="customer-detail-cancel-card">
+
+                <div class="customer-detail-cancel-heading">
+
+                    <span>
+                        <i class="bi bi-exclamation-circle-fill"></i>
+                    </span>
+
+                    <div>
+                        <h2>Lịch chăm sóc đã bị hủy</h2>
+
+                        <p>
+                            Hệ thống đã ghi nhận nguyên nhân hủy lịch.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="customer-detail-cancel-content">
+
+                    <span>Lý do hủy</span>
+
+                    <strong>@Model.LyDoHuy</strong>
+
+                    @if (Model.NgayHuy.HasValue)
+                    {
+                        <small>
+                            Hủy lúc:
+                            @Model.NgayHuy.Value.ToString("dd/MM/yyyy HH:mm")
+                        </small>
+                    }
+
+                </div>
+
+            </section>
+        }
+
+    </main>
+
+    <aside class="customer-booking-detail-sidebar">
+
+        <section class="customer-caregiver-card">
+
+            <span class="customer-caregiver-avatar">
+                @{
+                    string tenNguoiChamSoc =
+                        string.IsNullOrWhiteSpace(
+                            Model.TenNguoiChamSoc)
+                            ? "Chưa phân công"
+                            : Model.TenNguoiChamSoc;
+
+                    string chuCaiDau =
+                        tenNguoiChamSoc == "Chưa phân công"
+                            ? "?"
+                            : tenNguoiChamSoc
+                                .Substring(0, 1)
+                                .ToUpper();
+                }
+
+                @chuCaiDau
+            </span>
+
+            <span class="customer-caregiver-label">
+                NGƯỜI CHĂM SÓC
+            </span>
+
+            <h2>@Model.TenNguoiChamSoc</h2>
+
+            @if (!string.IsNullOrWhiteSpace(
+                Model.ChuyenMonNguoiChamSoc))
+            {
+                <p>@Model.ChuyenMonNguoiChamSoc</p>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(
+                Model.SoDienThoaiNguoiChamSoc))
+            {
+                <a href="tel:@Model.SoDienThoaiNguoiChamSoc">
+
+                    <i class="bi bi-telephone-fill"></i>
+                    @Model.SoDienThoaiNguoiChamSoc
+                </a>
+            }
+            else
+            {
+                <div class="customer-caregiver-pending">
+
+                    <i class="bi bi-hourglass-split"></i>
+
+                    <span>
+                        Hệ thống chưa phân công người chăm sóc.
+                    </span>
+
+                </div>
+            }
+
+        </section>
+
+        <section class="customer-detail-summary-card">
+
+            <h2>
+                <i class="bi bi-list-check"></i>
+                Tóm tắt lịch
+            </h2>
+
+            <dl>
+
+                <div>
+                    <dt>Mã lịch</dt>
+                    <dd>#DL@(Model.MaDatLich)</dd>
+                </div>
+
+                <div>
+                    <dt>Trạng thái</dt>
+                    <dd>@Model.TrangThai</dd>
+                </div>
+
+                <div>
+                    <dt>Ngày chăm sóc</dt>
+                    <dd>
+                        @Model.NgayChamSoc.ToString("dd/MM/yyyy")
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Khung giờ</dt>
+                    <dd>
+                        @Model.GioBatDau.ToString(@"hh\:mm")
+                        -
+                        @Model.GioKetThuc.ToString(@"hh\:mm")
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Tổng chi phí</dt>
+                    <dd class="price">
+                        @Model.TongTien.ToString("#,##0")đ
+                    </dd>
+                </div>
+
+            </dl>
+
+        </section>
+
+        <a asp-area="Customer"
+           asp-controller="Bookings"
+           asp-action="Index"
+           class="customer-detail-return">
+
+            <i class="bi bi-arrow-left"></i>
+            Quay lại danh sách lịch
+        </a>
+
+    </aside>
+
+</div>
+
+@functions {
+    private string GetCustomerStatusClass(
+        string status)
+    {
+        return status switch
+        {
+            "Chờ xác nhận" =>
+                "customer-status pending",
+
+            "Đã xác nhận" =>
+                "customer-status confirmed",
+
+            "Đang thực hiện" =>
+                "customer-status processing",
+
+            "Đã hoàn thành" =>
+                "customer-status completed",
+
+            "Đã hủy" =>
+                "customer-status cancelled",
+
+            _ =>
+                "customer-status default"
+        };
+    }
+}
+@section Scripts {
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                const toast =
+                    document.getElementById(
+                        "bookingSuccessToast"
+                    );
+
+                const closeButton =
+                    document.getElementById(
+                        "closeBookingSuccess"
+                    );
+
+
+                if (!toast) {
+                    return;
+                }
+
+
+                function hideToast() {
+
+                    toast.classList.add(
+                        "is-hiding"
+                    );
+
+                    setTimeout(
+                        function() {
+                            toast.remove();
+                        },
+                        250
+                    );
+                }
+
+
+                closeButton?.addEventListener(
+                    "click",
+                    hideToast
+                );
+
+
+                setTimeout(
+                    hideToast,
+                    6000
+                );
+            }
+        );
+
+    </script>
+}

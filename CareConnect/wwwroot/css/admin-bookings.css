@@ -1,0 +1,2809 @@
+﻿/* =========================================================
+   CARECONNECT ADMIN
+   BOOKINGS + ASSIGN CAREGIVER
+========================================================= */
+
+
+.booking-admin-page {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0 0 36px;
+}
+
+
+.booking-alert,
+.admin-alert {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 16px;
+    padding: 12px 15px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+
+    .booking-alert.success,
+    .admin-alert.success {
+        color: #28705e;
+        background: #ebf8f3;
+        border: 1px solid #cee9df;
+    }
+
+
+    .booking-alert.error,
+    .admin-alert.error {
+        color: #a54d49;
+        background: #fff0ef;
+        border: 1px solid #efd0ce;
+    }
+
+
+/* =========================================================
+   BOOKING HERO
+========================================================= */
+
+.booking-hero {
+    position: relative;
+    width: 100%;
+    min-height: 205px;
+    margin-bottom: 20px;
+    padding: 30px 36px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient( 110deg, #fffaf2 0%, #fff7eb 100% );
+    border: 1px solid #efd5a7;
+    border-radius: 22px;
+    box-shadow: 0 9px 26px rgba(43, 60, 54, .04);
+}
+
+
+.booking-hero-left {
+    position: relative;
+    z-index: 2;
+    width: calc(100% - 250px);
+    max-width: 790px;
+}
+
+
+.booking-eyebrow {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 18px;
+    padding: 7px 13px;
+    color: #ad6806;
+    background: #fdebc8;
+    border-radius: 999px;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: .15px;
+}
+
+
+.booking-hero h1 {
+    margin: 0 0 12px;
+    color: #203e38;
+    font-size: 30px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -.25px;
+}
+
+
+.booking-hero p {
+    max-width: 730px;
+    margin: 0;
+    color: #70817b;
+    font-size: 14px;
+    line-height: 1.75;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   HERO BUTTON
+========================================================= */
+
+.booking-hero-action {
+    position: absolute;
+    top: 50%;
+    right: 38px;
+    z-index: 3;
+    transform: translateY(-50%);
+}
+
+
+.booking-dashboard-button {
+    min-width: 185px;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 17px;
+    color: #ffffff;
+    background: #e88b08;
+    border: 1px solid #e88b08;
+    border-radius: 12px;
+    box-shadow: 0 11px 23px rgba(222, 132, 7, .17);
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+
+    .booking-dashboard-button:hover {
+        color: #ffffff;
+        background: #d77e04;
+        transform: translateY(-2px);
+        box-shadow: 0 14px 28px rgba(222, 132, 7, .22);
+    }
+
+
+/* =========================================================
+   HERO DECORATION
+========================================================= */
+
+.booking-hero-decoration {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+
+    .booking-hero-decoration.decoration-one {
+        width: 185px;
+        height: 185px;
+        right: 95px;
+        top: -105px;
+        background: rgba(237, 165, 61, .08);
+    }
+
+
+    .booking-hero-decoration.decoration-two {
+        width: 120px;
+        height: 120px;
+        right: -30px;
+        bottom: -55px;
+        background: rgba(237, 165, 61, .08);
+    }
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.booking-summary-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+
+.booking-summary-card {
+    position: relative;
+    min-width: 0;
+    min-height: 118px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 17px;
+    overflow: hidden;
+    color: inherit;
+    background: #ffffff;
+    border: 1px solid #e4e9e7;
+    border-radius: 17px;
+    box-shadow: 0 7px 20px rgba(43, 60, 54, .035);
+    text-decoration: none;
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+
+    .booking-summary-card:hover {
+        color: inherit;
+        transform: translateY(-2px);
+        border-color: #ddd3c2;
+        box-shadow: 0 11px 26px rgba(43, 60, 54, .065);
+    }
+
+
+    .booking-summary-card.active {
+        border-color: #e5c47e;
+        box-shadow: 0 0 0 2px rgba(226, 158, 42, .07);
+    }
+
+
+    .booking-summary-card::after {
+        content: "";
+        position: absolute;
+        width: 110px;
+        height: 110px;
+        right: -42px;
+        bottom: -55px;
+        border-radius: 50%;
+        opacity: .42;
+        pointer-events: none;
+    }
+
+
+.booking-summary-icon {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    font-size: 18px;
+}
+
+
+.booking-summary-content {
+    position: relative;
+    z-index: 2;
+    min-width: 0;
+}
+
+
+    .booking-summary-content small {
+        display: block;
+        margin-bottom: 4px;
+        color: #7d8c86;
+        font-size: 10px;
+        line-height: 1.35;
+        font-weight: 500;
+    }
+
+
+    .booking-summary-content strong {
+        display: block;
+        color: #203e38;
+        font-size: 25px;
+        line-height: 1;
+        font-weight: 700;
+    }
+
+
+    .booking-summary-content p {
+        margin: 7px 0 0;
+        color: #919c97;
+        font-size: 9px;
+        line-height: 1.45;
+    }
+
+
+/* =========================================================
+   SUMMARY COLORS
+========================================================= */
+
+.booking-summary-card.all .booking-summary-icon {
+    color: #527dc9;
+    background: #e7effd;
+}
+
+
+.booking-summary-card.all::after {
+    background: #e7effd;
+}
+
+
+.booking-summary-card.pending .booking-summary-icon {
+    color: #bd790c;
+    background: #fff0d5;
+}
+
+
+.booking-summary-card.pending::after {
+    background: #fff0d5;
+}
+
+
+.booking-summary-card.confirmed .booking-summary-icon {
+    color: #3971c0;
+    background: #e7effc;
+}
+
+
+.booking-summary-card.confirmed::after {
+    background: #e7effc;
+}
+
+
+.booking-summary-card.processing .booking-summary-icon {
+    color: #24877e;
+    background: #dff4f0;
+}
+
+
+.booking-summary-card.processing::after {
+    background: #dff4f0;
+}
+
+
+.booking-summary-card.completed .booking-summary-icon {
+    color: #27845d;
+    background: #dff5e9;
+}
+
+
+.booking-summary-card.completed::after {
+    background: #dff5e9;
+}
+
+
+.booking-summary-card.cancelled .booking-summary-icon {
+    color: #ca5652;
+    background: #fde8e7;
+}
+
+
+.booking-summary-card.cancelled::after {
+    background: #fde8e7;
+}
+
+
+/* =========================================================
+   FILTER PANEL
+========================================================= */
+
+.booking-filter-panel {
+    width: 100%;
+    margin-bottom: 18px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e4e9e7;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(43, 60, 54, .035);
+}
+
+
+.booking-filter-heading {
+    padding: 20px 22px;
+    border-bottom: 1px solid #edf0ef;
+}
+
+
+/* =========================================================
+   PANEL HEADING
+========================================================= */
+
+.booking-panel-heading {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+.booking-panel-icon {
+    width: 45px;
+    height: 45px;
+    flex: 0 0 45px;
+    display: grid;
+    place-items: center;
+    color: #d17a00;
+    background: #fff0d8;
+    border-radius: 12px;
+    font-size: 17px;
+}
+
+
+.booking-panel-heading small {
+    display: block;
+    margin-bottom: 3px;
+    color: #c17105;
+    font-size: 10px;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: .15px;
+}
+
+
+.booking-panel-heading h2 {
+    margin: 0;
+    color: #243f39;
+    font-size: 18px;
+    line-height: 1.35;
+    font-weight: 700;
+}
+
+
+.booking-panel-heading p {
+    margin: 4px 0 0;
+    color: #83908c;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FILTER FORM
+========================================================= */
+
+.booking-filter-form {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: end;
+    gap: 13px;
+    padding: 17px 18px 19px;
+}
+
+
+.booking-filter-wide {
+    grid-column: span 2;
+}
+
+
+.booking-filter-field,
+.booking-search-field {
+    min-width: 0;
+}
+
+
+    .booking-filter-field label,
+    .booking-search-field label {
+        display: block;
+        margin-bottom: 6px;
+        color: #5b6963;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+
+.booking-input-wrapper,
+.booking-select-wrapper,
+.booking-date-wrapper {
+    position: relative;
+}
+
+
+    .booking-input-wrapper > i,
+    .booking-select-wrapper > i,
+    .booking-date-wrapper > i {
+        position: absolute;
+        top: 50%;
+        left: 13px;
+        z-index: 2;
+        color: #99a49f;
+        font-size: 13px;
+        pointer-events: none;
+        transform: translateY(-50%);
+    }
+
+
+    .booking-input-wrapper input,
+    .booking-select-wrapper select,
+    .booking-date-wrapper input {
+        width: 100%;
+        height: 43px;
+        color: #4e615a;
+        background: #f8faf9;
+        border: 1px solid #dce4e0;
+        border-radius: 10px;
+        outline: none;
+        font-size: 11px;
+        transition: background .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+
+    .booking-input-wrapper input {
+        padding: 0 13px 0 39px;
+    }
+
+
+    .booking-select-wrapper select {
+        padding: 0 32px 0 38px;
+        cursor: pointer;
+    }
+
+
+    .booking-date-wrapper input {
+        padding: 0 10px 0 38px;
+    }
+
+
+        .booking-input-wrapper input:focus,
+        .booking-select-wrapper select:focus,
+        .booking-date-wrapper input:focus {
+            background: #ffffff;
+            border-color: #e0ad58;
+            box-shadow: 0 0 0 3px rgba(224, 173, 88, .10);
+        }
+
+
+    .booking-input-wrapper input::placeholder {
+        color: #9ea9a5;
+    }
+
+
+/* =========================================================
+   FILTER ACTIONS
+========================================================= */
+
+.booking-filter-actions {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+}
+
+
+.booking-filter-submit,
+.booking-filter-reset {
+    height: 43px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    transition: .18s ease;
+}
+
+
+.booking-filter-submit {
+    padding: 0 17px;
+    color: #ffffff;
+    background: #142541;
+    border: 1px solid #142541;
+    cursor: pointer;
+}
+
+
+    .booking-filter-submit:hover {
+        background: #1d3153;
+    }
+
+
+.booking-filter-reset {
+    width: 43px;
+    color: #71817b;
+    background: #ffffff;
+    border: 1px solid #dce4e0;
+    text-decoration: none;
+}
+
+
+    .booking-filter-reset:hover {
+        color: #c37608;
+        background: #fff8ec;
+        border-color: #e8c98f;
+    }
+
+
+/* =========================================================
+   DATA PANEL
+========================================================= */
+
+.booking-data-panel {
+    width: 100%;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e4e9e7;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(43, 60, 54, .035);
+}
+
+
+.booking-data-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 20px 22px;
+    background: #ffffff;
+    border-bottom: 1px solid #edf0ef;
+}
+
+
+.booking-result-count {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 11px;
+    color: #8b621d;
+    background: #fff2d8;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   TABLE SCROLL
+========================================================= */
+
+.booking-table-scroll {
+    position: relative;
+    width: 100%;
+    height: 555px;
+    overflow: auto;
+    background: #ffffff;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: #b7c1bc #edf1ee;
+}
+
+
+    .booking-table-scroll::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+
+    .booking-table-scroll::-webkit-scrollbar-track {
+        background: #edf1ee;
+    }
+
+
+    .booking-table-scroll::-webkit-scrollbar-thumb {
+        background: #b7c1bc;
+        border: 2px solid #edf1ee;
+        border-radius: 999px;
+    }
+
+
+        .booking-table-scroll::-webkit-scrollbar-thumb:hover {
+            background: #919e97;
+        }
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.booking-data-table {
+    width: 100%;
+    min-width: 1350px;
+    border-collapse: collapse;
+}
+
+
+    .booking-data-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        padding: 13px 14px;
+        color: #7c8b85;
+        background: #fafcfb;
+        border-bottom: 1px solid #e4e9e6;
+        text-align: left;
+        font-size: 9px;
+        line-height: 1.3;
+        font-weight: 700;
+        letter-spacing: .25px;
+        white-space: nowrap;
+    }
+
+
+    .booking-data-table td {
+        padding: 13px 14px;
+        color: #53635c;
+        border-bottom: 1px solid #edf1ef;
+        vertical-align: middle;
+        font-size: 10px;
+    }
+
+
+    .booking-data-table tbody tr {
+        transition: background .16s ease;
+    }
+
+
+        .booking-data-table tbody tr:hover {
+            background: #fffdf9;
+        }
+
+
+        .booking-data-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+
+/* =========================================================
+   ID
+========================================================= */
+
+.booking-id-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 8px;
+    color: #a96808;
+    background: #fff5e4;
+    border-radius: 7px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   CUSTOMER
+========================================================= */
+
+.booking-customer-cell {
+    min-width: 175px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+
+.booking-customer-avatar {
+    width: 39px;
+    height: 39px;
+    flex: 0 0 39px;
+    display: grid;
+    place-items: center;
+    color: #287b73;
+    background: #ddf4f1;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+.booking-customer-cell small,
+.booking-patient-cell small,
+.booking-caregiver-cell small {
+    display: block;
+    margin-bottom: 3px;
+    color: #929e99;
+    font-size: 8px;
+}
+
+
+.booking-customer-cell strong,
+.booking-patient-cell strong,
+.booking-caregiver-cell strong {
+    display: block;
+    max-width: 160px;
+    overflow: hidden;
+    color: #41564e;
+    font-size: 10px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   PATIENT
+========================================================= */
+
+.booking-patient-cell {
+    min-width: 175px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+
+    .booking-patient-cell > span {
+        width: 34px;
+        height: 34px;
+        flex: 0 0 34px;
+        display: grid;
+        place-items: center;
+        color: #7861b4;
+        background: #f0ebfc;
+        border-radius: 9px;
+        font-size: 13px;
+    }
+
+
+/* =========================================================
+   CAREGIVER
+========================================================= */
+
+.booking-caregiver-cell {
+    min-width: 175px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+
+    .booking-caregiver-cell > span {
+        width: 34px;
+        height: 34px;
+        flex: 0 0 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 9px;
+        font-size: 13px;
+    }
+
+
+    .booking-caregiver-cell.assigned > span {
+        color: #27845d;
+        background: #dff5e9;
+    }
+
+
+    .booking-caregiver-cell.unassigned > span {
+        color: #bd790c;
+        background: #fff0d5;
+    }
+
+
+    .booking-caregiver-cell.assigned small {
+        color: #438267;
+    }
+
+
+    .booking-caregiver-cell.unassigned small {
+        color: #a27325;
+    }
+
+
+/* =========================================================
+   LOCATION
+========================================================= */
+
+.booking-location-cell {
+    max-width: 190px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+
+    .booking-location-cell i {
+        flex: 0 0 auto;
+        color: #d98c16;
+        font-size: 13px;
+    }
+
+
+    .booking-location-cell span {
+        overflow: hidden;
+        color: #64746d;
+        font-size: 10px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.booking-date-cell strong,
+.booking-date-cell span {
+    display: block;
+    white-space: nowrap;
+}
+
+
+.booking-date-cell strong {
+    color: #445850;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+.booking-date-cell span {
+    margin-top: 4px;
+    color: #84918b;
+    font-size: 9px;
+}
+
+
+    .booking-date-cell span i {
+        margin-right: 4px;
+        color: #d78b15;
+    }
+
+
+/* =========================================================
+   PRICE
+========================================================= */
+
+.booking-price-cell {
+    color: #36544a;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.booking-status-badge {
+    min-height: 29px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+
+    .booking-status-badge.pending {
+        color: #93600f;
+        background: #fff0d2;
+    }
+
+
+    .booking-status-badge.confirmed {
+        color: #396fa9;
+        background: #e8f0fb;
+    }
+
+
+    .booking-status-badge.processing {
+        color: #287c74;
+        background: #dff4f0;
+    }
+
+
+    .booking-status-badge.completed {
+        color: #247c54;
+        background: #e3f6eb;
+    }
+
+
+    .booking-status-badge.cancelled {
+        color: #b04747;
+        background: #fde8e8;
+    }
+
+
+    .booking-status-badge.default {
+        color: #65706a;
+        background: #edf0ed;
+    }
+
+
+/* =========================================================
+   ROW ACTION
+========================================================= */
+
+.booking-row-actions {
+    position: relative;
+}
+
+
+.booking-more-button {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    color: #6d7c75;
+    background: #f8faf9;
+    border: 1px solid #dfe6e2;
+    border-radius: 9px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .16s ease;
+}
+
+
+    .booking-more-button:hover {
+        color: #b66c04;
+        background: #fff7e9;
+        border-color: #e9cb97;
+    }
+
+
+/* =========================================================
+   ROW MENU
+========================================================= */
+
+.booking-row-menu {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    z-index: 100;
+    width: 220px;
+    display: none;
+    padding: 7px;
+    background: #ffffff;
+    border: 1px solid #dfe5e1;
+    border-radius: 11px;
+    box-shadow: 0 15px 36px rgba(35, 48, 41, .16);
+}
+
+
+    .booking-row-menu.show {
+        display: block;
+    }
+
+
+    .booking-row-menu form {
+        margin: 0;
+    }
+
+
+    .booking-row-menu button,
+    .booking-assign-action {
+        width: 100%;
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 10px;
+        color: #52615a;
+        background: transparent;
+        border: 0;
+        border-radius: 8px;
+        font-size: 9px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: .15s ease;
+    }
+
+
+        .booking-row-menu button:hover,
+        .booking-assign-action:hover {
+            color: #247653;
+            background: #eef8f2;
+        }
+
+
+        .booking-row-menu button i,
+        .booking-assign-action i {
+            width: 17px;
+            font-size: 12px;
+        }
+
+
+/* =========================================================
+   ASSIGN ACTION
+========================================================= */
+
+.booking-assign-action {
+    color: #346eb7;
+}
+
+
+    .booking-assign-action:hover {
+        color: #285b9c;
+        background: #edf3ff;
+    }
+
+
+/* =========================================================
+   CANCEL ACTION
+========================================================= */
+
+.booking-row-menu .booking-cancel-action {
+    color: #b14e4e;
+}
+
+
+    .booking-row-menu .booking-cancel-action:hover {
+        color: #a44141;
+        background: #fff0f0;
+    }
+
+
+/* =========================================================
+   CANCEL FORM
+========================================================= */
+
+.booking-cancel-form {
+    display: none;
+    width: 100%;
+    margin-top: 7px !important;
+    padding: 10px;
+    background: #fffafa;
+    border: 1px solid #efd4d4;
+    border-radius: 9px;
+}
+
+
+    .booking-cancel-form.show {
+        display: block;
+    }
+
+
+    .booking-cancel-form label {
+        display: block;
+        margin-bottom: 7px;
+        color: #665956;
+        font-size: 9px;
+        font-weight: 600;
+    }
+
+
+    .booking-cancel-form select {
+        width: 100%;
+        min-height: 39px;
+        padding: 0 8px;
+        color: #5e5a57;
+        background: #ffffff;
+        border: 1px solid #e5cece;
+        border-radius: 8px;
+        outline: none;
+        font-size: 8px;
+    }
+
+
+        .booking-cancel-form select:focus {
+            border-color: #d86464;
+            box-shadow: 0 0 0 3px rgba(216, 100, 100, .10);
+        }
+
+
+.booking-cancel-form-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 8px;
+}
+
+
+    .booking-cancel-form-actions button {
+        min-height: 34px;
+        justify-content: center;
+        padding: 0 7px;
+        font-size: 8px;
+    }
+
+
+.booking-cancel-close {
+    color: #65716a !important;
+    background: #f5f7f5 !important;
+    border: 1px solid #dde4df !important;
+}
+
+
+.booking-cancel-confirm {
+    color: #ffffff !important;
+    background: #cf5555 !important;
+    border: 1px solid #cf5555 !important;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.booking-empty-state {
+    min-height: 330px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 45px 20px;
+    text-align: center;
+}
+
+
+    .booking-empty-state > span {
+        width: 60px;
+        height: 60px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 13px;
+        color: #557fb8;
+        background: #e9f0fa;
+        border-radius: 16px;
+        font-size: 22px;
+    }
+
+
+    .booking-empty-state h3 {
+        margin: 0;
+        color: #425750;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+
+    .booking-empty-state p {
+        margin: 6px 0 0;
+        color: #8b9893;
+        font-size: 10px;
+    }
+
+
+/* =========================================================
+   =========================================================
+   ASSIGN CAREGIVER PAGE
+   =========================================================
+========================================================= */
+
+
+/* =========================================================
+   ASSIGN HEADING
+========================================================= */
+
+.assign-booking-heading {
+    width: 100%;
+    min-height: 165px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+    padding: 26px 30px;
+    background: linear-gradient( 110deg, #fffaf2, #fff7eb );
+    border: 1px solid #efd5a7;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(43, 60, 54, .035);
+}
+
+
+.assign-back-button {
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+    display: grid;
+    place-items: center;
+    color: #9b6816;
+    background: #ffffff;
+    border: 1px solid #ead4ae;
+    border-radius: 11px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: .16s ease;
+}
+
+
+    .assign-back-button:hover {
+        color: #d78108;
+        transform: translateX(-2px);
+    }
+
+
+.assign-booking-heading h1 {
+    margin: 5px 0 0;
+    color: #203e38;
+    font-size: 28px;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+
+.assign-booking-heading p {
+    max-width: 720px;
+    margin: 7px 0 0;
+    color: #76847e;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   ALGORITHM
+========================================================= */
+
+.assign-algorithm-banner {
+    position: relative;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 10px;
+    padding: 17px 19px;
+    overflow: hidden;
+    background: linear-gradient( 105deg, #ffffff, #fffdf8 35%, #fff4de );
+    border: 1px solid #efd8ac;
+    border-radius: 16px;
+    box-shadow: 0 9px 24px rgba(91, 64, 19, .045);
+}
+
+
+.assign-algorithm-main {
+    position: relative;
+    z-index: 2;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+
+.assign-algorithm-icon {
+    width: 50px;
+    height: 50px;
+    flex: 0 0 50px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: #e99110;
+    border-radius: 13px;
+    font-size: 18px;
+}
+
+
+.assign-algorithm-label {
+    display: block;
+    color: #c5790b;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+
+.assign-algorithm-main h2 {
+    margin: 4px 0 0;
+    color: #4a493f;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+.assign-algorithm-main p {
+    max-width: 650px;
+    margin: 4px 0 0;
+    color: #83796a;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+
+.assign-algorithm-top {
+    min-width: 105px;
+    position: relative;
+    z-index: 2;
+    padding: 10px 13px;
+    text-align: center;
+    background: rgba(255, 255, 255, .75);
+    border: 1px solid #edd8b3;
+    border-radius: 10px;
+}
+
+
+    .assign-algorithm-top small {
+        display: block;
+        color: #97886d;
+        font-size: 7px;
+    }
+
+
+    .assign-algorithm-top strong {
+        display: block;
+        margin-top: 3px;
+        color: #cb7b08;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+
+/* =========================================================
+   WEIGHTS
+========================================================= */
+
+.assign-weight-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+
+.assign-weight-item {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: 33px minmax(0, 1fr);
+    align-items: center;
+    gap: 7px;
+    padding: 9px;
+    background: #ffffff;
+    border: 1px solid #e4e9e6;
+    border-radius: 10px;
+}
+
+
+    .assign-weight-item > span {
+        width: 33px;
+        height: 33px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        font-size: 12px;
+    }
+
+
+        .assign-weight-item > span.is-location {
+            color: #397ac5;
+            background: #e8efff;
+        }
+
+
+        .assign-weight-item > span.is-specialty {
+            color: #c75c68;
+            background: #fce9eb;
+        }
+
+
+        .assign-weight-item > span.is-experience {
+            color: #7b64b5;
+            background: #eeeaff;
+        }
+
+
+        .assign-weight-item > span.is-rating {
+            color: #d59418;
+            background: #fff1d4;
+        }
+
+
+        .assign-weight-item > span.is-price {
+            color: #429064;
+            background: #e3f4e9;
+        }
+
+
+        .assign-weight-item > span.is-schedule {
+            color: #258b82;
+            background: #e0f3ef;
+        }
+
+
+    .assign-weight-item small {
+        display: block;
+        overflow: hidden;
+        color: #929c97;
+        font-size: 7px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+    .assign-weight-item strong {
+        display: block;
+        margin-top: 2px;
+        color: #46514b;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+
+/* =========================================================
+   ASSIGN LAYOUT
+========================================================= */
+
+.assign-booking-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(285px, .45fr);
+    align-items: start;
+    gap: 17px;
+}
+
+
+.assign-caregiver-panel,
+.assign-booking-summary,
+.assign-decision-card {
+    background: #ffffff;
+    border: 1px solid #e2e7e2;
+    border-radius: 17px;
+    box-shadow: 0 8px 24px rgba(43, 60, 54, .035);
+}
+
+
+.assign-caregiver-panel {
+    min-width: 0;
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   ASSIGN PANEL HEADING
+========================================================= */
+
+.assign-panel-heading {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 16px 19px;
+    border-bottom: 1px solid #e8ece8;
+}
+
+
+    .assign-panel-heading > div {
+        min-width: 0;
+    }
+
+
+    .assign-panel-heading span {
+        display: block;
+        color: #c47809;
+        font-size: 9px;
+        font-weight: 700;
+    }
+
+
+    .assign-panel-heading h2 {
+        margin: 4px 0 0;
+        color: #34483f;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+
+    .assign-panel-heading p {
+        margin: 4px 0 0;
+        color: #8a948f;
+        font-size: 9px;
+    }
+
+
+    .assign-panel-heading > strong {
+        padding: 7px 10px;
+        flex-shrink: 0;
+        color: #895b13;
+        background: #fff0d5;
+        border-radius: 999px;
+        font-size: 9px;
+    }
+
+
+/* =========================================================
+   CAREGIVER LIST
+========================================================= */
+
+.assign-caregiver-list {
+    max-height: min( 730px, calc(100vh - 240px) );
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+    padding: 13px;
+    overflow-y: auto;
+    background: #fafbf9;
+}
+
+
+/* =========================================================
+   CAREGIVER CARD
+========================================================= */
+
+.assign-caregiver-card {
+    position: relative;
+    min-width: 0;
+    display: block;
+    padding: 13px;
+    color: inherit;
+    background: #ffffff;
+    border: 1px solid #e2e7e3;
+    border-radius: 13px;
+    cursor: pointer;
+    transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+
+
+    .assign-caregiver-card:hover {
+        transform: translateY(-2px);
+        border-color: #eac57d;
+        box-shadow: 0 10px 23px rgba(35, 48, 41, .07);
+    }
+
+
+    .assign-caregiver-card.is-recommended {
+        border-color: #ead09b;
+        background: linear-gradient( 145deg, #ffffff 0%, #ffffff 68%, #fffaf0 100% );
+    }
+
+
+    .assign-caregiver-card > input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+
+    .assign-caregiver-card:has(> input:checked) {
+        background: linear-gradient( 145deg, #fffdf8, #fff7e7 );
+        border-color: #e99a19;
+        box-shadow: 0 0 0 3px rgba(233, 154, 25, .11);
+    }
+
+
+/* =========================================================
+   RADIO
+========================================================= */
+
+.assign-radio-indicator {
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    z-index: 2;
+    width: 25px;
+    height: 25px;
+    display: grid;
+    place-items: center;
+    color: transparent;
+    background: #f1f3f0;
+    border: 1px solid #e4e8e4;
+    border-radius: 50%;
+    font-size: 10px;
+}
+
+
+.assign-caregiver-card > input:checked ~ .assign-radio-indicator {
+    color: #ffffff;
+    background: #e99a19;
+    border-color: #e99a19;
+}
+
+
+/* =========================================================
+   RANKING
+========================================================= */
+
+.assign-ranking-row {
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-right: 33px;
+}
+
+
+.assign-recommend-badge,
+.assign-rank-badge,
+.assign-threshold-badge {
+    min-height: 25px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 8px;
+    border-radius: 999px;
+    font-size: 8px;
+    font-weight: 700;
+}
+
+
+.assign-recommend-badge {
+    color: #9b620a;
+    background: #fff0d0;
+    border: 1px solid #efd19a;
+}
+
+
+.assign-rank-badge {
+    color: #7c8982;
+    background: #f1f4f2;
+    border: 1px solid #e3e8e4;
+}
+
+
+.assign-threshold-badge {
+    color: #5f7069;
+    background: #eef3f0;
+    border: 1px solid #d9e2dd;
+}
+
+
+.assign-score {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 2px;
+}
+
+
+    .assign-score strong {
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+
+    .assign-score small {
+        font-size: 8px;
+    }
+
+
+    .assign-score.is-excellent {
+        color: #318357;
+    }
+
+
+    .assign-score.is-good {
+        color: #d18410;
+    }
+
+
+    .assign-score.is-normal {
+        color: #6f7d76;
+    }
+
+
+.assign-score-disabled {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #818b86;
+    font-size: 8px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   CAREGIVER TOP
+========================================================= */
+
+.assign-caregiver-top {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 9px;
+    padding-right: 28px;
+}
+
+
+.assign-caregiver-avatar {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    color: #98600d;
+    background: #ffe9c7;
+    border-radius: 11px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+.assign-caregiver-name {
+    min-width: 0;
+}
+
+
+.assign-caregiver-top h3 {
+    margin: 0;
+    overflow: hidden;
+    color: #39453e;
+    font-size: 12px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.assign-caregiver-top p {
+    margin: 4px 0 0;
+    overflow: hidden;
+    color: #88928d;
+    font-size: 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.assign-caregiver-rating {
+    color: #9d6711;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+
+    .assign-caregiver-rating i {
+        color: #eba01c;
+    }
+
+
+/* =========================================================
+   REASON + THRESHOLD
+========================================================= */
+
+.assign-reason,
+.assign-threshold-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    margin-top: 10px;
+    padding: 8px 9px;
+    border-radius: 9px;
+    font-size: 8px;
+    line-height: 1.45;
+}
+
+
+.assign-reason {
+    color: #6e6048;
+    background: #fff8e9;
+    border: 1px solid #f0dfbd;
+}
+
+
+    .assign-reason i {
+        color: #dc921b;
+    }
+
+
+.assign-threshold-warning {
+    color: #806c47;
+    background: #fffaf0;
+    border: 1px solid #eee0c2;
+}
+
+
+    .assign-threshold-warning > i {
+        margin-top: 1px;
+        color: #d5901d;
+    }
+
+
+    .assign-threshold-warning strong {
+        display: block;
+        color: #725b34;
+        font-size: 8px;
+    }
+
+
+    .assign-threshold-warning span {
+        display: block;
+        margin-top: 3px;
+        color: #95876d;
+        font-size: 7px;
+    }
+
+
+/* =========================================================
+   ASSIGN CONTACT
+========================================================= */
+
+.assign-caregiver-contact {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin: 9px 0;
+    padding: 8px;
+    background: #f8faf8;
+    border-radius: 9px;
+}
+
+
+    .assign-caregiver-contact span {
+        overflow: hidden;
+        color: #818c86;
+        font-size: 7px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+    .assign-caregiver-contact i {
+        margin-right: 4px;
+        color: #df9218;
+    }
+
+
+/* =========================================================
+   ASSIGN INFO
+========================================================= */
+
+.assign-caregiver-info {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+}
+
+
+    .assign-caregiver-info > div {
+        min-width: 0;
+        min-height: 68px;
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        background: #fafbf9;
+        border: 1px solid #e7ebe7;
+        border-radius: 9px;
+    }
+
+
+    .assign-caregiver-info i {
+        margin-bottom: 5px;
+        color: #e59515;
+        font-size: 11px;
+    }
+
+
+    .assign-caregiver-info span {
+        color: #949d98;
+        font-size: 7px;
+    }
+
+
+    .assign-caregiver-info strong {
+        margin-top: 4px;
+        overflow: hidden;
+        color: #4b5750;
+        font-size: 8px;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+/* =========================================================
+   SCORE DETAILS
+========================================================= */
+
+.assign-score-details {
+    margin-top: 9px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e5eae6;
+    border-radius: 9px;
+}
+
+
+    .assign-score-details summary {
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 0 9px;
+        color: #5d6963;
+        background: #f8faf8;
+        font-size: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        list-style: none;
+    }
+
+
+        .assign-score-details summary::-webkit-details-marker {
+            display: none;
+        }
+
+
+        .assign-score-details summary span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+
+            .assign-score-details summary span i {
+                color: #df9218;
+            }
+
+
+        .assign-score-details summary > i {
+            font-size: 8px;
+            transition: transform .16s ease;
+        }
+
+
+    .assign-score-details[open]
+    summary > i {
+        transform: rotate(180deg);
+    }
+
+
+.assign-score-table {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 9px;
+    border-top: 1px solid #e8ece8;
+}
+
+
+.assign-score-row {
+    display: grid;
+    grid-template-columns: 75px minmax(0, 1fr) 32px;
+    align-items: center;
+    gap: 7px;
+}
+
+
+.assign-score-name span {
+    display: block;
+    color: #59655f;
+    font-size: 7px;
+}
+
+
+.assign-score-name small {
+    display: block;
+    margin-top: 2px;
+    color: #a0a8a4;
+    font-size: 6px;
+}
+
+
+.assign-score-progress {
+    height: 6px;
+    overflow: hidden;
+    background: #edf1ee;
+    border-radius: 999px;
+}
+
+
+    .assign-score-progress > span {
+        display: block;
+        height: 100%;
+        background: linear-gradient( 90deg, #f1ad3c, #df8d12 );
+        border-radius: inherit;
+    }
+
+
+.assign-score-row > strong {
+    color: #5b675f;
+    font-size: 7px;
+    text-align: right;
+}
+
+
+.assign-score-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 9px;
+    color: #755016;
+    background: #fff8e8;
+    border-top: 1px solid #f0ddb7;
+}
+
+
+    .assign-score-total span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 7px;
+    }
+
+
+    .assign-score-total strong {
+        color: #d5810c;
+        font-size: 10px;
+    }
+
+
+.assign-score-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    padding: 7px 9px;
+    color: #8a948f;
+    background: #fbfcfb;
+    border-top: 1px solid #edf0ed;
+    font-size: 6px;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   ASSIGN ACTION
+========================================================= */
+
+.assign-validation {
+    display: block;
+    padding: 0 15px 8px;
+    color: #c64f4f;
+    font-size: 8px;
+}
+
+
+.assign-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 13px 15px;
+    border-top: 1px solid #e8ece8;
+}
+
+
+    .assign-form-actions a,
+    .assign-form-actions button {
+        min-height: 39px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 0 14px;
+        border-radius: 9px;
+        font-size: 9px;
+        font-weight: 600;
+    }
+
+
+    .assign-form-actions a {
+        color: #68736d;
+        background: #f8f9f6;
+        border: 1px solid #dce2dc;
+        text-decoration: none;
+    }
+
+
+    .assign-form-actions button {
+        color: #ffffff;
+        background: #172541;
+        border: 1px solid #172541;
+        cursor: pointer;
+    }
+
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+.assign-booking-side {
+    position: sticky;
+    top: 88px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+.assign-booking-summary {
+    padding: 16px;
+}
+
+
+.assign-summary-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 13px;
+    border-bottom: 1px solid #e9ede9;
+}
+
+
+    .assign-summary-heading > span {
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        color: #df9218;
+        background: #fff0d5;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+
+
+    .assign-summary-heading h2 {
+        margin: 0;
+        color: #303b35;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+
+    .assign-summary-heading small {
+        display: block;
+        margin-top: 3px;
+        color: #919a95;
+        font-size: 8px;
+    }
+
+
+.assign-summary-list {
+    margin: 0;
+}
+
+
+    .assign-summary-list > div {
+        padding: 10px 0;
+        border-bottom: 1px solid #edf0ed;
+    }
+
+
+    .assign-summary-list dt {
+        color: #909994;
+        font-size: 7px;
+    }
+
+
+    .assign-summary-list dd {
+        margin: 4px 0 0;
+        color: #46524b;
+        font-size: 9px;
+        font-weight: 600;
+        line-height: 1.45;
+    }
+
+
+.assign-summary-price {
+    color: #d4870f !important;
+    font-size: 11px !important;
+}
+
+
+/* =========================================================
+   DECISION
+========================================================= */
+
+.assign-decision-card {
+    padding: 14px;
+    background: linear-gradient( 145deg, #ffffff, #fffaf1 );
+}
+
+
+.assign-decision-heading {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+
+    .assign-decision-heading > span {
+        width: 38px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+        color: #d99018;
+        background: #fff0d4;
+        border-radius: 9px;
+        font-size: 13px;
+    }
+
+
+    .assign-decision-heading small {
+        display: block;
+        color: #d1840f;
+        font-size: 6px;
+        font-weight: 700;
+    }
+
+
+    .assign-decision-heading h3 {
+        margin: 3px 0 0;
+        color: #465149;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+
+.assign-decision-card > p {
+    margin: 11px 0 0;
+    color: #7f8a84;
+    font-size: 8px;
+    line-height: 1.55;
+}
+
+
+.assign-decision-card ul {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+
+.assign-decision-card li {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    color: #66716b;
+    font-size: 7px;
+    line-height: 1.45;
+}
+
+
+    .assign-decision-card li i {
+        margin-top: 1px;
+        color: #58a176;
+    }
+
+
+/* =========================================================
+   DISABLED ALGORITHM
+========================================================= */
+
+.assign-algorithm-disabled {
+    min-height: 84px;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    background: linear-gradient( 110deg, #ffffff, #f7f8f7 );
+    border: 1px solid #dde4df;
+    border-radius: 13px;
+}
+
+
+    .assign-algorithm-disabled > span {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        color: #7c8781;
+        background: #edf0ee;
+        border-radius: 10px;
+    }
+
+
+    .assign-algorithm-disabled strong {
+        display: block;
+        color: #48534d;
+        font-size: 11px;
+    }
+
+
+    .assign-algorithm-disabled p {
+        max-width: 650px;
+        margin: 4px 0 0;
+        color: #858f8a;
+        font-size: 8px;
+        line-height: 1.5;
+    }
+
+
+    .assign-algorithm-disabled > a {
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 0 10px;
+        color: #58645e;
+        background: #ffffff;
+        border: 1px solid #d9e0db;
+        border-radius: 8px;
+        font-size: 8px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+
+/* =========================================================
+   ASSIGN EMPTY
+========================================================= */
+
+.assign-empty-state {
+    min-height: 330px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 45px 20px;
+    text-align: center;
+}
+
+
+    .assign-empty-state > span {
+        width: 56px;
+        height: 56px;
+        display: grid;
+        place-items: center;
+        color: #7589a5;
+        background: #eef2f8;
+        border-radius: 15px;
+        font-size: 20px;
+    }
+
+
+    .assign-empty-state h3 {
+        margin: 12px 0 0;
+        color: #4c5751;
+        font-size: 12px;
+    }
+
+
+    .assign-empty-state p {
+        max-width: 410px;
+        margin: 6px 0 0;
+        color: #8b958f;
+        font-size: 9px;
+        line-height: 1.6;
+    }
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1250px) {
+
+    .booking-summary-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+
+    .assign-weight-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+
+    .assign-booking-layout {
+        grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr);
+    }
+}
+
+
+@media (max-width: 1100px) {
+
+    .booking-filter-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+
+    .booking-filter-wide,
+    .booking-filter-actions {
+        grid-column: span 2;
+    }
+
+
+    .assign-booking-layout {
+        grid-template-columns: 1fr;
+    }
+
+
+    .assign-booking-side {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 900px) {
+
+    .booking-hero {
+        min-height: auto;
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 24px 22px;
+    }
+
+
+    .booking-hero-left {
+        width: 100%;
+        padding-bottom: 65px;
+    }
+
+
+    .booking-hero-action {
+        top: auto;
+        right: auto;
+        bottom: 20px;
+        left: 22px;
+        transform: none;
+    }
+
+
+    .booking-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+
+    .assign-caregiver-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .booking-hero h1,
+    .assign-booking-heading h1 {
+        font-size: 25px;
+    }
+
+
+    .booking-filter-form,
+    .booking-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .booking-filter-wide,
+    .booking-filter-actions {
+        grid-column: auto;
+    }
+
+
+    .booking-filter-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+
+    .booking-filter-submit,
+    .booking-filter-reset {
+        width: 100%;
+    }
+
+
+    .booking-data-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+
+    .booking-table-scroll {
+        height: 500px;
+    }
+
+
+    .assign-weight-grid,
+    .assign-booking-side {
+        grid-template-columns: 1fr;
+    }
+
+
+    .assign-algorithm-banner {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+
+    .assign-algorithm-top {
+        width: 100%;
+    }
+
+
+    .assign-caregiver-info,
+    .assign-caregiver-contact {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 520px) {
+
+    .booking-hero {
+        border-radius: 18px;
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+
+    .booking-hero-left {
+        padding-bottom: 68px;
+    }
+
+
+    .booking-hero-action {
+        right: 18px;
+        left: 18px;
+    }
+
+
+    .booking-dashboard-button {
+        width: 100%;
+    }
+
+
+    .booking-filter-panel,
+    .booking-data-panel {
+        border-radius: 16px;
+    }
+
+
+    .assign-form-actions {
+        flex-direction: column;
+    }
+
+
+        .assign-form-actions a,
+        .assign-form-actions button {
+            width: 100%;
+        }
+
+
+    .assign-algorithm-disabled {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 620px) {
+
+    .assign-booking-heading h1 {
+        font-size: 26px;
+    }
+
+    .assign-algorithm-banner {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .assign-algorithm-top {
+        width: 100%;
+    }
+
+    .assign-weight-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .assign-booking-side {
+        grid-template-columns: 1fr;
+    }
+
+    .assign-caregiver-info,
+    .assign-caregiver-contact {
+        grid-template-columns: 1fr;
+    }
+
+    .assign-form-actions {
+        flex-direction: column;
+    }
+
+        .assign-form-actions a,
+        .assign-form-actions button {
+            width: 100%;
+        }
+}
+
+
+/* =========================================================
+   FIX FONT SIZE - TRANG PHÂN CÔNG NGƯỜI CHĂM SÓC
+   DÁN BLOCK MÌNH GỬI Ở ĐÂY
+========================================================= */
+
+.assign-algorithm-label {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+}
+
+.assign-algorithm-main h2 {
+    font-size: 19px !important;
+    font-weight: 700 !important;
+}
+
+.assign-algorithm-main p {
+    font-size: 13px !important;
+}
+
+.assign-algorithm-top small {
+    font-size: 10px !important;
+}
+
+.assign-algorithm-top strong {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+}
+
+.assign-weight-item small {
+    font-size: 11px !important;
+}
+
+.assign-weight-item strong {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+}
+
+.assign-panel-heading span {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+}
+
+.assign-panel-heading h2 {
+    font-size: 21px !important;
+    font-weight: 700 !important;
+}
+
+.assign-panel-heading p {
+    font-size: 12px !important;
+}
+
+.assign-panel-heading > strong {
+    font-size: 12px !important;
+}
+
+.assign-recommend-badge,
+.assign-rank-badge,
+.assign-threshold-badge {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+}
+
+.assign-score strong {
+    font-size: 21px !important;
+    font-weight: 700 !important;
+}
+
+.assign-score small {
+    font-size: 11px !important;
+}
+
+.assign-caregiver-top h3 {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+}
+
+.assign-caregiver-top p {
+    font-size: 12px !important;
+}
+
+.assign-caregiver-rating {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+}
+
+.assign-reason {
+    font-size: 11px !important;
+    line-height: 1.55;
+}
+
+.assign-threshold-warning strong {
+    font-size: 12px !important;
+}
+
+.assign-threshold-warning span {
+    font-size: 11px !important;
+    line-height: 1.5;
+}
+
+.assign-caregiver-contact span {
+    font-size: 11px !important;
+}
+
+.assign-caregiver-info span {
+    font-size: 10px !important;
+}
+
+.assign-caregiver-info strong {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+}
+
+.assign-score-details summary {
+    font-size: 11px !important;
+}
+
+.assign-summary-heading h2 {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+}
+
+.assign-summary-heading small {
+    font-size: 11px !important;
+}
+
+.assign-summary-list dt {
+    font-size: 10px !important;
+}
+
+.assign-summary-list dd {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+
+.assign-summary-price {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+}
+
+.assign-decision-heading small {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+}
+
+.assign-decision-heading h3 {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+}
+
+.assign-decision-card > p,
+.assign-decision-card li {
+    font-size: 11px !important;
+}
+
+.assign-form-actions a,
+.assign-form-actions button {
+    min-height: 44px;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+
+
+/* =========================================================
+   CHỌN LÝ DO HỦY LỊCH
+   ========================================================= */
+
+.booking-cancel-form {

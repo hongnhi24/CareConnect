@@ -1,0 +1,752 @@
+﻿@model CareConnect.ViewModels.AdminServiceViewModel
+
+@{
+    ViewData["Title"] = "Dịch vụ chăm sóc";
+
+    bool dangTatCa =
+        string.IsNullOrWhiteSpace(Model.TrangThai);
+
+    bool dangHoatDong =
+        Model.TrangThai == "Hoạt động";
+
+    bool dangTamNgung =
+        Model.TrangThai == "Tạm ngừng";
+}
+
+
+<div class="service-admin-page">
+
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="service-alert success">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <span>
+                @TempData["Success"]
+            </span>
+
+        </div>
+    }
+
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="service-alert error">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            <span>
+                @TempData["Error"]
+            </span>
+
+        </div>
+    }
+
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="service-hero">
+
+
+        <div class="service-hero-left">
+
+
+            <span class="service-eyebrow">
+
+                <i class="bi bi-heart-pulse"></i>
+
+                QUẢN LÝ DANH MỤC
+
+            </span>
+
+
+            <h1>
+                Dịch vụ chăm sóc
+            </h1>
+
+
+            <p>
+                Quản lý nội dung, giá và thời lượng
+                các dịch vụ chăm sóc đang được cung cấp
+                trong hệ thống CareConnect.
+            </p>
+
+        </div>
+
+
+        <div class="service-hero-action">
+
+
+            <a asp-area="Admin"
+               asp-controller="Services"
+               asp-action="Create"
+               class="service-create-button">
+
+                <i class="bi bi-plus-lg"></i>
+
+                <span>
+                    Thêm dịch vụ
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <span class="service-hero-decoration decoration-one"></span>
+        <span class="service-hero-decoration decoration-two"></span>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SUMMARY
+    ====================================================== -->
+
+    <section class="service-summary-grid">
+
+
+        <!-- TỔNG DỊCH VỤ -->
+
+        <a asp-area="Admin"
+           asp-controller="Services"
+           asp-action="Index"
+           class="service-summary-card total @(dangTatCa ? "selected" : "")">
+
+
+            <span class="service-summary-icon">
+
+                <i class="bi bi-heart-pulse"></i>
+
+            </span>
+
+
+            <div class="service-summary-content">
+
+                <small>
+                    Tổng dịch vụ
+                </small>
+
+                <strong>
+                    @Model.TongDichVu
+                </strong>
+
+                <p>
+                    Toàn bộ dịch vụ trong hệ thống
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- HOẠT ĐỘNG -->
+
+        <a asp-area="Admin"
+           asp-controller="Services"
+           asp-action="Index"
+           asp-route-trangThai="Hoạt động"
+           class="service-summary-card active @(dangHoatDong ? "selected" : "")">
+
+
+            <span class="service-summary-icon">
+
+                <i class="bi bi-check-circle"></i>
+
+            </span>
+
+
+            <div class="service-summary-content">
+
+                <small>
+                    Đang hoạt động
+                </small>
+
+                <strong>
+                    @Model.DangHoatDong
+                </strong>
+
+                <p>
+                    Dịch vụ đang được cung cấp
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- TẠM NGỪNG -->
+
+        <a asp-area="Admin"
+           asp-controller="Services"
+           asp-action="Index"
+           asp-route-trangThai="Tạm ngừng"
+           class="service-summary-card stopped @(dangTamNgung ? "selected" : "")">
+
+
+            <span class="service-summary-icon">
+
+                <i class="bi bi-pause-circle"></i>
+
+            </span>
+
+
+            <div class="service-summary-content">
+
+                <small>
+                    Tạm ngừng
+                </small>
+
+                <strong>
+                    @Model.TamNgung
+                </strong>
+
+                <p>
+                    Dịch vụ hiện không tiếp nhận lịch
+                </p>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- GIÁ TRUNG BÌNH -->
+
+        <div class="service-summary-card price">
+
+
+            <span class="service-summary-icon">
+
+                <i class="bi bi-cash-stack"></i>
+
+            </span>
+
+
+            <div class="service-summary-content">
+
+                <small>
+                    Giá trung bình
+                </small>
+
+                <strong class="service-average-price">
+                    @Model.GiaTrungBinh.ToString("#,##0")đ
+                </strong>
+
+                <p>
+                    Mức giá trung bình mỗi dịch vụ
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FILTER
+    ====================================================== -->
+
+    <section class="service-filter-panel">
+
+
+        <div class="service-filter-heading">
+
+
+            <div class="service-panel-heading">
+
+
+                <span class="service-panel-icon">
+
+                    <i class="bi bi-funnel"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        BỘ LỌC DỮ LIỆU
+                    </small>
+
+                    <h2>
+                        Tìm kiếm dịch vụ
+                    </h2>
+
+                    <p>
+                        Lọc theo tên, mã, nội dung mô tả
+                        hoặc trạng thái hoạt động.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <form asp-area="Admin"
+              asp-controller="Services"
+              asp-action="Index"
+              method="get"
+              class="service-filter-form">
+
+
+            <!-- SEARCH -->
+
+            <div class="service-search-field">
+
+
+                <i class="bi bi-search"></i>
+
+
+                <input type="text"
+                       name="tuKhoa"
+                       value="@Model.TuKhoa"
+                       placeholder="Tìm tên, mã hoặc mô tả dịch vụ..." />
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <div class="service-select-field">
+
+
+                <i class="bi bi-toggle-on"></i>
+
+
+                <select name="trangThai">
+
+                    <option value="">
+                        Tất cả trạng thái
+                    </option>
+
+                    <option value="Hoạt động"
+                            selected="@(Model.TrangThai == "Hoạt động")">
+
+                        Đang hoạt động
+
+                    </option>
+
+                    <option value="Tạm ngừng"
+                            selected="@(Model.TrangThai == "Tạm ngừng")">
+
+                        Tạm ngừng
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- SUBMIT -->
+
+            <button type="submit"
+                    class="service-filter-submit">
+
+                <i class="bi bi-funnel-fill"></i>
+
+                <span>
+                    Lọc dịch vụ
+                </span>
+
+            </button>
+
+
+
+            <!-- RESET -->
+
+            <a asp-area="Admin"
+               asp-controller="Services"
+               asp-action="Index"
+               class="service-filter-reset"
+               title="Xóa bộ lọc">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+
+            </a>
+
+        </form>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         DATA
+    ====================================================== -->
+
+    <section class="service-data-panel">
+
+
+        <div class="service-data-heading">
+
+
+            <div class="service-panel-heading">
+
+
+                <span class="service-panel-icon">
+
+                    <i class="bi bi-heart-pulse"></i>
+
+                </span>
+
+
+                <div>
+
+                    <small>
+                        DANH SÁCH DỊCH VỤ
+                    </small>
+
+                    <h2>
+                        Dịch vụ trong hệ thống
+                    </h2>
+
+                    <p>
+                        Quản lý mức giá, thời lượng
+                        và trạng thái từng dịch vụ chăm sóc.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <strong class="service-result-count">
+
+                @Model.DanhSachDichVu.Count kết quả
+
+            </strong>
+
+        </div>
+
+
+
+        @if (Model.DanhSachDichVu.Count == 0)
+        {
+            <div class="service-empty-state">
+
+
+                <span>
+
+                    <i class="bi bi-heartbreak"></i>
+
+                </span>
+
+
+                <h3>
+                    Không tìm thấy dịch vụ
+                </h3>
+
+
+                <p>
+                    Hãy thử thay đổi từ khóa
+                    hoặc điều kiện lọc hiện tại.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="service-grid">
+
+
+                @foreach (var item in Model.DanhSachDichVu)
+                {
+                    <article class="service-card @(item.TrangThai ? "is-active" : "is-stopped")">
+
+
+                        <!-- =================================
+                             TOP
+                        ================================== -->
+
+                        <div class="service-card-top">
+
+
+                            <span class="service-card-icon">
+
+                                <i class="bi bi-heart-pulse"></i>
+
+                            </span>
+
+
+                            <div class="service-card-title">
+
+
+                                <span class="service-code">
+
+                                    @item.MaDichVuCode
+
+                                </span>
+
+
+                                <h3>
+                                    @item.TenDichVu
+                                </h3>
+
+                            </div>
+
+
+                            <span class="@(item.TrangThai
+                                                                ? "service-status active"
+                                                                : "service-status stopped")">
+
+
+                                <i class="bi bi-circle-fill"></i>
+
+
+                                @(item.TrangThai
+                                    ? "Đang hoạt động"
+                                    : "Tạm ngừng")
+
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- =================================
+                             DESCRIPTION
+                        ================================== -->
+
+                        <p class="service-description">
+
+                            @(
+                                string.IsNullOrWhiteSpace(item.MoTa)
+                                    ? "Dịch vụ chưa có nội dung mô tả."
+                                    : item.MoTa
+                            )
+
+                        </p>
+
+
+
+                        <!-- =================================
+                             DETAILS
+                        ================================== -->
+
+                        <div class="service-detail-grid">
+
+
+                            <!-- PRICE -->
+
+                            <div class="service-detail-item price">
+
+
+                                <span class="service-detail-icon">
+
+                                    <i class="bi bi-cash-coin"></i>
+
+                                </span>
+
+
+                                <div>
+
+                                    <small>
+                                        Giá dịch vụ
+                                    </small>
+
+
+                                    <strong>
+                                        @item.Gia.ToString("#,##0")đ
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- DURATION -->
+
+                            <div class="service-detail-item duration">
+
+
+                                <span class="service-detail-icon">
+
+                                    <i class="bi bi-clock"></i>
+
+                                </span>
+
+
+                                <div>
+
+                                    <small>
+                                        Thời lượng
+                                    </small>
+
+
+                                    <strong>
+                                        @FormatDuration(item.ThoiLuong)
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- CREATED -->
+
+                            <div class="service-detail-item created">
+
+
+                                <span class="service-detail-icon">
+
+                                    <i class="bi bi-calendar3"></i>
+
+                                </span>
+
+
+                                <div>
+
+                                    <small>
+                                        Ngày tạo
+                                    </small>
+
+
+                                    <strong>
+                                        @item.NgayTao.ToString("dd/MM/yyyy")
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =================================
+                             FOOTER
+                        ================================== -->
+
+                        <div class="service-card-footer">
+
+
+                            <a asp-area="Admin"
+                               asp-controller="Services"
+                               asp-action="Edit"
+                               asp-route-id="@item.MaDichVu"
+                               class="service-edit-button">
+
+                                <i class="bi bi-pencil-square"></i>
+
+                                <span>
+                                    Chỉnh sửa
+                                </span>
+
+                            </a>
+
+
+
+                            <form asp-area="Admin"
+                                  asp-controller="Services"
+                                  asp-action="ToggleStatus"
+                                  method="post">
+
+
+                                @Html.AntiForgeryToken()
+
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@item.MaDichVu" />
+
+
+                                <button type="submit"
+                                        class="@(item.TrangThai
+                                                                                ? "service-toggle-button stop"
+                                                                                : "service-toggle-button activate")"
+                                        onclick="return confirm('@(
+                                        item.TrangThai
+                                            ? "Bạn muốn tạm ngừng dịch vụ này?"
+                                            : "Bạn muốn kích hoạt lại dịch vụ này?"
+                                                                        )')">
+
+
+                                    <i class="@(item.TrangThai
+                                                                               ? "bi bi-pause-circle"
+                                                                               : "bi bi-play-circle")">
+                                    </i>
+
+
+                                    <span>
+
+                                        @(item.TrangThai
+                                            ? "Tạm ngừng"
+                                            : "Kích hoạt")
+
+                                    </span>
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+        }
+
+    </section>
+
+</div>
+
+
+@functions {
+
+    private string FormatDuration(
+        int minutes)
+    {
+        if (minutes <= 0)
+        {
+            return "Chưa cập nhật";
+        }
+
+
+        int hours =
+            minutes / 60;
+
+
+        int remainingMinutes =
+            minutes % 60;
+
+
+        if (
+            hours > 0
+            &&
+            remainingMinutes > 0)
+        {
+            return
+                $"{hours} giờ {remainingMinutes} phút";
+        }
+
+
+        if (hours > 0)
+        {
+            return $"{hours} giờ";
+        }
+
+
+        return $"{remainingMinutes} phút";
+    }
+
+}

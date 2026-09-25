@@ -1,0 +1,471 @@
+﻿@model CaregiverIncomeViewModel
+
+@{
+    ViewData["Title"] = "Thu nhập";
+
+    string LayTrangThaiClass(string trangThai)
+    {
+        return trangThai == "Đã thanh toán"
+            ? "is-paid"
+            : "is-pending";
+    }
+}
+
+<section class="cg-income-header">
+    <div>
+        <span class="cg-income-page-label">
+            TÀI CHÍNH CÁ NHÂN
+        </span>
+
+        <h1>Thu nhập</h1>
+
+        <p>
+            Theo dõi phần thu nhập người chăm sóc được nhận
+            sau khi trừ phí nền tảng của CareConnect.
+        </p>
+    </div>
+
+    <div class="cg-income-header-total">
+        <span>
+            <i class="bi bi-wallet2"></i>
+        </span>
+
+        <div>
+            <small>Tổng thu nhập</small>
+
+            <strong>
+                @Model.TongThuNhap.ToString("#,##0")đ
+            </strong>
+
+            <p>Thu nhập đã ghi nhận sau phí nền tảng</p>
+        </div>
+    </div>
+</section>
+
+<section class="cg-income-statistics">
+
+    <a asp-area="Caregiver"
+       asp-controller="ThuNhap"
+       asp-action="Index"
+       class="cg-income-stat-card is-total
+        @(string.IsNullOrWhiteSpace(Model.LocNhanh)
+          ? "is-active"
+          : "")">
+
+        <span class="cg-income-stat-icon">
+            <i class="bi bi-cash-stack"></i>
+        </span>
+
+        <div>
+            <small>TỔNG THU NHẬP</small>
+
+            <strong>
+                @Model.TongThuNhap.ToString("#,##0")đ
+            </strong>
+
+            <p>Từ các lịch đã thanh toán đầy đủ</p>
+        </div>
+    </a>
+
+    <a asp-area="Caregiver"
+       asp-controller="ThuNhap"
+       asp-action="Index"
+       asp-route-locNhanh="thang-nay"
+       class="cg-income-stat-card is-month
+        @(Model.LocNhanh == "thang-nay"
+          ? "is-active"
+          : "")">
+
+        <span class="cg-income-stat-icon">
+            <i class="bi bi-calendar2-check-fill"></i>
+        </span>
+
+        <div>
+            <small>THÁNG NÀY</small>
+
+            <strong>
+                @Model.ThuNhapThangNay.ToString("#,##0")đ
+            </strong>
+
+            <p>Thu nhập trong tháng hiện tại</p>
+        </div>
+    </a>
+
+    <a asp-area="Caregiver"
+       asp-controller="ThuNhap"
+       asp-action="Index"
+       asp-route-locNhanh="da-thanh-toan"
+       class="cg-income-stat-card is-paid
+        @(Model.LocNhanh == "da-thanh-toan"
+          ? "is-active"
+          : "")">
+
+        <span class="cg-income-stat-icon">
+            <i class="bi bi-check-circle-fill"></i>
+        </span>
+
+        <div>
+            <small>ĐÃ THANH TOÁN</small>
+
+            <strong>
+                @Model.SoGiaoDichDaThanhToan
+            </strong>
+
+            <p>Giao dịch đã hoàn tất</p>
+        </div>
+    </a>
+
+    <a asp-area="Caregiver"
+       asp-controller="ThuNhap"
+       asp-action="Index"
+       asp-route-locNhanh="cho-thanh-toan"
+       class="cg-income-stat-card is-pending
+        @(Model.LocNhanh == "cho-thanh-toan"
+          ? "is-active"
+          : "")">
+
+        <span class="cg-income-stat-icon">
+            <i class="bi bi-hourglass-split"></i>
+        </span>
+
+        <div>
+            <small>CHỜ THANH TOÁN</small>
+
+            <strong>
+                @Model.DangChoThanhToan.ToString("#,##0")đ
+            </strong>
+
+            <p>
+                @Model.SoGiaoDichChoThanhToan giao dịch đang chờ
+            </p>
+        </div>
+    </a>
+
+</section>
+
+<div class="cg-income-overview-layout">
+
+    <section class="cg-income-chart-card">
+
+        <div class="cg-income-section-heading">
+            <div>
+                <span>BIỂU ĐỒ THU NHẬP</span>
+                <h2>Thu nhập 6 tháng gần nhất</h2>
+                <p>Chỉ tính các giao dịch đã thanh toán.</p>
+            </div>
+        </div>
+
+        <div class="cg-income-chart">
+
+            @foreach (var thang in Model.ThuNhapTheoThang)
+            {
+                <div class="cg-income-chart-column">
+
+                    <div class="cg-income-chart-value">
+                        @thang.SoTien.ToString("#,##0")
+                    </div>
+
+                    <div class="cg-income-chart-track">
+                        <span style="height:
+                            @(Math.Max(thang.PhanTram, 3))%;">
+                        </span>
+                    </div>
+
+                    <strong>@thang.NhanThang</strong>
+                </div>
+            }
+
+        </div>
+
+    </section>
+
+    <section class="cg-income-summary-card">
+
+        <span class="cg-income-summary-icon">
+            <i class="bi bi-graph-up-arrow"></i>
+        </span>
+
+        <div>
+            <small>TỔNG QUAN TÀI CHÍNH</small>
+
+            <h2>
+                @(
+                    Model.ThuNhapThangNay > 0
+                        ? "Bạn đã có thu nhập trong tháng này"
+                        : "Chưa có giao dịch hoàn tất trong tháng"
+                )
+            </h2>
+
+            <p>
+                Số tiền hiển thị là phần người chăm sóc được nhận
+                sau khi trừ phí nền tảng của CareConnect.
+            </p>
+        </div>
+
+        <div class="cg-income-summary-values">
+            <div>
+                <small>Đã nhận</small>
+
+                <strong>
+                    @Model.TongThuNhap.ToString("#,##0")đ
+                </strong>
+            </div>
+
+            <div>
+                <small>Đang chờ</small>
+
+                <strong>
+                    @Model.DangChoThanhToan.ToString("#,##0")đ
+                </strong>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+<section class="cg-income-filter-card">
+
+    <div class="cg-income-section-heading">
+        <div>
+            <span>BỘ LỌC</span>
+            <h2>Tìm kiếm giao dịch</h2>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.TuKhoa)
+             || !string.IsNullOrWhiteSpace(Model.TrangThai)
+             || !string.IsNullOrWhiteSpace(Model.LocNhanh)
+             || Model.TuNgay.HasValue
+             || Model.DenNgay.HasValue)
+        {
+            <a asp-area="Caregiver"
+               asp-controller="ThuNhap"
+               asp-action="Index"
+               class="cg-income-clear-filter">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+                Xóa bộ lọc
+            </a>
+        }
+    </div>
+
+    <form asp-area="Caregiver"
+          asp-controller="ThuNhap"
+          asp-action="Index"
+          method="get"
+          class="cg-income-filter-form">
+
+        @if (!string.IsNullOrWhiteSpace(Model.LocNhanh))
+        {
+            <input type="hidden"
+                   name="locNhanh"
+                   value="@Model.LocNhanh" />
+        }
+
+        <div class="cg-income-filter-field is-search">
+            <label for="tuKhoa">Từ khóa</label>
+
+            <div>
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       id="tuKhoa"
+                       name="tuKhoa"
+                       value="@Model.TuKhoa"
+                       placeholder="Mã thanh toán, khách hàng, bệnh nhân..." />
+            </div>
+        </div>
+
+        <div class="cg-income-filter-field">
+            <label for="trangThai">Trạng thái</label>
+
+            <div>
+                <i class="bi bi-funnel"></i>
+
+                <select id="trangThai"
+                        name="trangThai">
+
+                    <option value="">
+                        Tất cả trạng thái
+                    </option>
+
+                    <option value="Đã thanh toán"
+                            selected="@(Model.TrangThai == "Đã thanh toán")">
+                        Đã thanh toán
+                    </option>
+
+                    <option value="Chưa thanh toán"
+                            selected="@(Model.TrangThai == "Chưa thanh toán")">
+                        Chưa thanh toán
+                    </option>
+
+                </select>
+            </div>
+        </div>
+
+        <div class="cg-income-filter-field">
+            <label for="tuNgay">Từ ngày</label>
+
+            <div>
+                <i class="bi bi-calendar3"></i>
+
+                <input type="date"
+                       id="tuNgay"
+                       name="tuNgay"
+                       value="@Model.TuNgay?.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+
+        <div class="cg-income-filter-field">
+            <label for="denNgay">Đến ngày</label>
+
+            <div>
+                <i class="bi bi-calendar3"></i>
+
+                <input type="date"
+                       id="denNgay"
+                       name="denNgay"
+                       value="@Model.DenNgay?.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+
+        <button type="submit"
+                class="cg-income-filter-button">
+
+            <i class="bi bi-search"></i>
+            Tìm kiếm
+        </button>
+
+    </form>
+
+</section>
+
+<section class="cg-income-list-card">
+
+    <div class="cg-income-section-heading">
+        <div>
+            <span>THU NHẬP THEO THANH TOÁN</span>
+
+            <h2>Lịch sử ghi nhận thu nhập</h2>
+
+            <p>
+                Hiển thị @Model.DanhSachGiaoDich.Count giao dịch.
+            </p>
+        </div>
+    </div>
+
+    @if (Model.DanhSachGiaoDich.Count == 0)
+    {
+        <div class="cg-income-empty">
+            <span>
+                <i class="bi bi-receipt"></i>
+            </span>
+
+            <h3>Không tìm thấy giao dịch</h3>
+
+            <p>
+                Chưa có giao dịch phù hợp với điều kiện lọc.
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="cg-income-list">
+
+            @foreach (var giaoDich in Model.DanhSachGiaoDich)
+            {
+                <article class="cg-income-item">
+
+                    <div class="cg-income-transaction-icon
+                        @(giaoDich.DaThanhToan
+                            ? "is-paid"
+                            : "is-pending")">
+
+                        <i class="bi
+                            @(giaoDich.DaThanhToan
+                              ? "bi-check2-circle"
+                              : "bi-hourglass-split")">
+                        </i>
+                    </div>
+
+                    <div class="cg-income-item-main">
+
+                        <div class="cg-income-item-heading">
+                            <div>
+                                <span>
+                                    @giaoDich.MaThanhToanCode
+                                </span>
+
+                                <h3>
+                                    @giaoDich.TenBenhNhan
+                                </h3>
+
+                                <p>
+                                    Lịch #@giaoDich.MaDatLich ·
+                                    @giaoDich.TenDichVu
+                                </p>
+                            </div>
+
+                            <span class="cg-income-status
+                                @LayTrangThaiClass(
+                                    giaoDich.TrangThai)">
+
+                                @giaoDich.TrangThai
+                            </span>
+                        </div>
+
+                        <div class="cg-income-item-information">
+
+                            <span>
+                                <i class="bi bi-person"></i>
+
+                                @giaoDich.TenKhachHang
+                            </span>
+
+                            <span>
+                                <i class="bi bi-calendar-check"></i>
+
+                                Chăm sóc ngày
+                                @giaoDich.NgayChamSoc.ToString(
+                                    "dd/MM/yyyy")
+                            </span>
+
+                            <span>
+                                <i class="bi bi-credit-card"></i>
+
+                                @giaoDich.PhuongThucThanhToan
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="cg-income-item-side">
+                        <strong>
+                            @giaoDich.SoTien.ToString("#,##0")đ
+                        </strong>
+
+                        <small>
+                            @if (giaoDich.NgayThanhToan.HasValue)
+                            {
+                                <text>
+                                    Thanh toán
+                                    @giaoDich.NgayThanhToan.Value.ToString("dd/MM/yyyy HH:mm")
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    Tạo ngày
+                                    @giaoDich.NgayTao.ToString("dd/MM/yyyy HH:mm")
+                                </text>
+                            }
+                        </small>
+                    </div>
+
+                </article>
+            }
+
+        </div>
+    }
+
+</section>

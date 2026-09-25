@@ -1,0 +1,1140 @@
+﻿/* =========================================================
+   CARECONNECT - CHI TIẾT HỒ SƠ NGƯỜI THÂN
+   Cỡ chữ đồng bộ với Quản lý lịch đặt Admin
+   ========================================================= */
+
+.relative-detail-alert {
+    margin-bottom: 20px;
+    padding: 14px 17px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+    .relative-detail-alert.success {
+        color: #237b54;
+        background: #e4f7ec;
+        border: 1px solid #c6ead5;
+    }
+
+/* =========================
+   HEADING
+   ========================= */
+
+.relative-detail-heading {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.relative-detail-back {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: grid;
+    place-items: center;
+    color: #59665f;
+    background: #ffffff;
+    border: 1px solid #dfe6e2;
+    border-radius: 13px;
+    box-shadow: 0 8px 22px rgba(39, 61, 52, .06);
+    font-size: 18px;
+    text-decoration: none;
+}
+
+    .relative-detail-back:hover {
+        color: #15918e;
+        border-color: #8fd2ce;
+    }
+
+.relative-detail-heading-content {
+    min-width: 0;
+}
+
+.relative-detail-eyebrow {
+    display: block;
+    margin-bottom: 7px;
+    color: #18a7a4;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .08em;
+}
+
+.relative-detail-heading h1 {
+    margin: 0;
+    color: #26332e;
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.relative-detail-heading p {
+    max-width: 720px;
+    margin: 9px 0 0;
+    color: #75817b;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.relative-detail-heading-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .relative-detail-heading-actions a {
+        min-height: 46px;
+        padding: 0 17px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border-radius: 11px;
+        font-size: 14px;
+        font-weight: 750;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+.relative-detail-edit-button {
+    color: #56645d;
+    background: #ffffff;
+    border: 1px solid #dce4df;
+}
+
+.relative-detail-book-button {
+    color: #ffffff;
+    background: #159a96;
+    border: 1px solid #159a96;
+    box-shadow: 0 8px 19px rgba(21, 154, 150, .2);
+}
+
+/* =========================
+   PROFILE HERO
+   ========================= */
+
+.relative-profile-hero {
+    min-height: 134px;
+    margin-bottom: 20px;
+    padding: 22px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 22px;
+    background: #ffffff;
+    border: 1px solid #e1e8e4;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(39, 61, 52, .06);
+}
+
+.relative-profile-main {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.relative-profile-avatar {
+    width: 78px;
+    height: 78px;
+    flex: 0 0 78px;
+    display: grid;
+    place-items: center;
+    color: #117f7c;
+    background: #dcf3f0;
+    border-radius: 21px;
+    font-size: 30px;
+    font-weight: 850;
+}
+
+.relative-profile-identity {
+    min-width: 0;
+}
+
+.relative-profile-code {
+    display: inline-flex;
+    padding: 6px 10px;
+    color: #147f7c;
+    background: #e4f6f4;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.relative-profile-identity h2 {
+    margin: 8px 0 0;
+    overflow: hidden;
+    color: #303d37;
+    font-size: 28px;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.relative-profile-meta {
+    margin-top: 9px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+    .relative-profile-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: #75817b;
+        font-size: 14px;
+    }
+
+    .relative-profile-meta i {
+        color: #18a7a4;
+    }
+
+.relative-profile-stat {
+    min-width: 160px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    background: #f8faf8;
+    border: 1px solid #e5ebe7;
+    border-radius: 13px;
+}
+
+    .relative-profile-stat > span {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        display: grid;
+        place-items: center;
+        color: #15918e;
+        background: #e4f6f4;
+        border-radius: 11px;
+        font-size: 18px;
+    }
+
+    .relative-profile-stat strong {
+        display: block;
+        color: #344039;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .relative-profile-stat small {
+        display: block;
+        margin-top: 4px;
+        color: #87918c;
+        font-size: 12px;
+    }
+
+/* =========================
+   LAYOUT
+   ========================= */
+
+.relative-detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, .55fr);
+    align-items: start;
+    gap: 20px;
+}
+
+.relative-detail-main {
+    min-width: 0;
+    display: grid;
+    gap: 18px;
+}
+
+.relative-detail-sidebar {
+    position: sticky;
+    top: 90px;
+    min-width: 0;
+    display: grid;
+    gap: 16px;
+}
+
+/* =========================
+   CARD CHUNG
+   ========================= */
+
+.relative-detail-card,
+.relative-emergency-card,
+.relative-summary-detail-card {
+    background: #ffffff;
+    border: 1px solid #e1e8e4;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(39, 61, 52, .06);
+}
+
+.relative-detail-card {
+    padding: 22px;
+}
+
+.relative-detail-card-heading {
+    padding-bottom: 17px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    border-bottom: 1px solid #e8edea;
+}
+
+    .relative-detail-card-heading > span {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 13px;
+        font-size: 20px;
+    }
+
+        .relative-detail-card-heading > span.personal {
+            color: #167f7c;
+            background: #e4f6f4;
+        }
+
+        .relative-detail-card-heading > span.health {
+            color: #c96363;
+            background: #fdeaea;
+        }
+
+        .relative-detail-card-heading > span.note {
+            color: #b97914;
+            background: #fff1d8;
+        }
+
+    .relative-detail-card-heading h2 {
+        margin: 0;
+        color: #344039;
+        font-size: 22px;
+        font-weight: 800;
+    }
+
+    .relative-detail-card-heading p {
+        margin: 5px 0 0;
+        color: #89938e;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+/* =========================
+   THÔNG TIN CÁ NHÂN
+   ========================= */
+
+.relative-detail-grid {
+    padding-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.relative-detail-item {
+    min-width: 0;
+    min-height: 92px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #f8faf8;
+    border: 1px solid #e5ebe7;
+    border-radius: 12px;
+}
+
+    .relative-detail-item.full {
+        grid-column: 1 / -1;
+    }
+
+    .relative-detail-item > span {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: #87918c;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+        .relative-detail-item > span i {
+            color: #18a7a4;
+            font-size: 16px;
+        }
+
+    .relative-detail-item > strong {
+        display: block;
+        margin-top: 8px;
+        color: #3f4d46;
+        font-size: 17px;
+        font-weight: 750;
+        line-height: 1.5;
+    }
+
+        .relative-detail-item > strong.blood-type {
+            color: #c45353;
+            font-size: 20px;
+        }
+
+/* =========================
+   THÔNG TIN SỨC KHỎE
+   ========================= */
+
+.relative-health-detail-grid {
+    padding-top: 18px;
+    display: grid;
+    gap: 13px;
+}
+
+.relative-health-detail-box {
+    padding: 17px;
+    border: 1px solid #e5ebe7;
+    border-radius: 13px;
+}
+
+    .relative-health-detail-box.current {
+        background: #f0faf8;
+    }
+
+    .relative-health-detail-box.history {
+        background: #fff9ec;
+    }
+
+    .relative-health-detail-box.allergy {
+        background: #fff2f2;
+    }
+
+    .relative-health-detail-box > div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .relative-health-detail-box > div > span {
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            font-size: 17px;
+        }
+
+    .relative-health-detail-box.current > div > span {
+        color: #147f7c;
+        background: #dff4f1;
+    }
+
+    .relative-health-detail-box.history > div > span {
+        color: #ad7216;
+        background: #ffedc9;
+    }
+
+    .relative-health-detail-box.allergy > div > span {
+        color: #bd5252;
+        background: #fbdede;
+    }
+
+    .relative-health-detail-box h3 {
+        margin: 0;
+        color: #404d46;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+    .relative-health-detail-box p {
+        margin: 13px 0 0;
+        color: #5e6b64;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+/* =========================
+   GHI CHÚ
+   ========================= */
+
+.relative-detail-note {
+    margin-top: 18px;
+    padding: 17px;
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    color: #5f6c65;
+    background: #fff9ec;
+    border: 1px solid #efdfbb;
+    border-radius: 13px;
+}
+
+    .relative-detail-note i {
+        margin-top: 2px;
+        color: #d38b18;
+        font-size: 18px;
+    }
+
+    .relative-detail-note p {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+/* =========================
+   LIÊN HỆ KHẨN CẤP
+   ========================= */
+
+.relative-emergency-card {
+    padding: 21px;
+}
+
+.relative-emergency-heading {
+    padding-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #e9edea;
+}
+
+    .relative-emergency-heading > span {
+        width: 46px;
+        height: 46px;
+        flex: 0 0 46px;
+        display: grid;
+        place-items: center;
+        color: #c65353;
+        background: #fde6e6;
+        border-radius: 12px;
+        font-size: 19px;
+    }
+
+    .relative-emergency-heading h2 {
+        margin: 0;
+        color: #344039;
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .relative-emergency-heading p {
+        margin: 5px 0 0;
+        color: #89938e;
+        font-size: 13px;
+    }
+
+.relative-emergency-person {
+    margin-top: 17px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.relative-emergency-avatar {
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    display: grid;
+    place-items: center;
+    color: #ad4949;
+    background: #fde8e8;
+    border-radius: 14px;
+    font-size: 20px;
+    font-weight: 850;
+}
+
+.relative-emergency-person div > span {
+    display: block;
+    color: #8b958f;
+    font-size: 13px;
+}
+
+.relative-emergency-person div > strong {
+    display: block;
+    margin-top: 5px;
+    color: #3f4c45;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.relative-emergency-phone {
+    margin-top: 14px;
+    padding: 14px;
+    background: #f8faf8;
+    border: 1px solid #e4eae6;
+    border-radius: 11px;
+}
+
+    .relative-emergency-phone > span {
+        display: block;
+        color: #87918c;
+        font-size: 13px;
+    }
+
+    .relative-emergency-phone > strong {
+        display: block;
+        margin-top: 6px;
+        color: #3f4c45;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+.relative-emergency-card > a {
+    min-height: 44px;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #ffffff;
+    background: #cb5757;
+    border-radius: 11px;
+    font-size: 14px;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+/* =========================
+   TÓM TẮT
+   ========================= */
+
+.relative-summary-detail-card {
+    padding: 20px;
+}
+
+.relative-summary-detail-heading {
+    padding-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #e9edea;
+}
+
+    .relative-summary-detail-heading i {
+        color: #15918e;
+        font-size: 18px;
+    }
+
+    .relative-summary-detail-heading h2 {
+        margin: 0;
+        color: #344039;
+        font-size: 19px;
+        font-weight: 800;
+    }
+
+.relative-summary-detail-card dl {
+    margin: 0;
+}
+
+    .relative-summary-detail-card dl > div {
+        padding: 13px 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+        border-bottom: 1px solid #edf0ee;
+    }
+
+        .relative-summary-detail-card dl > div:last-child {
+            border-bottom: 0;
+        }
+
+.relative-summary-detail-card dt {
+    color: #89938e;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.relative-summary-detail-card dd {
+    margin: 0;
+    color: #3f4c45;
+    font-size: 14px;
+    font-weight: 750;
+    text-align: right;
+}
+
+/* =========================
+   BẢO MẬT + QUAY LẠI
+   ========================= */
+
+.relative-detail-security {
+    padding: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #247d55;
+    background: #e6f7ed;
+    border: 1px solid #ccebd9;
+    border-radius: 12px;
+}
+
+    .relative-detail-security > i {
+        margin-top: 2px;
+        font-size: 18px;
+    }
+
+    .relative-detail-security strong {
+        display: block;
+        font-size: 14px;
+    }
+
+    .relative-detail-security p {
+        margin: 5px 0 0;
+        font-size: 13px;
+        line-height: 1.55;
+    }
+
+.relative-detail-return {
+    min-height: 46px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #58655e;
+    background: #ffffff;
+    border: 1px solid #dfe6e2;
+    border-radius: 11px;
+    font-size: 14px;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+    .relative-detail-return:hover {
+        color: #15918e;
+        border-color: #92d2cf;
+    }
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 1200px) {
+    .relative-detail-heading {
+        flex-wrap: wrap;
+    }
+
+    .relative-detail-heading-actions {
+        width: 100%;
+        margin-left: 64px;
+    }
+
+    .relative-profile-hero {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .relative-profile-main {
+        grid-column: 1 / -1;
+    }
+
+    .relative-detail-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .relative-detail-sidebar {
+        position: static;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .relative-detail-security,
+    .relative-detail-return {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 750px) {
+    .relative-detail-heading h1 {
+        font-size: 29px;
+    }
+
+    .relative-detail-heading-actions {
+        margin-left: 0;
+        flex-direction: column;
+    }
+
+        .relative-detail-heading-actions a {
+            width: 100%;
+        }
+
+    .relative-profile-hero,
+    .relative-detail-grid,
+    .relative-detail-sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .relative-profile-main,
+    .relative-detail-security,
+    .relative-detail-return {
+        grid-column: auto;
+    }
+
+    .relative-detail-item.full {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 520px) {
+    .relative-profile-main {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .relative-profile-identity h2 {
+        white-space: normal;
+    }
+}
+/* =========================================================
+   GIẢM NHẸ CỠ CHỮ TRANG CHI TIẾT HỒ SƠ
+   ========================================================= */
+
+.relative-detail-eyebrow {
+    font-size: 12px;
+}
+
+.relative-detail-heading h1 {
+    font-size: 30px;
+}
+
+.relative-detail-heading p {
+    font-size: 14px;
+}
+
+.relative-detail-heading-actions a {
+    font-size: 12px;
+}
+
+.relative-profile-code {
+    font-size: 10px;
+}
+
+.relative-profile-identity h2 {
+    font-size: 24px;
+}
+
+.relative-profile-meta span {
+    font-size: 12px;
+}
+
+.relative-profile-stat strong {
+    font-size: 16px;
+}
+
+.relative-profile-stat small {
+    font-size: 10px;
+}
+
+.relative-detail-card-heading h2 {
+    font-size: 18px;
+}
+
+.relative-detail-card-heading p {
+    font-size: 12px;
+}
+
+.relative-detail-item > span {
+    font-size: 12px;
+}
+
+.relative-detail-item > strong {
+    font-size: 14px;
+}
+
+    .relative-detail-item > strong.blood-type {
+        font-size: 17px;
+    }
+
+.relative-health-detail-box h3 {
+    font-size: 15px;
+}
+
+.relative-health-detail-box p {
+    font-size: 13px;
+}
+
+.relative-detail-note p {
+    font-size: 13px;
+}
+
+.relative-emergency-heading h2 {
+    font-size: 18px;
+}
+
+.relative-emergency-heading p {
+    font-size: 11px;
+}
+
+.relative-emergency-person div > span {
+    font-size: 11px;
+}
+
+.relative-emergency-person div > strong {
+    font-size: 14px;
+}
+
+.relative-emergency-phone > span {
+    font-size: 11px;
+}
+
+.relative-emergency-phone > strong {
+    font-size: 15px;
+}
+
+.relative-emergency-card > a {
+    font-size: 12px;
+}
+
+.relative-summary-detail-heading h2 {
+    font-size: 17px;
+}
+
+.relative-summary-detail-card dt {
+    font-size: 11px;
+}
+
+.relative-summary-detail-card dd {
+    font-size: 12px;
+}
+
+.relative-detail-security strong {
+    font-size: 12px;
+}
+
+.relative-detail-security p {
+    font-size: 11px;
+}
+
+.relative-detail-return {
+    font-size: 12px;
+}
+/* =========================================================
+   RELATIVE DETAILS
+   ========================================================= */
+
+.customer-relative-detail-heading {
+    background: linear-gradient( 105deg, #ffffff 0%, #f8fcfb 22%, #edf9f6 45%, #d5f0eb 68%, #a5ddd6 84%, #70c9c0 100% ) !important;
+    border: 1px solid #bfe0da !important;
+    border-radius: 19px !important;
+    box-shadow: 0 13px 32px rgba(30, 91, 80, .07) !important;
+}
+
+    .customer-relative-detail-heading h1 {
+        color: #223d38 !important;
+        font-size: 30px !important;
+        font-weight: 850 !important;
+    }
+
+    .customer-relative-detail-heading p {
+        color: #6f817b !important;
+        font-size: 14px !important;
+    }
+
+.customer-relative-detail-card,
+.relative-detail-card {
+    background: #ffffff !important;
+    border: 1px solid #dfe8e5 !important;
+    border-radius: 17px !important;
+    box-shadow: 0 10px 28px rgba(35, 63, 56, .05) !important;
+}
+
+.relative-detail-info-item {
+    background: linear-gradient( 110deg, #ffffff, #f7fbf9, #eef8f5 ) !important;
+    border: 1px solid #e3ebe8 !important;
+    border-radius: 10px !important;
+}
+/* =========================================================
+   DETAILS HEADER CARD
+   Bọc phần "Chi tiết hồ sơ người thân"
+========================================================= */
+
+.relative-detail-header-card {
+    width: 100%;
+    margin-bottom: 24px;
+    padding: 28px 32px;
+    background: linear-gradient( 90deg, #ffffff 0%, #f6fffd 32%, #ebfaf7 68%, #d7f3ee 100% );
+    border: 1px solid #dce9e7;
+    border-radius: 24px;
+    box-shadow: 0 12px 32px rgba(32, 76, 71, .055);
+}
+
+
+.relative-detail-heading {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+}
+
+
+.relative-detail-heading-left {
+    min-width: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+
+/* nút quay lại */
+
+.relative-back-button {
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #58706c;
+    background: #f9fcfb;
+    border: 1px solid #d9e7e4;
+    border-radius: 15px;
+    font-size: 18px;
+    text-decoration: none;
+    transition: color .18s ease, border-color .18s ease, background .18s ease, transform .18s ease;
+}
+
+
+    .relative-back-button:hover {
+        color: #0c928b;
+        background: #f0faf8;
+        border-color: #bfe3df;
+        transform: translateX(-1px);
+    }
+
+
+/* nội dung tiêu đề */
+
+.relative-detail-heading-text {
+    min-width: 0;
+}
+
+
+.relative-detail-eyebrow {
+    display: block;
+    margin-bottom: 9px;
+    color: #0e9690;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .05em;
+}
+
+
+.relative-detail-heading-text h1 {
+    margin: 0;
+    color: #213f3b;
+    font-size: 30px;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+
+.relative-detail-heading-text p {
+    max-width: 720px;
+    margin: 9px 0 0;
+    color: #748783;
+    font-size: 13px;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+
+/* action bên phải */
+
+.relative-detail-actions {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.relative-detail-edit-button,
+.relative-detail-book-button {
+    min-height: 48px;
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+
+.relative-detail-edit-button {
+    color: #445c57;
+    background: #ffffff;
+    border: 1px solid #d7e5e2;
+}
+
+
+    .relative-detail-edit-button:hover {
+        color: #0e918a;
+        background: #f7fcfb;
+        border-color: #bde1dd;
+        transform: translateY(-1px);
+    }
+
+
+.relative-detail-book-button {
+    color: #ffffff;
+    background: #15a39c;
+    border: 1px solid #15a39c;
+    box-shadow: 0 9px 20px rgba(21, 163, 156, .17);
+}
+
+
+    .relative-detail-book-button:hover {
+        color: #ffffff;
+        background: #118f89;
+        border-color: #118f89;
+        transform: translateY(-1px);
+        box-shadow: 0 12px 24px rgba(21, 163, 156, .22);
+    }
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 950px) {
+
+    .relative-detail-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+
+    .relative-detail-actions {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 620px) {
+
+    .relative-detail-header-card {
+        padding: 20px;
+        border-radius: 18px;
+    }
+
+
+    .relative-detail-heading-left {
+        width: 100%;
+    }
+
+
+    .relative-detail-heading-text h1 {
+        font-size: 24px;
+    }
+
+
+    .relative-detail-actions {
+        flex-direction: column;
+    }
+
+
+    .relative-detail-edit-button,
+    .relative-detail-book-button {
+        width: 100%;
+    }
+}

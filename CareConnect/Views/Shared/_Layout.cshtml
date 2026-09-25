@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - CareConnect</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="brand">
+
+                <span class="brand-icon">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                </span>
+
+                <span>CareConnect</span>
+            </a>
+
+            <nav class="main-nav" id="mainNav">
+                <a href="#how-it-works">Cách hoạt động</a>
+                <a href="#services">Dịch vụ</a>
+                <a href="#caregivers">Người chăm sóc</a>
+                <a href="#reviews">Đánh giá</a>
+            </nav>
+
+            <div class="header-actions">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    @if (User.IsInRole("Quản trị viên"))
+                    {
+                        <a asp-area="Admin"
+                           asp-controller="Dashboard"
+                           asp-action="Index"
+                           class="logged-user logged-user-link">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <strong>
+                                @User.Identity.Name
+                            </strong>
+                        </a>
+                    }
+                    else if (User.IsInRole("Khách hàng"))
+                    {
+                        <a asp-area="Customer"
+                           asp-controller="Dashboard"
+                           asp-action="Index"
+                           class="logged-user logged-user-link">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <strong>
+                                @User.Identity.Name
+                            </strong>
+                        </a>
+                    }
+                    else if (User.IsInRole("Người chăm sóc"))
+                    {
+                        <a asp-area="Caregiver"
+                           asp-controller="Dashboard"
+                           asp-action="Index"
+                           class="logged-user logged-user-link">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <strong>
+                                @User.Identity.Name
+                            </strong>
+                        </a>
+                    }
+
+                    <form asp-area=""
+                          asp-controller="Account"
+                          asp-action="Logout"
+                          method="post"
+                          class="logout-form">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="btn btn-primary btn-small">
+
+                            Đăng xuất
+                        </button>
+
+                    </form>
+                }
+                else
+                {
+                    <a asp-controller="Account"
+                       asp-action="Login"
+                       class="login-link">
+                        Đăng nhập
+                    </a>
+
+                    <a asp-controller="Account"
+                       asp-action="Register"
+                       class="btn btn-primary btn-small">
+                        Đăng ký ngay
+                    </a>
+                }
+
+                <button type="button"
+                        class="menu-button"
+                        id="menuButton"
+                        aria-label="Mở menu">
+                    <i class="bi bi-list"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="brand brand-light">
+
+                    <span class="brand-icon">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                    </span>
+
+                    <span>CareConnect</span>
+                </a>
+
+                <p>
+                    Nền tảng kết nối gia đình với người chăm sóc
+                    tận tâm, chuyên nghiệp và đáng tin cậy.
+                </p>
+
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+
+                    <a href="#" aria-label="Instagram">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+
+                    <a href="#" aria-label="Youtube">
+                        <i class="bi bi-youtube"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h4>Dịch vụ</h4>
+                <a href="#services">Chăm sóc tại nhà</a>
+                <a href="#services">Phục hồi vận động</a>
+                <a href="#services">Chăm sóc tiểu đường</a>
+                <a href="#services">Theo dõi sức khỏe</a>
+            </div>
+
+            <div>
+                <h4>Hỗ trợ</h4>
+                <a href="#">Câu hỏi thường gặp</a>
+                <a href="#">Hướng dẫn sử dụng</a>
+                <a href="#">Chính sách bảo mật</a>
+                <a href="#">Điều khoản dịch vụ</a>
+            </div>
+
+            <div>
+                <h4>Liên hệ</h4>
+
+                <p>
+                    <i class="bi bi-telephone"></i>
+                    1900 1234 56
+                </p>
+
+                <p>
+                    <i class="bi bi-envelope"></i>
+                    hotro@careconnect.vn
+                </p>
+
+                <p>
+                    <i class="bi bi-geo-alt"></i>
+                    123 Nguyễn Văn Linh, Quận 7, TP.HCM
+                </p>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">
+            <span>
+                © @DateTime.Now.Year CareConnect. Tất cả quyền được bảo lưu.
+            </span>
+
+            <div>
+                <a href="#">Chính sách bảo mật</a>
+                <a href="#">Điều khoản</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+            const menuButton = document.getElementById("menuButton");
+            const mainNav = document.getElementById("mainNav");
+
+            menuButton?.addEventListener("click", function() {
+                mainNav?.classList.toggle("is-open");
+            });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
